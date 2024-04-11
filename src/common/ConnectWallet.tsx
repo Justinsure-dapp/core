@@ -1,30 +1,72 @@
-import React from "react";
-import { useConnect } from "wagmi";
+import { TronLinkAdapter } from "@tronweb3/tronwallet-adapters";
+import { useEffect, useMemo, useState } from "react";
 
+enum WalletReadyState {
+  Loading = "Loading",
+  NotFound = "NotFound",
+  Found = "Found",
+}
+enum AdapterState {
+  Loading = "Loading",
+  NotFound = "NotFound",
+  Disconnect = "Disconnected",
+  Connected = "Connected",
+}
 export default function ConnectWallet() {
-  const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect();
+  const [readyState, setReadyState] = useState<WalletReadyState | AdapterState>(
+    WalletReadyState.NotFound
+  );
+  const [account, setAccount] = useState("");
+  const [netwok, setNetwork] = useState<any>({});
+  const [signedMessage, setSignedMessage] = useState("");
+
+  const adapter = useMemo(() => new TronLinkAdapter(), []);
+
+  useEffect(() => {
+    setReadyState(adapter.state);
+    setAccount(adapter.address!);
+
+    adapter.on("connect", () => {
+      setAccount(adapter.address!);
+    });
+
+    adapter.on("readyStateChanged", (state) => {
+      setReadyState(state);
+    });
+
+    adapter.on("accountsChanged", (data) => {
+      setAccount(data);
+    });
+
+    adapter.on("chainChanged", (data) => {
+      setNetwork(data);
+    });
+
+    adapter.on("disconnect", () => {
+      // when disconnect from wallet
+    });
+    return () => {
+      // remove all listeners when components is destroyed
+      adapter.removeAllListeners();
+    };
+  }, []);
+
+  async function sign() {
+    const res = await adapter!.signMessage("helloworld");
+    setSignedMessage(res);
+  }
 
   return (
-    <div className="m-10">
-      <div className="flex flex-col gap-y-2">
-        {connectors.map((connector) => (
-          <button
-            className="bg-teal-300 w-[30vh] text-black rounded disabled:opacity-50"
-            disabled={!connector.ready}
-            key={connector.id}
-            onClick={() => connect({ connector })}
-          >
-            {connector.name}
-            {!connector.ready && " (unsupported)"}
-            {isLoading &&
-              connector.id === pendingConnector?.id &&
-              " (connecting)"}
-          </button>
-        ))}
-
-        {error && <div>{error.message}</div>}
-      </div>
+    <div className="App">
+      <div>readyState: {readyState}</div>
+      <div>current address: {account}</div>
+      <div>current network: {JSON.stringify(netwok)}</div>
+      <button disabled={adapter.connected} onClick={() => adapter.connect()}>
+        Connect to TronLink
+      </button>
+      <button onClick={sign}>sign message</button>
+      <br />
+      SignedMessage: {signedMessage}
     </div>
   );
 }

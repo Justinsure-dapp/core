@@ -4,6 +4,7 @@ import Modal from "../common/Modal";
 import { useRef } from "react";
 import useIdleScrollbar from "../hooks/useIdleScrollbar";
 import StatisticsSidebar from "../common/StatisticsSidebar";
+import Header from "../common/Header";
 
 export default function Default() {
   const mainSectionRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -20,6 +21,7 @@ export default function Default() {
           ref={mainSectionRef}
           className="h-screen overflow-y-hidden flex-1"
         >
+          <Header />
           <Outlet />
         </section>
         <StatisticsSidebar />

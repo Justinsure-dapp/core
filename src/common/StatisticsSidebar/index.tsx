@@ -1,8 +1,3 @@
-import React, { useRef } from "react";
-import { linearMapColor, rgbToHex } from "../../utils";
-import Icon, { IconType } from "../Icon";
-import { Link } from "react-router-dom";
-import useIdleScrollbar from "../../hooks/useIdleScrollbar";
 import StakingStats from "./components/StakingStats";
 import SurityInfo from "./components/SurityInfo";
 

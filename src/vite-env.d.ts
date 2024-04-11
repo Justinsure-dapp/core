@@ -10,8 +10,7 @@ interface ImportMeta {
 }
 
 declare global {
-  interface ObjectConstructor {
-    typedKeys<T>(obj: T): Array<keyof T>;
-  }
+  interface Window {}
 }
+
 Object.typedKeys = Object.keys as any;
