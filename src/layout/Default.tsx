@@ -9,7 +9,7 @@ import Header from "../common/Header";
 export default function Default() {
   const mainSectionRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
-  useIdleScrollbar(mainSectionRef, { idleType: "hidden" });
+  useIdleScrollbar(mainSectionRef);
 
   return (
     <>
@@ -19,7 +19,7 @@ export default function Default() {
         <SideNav />
         <section
           ref={mainSectionRef}
-          className="h-screen overflow-y-hidden flex-1"
+          className="h-screen overflow-y-scroll scrollbar-primary flex-1"
         >
           <Header />
           <Outlet />

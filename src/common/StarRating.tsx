@@ -1,7 +1,20 @@
 import React from "react";
 
-interface StarRatingProps {}
+interface StarRatingProps {
+  rating: number;
+  symbol?: string;
+  colors: {
+    background: string;
+    foreground: string;
+  };
+}
 
 export default function StarRating(props: StarRatingProps) {
-  return <div>StarRating</div>;
+  const symbol = props.symbol || "★";
+
+  return (
+    <>
+      <span></span>
+    </>
+  );
 }
