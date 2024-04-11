@@ -4,17 +4,13 @@ import Icon, { IconType } from "./Icon";
 
 export default function Navbar() {
   const navItems: Array<{ title: string; link: string; icon: IconType }> = [
-    { title: "Home", link: "/", icon: "open_in_new" },
-    { title: "Account", link: "/account", icon: "github" },
+    { title: "Home", link: "/", icon: "home" },
+    { title: "Account", link: "/account", icon: "person" },
     { title: "Dashboard", link: "/dashboard", icon: "analytics" },
-    { title: "Policies", link: "/policies", icon: "expand_more" },
-    { title: "Applications", link: "/applications", icon: "bookmark" },
+    { title: "Policies", link: "/policies", icon: "description" },
+    { title: "Applications", link: "/applications", icon: "grid" },
     { title: "Providers", link: "/providers", icon: "key" },
-    { title: "Developers", link: "/developers", icon: "logout" },
-    { title: "Home", link: "/s", icon: "open_in_new" },
-    { title: "Account", link: "/accounts", icon: "github" },
-    { title: "Dashboard", link: "/dashboards", icon: "analytics" },
-    { title: "Applications", link: "/applicationss", icon: "bookmark" },
+    { title: "Developers", link: "/developers", icon: "code" },
   ];
 
   return (
