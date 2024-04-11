@@ -13,6 +13,7 @@ export default {
         background: "#060606",
         foreground: "#171923",
         front: "#FFFFFF",
+        back: "#0a0a0a",
         mute: "#718096",
         border: "#171923",
       },

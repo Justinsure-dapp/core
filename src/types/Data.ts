@@ -1,1 +1,1 @@
-export interface custom {}
+export type RGBColor = [number, number, number];

@@ -11,14 +11,18 @@ export default function Navbar() {
     { title: "Applications", link: "/applications", icon: "bookmark" },
     { title: "Providers", link: "/providers", icon: "key" },
     { title: "Developers", link: "/developers", icon: "logout" },
+    { title: "Home", link: "/s", icon: "open_in_new" },
+    { title: "Account", link: "/accounts", icon: "github" },
+    { title: "Dashboard", link: "/dashboards", icon: "analytics" },
+    { title: "Applications", link: "/applicationss", icon: "bookmark" },
   ];
 
   return (
-    <nav className="flex flex-col p-6 border-r border-r-border">
+    <nav className="flex flex-col p-6 border-r border-border">
       <div className="flex items-center gap-x-2">
         <img src="/logo.png" alt="logo" className="aspect-square w-10" />
         <div className="flex flex-col gap-y-1">
-          <h1 className="font-black text-2xl">Xurity</h1>
+          <h1 className="font-black text-2xl tracking-wider">Surity</h1>
           <p className="text-primary text-xs font-semibold">
             Rest assured on Web3
           </p>
@@ -29,13 +33,13 @@ export default function Navbar() {
         {navItems.map((item, key) => (
           <NavLink
             to={item.link}
+            key={key}
             role="listitem"
             className={({ isActive, isPending }) =>
               twMerge(
                 "p-2 rounded-lg",
-                isActive &&
-                  "bg-gradient-to-l from-primary to-secondary pointer-events-none",
-                !isActive && "hover:bg-secondary/30",
+                isActive && "bg-primary text-back pointer-events-none",
+                !isActive && "hover:outline hover:outline-[1.5px]",
                 isPending && "animate-pulse pointer-events-none"
               )
             }

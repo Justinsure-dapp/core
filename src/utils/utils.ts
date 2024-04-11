@@ -1,3 +1,5 @@
+import { RGBColor } from "../types";
+
 export function generateRandomString(length: number, seed?: string) {
   let result = "";
   const characters =
@@ -137,4 +139,29 @@ export function getObjectKeys<T extends object>(obj: T) {
 export function getRandomFromArray<T>(array: Array<T>): T {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
+}
+
+export function linearMapColor(
+  x: number,
+  from: { from: number; to: number },
+  to: { from: RGBColor; to: RGBColor }
+): RGBColor {
+  const percent = (x - from.from) / (from.to - from.from);
+  const result: RGBColor = [0, 0, 0];
+
+  for (let i = 0; i < 3; i++) {
+    result[i] = Math.round(to.from[i] + percent * (to.to[i] - to.from[i]));
+  }
+
+  return result;
+}
+
+export function componentToHex(c: number): string {
+  const hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+export function rgbToHex(rgb: RGBColor): string {
+  const [r, g, b] = rgb;
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
