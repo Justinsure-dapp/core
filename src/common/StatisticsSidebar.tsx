@@ -39,8 +39,8 @@ export default function StatisticsSidebar() {
 
   const socialLinks: Array<{ link: string; icon: IconType }> = [
     { link: "", icon: "github" },
-    { link: "", icon: "github" },
-    { link: "", icon: "github" },
+    { link: "", icon: "close" },
+    { link: "", icon: "close" },
     { link: "", icon: "github" },
   ];
 
