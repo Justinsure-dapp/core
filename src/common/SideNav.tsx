@@ -10,6 +10,7 @@ export default function Navbar() {
     { title: "Policies", link: "/policies", icon: "description" },
     { title: "Applications", link: "/applications", icon: "grid" },
     { title: "Providers", link: "/providers", icon: "key" },
+    { title: "Marketing", link: "/new-policy", icon: "filter" },
     { title: "Developers", link: "/developers", icon: "code" },
   ];
 
