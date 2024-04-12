@@ -84,7 +84,7 @@ export default function PoliciesPage() {
             <div className="flex justify-between items-center">
               <div className="flex flex-col">
                 <h1 className="text-xl capitalize">{policy.name}</h1>
-                <h2>{policy.marketer}</h2>
+                <h2 className="text-mute">{policy.marketer}</h2>
               </div>
               <img
                 src={policy.logoUrl}
@@ -110,6 +110,7 @@ export default function PoliciesPage() {
                 </span>
               ))}
             </div>
+            <figure role="separator" className="flex-1" />
             <button className="self-end bg-primary text-back font-bold p-2 rounded-lg hover:-translate-y-1 duration-200 ease-in">
               Buy Now
             </button>

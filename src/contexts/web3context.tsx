@@ -1,30 +1,52 @@
-import React, { createContext, useContext } from "react";
-import { WagmiConfig } from "wagmi";
-import wagmiConfig from "../config/wagmi";
-import getContracts from "../contracts";
+import { Network } from "@tronweb3/tronwallet-abstract-adapter";
+import { TronLinkAdapter } from "@tronweb3/tronwallet-adapters";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 interface Web3ContextType {
-  contracts: ReturnType<typeof getContracts>;
+  adapter: TronLinkAdapter;
+  account?: string;
+  network?: Network;
 }
 
 const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <WagmiConfig config={wagmiConfig}>
-        <Wrapper>{children}</Wrapper>
-      </WagmiConfig>
-    </>
-  );
-}
+  const [account, setAccount] = useState("");
+  const [network, setNetwork] = useState<Network>();
 
-function Wrapper({ children }: { children: React.ReactNode }) {
-  const contracts = getContracts();
+  const adapter = useMemo(() => new TronLinkAdapter(), []);
 
-  const value = {
-    contracts,
-  };
+  const value = { adapter, account, network };
+
+  useEffect(() => {
+    setAccount(adapter.address!);
+
+    adapter.on("connect", () => {
+      setAccount(adapter.address!);
+    });
+
+    adapter.on("accountsChanged", (data) => {
+      setAccount(data);
+    });
+
+    adapter.on("chainChanged", (data) => {
+      setNetwork(data as Network);
+    });
+
+    adapter.on("disconnect", () => {
+      // when disconnect from wallet
+    });
+    return () => {
+      // remove all listeners when components is destroyed
+      adapter.removeAllListeners();
+    };
+  }, []);
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;
 }
