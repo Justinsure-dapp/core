@@ -1019,6 +1019,22 @@
     "@tronweb3/tronwallet-abstract-adapter" "^1.1.6"
     "@tronweb3/tronwallet-adapter-tronlink" "^1.1.9"
 
+"@tronweb3/tronwallet-adapter-react-hooks@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@tronweb3/tronwallet-adapter-react-hooks/-/tronwallet-adapter-react-hooks-1.1.7.tgz#69d776f40363b21924778a7c9e3014e8751f5c10"
+  integrity sha512-nW0FnS0N6523EjNYx8WGmob22bEG6V+N3vZa+EaaJLJ1toKJBDPpktFaldSq14czc6Q8N1banUmftUl2/RyASA==
+  dependencies:
+    "@tronweb3/tronwallet-abstract-adapter" "^1.1.6"
+    "@tronweb3/tronwallet-adapter-tronlink" "^1.1.9"
+
+"@tronweb3/tronwallet-adapter-react-ui@^1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@tronweb3/tronwallet-adapter-react-ui/-/tronwallet-adapter-react-ui-1.1.8.tgz#d54161d5531f9a5db7b6c69c8676418bae1de287"
+  integrity sha512-WGZuma6tDgJyh9iy5SCGtmKfqzjSsU7kz3E1d/4PZU3rrOqcO7Pj/NeEBNByQci5fujTRy2C6ECVYVcbor236w==
+  dependencies:
+    "@tronweb3/tronwallet-abstract-adapter" "^1.1.6"
+    "@tronweb3/tronwallet-adapter-react-hooks" "^1.1.7"
+
 "@tronweb3/tronwallet-adapter-tokenpocket@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@tronweb3/tronwallet-adapter-tokenpocket/-/tronwallet-adapter-tokenpocket-1.0.3.tgz#ebee127d0e405f0449b380c0cc4ddd445dcb88ce"

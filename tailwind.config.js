@@ -16,6 +16,7 @@ export default {
         back: "#0a0a0a",
         mute: "#718096",
         border: "#171923",
+        "tron-red": "#EB0029",
       },
       borderRadius: {
         inherit: "inherit",

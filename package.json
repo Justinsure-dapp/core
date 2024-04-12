@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.7",
+    "@tronweb3/tronwallet-adapter-react-ui": "^1.1.8",
     "@tronweb3/tronwallet-adapters": "^1.2.1",
     "@tronweb3/walletconnect-tron": "^2.0.0",
     "abitype": "^0.10.3",
