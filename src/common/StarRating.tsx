@@ -2,8 +2,9 @@ import React from "react";
 
 interface StarRatingProps {
   rating: number;
+  total?: number;
   symbol?: string;
-  colors: {
+  colors?: {
     background: string;
     foreground: string;
   };
@@ -12,9 +13,27 @@ interface StarRatingProps {
 export default function StarRating(props: StarRatingProps) {
   const symbol = props.symbol || "★";
 
+  const starString = symbol.repeat(props.total || 5);
+
+  const ratingTotal = props.total || 5;
+  const ratingPercentage = (props.rating / ratingTotal) * 100;
+
   return (
-    <>
-      <span></span>
-    </>
+    <figure className="relative flex justify-center items-center text-front">
+      <span style={{ color: props.colors?.background || "inherit" }}>
+        {starString}
+      </span>
+      <div className="text-yellow-500">
+        <span
+          className="absolute-cover flex justify-center items-center"
+          style={{
+            color: props.colors?.foreground || "inherit",
+            clipPath: `polygon(0% 0%, 0% 100%, ${ratingPercentage}% 100%, ${ratingPercentage}% 0%)`,
+          }}
+        >
+          {starString}
+        </span>
+      </div>
+    </figure>
   );
 }

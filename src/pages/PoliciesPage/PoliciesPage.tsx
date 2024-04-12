@@ -1,5 +1,6 @@
 import React from "react";
 import Icon from "../../common/Icon";
+import StarRating from "../../common/StarRating";
 export default function PoliciesPage() {
   const policies = [
     {
@@ -93,7 +94,8 @@ export default function PoliciesPage() {
             </div>
             <div className="flex gap-x-1">
               <p>{policy.rating}</p>
-              <span>★★★★★</span>
+              {/* <span>★★★★★</span> */}
+              <StarRating rating={policy.rating} />
             </div>
             <p className="text-sm">
               {policy.description.length > 150
