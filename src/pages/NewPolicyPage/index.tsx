@@ -45,7 +45,12 @@ export default function NewPolicyPage() {
             />
 
             <Heading className="mt-7">What is this Insurance for</Heading>
-            <select className={twInputStyle} name="cars" id="cars">
+            <select
+              className={twInputStyle}
+              name="cars"
+              defaultValue={"other"}
+              id="cars"
+            >
               {insuranceCategories.toSorted().map((cat, key) => (
                 <option key={key} value={cat}>
                   {cat}
@@ -92,8 +97,35 @@ export default function NewPolicyPage() {
               </div>
             </div>
 
-            <div className="">
-              <div className="my-4 bg-red-300 w-full p-2 rounded-lg text-red-950">
+            <div className="mt-7">
+              <div className="flex w-full gap-x-3 items-center">
+                <div className="flex-1 flex-col">
+                  <Heading>Initial Stake</Heading>
+                  <input
+                    type="number"
+                    min={5}
+                    defaultValue={5}
+                    className={twMerge(
+                      twInputStyle,
+                      "border-mute/40 shadow-mute/30 text-sm"
+                    )}
+                  />
+                </div>
+                <div className="my-4 bg-yellow-200 w-full p-2 rounded-lg text-yellow-950">
+                  <p className="text-xs leading-tight">
+                    This is the amount you are staking yourself initially. It is
+                    recommended that you stake atleast $5. Higher amounts of
+                    staking by the owner leads to higher levels of user trust.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-2">
+              <button className="bg-primary py-2 px-6 rounded-md text-back font-medium">
+                Save
+              </button>
+              <div className="my-2 bg-red-300 w-full p-2 rounded-lg text-red-950">
                 <p className="text-xs leading-tight">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
                   facere voluptates aspernatur expedita exercitationem
@@ -102,9 +134,6 @@ export default function NewPolicyPage() {
                   quis, earum maxime. Labore, mollitia.
                 </p>
               </div>
-              <button className="bg-primary py-2 px-6 rounded-md text-back font-medium">
-                Save
-              </button>
             </div>
           </form>
 

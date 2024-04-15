@@ -1,4 +1,5 @@
 const insuranceCategories = [
+  "other",
   "Car",
   "Life",
   "Home",
