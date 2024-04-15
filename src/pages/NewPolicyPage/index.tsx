@@ -7,6 +7,7 @@ import useModal from "../../hooks/useModal";
 import TexteditorModal from "./components/TexteditorModal";
 import ArgsTypeDefine from "./components/ArgsTypeDefine";
 import insuranceCategories from "../../assets/data/insuranceCategories";
+import { twMerge } from "tailwind-merge";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -37,9 +38,15 @@ export default function NewPolicyPage() {
               placeholder="Enter Policy Name"
             />
 
+            <Heading className="mt-7">Insurance Description</Heading>
+            <textarea
+              className={twMerge(twInputStyle, "h-[20vh] resize-none")}
+              placeholder="Description"
+            />
+
             <Heading className="mt-7">What is this Insurance for</Heading>
             <select className={twInputStyle} name="cars" id="cars">
-              {insuranceCategories.map((cat, key) => (
+              {insuranceCategories.toSorted().map((cat, key) => (
                 <option key={key} value={cat}>
                   {cat}
                 </option>
