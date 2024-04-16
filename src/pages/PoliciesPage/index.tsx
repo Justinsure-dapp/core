@@ -1,6 +1,7 @@
 import React from "react";
 import Icon from "../../common/Icon";
 import StarRating from "../../common/StarRating";
+import { Link } from "react-router-dom";
 export default function PoliciesPage() {
   const policies = [
     {
@@ -10,7 +11,7 @@ export default function PoliciesPage() {
       description:
         "Safeguard your loved ones' future with our reliable life insurance coverage. Our policies provide financial security and peace of mind, ensuring your family's well-being in the event of your untimely passing. From covering funeral expenses to replacing lost income, our customizable plans offer protection tailored to your needs. Invest in your family's future today",
       tags: ["Best in price", "Highest Rated", "Long term"],
-      rating: 4.5,
+      rating: 2.5,
     },
     {
       name: "Car Insurance",
@@ -78,7 +79,7 @@ export default function PoliciesPage() {
       </div>
       <div className="flex flex-wrap justify-between gap-6">
         {policies.map((policy, i) => (
-          <div
+          <Link to={`/policies/${i}`}
             key={i}
             className="w-[calc(33%_-_0.82rem)] border-2 border-border hover:border-primary/60 px-4 py-4 rounded-xl flex flex-col gap-y-2 hover:bg-front/5 duration-200 ease-in cursor-pointer"
           >
@@ -94,10 +95,9 @@ export default function PoliciesPage() {
             </div>
             <div className="flex gap-x-1">
               <p>{policy.rating}</p>
-              {/* <span>★★★★★</span> */}
               <StarRating rating={policy.rating} />
             </div>
-            <p className="text-sm">
+            <p className="text-sm text-opacity-80 text-front">
               {policy.description.length > 150
                 ? `${policy.description.slice(0, 150)}...`
                 : policy.description}
@@ -116,7 +116,7 @@ export default function PoliciesPage() {
             <button className="self-end bg-primary text-back font-bold p-2 rounded-lg hover:-translate-y-1 duration-200 ease-in">
               Buy Now
             </button>
-          </div>
+          </Link>
         ))}
       </div>
     </article>
