@@ -2,6 +2,7 @@ import { useState } from "react";
 import StakingStats from "./components/StakingStats";
 import SurityInfo from "./components/SurityInfo";
 import { twMerge } from "tailwind-merge";
+import SurityBranding from "./components/SurityBranding";
 
 export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
@@ -56,54 +57,7 @@ export default function StatisticsSidebar() {
         </>
       )}
 
-      {hidden && (
-        <div className="flex flex-col items-center my-10 opacity-20">
-          {[
-            "S",
-            "U",
-            "R",
-            "I",
-            "T",
-            "Y",
-            " ",
-            " ",
-            " ",
-            " ",
-            "S",
-            "U",
-            "R",
-            "I",
-            "T",
-            "Y",
-            " ",
-            " ",
-            " ",
-            " ",
-            "S",
-            "U",
-            "R",
-            "I",
-            "T",
-            "Y",
-            " ",
-            " ",
-            " ",
-            " ",
-            "S",
-            "U",
-            "R",
-            "I",
-            "T",
-            "Y",
-          ]
-            .toReversed()
-            .map((word, key) => (
-              <div className="-rotate-90 text-xl -my-1 font-bold" key={key}>
-                {word}
-              </div>
-            ))}
-        </div>
-      )}
+      {hidden && <SurityBranding />}
     </section>
   );
 }
