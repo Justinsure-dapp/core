@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer, useRef, useState } from "react";
 import DocTitle from "../../common/DocTitle";
 import Icon, { IconType } from "../../common/Icon";
 import HelpTooltip from "../../common/HelpTooltip";
@@ -8,6 +8,8 @@ import TexteditorModal from "./components/TexteditorModal";
 import ArgsTypeDefine from "./components/ArgsTypeDefine";
 import insuranceCategories from "../../assets/data/insuranceCategories";
 import { twMerge } from "tailwind-merge";
+import useFormData from "../../hooks/useFormData";
+import ToastsInput from "../../common/ToastsInput";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -20,12 +22,20 @@ export default function NewPolicyPage() {
   const [claimFunc, setClaimFunc] = useState("");
   const [claimFuncArgs, setClaimFuncArgs] = useState<Array<string>>([]);
 
+  const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
+  useFormData(formRef, (data) => console.log(data));
+
   return (
     <>
       <DocTitle title="New Policy" />
+
       <div className="p-page">
         <section className="py-8 flex gap-x-6">
-          <form className="flex-1 flex flex-col">
+          <form
+            className="flex-1 flex flex-col"
+            onSubmit={(e) => e.preventDefault()}
+            ref={formRef}
+          >
             <h1 className="font-semibold text-xl">Policy Settings</h1>
             <h2 className=" text-mute font-semibold">
               Configure your new policy
@@ -34,6 +44,7 @@ export default function NewPolicyPage() {
             <Heading className="mt-7">Name of insurance</Heading>
             <input
               type="text"
+              name="name"
               className={twInputStyle}
               placeholder="Enter Policy Name"
             />
@@ -42,14 +53,14 @@ export default function NewPolicyPage() {
             <textarea
               className={twMerge(twInputStyle, "h-[20vh] resize-none")}
               placeholder="Description"
+              name="description"
             />
 
             <Heading className="mt-7">What is this Insurance for</Heading>
             <select
               className={twInputStyle}
-              name="cars"
+              name="category"
               defaultValue={"other"}
-              id="cars"
             >
               {insuranceCategories.toSorted().map((cat, key) => (
                 <option key={key} value={cat}>
@@ -121,8 +132,18 @@ export default function NewPolicyPage() {
               </div>
             </div>
 
+            <div className="flex flex-col mt-2">
+              <Heading>Tags</Heading>
+              <ToastsInput
+                className={twMerge("text-sm mt-1 mb-3", twInputStyle)}
+              />
+            </div>
+
             <div className="mt-2">
-              <button className="bg-primary py-2 px-6 rounded-md text-back font-medium">
+              <button
+                type="submit"
+                className="bg-primary py-2 px-6 rounded-md text-back font-medium"
+              >
                 Save
               </button>
               <div className="my-2 bg-red-300 w-full p-2 rounded-lg text-red-950">

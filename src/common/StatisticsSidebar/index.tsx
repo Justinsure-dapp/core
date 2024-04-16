@@ -29,6 +29,7 @@ export default function StatisticsSidebar() {
           expand
         </button>
       </div>
+
       {!hidden && (
         <>
           <div className="p-6 flex flex-col gap-y-2">
@@ -53,6 +54,55 @@ export default function StatisticsSidebar() {
 
           <SurityInfo />
         </>
+      )}
+
+      {hidden && (
+        <div className="flex flex-col items-center my-10 opacity-20">
+          {[
+            "S",
+            "U",
+            "R",
+            "I",
+            "T",
+            "Y",
+            " ",
+            " ",
+            " ",
+            " ",
+            "S",
+            "U",
+            "R",
+            "I",
+            "T",
+            "Y",
+            " ",
+            " ",
+            " ",
+            " ",
+            "S",
+            "U",
+            "R",
+            "I",
+            "T",
+            "Y",
+            " ",
+            " ",
+            " ",
+            " ",
+            "S",
+            "U",
+            "R",
+            "I",
+            "T",
+            "Y",
+          ]
+            .toReversed()
+            .map((word, key) => (
+              <div className="-rotate-90 text-xl -my-1 font-bold" key={key}>
+                {word}
+              </div>
+            ))}
+        </div>
       )}
     </section>
   );
