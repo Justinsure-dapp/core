@@ -6,7 +6,7 @@ export default function PolicyPage() {
   const { id } = useParams();
 
   return (
-    <article className="p-page py-8">
+    <article className="p-page py-8 flex flex-col gap-y-4">
       <div className="flex w-full gap-x-4 justify-between">
         <div className="flex gap-x-4">
           <img
@@ -36,7 +36,13 @@ export default function PolicyPage() {
           </p>
         </div>
       </div>
-      <PieChart />
+      <PieChart data={data} className="w-[20vw] self-center"/>
     </article>
   );
 }
+
+const data = {
+  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  values: [1, 2, 3, 4, 5, 6]
+};
+

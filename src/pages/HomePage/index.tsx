@@ -1,6 +1,4 @@
 import React, { DetailedHTMLProps, useState } from "react";
-import { Helmet } from "react-helmet";
-import DocTitle from "../../common/DocTitle";
 
 export default function HomePage() {
   return (
@@ -83,7 +81,7 @@ const options: Array<Option> = [
         additionalInputs: [{ type: "number" }],
       },
     ],
-    additionalInputs: [{ type: "number" }],
+    additionalInputs: [{ type: "date" }],
     customElements: [
       <select key="durationFormat" className="text-back">
         <option value="">Select duration format</option>

@@ -1,25 +1,33 @@
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut } from "react-chartjs-2";
+
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { twMerge } from "tailwind-merge";
 // import twConf from "../utils/tailwindConf";
 
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function PieChart() {
-    return (
-        <Doughnut data={data} />
-    )
-}
+export default function PieChart(props: {
+  className?: string;
+  data: { labels: string[]; values: number[] };
+}) {
+  const options = {
+    responsive: true,
+    plugins: { legend: { display: false } },
+  };
 
-
-const data = {
-    labels: [
-        'Red',
-        'Yellow',
-        'Blue'
-    ],
+  const data = {
+    labels: props.data.labels,
     datasets: [
       {
-        data: [10, 20, 30],
+        data: props.data.values,
         // backgroundColor: twConf.theme.colors.primary,
-        // borderColor: twConf.theme.colors.primary + "44",
       },
     ],
   };
+
+  return (
+    <div className={twMerge("", props.className)}>
+      <Doughnut data={data} options={options} />
+    </div>
+  );
+}
