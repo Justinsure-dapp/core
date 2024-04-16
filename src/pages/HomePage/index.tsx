@@ -23,13 +23,12 @@ export default function HomePage() {
                 </p>
 
                 <p className="text-sm">
-                  You are one of the earliest people to have arrived here
-                  <br />
                   We would really appreciate if you could take out some time to
                   fill out a survey
+                  <br />
+                  We are bringing insurance to blockahin and we would love to
+                  hear about it from you
                 </p>
-
-                <figure className="flex-1" role="separator" />
 
                 <div className="flex">
                   <button className="bg-background px-6 py-2 rounded-md font-medium">
