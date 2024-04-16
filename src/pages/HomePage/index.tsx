@@ -1,4 +1,6 @@
 import React, { DetailedHTMLProps, useState } from "react";
+import { Helmet } from "react-helmet";
+import DocTitle from "../../common/DocTitle";
 
 export default function HomePage() {
   return (

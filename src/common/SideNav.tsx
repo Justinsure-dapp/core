@@ -12,11 +12,16 @@ export default function Navbar() {
     { title: "Providers", link: "/providers", icon: "key" },
     { title: "Marketing", link: "/new-policy", icon: "filter" },
     { title: "Developers", link: "/developers", icon: "code" },
+    { title: "Accessibility", link: "/accessibility", icon: "accessibility" },
   ];
 
   return (
     <nav className="flex flex-col p-6 border-r border-border">
-      <div className="flex items-center gap-x-2">
+      <div
+        className="flex items-center gap-x-2 cursor-pointer"
+        role="button"
+        onClick={() => null}
+      >
         <img src="/logo.png" alt="logo" className="aspect-square w-10" />
         <div className="flex flex-col gap-y-1">
           <h1 className="font-black text-2xl tracking-wider">Surity</h1>

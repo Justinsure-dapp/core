@@ -1,26 +1,109 @@
+import { useState } from "react";
 import StakingStats from "./components/StakingStats";
 import SurityInfo from "./components/SurityInfo";
+import { twMerge } from "tailwind-merge";
 
 export default function StatisticsSidebar() {
+  const [hidden, setHidden] = useState(false);
+
   return (
     <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen">
-      <div className="p-6 flex flex-col gap-y-2">
-        <h1 className="text-mute text-base font-bold">SureCoin Balance</h1>
-        <div>
-          <h2 className="text-xs -mb-1">Wallet</h2>
-          <p className="font-mono text-primary text-2xl font-medium">103.00</p>
-        </div>
-        <div>
-          <h2 className="text-xs -mb-1">Pending</h2>
-          <p className="font-mono text-primary text-2xl font-medium">84.20</p>
-        </div>
+      <div
+        className={twMerge(
+          "absolute top-2 right-4 text-sm text-secondary",
+          hidden && "relative"
+        )}
+      >
+        <button
+          onClick={() => setHidden(true)}
+          className="disabled:hidden"
+          disabled={hidden}
+        >
+          hide
+        </button>
+        <button
+          onClick={() => setHidden(!true)}
+          className="disabled:hidden pl-7"
+          disabled={!hidden}
+        >
+          expand
+        </button>
       </div>
 
-      <StakingStats />
+      {!hidden && (
+        <>
+          <div className="p-6 flex flex-col gap-y-2">
+            <h1 className="text-mute text-base font-bold">SureCoin Balance</h1>
+            <div>
+              <h2 className="text-xs -mb-1">Wallet</h2>
+              <p className="font-mono text-primary text-2xl font-medium">
+                103.00
+              </p>
+            </div>
+            <div>
+              <h2 className="text-xs -mb-1">Pending</h2>
+              <p className="font-mono text-primary text-2xl font-medium">
+                84.20
+              </p>
+            </div>
+          </div>
 
-      <figure role="separator" className="flex-1" />
+          <StakingStats />
 
-      <SurityInfo />
+          <figure role="separator" className="flex-1" />
+
+          <SurityInfo />
+        </>
+      )}
+
+      {hidden && (
+        <div className="flex flex-col items-center my-10 opacity-20">
+          {[
+            "S",
+            "U",
+            "R",
+            "I",
+            "T",
+            "Y",
+            " ",
+            " ",
+            " ",
+            " ",
+            "S",
+            "U",
+            "R",
+            "I",
+            "T",
+            "Y",
+            " ",
+            " ",
+            " ",
+            " ",
+            "S",
+            "U",
+            "R",
+            "I",
+            "T",
+            "Y",
+            " ",
+            " ",
+            " ",
+            " ",
+            "S",
+            "U",
+            "R",
+            "I",
+            "T",
+            "Y",
+          ]
+            .toReversed()
+            .map((word, key) => (
+              <div className="-rotate-90 text-xl -my-1 font-bold" key={key}>
+                {word}
+              </div>
+            ))}
+        </div>
+      )}
     </section>
   );
 }
