@@ -10,7 +10,7 @@ export default function PolicyPage() {
     <article className="p-page py-8 flex flex-col gap-y-4 w-full">
      <Header />
      <TotalStakes />
-     {/* <PoolDistribution />   */}
+     <PoolDistribution />  
     </article>
   );
 }
