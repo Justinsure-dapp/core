@@ -10,12 +10,14 @@ import ErrorPage from "./ErrorPage";
 import PoliciesPage from "./PoliciesPage";
 import NewPolicyPage from "./NewPolicyPage";
 import PolicyPage from "./PolicyPage";
+import AccountPage from "./AccountPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route element={<Layout.Default />}>
         <Route index element={<HomePage />} />
+        <Route path="account" element={<AccountPage />} />
         <Route path="policies" element={<PoliciesPage />} />
         <Route path="new-policy" element={<NewPolicyPage />} />
         <Route path="policies/:id" element={<PolicyPage />} />

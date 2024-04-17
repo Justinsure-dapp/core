@@ -2,6 +2,7 @@ import React from "react";
 import Icon from "../../common/Icon";
 import StarRating from "../../common/StarRating";
 import { Link } from "react-router-dom";
+import DocTitle from "../../common/DocTitle";
 export default function PoliciesPage() {
   const policies = [
     {
@@ -66,59 +67,63 @@ export default function PoliciesPage() {
   ];
 
   return (
-    <article className="p-page">
-      <div className="flex py-6 gap-x-4 items-center">
-        <input
-          className="bg-foreground p-4 rounded-xl w-full focus-within:outline-none focus-within:bg-background border-2 border-primary focus-within:border-opacity-80 border-opacity-0 duration-300 ease-in-out"
-          placeholder="Search..."
-        />
-        <div className="flex items-center gap-x-2 border-2 p-4 border-foreground rounded-xl">
-          <Icon icon="filter" className="text-2xl" />
-          <span className="">Filter</span>
+    <>
+      <DocTitle title="Policies on Surity" />
+      <article className="p-page">
+        <div className="flex py-6 gap-x-4 items-center">
+          <input
+            className="bg-foreground p-4 rounded-xl w-full focus-within:outline-none focus-within:bg-background border-2 border-primary focus-within:border-opacity-80 border-opacity-0 duration-300 ease-in-out"
+            placeholder="Search..."
+          />
+          <div className="flex items-center gap-x-2 border-2 p-4 border-foreground rounded-xl">
+            <Icon icon="filter" className="text-2xl" />
+            <span className="">Filter</span>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-wrap justify-between gap-6">
-        {policies.map((policy, i) => (
-          <Link to={`/policies/${i}`}
-            key={i}
-            className="w-[calc(33%_-_0.82rem)] border-2 border-border hover:border-primary/60 px-4 py-4 rounded-xl flex flex-col gap-y-2 hover:bg-front/5 duration-200 ease-in cursor-pointer"
-          >
-            <div className="flex justify-between items-center">
-              <div className="flex flex-col">
-                <h1 className="text-xl capitalize">{policy.name}</h1>
-                <h2 className="text-mute">{policy.marketer}</h2>
+        <div className="flex flex-wrap justify-between gap-6">
+          {policies.map((policy, i) => (
+            <Link
+              to={`/policies/${i}`}
+              key={i}
+              className="w-[calc(33%_-_0.82rem)] border-2 border-border hover:border-primary/60 px-4 py-4 rounded-xl flex flex-col gap-y-2 hover:bg-front/5 duration-200 ease-in cursor-pointer"
+            >
+              <div className="flex justify-between items-center">
+                <div className="flex flex-col">
+                  <h1 className="text-xl capitalize">{policy.name}</h1>
+                  <h2 className="text-mute">{policy.marketer}</h2>
+                </div>
+                <img
+                  src={policy.logoUrl}
+                  className="w-[4vw] rounded-full bg-foreground object-cover"
+                />
               </div>
-              <img
-                src={policy.logoUrl}
-                className="w-[4vw] rounded-full bg-foreground object-cover"
-              />
-            </div>
-            <div className="flex gap-x-1">
-              <p>{policy.rating}</p>
-              <StarRating rating={policy.rating} />
-            </div>
-            <p className="text-sm text-opacity-80 text-front">
-              {policy.description.length > 150
-                ? `${policy.description.slice(0, 150)}...`
-                : policy.description}
-            </p>
-            <div className="text-sm flex flex-wrap gap-2">
-              {policy.tags.map((tag, i) => (
-                <span
-                  className="border-primary border whitespace-nowrap px-2 py-1 rounded-xl bg-background"
-                  key={i}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <figure role="separator" className="flex-1" />
-            <button className="self-end bg-primary text-back font-bold p-2 rounded-lg hover:-translate-y-1 duration-200 ease-in">
-              Buy Now
-            </button>
-          </Link>
-        ))}
-      </div>
-    </article>
+              <div className="flex gap-x-1">
+                <p>{policy.rating}</p>
+                <StarRating rating={policy.rating} />
+              </div>
+              <p className="text-sm text-opacity-80 text-front">
+                {policy.description.length > 150
+                  ? `${policy.description.slice(0, 150)}...`
+                  : policy.description}
+              </p>
+              <div className="text-sm flex flex-wrap gap-2">
+                {policy.tags.map((tag, i) => (
+                  <span
+                    className="border-primary border whitespace-nowrap px-2 py-1 rounded-xl bg-background"
+                    key={i}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <figure role="separator" className="flex-1" />
+              <button className="self-end bg-primary text-back font-bold p-2 rounded-lg hover:-translate-y-1 duration-200 ease-in">
+                Buy Now
+              </button>
+            </Link>
+          ))}
+        </div>
+      </article>
+    </>
   );
 }

@@ -8,7 +8,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function PieChart(props: {
   className?: string;
-  data: { labels: string[]; values: number[] };
+  data: { labels: string[]; values: number[], bgColor: string[]; };
 }) {
   const options = {
     responsive: true,
@@ -20,6 +20,9 @@ export default function PieChart(props: {
     datasets: [
       {
         data: props.data.values,
+        backgroundColor: props.data.bgColor,
+        hoverOffset: 8,
+        borderColor: "rgb(200, 200, 200)"
         // backgroundColor: twConf.theme.colors.primary,
       },
     ],
