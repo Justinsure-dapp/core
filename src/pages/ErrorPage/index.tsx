@@ -8,16 +8,21 @@ export default function ErrorPage() {
           className="-z-10 absolute-cover scale-90 bg-primary blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
         />
+
+        <img
+          src="/images/soparu_disappointed_head.png"
+          alt="soparu sad"
+          className="w-1/3"
+        />
+
+        <h1 className="text-primary text-7xl font-black">404</h1>
         <div className="-z-1 absolute-cover scale-90 bg-secondary animate-pulse blur-3xl" />
-        <h1 className="text-primary text-7xl font-semibold">404</h1>
-        <h2 className="text-front text-3xl font-black font-lato">
-          Page Not Found
-        </h2>
-        <p className="text-center text-sm my-3 text-front text-opacity-70">
-          We were not able to find the page you were looking for
+        <p className="text-center text-sm mb-3 text-front text-opacity-70">
+          Soparu thinks you are lost. This magical button can help you get back
+          though
         </p>
-        <Link to="/" className="btn-1">
-          Back to Homepage
+        <Link to="/" className="bg-secondary p-2 rounded-md">
+          Back to Safety
         </Link>
       </div>
     </article>

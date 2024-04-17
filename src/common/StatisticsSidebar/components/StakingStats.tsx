@@ -22,8 +22,8 @@ export default function StakingStats() {
       </div>
 
       {stakes.map((stake, key) => (
-        <div className="border border-border p-1 rounded-lg">
-          <div key={key} className="flex gap-x-3 items-center">
+        <div key={key} className="border border-border p-1 rounded-lg">
+          <div className="flex gap-x-3 items-center">
             <img
               src={stake.img}
               alt="bf"

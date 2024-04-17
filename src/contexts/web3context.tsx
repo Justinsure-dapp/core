@@ -1,5 +1,8 @@
 import { Network } from "@tronweb3/tronwallet-abstract-adapter";
-import { WalletProvider } from "@tronweb3/tronwallet-adapter-react-hooks";
+import {
+  WalletProvider,
+  useWallet,
+} from "@tronweb3/tronwallet-adapter-react-hooks";
 import { WalletModalProvider } from "@tronweb3/tronwallet-adapter-react-ui";
 import {
   BitKeepAdapter,
@@ -16,10 +19,10 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import type {
-  Adapter,
-  WalletError,
-} from "@tronweb3/tronwallet-abstract-adapter";
+import type { Adapter } from "@tronweb3/tronwallet-abstract-adapter";
+import api from "../utils/api";
+import useModal from "../hooks/useModal";
+import { User } from "../types";
 
 interface Web3ContextType {
   adapters: (
@@ -38,7 +41,10 @@ const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = useState("");
+  const [user, setUser] = useState<User | null>();
   const [network, setNetwork] = useState<Network>();
+
+  const modal = useModal();
 
   const adapter = useMemo(() => new TronLinkAdapter(), []);
 
@@ -89,14 +95,14 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   const value = { adapters, account, network };
 
   useEffect(() => {
-    setAccount(adapter.address!);
+    adapter.address && setAccount(adapter.address.trim());
 
     adapter.on("connect", () => {
-      setAccount(adapter.address!);
+      adapter.address && setAccount(adapter.address.trim());
     });
 
-    adapter.on("accountsChanged", (data) => {
-      setAccount(data);
+    adapter.on("accountsChanged", (data: string) => {
+      setAccount(data.trim());
     });
 
     adapter.on("chainChanged", (data) => {
@@ -104,7 +110,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     });
 
     adapter.on("disconnect", () => {
-      // when disconnect from wallet
+      // location.reload();
     });
     return () => {
       // remove all listeners when components is destroyed
@@ -112,14 +118,30 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  async function pingServerWithAddress() {
+    if (!account) return;
+    if (user && user.address == account) return;
+    setUser(null);
+
+    const { exists: userExists } = await api.user.check(account);
+
+    if (userExists) {
+      const userData = await api.user.get(account);
+      setUser(userData.user);
+    } else {
+      const nonce = await api.user.requestNonce(account);
+      modal.show(<VerificationModal nonce={nonce} />);
+    }
+  }
+
   function onConnect() {
-    console.log("onConnect");
+    pingServerWithAddress();
   }
   async function onAccountsChanged() {
-    console.log("onAccountsChanged");
+    pingServerWithAddress();
   }
   async function onAdapterChanged(adapter: Adapter | null) {
-    console.log("onAdapterChanged", adapter);
+    pingServerWithAddress();
   }
   return (
     <WalletProvider
@@ -138,4 +160,51 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
 export default function useWeb3() {
   return useContext(Web3Context);
+}
+
+function VerificationModal(props: { nonce: string }) {
+  const { disconnect, address, signMessage } = useWallet();
+
+  const modal = useModal();
+
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <div className="bg-background p-4 rounded-md flex flex-col text-center gap-y-2">
+      <h1 className="font-semibold text-primary">
+        We need you to sign a nonce
+      </h1>
+      <p className="text-sm text-mute">
+        this is done for registration and user verification purposes
+      </p>
+
+      <div className="flex gap-x-5 px-[10%]">
+        <button
+          disabled={loading}
+          className="flex-1 bg-foreground p-1 font-medium rounded disabled:animate-pulse disabled:opacity-60 disabled:cursor-not-allowed"
+          onClick={async () => {
+            setLoading(true);
+            try {
+              const signedMessage = await signMessage(props.nonce);
+              if (address && signedMessage)
+                await api.user.verify(address, signedMessage);
+            } finally {
+              setLoading(false);
+            }
+          }}
+        >
+          Sign
+        </button>
+        <button
+          className="flex-1 border border-front p-1 font-medium rounded"
+          onClick={() => {
+            disconnect();
+            modal.hide();
+          }}
+        >
+          Disconnect
+        </button>
+      </div>
+    </div>
+  );
 }

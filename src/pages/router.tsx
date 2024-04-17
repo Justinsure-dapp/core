@@ -6,7 +6,7 @@ import {
 import Layout from "../layout";
 
 import HomePage from "./HomePage";
-import ErrorPage from "./ErrorPage/ErrorPage";
+import ErrorPage from "./ErrorPage";
 import PoliciesPage from "./PoliciesPage";
 import NewPolicyPage from "./NewPolicyPage";
 import PolicyPage from "./PolicyPage";
@@ -18,10 +18,9 @@ const router = createBrowserRouter(
         <Route index element={<HomePage />} />
         <Route path="policies" element={<PoliciesPage />} />
         <Route path="new-policy" element={<NewPolicyPage />} />
-        <Route path="policies/:id" element={<PolicyPage />} / >
+        <Route path="policies/:id" element={<PolicyPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Route>
-
-      <Route path="*" element={<ErrorPage />} />
     </>
   )
 );
