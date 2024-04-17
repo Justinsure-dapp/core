@@ -3,7 +3,7 @@ import PieChart from "../../../common/PieChart";
 
 export default function PoolDistribution() {
   return (
-    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl pt-12 px-8">
+    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl py-12 px-8">
       <div className="flex justify-between">
         <h1 className="text-xl">Total money & distribution of pool</h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl">
