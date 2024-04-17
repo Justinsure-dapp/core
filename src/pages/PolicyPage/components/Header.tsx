@@ -1,8 +1,9 @@
 import StarRating from "../../../common/StarRating";
+import ClaimInfo from "./ClaimsInfo";
 
 export default function Header() {
   return (
-    <div className="flex w-full gap-x-4 justify-between border-b pb-6 border-front/20">
+    <div className="flex w-full gap-x-4 justify-between border-b pt-4 pb-8 border-front/20">
       <div className="flex gap-x-4">
         <img
           src="https://i.pinimg.com/736x/26/7f/6c/267f6c91848164e2dd570d67fab5cb96.jpg"

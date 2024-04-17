@@ -3,7 +3,7 @@ import PieChart from "../../../common/PieChart";
 
 export default function PoolDistribution() {
   return (
-    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl py-6 px-8">
+    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl pt-12 px-8">
       <div className="flex justify-between">
         <h1 className="text-xl">Total money & distribution of pool</h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl">
@@ -24,24 +24,6 @@ export default function PoolDistribution() {
           ))}
         </div>
       </div>
-      {/* <div className="flex flex-col">
-        <h1>This issomethin</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint fugit
-          iste molestiae nesciunt eveniet cupiditate quos labore maiores,
-          repellendus ut!
-        </p>
-        <div className="flex flex-col gap-y-2 text-sm items-end mt-4">
-          <p className="bg-primary/5 border border-primary/30 px-4 py-1 rounded-2xl w-max">
-            Current Stake :{" "}
-            <span className="font-mono text-primary">23.12</span>
-          </p>
-          <p className="bg-primary/5 border border-primary/30 px-4 py-1 rounded-2xl">
-            Staking till date :{" "}
-            <span className="font-mono text-primary">792.23</span>
-          </p>
-        </div>
-      </div> */}
     </div>
   );
 }
