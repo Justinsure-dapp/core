@@ -1,18 +1,15 @@
-import { TronLinkAdapter } from "@tronweb3/tronwallet-adapters";
-import { useEffect, useMemo, useState } from "react";
-import useWeb3 from "../contexts/web3context";
-import {
-  WalletActionButton,
-  WalletConnectButton,
-  WalletDisconnectButton,
-  WalletSelectButton,
-} from "@tronweb3/tronwallet-adapter-react-ui";
+import { useEffect } from "react";
+import { WalletActionButton } from "@tronweb3/tronwallet-adapter-react-ui";
 import "@tronweb3/tronwallet-adapter-react-ui/style.css";
 import { useWallet } from "@tronweb3/tronwallet-adapter-react-hooks";
 import { twMerge } from "tailwind-merge";
 
 export default function ConnectWallet(props: { className?: string }) {
-  const { address } = useWallet();
+  const { address, connect } = useWallet();
+
+  useEffect(() => {
+    connect();
+  }, []);
 
   return (
     <div className="relative rounded-lg group">

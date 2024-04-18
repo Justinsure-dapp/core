@@ -3,18 +3,22 @@ import DocTitle from "../../common/DocTitle";
 import { twMerge } from "tailwind-merge";
 import useFormData from "../../hooks/useFormData";
 import api from "../../utils/api";
-import { useNavigate } from "react-router-dom";
+import { useWallet } from "@tronweb3/tronwallet-adapter-react-hooks";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
-
   const [logo, setLogo] = useState("");
+
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
 
-  useFormData(formRef, (data) => {
+  const { signMessage } = useWallet();
+
+  useFormData(formRef, async (data) => {
     setLoading(true);
+    const signed = await signMessage(JSON.stringify({ ...data }));
     api.user
-      .becomeMarketer(data.name, data.imageUrl)
+      .becomeMarketer(data.name, data.imageUrl, signed)
+      .catch((err) => alert(err))
       .then(() => {
         location.replace("/");
       })

@@ -21,6 +21,13 @@ export default function SettingsPage() {
             </Link>
           </div>
         )}
+
+        {user?.marketer && (
+          <div className="bg-secondary/40 w-full rounded-md p-3 text-sm">
+            <b>Note : </b> Marketer mode is enabled, you can list your own
+            policies on the platform.
+          </div>
+        )}
       </div>
     </>
   );

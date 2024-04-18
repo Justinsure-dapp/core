@@ -39,13 +39,28 @@ export default function Navbar() {
   return (
     <nav className="flex flex-col p-6 border-r border-border">
       <div
-        className="flex items-center gap-x-2 cursor-pointer"
+        className="flex items-center gap-x-2 cursor-pointer relative"
         role="button"
         onClick={() => null}
       >
         <img src="/logo.png" alt="logo" className="aspect-square w-10" />
-        <div className="flex flex-col gap-y-1">
-          <h1 className="font-black text-2xl tracking-wider">Surity</h1>
+        <div className="flex flex-col items-start gap-y-1">
+          <div className="relative">
+            <h1 className="font-black text-2xl tracking-wider">Surity</h1>
+            {user?.marketer && (
+              <div className="group">
+                <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
+                  Pro
+                </p>
+
+                <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-primary p-2 rounded-lg pointer-events-none">
+                  "Pro" indicates that you are a marketer and you can list
+                  <br />
+                  policies on our platform
+                </p>
+              </div>
+            )}
+          </div>
           <p className="text-primary text-xs font-semibold">
             Rest assured on Web3
           </p>

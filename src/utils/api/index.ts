@@ -36,7 +36,7 @@ function createApi() {
     },
 
     function (error) {
-      return error;
+      throw error;
       //   return Promise.reject(errMsg.slice(1, -1));
     }
   );

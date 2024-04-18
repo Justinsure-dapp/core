@@ -40,12 +40,13 @@ const user = {
     return data;
   },
 
-  async becomeMarketer(name: string, imageUrl: string) {
+  async becomeMarketer(name: string, imageUrl: string, signed: string) {
     const response = await client.post<{ marketer: Marketer }>(
       "/user/become-marketer",
       {
         name,
         imageUrl,
+        signed,
       }
     );
 
