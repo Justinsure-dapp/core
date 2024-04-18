@@ -11,6 +11,7 @@ export default function Navbar() {
     { title: "Applications", link: "/applications", icon: "grid" },
     { title: "Providers", link: "/providers", icon: "key" },
     { title: "Marketing", link: "/new-policy", icon: "filter" },
+    { title: "Settings", link: "/settings", icon: "settings" },
     { title: "Developers", link: "/developers", icon: "code" },
     { title: "Accessibility", link: "/accessibility", icon: "accessibility" },
   ];
