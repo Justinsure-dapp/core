@@ -2,5 +2,11 @@ export type RGBColor = [number, number, number];
 
 export interface User {
   address: string;
-  isMarketer: boolean;
+  marketer: string;
+}
+
+export interface Marketer {
+  name: string;
+  image: string;
+  policies: string[];
 }

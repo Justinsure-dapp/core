@@ -20,7 +20,7 @@ import React, {
   useState,
 } from "react";
 import type { Adapter } from "@tronweb3/tronwallet-abstract-adapter";
-import api from "../utils/api";
+import api, { clearAddress, setAddress } from "../utils/api";
 import useModal from "../hooks/useModal";
 import { User } from "../types";
 
@@ -136,12 +136,18 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
   function onConnect() {
     pingServerWithAddress();
+    if (account) setAddress(account);
+    if (!account) clearAddress();
   }
   async function onAccountsChanged() {
     pingServerWithAddress();
+    if (account) setAddress(account);
+    if (!account) clearAddress();
   }
   async function onAdapterChanged(adapter: Adapter | null) {
     pingServerWithAddress();
+    if (account) setAddress(account);
+    if (!account) clearAddress();
   }
   return (
     <WalletProvider

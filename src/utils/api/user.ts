@@ -1,5 +1,5 @@
 import { client } from ".";
-import { User } from "../../types";
+import { Marketer, User } from "../../types";
 
 const user = {
   async check(address: string) {
@@ -35,6 +35,19 @@ const user = {
 
   async get(address: string) {
     const response = await client.get<{ user: User }>(`/user/get/${address}`);
+
+    const data = response.data;
+    return data;
+  },
+
+  async becomeMarketer(name: string, imageUrl: string) {
+    const response = await client.post<{ marketer: Marketer }>(
+      "/user/become-marketer",
+      {
+        name,
+        imageUrl,
+      }
+    );
 
     const data = response.data;
     return data;

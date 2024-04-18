@@ -1,7 +1,7 @@
 import axios from "axios";
 import user from "./user";
 
-let jwt: string | null = null;
+let address: string | null = null;
 
 const serverUrl = "http://localhost:9090";
 
@@ -12,7 +12,7 @@ function createApi() {
     baseURL: serverUrl,
     timeout: 32000,
     headers: {
-      Authorization: `Bearer ${jwt}`,
+      Authorization: address,
       "Content-Type": "application/json",
     },
   });
@@ -44,18 +44,14 @@ function createApi() {
   return client;
 }
 
-export function setJwt(token: string) {
-  jwt = token;
-  client.defaults.headers["Authorization"] = `Bearer ${jwt}`;
+export function setAddress(addr: string) {
+  address = addr;
+  client.defaults.headers["Authorization"] = address;
 }
 
-export function clearJwt() {
-  jwt = null;
+export function clearAddress() {
+  address = null;
   client.defaults.headers["Authorization"] = null;
-}
-
-function ensureToken() {
-  if (!jwt) throw new Error("jwt is required for this api call");
 }
 
 const api = {
