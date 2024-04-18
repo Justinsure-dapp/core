@@ -35,13 +35,14 @@ interface Web3ContextType {
   )[];
   account?: string;
   network?: Network;
+  user: User | null;
 }
 
 const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = useState("");
-  const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState<User | null>(null);
   const [network, setNetwork] = useState<Network>();
 
   const modal = useModal();
@@ -56,8 +57,8 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         // example WC app project ID
         projectId: "5fc507d8fc7ae913fff0b8071c7df231",
         metadata: {
-          name: "Test DApp",
-          description: "JustLend WalletConnect",
+          name: "Surity",
+          description: "Surity WalletConnect",
           url: "https://your-dapp-url.org/",
           icons: ["https://your-dapp-url.org/mainLogo.svg"],
         },
@@ -91,8 +92,6 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       okxWalletAdapter,
     ];
   }, []);
-
-  const value = { adapters, account, network };
 
   useEffect(() => {
     adapter.address && setAccount(adapter.address.trim());
@@ -149,6 +148,9 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     if (account) setAddress(account);
     if (!account) clearAddress();
   }
+
+  const value = { adapters, account, network, user };
+
   return (
     <WalletProvider
       onConnect={onConnect}
@@ -192,8 +194,10 @@ function VerificationModal(props: { nonce: string }) {
             setLoading(true);
             try {
               const signedMessage = await signMessage(props.nonce);
-              if (address && signedMessage)
+              if (address && signedMessage) {
                 await api.user.verify(address, signedMessage);
+                location.reload();
+              }
             } finally {
               setLoading(false);
             }
