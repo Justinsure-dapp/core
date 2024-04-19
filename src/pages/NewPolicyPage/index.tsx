@@ -10,6 +10,7 @@ import insuranceCategories from "../../assets/data/insuranceCategories";
 import { twMerge } from "tailwind-merge";
 import useFormData from "../../hooks/useFormData";
 import ToastsInput from "../../common/ToastsInput";
+import DurationInput from "../../common/DurationInput";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -21,6 +22,7 @@ export default function NewPolicyPage() {
   const [premiumFuncArgs, setPremiumFuncArgs] = useState<Array<string>>([]);
   const [claimFunc, setClaimFunc] = useState("");
   const [claimFuncArgs, setClaimFuncArgs] = useState<Array<string>>([]);
+  const [category, setCategory] = useState("");
 
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
   useFormData(formRef, (data) => console.log(data));
@@ -58,6 +60,7 @@ export default function NewPolicyPage() {
 
             <Heading className="mt-7">What is this Insurance for</Heading>
             <select
+              onChange={(e) => setCategory(e.target.value)}
               className={twInputStyle}
               name="category"
               defaultValue={"other"}
@@ -69,42 +72,107 @@ export default function NewPolicyPage() {
               ))}
             </select>
 
-            <div className="flex gap-x-7 mt-7">
-              <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
-                <Heading className="p-2">Premium Calculation Function</Heading>
-                <textarea
-                  className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
-                  readOnly
-                  value={premiumFunc}
-                  onClick={() => {
-                    modal.show(
-                      <TexteditorModal
-                        defaultValue={premiumFunc}
-                        setter={setPremiumFunc}
-                        argsSetter={setPremiumFuncArgs}
-                      />
-                    );
-                  }}
+            {category == "other" && (
+              <>
+                <input
+                  className={twMerge("mt-2", twInputStyle)}
+                  placeholder="Enter what this insurance is for (Eg: Naval Accidents)"
+                  name="other-insurance"
                 />
-                <ArgsTypeDefine className="p-2" args={premiumFuncArgs} />
+              </>
+            )}
+
+            <div className="flex gap-x-7 mt-7 flex-col gap-y-7">
+              <div className="flex gap-x-7">
+                <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
+                  <Heading className="p-2">
+                    Premium Calculation Function
+                  </Heading>
+                  <textarea
+                    className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
+                    readOnly
+                    value={premiumFunc}
+                    onClick={() => {
+                      modal.show(
+                        <TexteditorModal
+                          defaultValue={premiumFunc}
+                          setter={setPremiumFunc}
+                          argsSetter={setPremiumFuncArgs}
+                        />
+                      );
+                    }}
+                  />
+                  <ArgsTypeDefine className="p-2" args={premiumFuncArgs} />
+                </div>
+                <div className="flex flex-col gap-y-2 basis-1/2">
+                  <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
+                    Describe this function
+                  </Heading>
+                  <textarea
+                    className={twMerge(
+                      twInputStyle,
+                      "h-[25vh] w-full resize-none"
+                    )}
+                    placeholder="Description"
+                    name="description"
+                  />
+                </div>
               </div>
-              <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
-                <Heading className="p-2">Claim Validation Function</Heading>
-                <textarea
-                  className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
-                  readOnly
-                  value={claimFunc}
-                  onClick={() => {
-                    modal.show(
-                      <TexteditorModal
-                        defaultValue={claimFunc}
-                        setter={setClaimFunc}
-                        argsSetter={setClaimFuncArgs}
-                      />
-                    );
-                  }}
+              <div className="flex gap-x-7">
+                <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
+                  <Heading className="p-2">Claim Validation Function</Heading>
+                  <textarea
+                    className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
+                    readOnly
+                    value={claimFunc}
+                    onClick={() => {
+                      modal.show(
+                        <TexteditorModal
+                          defaultValue={claimFunc}
+                          setter={setClaimFunc}
+                          argsSetter={setClaimFuncArgs}
+                        />
+                      );
+                    }}
+                  />
+                  <ArgsTypeDefine className="p-2" args={claimFuncArgs} />
+                </div>
+                <div className="flex flex-col gap-y-2 basis-1/2">
+                  <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
+                    Describe this function
+                  </Heading>
+                  <textarea
+                    className={twMerge(
+                      twInputStyle,
+                      "h-[25vh] w-full resize-none"
+                    )}
+                    placeholder="Description"
+                    name="description"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-7 flex gap-x-7">
+              <div className="basis-1/2">
+                <Heading tooltip="This indicates for minimum how long a user can take this policy">
+                  Minimum duration for the policy
+                </Heading>
+                <DurationInput
+                  className={twInputStyle}
+                  name="MinimumDuration"
+                  defaultValue="Days"
                 />
-                <ArgsTypeDefine className="p-2" args={claimFuncArgs} />
+              </div>
+              <div className="basis-1/2">
+                <Heading tooltip="This indicates for maximum how long a user can take this policy">
+                  Maximum duration for the policy
+                </Heading>
+                <DurationInput
+                  className={twInputStyle}
+                  name="MaximumDuration"
+                  defaultValue="Days"
+                />
               </div>
             </div>
 
