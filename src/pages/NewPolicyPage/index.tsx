@@ -154,22 +154,22 @@ export default function NewPolicyPage() {
             </div>
 
             <div className="mt-7 flex gap-x-7">
-              <div className="basis-1/2">
+              <div className="basis-1/2 w-1/2">
                 <Heading tooltip="This indicates for minimum how long a user can take this policy">
                   Minimum duration for the policy
                 </Heading>
                 <DurationInput
-                  className={twInputStyle}
+                  className={twMerge("w-1/2",twInputStyle)}
                   name="MinimumDuration"
                   defaultValue="Days"
                 />
               </div>
-              <div className="basis-1/2">
+              <div className="basis-1/2 w-1/2">
                 <Heading tooltip="This indicates for maximum how long a user can take this policy">
                   Maximum duration for the policy
                 </Heading>
                 <DurationInput
-                  className={twInputStyle}
+                  className={twMerge("w-1/2",twInputStyle)}
                   name="MaximumDuration"
                   defaultValue="Days"
                 />
