@@ -5,7 +5,7 @@ import HelpTooltip from "../../common/HelpTooltip";
 import Heading from "./components/Heading";
 import useModal from "../../hooks/useModal";
 import TexteditorModal from "./components/TexteditorModal";
-import ArgsTypeDefine from "./components/ArgsTypeDefine";
+import ArgsTypeDefine, { Args } from "./components/ArgsTypeDefine";
 import insuranceCategories from "../../assets/data/insuranceCategories";
 import { twMerge } from "tailwind-merge";
 import useFormData from "../../hooks/useFormData";
@@ -25,8 +25,8 @@ export default function NewPolicyPage() {
   const [claimFuncArgs, setClaimFuncArgs] = useState<Array<string>>([]);
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [premiumFuncArgsSetter, setPremiumFuncArgsSetter] = useState<Record<string, string>>({});
-  const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Record<string, string>>({});
+  const [premiumFuncArgsSetter, setPremiumFuncArgsSetter] = useState<Args>([]);
+  const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Args>([]);
 
   return (
     <>
@@ -112,6 +112,7 @@ export default function NewPolicyPage() {
                     className="p-2"
                     args={premiumFuncArgs}
                     setter={setPremiumFuncArgsSetter}
+                    key={premiumFunc}
                   />
                 </div>
                 <div className="flex flex-col gap-y-2 basis-1/2">
@@ -146,7 +147,9 @@ export default function NewPolicyPage() {
                       );
                     }}
                   />
-                  <ArgsTypeDefine className="p-2" args={claimFuncArgs} setter={setclaimFuncArgsSetter} />
+                  <ArgsTypeDefine 
+                    key={claimFunc}
+                    className="p-2" args={claimFuncArgs} setter={setclaimFuncArgsSetter} />
                 </div>
                 <div className="flex flex-col gap-y-2 basis-1/2">
                   <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
