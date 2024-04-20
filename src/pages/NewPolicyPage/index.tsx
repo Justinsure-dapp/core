@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import DocTitle from "../../common/DocTitle";
 import Icon, { IconType } from "../../common/Icon";
 import HelpTooltip from "../../common/HelpTooltip";
@@ -11,6 +11,7 @@ import { twMerge } from "tailwind-merge";
 import useFormData from "../../hooks/useFormData";
 import ToastsInput from "../../common/ToastsInput";
 import DurationInput from "../../common/DurationInput";
+import DataForm from "../../common/DataForm";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -23,9 +24,9 @@ export default function NewPolicyPage() {
   const [claimFunc, setClaimFunc] = useState("");
   const [claimFuncArgs, setClaimFuncArgs] = useState<Array<string>>([]);
   const [category, setCategory] = useState("");
-
-  const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
-  useFormData(formRef, (data) => console.log(data));
+  const [tags, setTags] = useState<string[]>([]);
+  const [premiumFuncArgsSetter, setPremiumFuncArgsSetter] = useState<Record<string, string>>({});
+  const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Record<string, string>>({});
 
   return (
     <>
@@ -33,10 +34,15 @@ export default function NewPolicyPage() {
 
       <div className="p-page">
         <section className="py-8 flex gap-x-6">
-          <form
+          <DataForm
             className="flex-1 flex flex-col"
-            onSubmit={(e) => e.preventDefault()}
-            ref={formRef}
+            callback={(data) => {
+              const req: Record<string, any> = { ...data };
+              req["tags"] = tags;
+              req["premiumFuncArgs"] = premiumFuncArgsSetter;
+              req["claimFuncArgs"] = claimFuncArgsSetter;
+              console.log(req);
+            }}
           >
             <h1 className="font-semibold text-xl">Policy Settings</h1>
             <h2 className=" text-mute font-semibold">
@@ -63,7 +69,6 @@ export default function NewPolicyPage() {
               onChange={(e) => setCategory(e.target.value)}
               className={twInputStyle}
               name="category"
-              defaultValue={"other"}
             >
               {insuranceCategories.toSorted().map((cat, key) => (
                 <option key={key} value={cat}>
@@ -77,7 +82,7 @@ export default function NewPolicyPage() {
                 <input
                   className={twMerge("mt-2", twInputStyle)}
                   placeholder="Enter what this insurance is for (Eg: Naval Accidents)"
-                  name="other-insurance"
+                  name="category"
                 />
               </>
             )}
@@ -92,6 +97,7 @@ export default function NewPolicyPage() {
                     className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
                     readOnly
                     value={premiumFunc}
+                    name="premiumFunc"
                     onClick={() => {
                       modal.show(
                         <TexteditorModal
@@ -102,7 +108,11 @@ export default function NewPolicyPage() {
                       );
                     }}
                   />
-                  <ArgsTypeDefine className="p-2" args={premiumFuncArgs} />
+                  <ArgsTypeDefine
+                    className="p-2"
+                    args={premiumFuncArgs}
+                    setter={setPremiumFuncArgsSetter}
+                  />
                 </div>
                 <div className="flex flex-col gap-y-2 basis-1/2">
                   <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
@@ -114,7 +124,7 @@ export default function NewPolicyPage() {
                       "h-[25vh] w-full resize-none"
                     )}
                     placeholder="Description"
-                    name="description"
+                    name="premiumFuncDescription"
                   />
                 </div>
               </div>
@@ -125,6 +135,7 @@ export default function NewPolicyPage() {
                     className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
                     readOnly
                     value={claimFunc}
+                    name="claimFunc"
                     onClick={() => {
                       modal.show(
                         <TexteditorModal
@@ -135,7 +146,7 @@ export default function NewPolicyPage() {
                       );
                     }}
                   />
-                  <ArgsTypeDefine className="p-2" args={claimFuncArgs} />
+                  <ArgsTypeDefine className="p-2" args={claimFuncArgs} setter={setclaimFuncArgsSetter} />
                 </div>
                 <div className="flex flex-col gap-y-2 basis-1/2">
                   <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
@@ -147,7 +158,7 @@ export default function NewPolicyPage() {
                       "h-[25vh] w-full resize-none"
                     )}
                     placeholder="Description"
-                    name="description"
+                    name="claimFuncDescription"
                   />
                 </div>
               </div>
@@ -159,7 +170,7 @@ export default function NewPolicyPage() {
                   Minimum duration for the policy
                 </Heading>
                 <DurationInput
-                  className={twMerge("w-1/2",twInputStyle)}
+                  className={twMerge("w-1/2", twInputStyle)}
                   name="MinimumDuration"
                   defaultValue="Days"
                 />
@@ -169,7 +180,7 @@ export default function NewPolicyPage() {
                   Maximum duration for the policy
                 </Heading>
                 <DurationInput
-                  className={twMerge("w-1/2",twInputStyle)}
+                  className={twMerge("w-1/2", twInputStyle)}
                   name="MaximumDuration"
                   defaultValue="Days"
                 />
@@ -182,6 +193,7 @@ export default function NewPolicyPage() {
                   <Heading>Initial Stake</Heading>
                   <input
                     type="number"
+                    name="initialStake"
                     min={5}
                     defaultValue={5}
                     className={twMerge(
@@ -203,6 +215,7 @@ export default function NewPolicyPage() {
             <div className="flex flex-col mt-2">
               <Heading>Tags</Heading>
               <ToastsInput
+                setter={setTags}
                 className={twMerge("text-sm mt-1 mb-3", twInputStyle)}
               />
             </div>
@@ -224,7 +237,7 @@ export default function NewPolicyPage() {
                 </p>
               </div>
             </div>
-          </form>
+          </DataForm>
 
           <div className="basis-[28%] bg-foreground rounded-xl"></div>
         </section>
