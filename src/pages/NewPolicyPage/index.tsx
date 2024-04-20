@@ -27,6 +27,7 @@ export default function NewPolicyPage() {
   const [tags, setTags] = useState<string[]>([]);
   const [premiumFuncArgsSetter, setPremiumFuncArgsSetter] = useState<Args>([]);
   const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Args>([]);
+  const [checked, setChecked] = useState(false);
 
   return (
     <>
@@ -87,84 +88,101 @@ export default function NewPolicyPage() {
               </>
             )}
 
-            <div className="flex gap-x-7 mt-7 flex-col gap-y-7">
-              <div className="flex gap-x-7">
-                <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
-                  <Heading className="p-2">
-                    Premium Calculation Function
-                  </Heading>
-                  <textarea
-                    className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
-                    readOnly
-                    value={premiumFunc}
-                    name="premiumFunc"
-                    onClick={() => {
-                      modal.show(
-                        <TexteditorModal
-                          defaultValue={premiumFunc}
-                          setter={setPremiumFunc}
-                          argsSetter={setPremiumFuncArgs}
-                        />
-                      );
-                    }}
-                  />
-                  <ArgsTypeDefine
-                    className="p-2"
-                    args={premiumFuncArgs}
-                    setter={setPremiumFuncArgsSetter}
-                    key={premiumFunc}
-                  />
+            {!checked && (
+              <div className="flex gap-x-7 mt-7 flex-col gap-y-7">
+                <div className="flex gap-x-7">
+                  <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
+                    <Heading className="p-2">
+                      Premium Calculation Function
+                    </Heading>
+                    <textarea
+                      className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
+                      readOnly
+                      value={premiumFunc}
+                      name="premiumFunc"
+                      onClick={() => {
+                        modal.show(
+                          <TexteditorModal
+                            defaultValue={premiumFunc}
+                            setter={setPremiumFunc}
+                            argsSetter={setPremiumFuncArgs}
+                          />
+                        );
+                      }}
+                    />
+                    <ArgsTypeDefine
+                      className="p-2"
+                      args={premiumFuncArgs}
+                      setter={setPremiumFuncArgsSetter}
+                      key={premiumFunc}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-y-2 basis-1/2">
+                    <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
+                      Describe this function
+                    </Heading>
+                    <textarea
+                      className={twMerge(
+                        twInputStyle,
+                        "h-[25vh] w-full resize-none"
+                      )}
+                      placeholder="Description"
+                      name="premiumFuncDescription"
+                    />
+                  </div>
                 </div>
-                <div className="flex flex-col gap-y-2 basis-1/2">
-                  <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
-                    Describe this function
-                  </Heading>
-                  <textarea
-                    className={twMerge(
-                      twInputStyle,
-                      "h-[25vh] w-full resize-none"
-                    )}
-                    placeholder="Description"
-                    name="premiumFuncDescription"
-                  />
+                <div className="flex gap-x-7">
+                  <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
+                    <Heading className="p-2">Claim Validation Function</Heading>
+                    <textarea
+                      className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
+                      readOnly
+                      value={claimFunc}
+                      name="claimFunc"
+                      onClick={() => {
+                        modal.show(
+                          <TexteditorModal
+                            defaultValue={claimFunc}
+                            setter={setClaimFunc}
+                            argsSetter={setClaimFuncArgs}
+                          />
+                        );
+                      }}
+                    />
+                    <ArgsTypeDefine
+                      key={claimFunc}
+                      className="p-2"
+                      args={claimFuncArgs}
+                      setter={setclaimFuncArgsSetter}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-y-2 basis-1/2">
+                    <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
+                      Describe this function
+                    </Heading>
+                    <textarea
+                      className={twMerge(
+                        twInputStyle,
+                        "h-[25vh] w-full resize-none"
+                      )}
+                      placeholder="Description"
+                      name="claimFuncDescription"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-x-7">
-                <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
-                  <Heading className="p-2">Claim Validation Function</Heading>
-                  <textarea
-                    className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
-                    readOnly
-                    value={claimFunc}
-                    name="claimFunc"
-                    onClick={() => {
-                      modal.show(
-                        <TexteditorModal
-                          defaultValue={claimFunc}
-                          setter={setClaimFunc}
-                          argsSetter={setClaimFuncArgs}
-                        />
-                      );
-                    }}
-                  />
-                  <ArgsTypeDefine 
-                    key={claimFunc}
-                    className="p-2" args={claimFuncArgs} setter={setclaimFuncArgsSetter} />
-                </div>
-                <div className="flex flex-col gap-y-2 basis-1/2">
-                  <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
-                    Describe this function
-                  </Heading>
-                  <textarea
-                    className={twMerge(
-                      twInputStyle,
-                      "h-[25vh] w-full resize-none"
-                    )}
-                    placeholder="Description"
-                    name="claimFuncDescription"
-                  />
-                </div>
-              </div>
+            )}
+
+            <div className="flex mt-4 justify-between bg-primary/20 py-2 px-4 rounded-lg">
+              <p className="">
+                I want to manually verify the request and calculate the premium
+              </p>
+              <input
+               className="w-[1.2rem]"
+                type="checkbox"
+                checked={checked}
+                onChange={() => setChecked(!checked)}
+              />
             </div>
 
             <div className="mt-7 flex gap-x-7">
