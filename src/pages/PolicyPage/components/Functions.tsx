@@ -1,37 +1,20 @@
 export default function Functions() {
   return (
-    <div className="flex pt-12 pb-8 gap-y-2">
-      <div className="flex flex-col gap-y-2 basis-1/2">
-        <h1 className="text-xl">Claim validation function</h1>
-        <div className="flex flex-col border border-front/40 p-4 hover:bg-foreground/30 duration-300 text-primary rounded-xl w-max">
+    <div className="flex flex-col pt-12 pb-8 gap-y-8">
+      <div className="flex flex-col basis-1/2">
+        <h1 className="text-xl border-b border-front/20 pb-1">Claim validation function</h1>
+        <p className="mt-2 text-front/60">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus
+          doloribus distinctio voluptate, recusandae voluptatem nostrum in nulla
+          dolorum officia perspiciatis?
+        </p>
+        <div className="flex flex-col border border-front/40 p-4 hover:bg-foreground/30 duration-300 text-primary rounded-xl w-max mt-4">
           <pre className="text-xs font-mono">
-            {`function quickSort(arr) {
-        if (arr.length <= 1) {
-            return arr;
-    }
-    
-    const pivot = arr[Math.floor(arr.length / 2)];
-    const left = [];
-    const right = [];
-    
-    for (let i = 0; i < arr.length; i++) {
-        if (i === Math.floor(arr.length / 2)) {
-            continue;
-        }
-        if (arr[i] < pivot) {
-            left.push(arr[i]);
-        } else {
-            right.push(arr[i]);
-        }
-    }
-    
-    return [...quickSort(left), pivot, ...quickSort(right)];
-}
-
-// Example usage:
-const array = [5, 2, 4, 6, 1, 3];
-console.log(quickSort(array)); // Output: [1, 2, 3, 4, 5, 6]
-`}
+            {`def factorial(n):
+    if n == 1
+        return 1
+    else:
+      return n * factorial(n-1)`}
           </pre>
           <button className="text-sm self-end px-2 rounded-xl font-bold mt-4 bg-primary text-back w-max">
             Read More
@@ -39,38 +22,32 @@ console.log(quickSort(array)); // Output: [1, 2, 3, 4, 5, 6]
         </div>
       </div>
 
-      <div className="flex flex-col gap-y-2 basis-1/2">
-        <h1 className="text-xl">Premium calculation function</h1>
-        <div className="flex flex-col border border-front/40 p-4 hover:bg-foreground/30 duration-300 text-primary rounded-xl w-max">
-          <pre className="text-xs font-mono">
-            {`function quickSort(arr) {
-        if (arr.length <= 1) {
-            return arr;
-    }
-    
-    const pivot = arr[Math.floor(arr.length / 2)];
-    const left = [];
-    const right = [];
-    
-    for (let i = 0; i < arr.length; i++) {
-        if (i === Math.floor(arr.length / 2)) {
-            continue;
-        }
-        if (arr[i] < pivot) {
-            left.push(arr[i]);
-        } else {
-            right.push(arr[i]);
-        }
-    }
-    
-    return [...quickSort(left), pivot, ...quickSort(right)];
-}
+      <div className="flex flex-col basis-1/2">
+        <h1 className="text-xl border-b border-front/20 pb-1">Premium validation function</h1>
+        <p className="mt-2 text-front/60">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus
+          doloribus distinctio voluptate, recusandae voluptatem nostrum in nulla
+          dolorum officia perspiciatis? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima qui quidem corrupti dolores doloremque ex molestiae officia impedit, quasi rerum aperiam consectetur culpa repellendus a, quod, aspernatur sapiente molestias! Natus!
+        </p>
+        <div className="flex flex-col border border-front/40 p-4 hover:bg-foreground/30 duration-300 text-primary rounded-xl w-max mt-4">
+        <pre className="text-xs font-mono">
+              {`def bubble_sort(arr):
+n = len(arr)
+for i in range(n):
+    # Last i elements are already in place
+    for j in range(0, n - i - 1):
+        # Traverse the array from 0 to n-i-1
+        # Swap if the element found is greater
+        # than the next element
+        if arr[j] > arr[j + 1]:
+            arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
-// Example usage:
-const array = [5, 2, 4, 6, 1, 3];
-console.log(quickSort(array)); // Output: [1, 2, 3, 4, 5, 6]
+# Example usage:
+my_list = [64, 34, 25, 12, 22, 11, 90]
+bubble_sort(my_list)
+print("Sorted array is:", my_list)
 `}
-          </pre>
+            </pre>
           <button className="text-sm self-end px-2 rounded-xl font-bold mt-4 bg-primary text-back w-max">
             Read More
           </button>

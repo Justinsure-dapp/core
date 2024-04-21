@@ -10,14 +10,19 @@ export default function Header() {
           className="w-[4vw] rounded-full aspect-square h-max"
         />
         <div className="flex flex-col gap-y-1">
-          <div className="flex items-center gap-x-2">
-            <h1 className="text-2xl font-semibold">Car insurance Policy</h1> -
-            <h2 className="text-2xl text-primary font-bold">SureCar</h2>
-          </div>
-          <div className="flex gap-x-1 items-center">
-            <StarRating rating={2.7} />
-            <p>2.7</p>
-            <p className="text-xs">(5 reviews) {" "} (1 expert rating)</p>
+          <div className="flex justify-between gap-y-2">
+            <div className="flex flex-col gap-y-2">
+              <div className="flex items-center gap-x-2">
+                <h1 className="text-2xl font-semibold">Car insurance Policy</h1>{" "}
+                -<h2 className="text-2xl text-primary font-bold">SureCar</h2>
+              </div>
+              <div className="flex gap-x-1 items-center">
+                <StarRating rating={2.7} />
+                <p>2.7</p>
+                <p className="text-xs">(5 reviews) {" "} (1 expert rating)</p>
+              </div>
+            </div>
+            <button className="bg-primary h-max px-4 py-2 rounded-3xl text-back font-semibold hover:scale-110 duration-300 ease-out">Buy Policy</button>
           </div>
           <div className="text-front/80">
             Protect your vehicle and your peace of mind with our comprehensive
@@ -25,7 +30,7 @@ export default function Header() {
             open road, our coverage offers financial protection against
             accidents, theft, and unexpected damages. With 24/7 support and
             flexible payment options, you can drive with confidence knowing
-            you're covered.
+            you're covered. jaf fk kwnwwks mkwon kwnke.
           </div>
         </div>
       </div>

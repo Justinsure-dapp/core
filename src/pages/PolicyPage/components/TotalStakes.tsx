@@ -3,7 +3,7 @@ import Icon from "../../../common/Icon";
 export default function TotalStakes() {
   const ownerStakePercentage = 80;
   return (
-    <div className="w-ful flex-col flex gap-y-2 pt-14 pb-16">
+    <div className="w-ful flex-col flex gap-y-2 pt-8 pb-16">
       <div className="flex justify-between">
         <h1 className="text-xl">Total Stakes in the pool</h1>
         <div className="bg-primary/20 border border-primary/40 rounded-xl px-4 ">
