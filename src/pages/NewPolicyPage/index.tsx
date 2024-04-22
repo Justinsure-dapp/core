@@ -27,7 +27,8 @@ export default function NewPolicyPage() {
   const [tags, setTags] = useState<string[]>([]);
   const [premiumFuncArgsSetter, setPremiumFuncArgsSetter] = useState<Args>([]);
   const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Args>([]);
-  const [checked, setChecked] = useState(false);
+  const [manualPremiumCheck, setManualPremiumCheck] = useState(false);
+  const [manualClaimCheck, setManualClaimCheck] = useState(false);
 
   return (
     <>
@@ -38,10 +39,14 @@ export default function NewPolicyPage() {
           <DataForm
             className="flex-1 flex flex-col"
             callback={(data) => {
-              const req: Record<string, any> = { ...data };
+              let req: Record<string, any> = { ...data };
               req["tags"] = tags;
               req["premiumFuncArgs"] = premiumFuncArgsSetter;
               req["claimFuncArgs"] = claimFuncArgsSetter;
+              if (manualPremiumCheck) {
+                const { premiumFuncArgs, ...r } = req;
+                req = { ...r };
+              }
               console.log(req);
             }}
           >
@@ -94,6 +99,7 @@ export default function NewPolicyPage() {
                   Minimum claim for the policy
                 </Heading>
                 <input
+                  name="minimumClaim"
                   className={twMerge(twInputStyle, "w-full")}
                   placeholder="Amount"
                 />
@@ -103,14 +109,14 @@ export default function NewPolicyPage() {
                   Maximum claim for the policy
                 </Heading>
                 <input
+                  name="maximumClaim"
                   className={twMerge(twInputStyle, "w-full")}
                   placeholder="Amount"
                 />
               </div>
             </div>
-
-            {!checked && (
-              <div className="flex gap-x-7 mt-7 flex-col gap-y-7">
+            <div className="flex gap-x-7 mt-7 flex-col gap-y-7">
+              {!manualPremiumCheck && (
                 <div className="flex gap-x-7">
                   <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
                     <Heading className="p-2">
@@ -152,6 +158,22 @@ export default function NewPolicyPage() {
                     />
                   </div>
                 </div>
+              )}
+
+              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg">
+                <p className="">
+                  I want to manually verify the request and calculate the
+                  premium
+                </p>
+                <input
+                  className="w-[1.2rem]"
+                  type="checkbox"
+                  checked={manualPremiumCheck}
+                  onChange={() => setManualPremiumCheck(!manualPremiumCheck)}
+                />
+              </div>
+
+              {!manualClaimCheck && (
                 <div className="flex gap-x-7">
                   <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
                     <Heading className="p-2">Claim Validation Function</Heading>
@@ -191,19 +213,19 @@ export default function NewPolicyPage() {
                     />
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            <div className="flex mt-7 justify-between bg-primary/20 py-2 px-4 rounded-lg">
-              <p className="">
-                I want to manually verify the request and calculate the premium
-              </p>
-              <input
-                className="w-[1.2rem]"
-                type="checkbox"
-                checked={checked}
-                onChange={() => setChecked(!checked)}
-              />
+              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg">
+                <p className="">
+                  I want to manually verify the request of the claim
+                </p>
+                <input
+                  className="w-[1.2rem]"
+                  type="checkbox"
+                  checked={manualClaimCheck}
+                  onChange={() => setManualClaimCheck(!manualClaimCheck)}
+                />
+              </div>
             </div>
 
             <div className="mt-7 flex gap-x-7">
@@ -213,7 +235,7 @@ export default function NewPolicyPage() {
                 </Heading>
                 <DurationInput
                   className={twMerge("w-1/2", twInputStyle)}
-                  name="MinimumDuration"
+                  name="minimumDuration"
                   defaultValue="Days"
                 />
               </div>
@@ -223,7 +245,7 @@ export default function NewPolicyPage() {
                 </Heading>
                 <DurationInput
                   className={twMerge("w-1/2", twInputStyle)}
-                  name="MaximumDuration"
+                  name="maximumDuration"
                   defaultValue="Days"
                 />
               </div>
