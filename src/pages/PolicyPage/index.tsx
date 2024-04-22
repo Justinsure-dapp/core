@@ -11,7 +11,7 @@ export default function PolicyPage() {
 
   return (
     <article className="p-page py-8 flex flex-col gap-y-4 w-full">
-     <Header />
+     <Header id={id} />
      <ClaimInfo />
      <Functions />
      <TotalStakes />

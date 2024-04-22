@@ -4,7 +4,12 @@ import { twMerge } from "tailwind-merge";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 
-export type Args = { title: string; type: string; description: string }[];
+export type Args = {
+  title: string;
+  typeTitle: string;
+  typeValue: string;
+  description: string;
+}[];
 
 export default function ArgsTypeDefine(props: {
   args: string[];
@@ -13,14 +18,19 @@ export default function ArgsTypeDefine(props: {
 }) {
   const [res, setRes] = useState<Args>([]);
 
-  useEffect(()=>{
-    props.setter && props.setter(res)
-  },[res])
+  useEffect(() => {
+    props.setter && props.setter(res);
+  }, [res]);
 
   useEffect(() => {
     const newRes: Args = [];
     props.args.forEach((a) => {
-      newRes.push({ title: a, type: possibleTypes[0], description: "" });
+      newRes.push({
+        title: a,
+        typeTitle: possibleTypes[0].title,
+        typeValue: possibleTypes[0].value,
+        description: "",
+      });
     });
 
     setRes([...newRes]);
@@ -51,15 +61,18 @@ export default function ArgsTypeDefine(props: {
             <select
               className="bg-background border border-mute/40 rounded p-1"
               onChange={(e) => {
-                const newType = e.currentTarget.value;
+                const newValue = e.currentTarget.value
+                const newTitle = possibleTypes.find((a) => a.value === newValue)?.title;
                 const newRes = [...res];
                 const prev = newRes.find((a) => a.title === arg);
-                prev && (prev.type = newType)
+                newTitle && prev && (prev.typeTitle = newTitle);
+                prev && (prev.typeValue = newValue);
+                
               }}
             >
               {possibleTypes.map((type, key) => (
-                <option value={type} key={key}>
-                  {type}
+                <option value={type.value} key={key}>
+                  {type.title}
                 </option>
               ))}
             </select>
@@ -82,6 +95,10 @@ function DescriptionModal(props: {
 
   const inpRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
+  const res = [...props.args]
+  const prev = res.find((e) => e.title === props.arg);
+  const description = prev?.description
+ 
   return (
     <div className="relative flex flex-col gap-y-7 bg-background w-[40vw] p-8 rounded-xl border border-front/40">
       <button
@@ -96,7 +113,7 @@ function DescriptionModal(props: {
       </div>
       <div className="flex flex-col">
         <h1>Argument Description</h1>
-        <textarea className={twMerge(twInputStyle, "h-[20vh]")} ref={inpRef} />
+        <textarea className={twMerge(twInputStyle, "h-[20vh]")} ref={inpRef} defaultValue={description} />
       </div>
       <button
         className="bg-primary w-max py-2 px-3 self-center rounded-lg text-back font-bold"
@@ -114,4 +131,11 @@ function DescriptionModal(props: {
   );
 }
 
-const possibleTypes = ["String", "Number", "URL", "Email", "Date"] as const;
+const possibleTypes = [
+  { title: "String", value: "text" },
+  { title: "Number", value: "number" },
+  { title: "URL", value: "url" },
+  { title: "Email", value: "email" },
+  { title: "Date", value: "date" },
+  { title: "Boolean", value: "checkbox" },
+] as const;
