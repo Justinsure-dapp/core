@@ -88,6 +88,27 @@ export default function NewPolicyPage() {
               </>
             )}
 
+            <div className="mt-7 flex gap-x-7">
+              <div className="basis-1/2 w-1/2">
+                <Heading tooltip="This indicates minimum amount the user can claim from this policy">
+                  Minimum claim for the policy
+                </Heading>
+                <input
+                  className={twMerge(twInputStyle, "w-full")}
+                  placeholder="Amount"
+                />
+              </div>
+              <div className="basis-1/2 w-1/2">
+                <Heading tooltip="This indicates maximum amount the user can claim from this policy">
+                  Maximum claim for the policy
+                </Heading>
+                <input
+                  className={twMerge(twInputStyle, "w-full")}
+                  placeholder="Amount"
+                />
+              </div>
+            </div>
+
             {!checked && (
               <div className="flex gap-x-7 mt-7 flex-col gap-y-7">
                 <div className="flex gap-x-7">
@@ -173,12 +194,12 @@ export default function NewPolicyPage() {
               </div>
             )}
 
-            <div className="flex mt-4 justify-between bg-primary/20 py-2 px-4 rounded-lg">
+            <div className="flex mt-7 justify-between bg-primary/20 py-2 px-4 rounded-lg">
               <p className="">
                 I want to manually verify the request and calculate the premium
               </p>
               <input
-               className="w-[1.2rem]"
+                className="w-[1.2rem]"
                 type="checkbox"
                 checked={checked}
                 onChange={() => setChecked(!checked)}
