@@ -4,6 +4,7 @@ export default function DurationInput(props: {
   className: string;
   name: string;
   defaultValue: string;
+  setter?: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [millis, setMillis] = useState(0);
   const [multiplier, setMultiplier] = useState(1000 * 60 * 60);
@@ -11,6 +12,7 @@ export default function DurationInput(props: {
 
   useEffect(() => {
     setMillis(inp * multiplier);
+    props.setter && props.setter(millis)
   }, [inp, multiplier]);
 
   return (
