@@ -151,7 +151,7 @@ export default function NewPolicyPage() {
                     <textarea
                       className={twMerge(
                         twInputStyle,
-                        "h-[25vh] w-full resize-none"
+                        "h-[25vh] w-full resize-none scrollbar-primary text-sm"
                       )}
                       placeholder="Description"
                       name="premiumFuncDescription"
@@ -206,7 +206,7 @@ export default function NewPolicyPage() {
                     <textarea
                       className={twMerge(
                         twInputStyle,
-                        "h-[25vh] w-full resize-none"
+                        "h-[25vh] w-full resize-none scrollbar-primary text-sm"
                       )}
                       placeholder="Description"
                       name="claimFuncDescription"
