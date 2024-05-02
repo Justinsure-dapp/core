@@ -13,6 +13,7 @@ import PolicyPage from "./PolicyPage";
 import AccountPage from "./AccountPage";
 import SettingsPage from "./SettingsPage";
 import NewMarketerPage from "./NewMarketerPage";
+import Tester from "./Tester";
 import BuyPolicyPage from "./BuyPolicyPage";
 
 const router = createBrowserRouter(
@@ -27,6 +28,8 @@ const router = createBrowserRouter(
         <Route path="settings" element={<SettingsPage />} />
         <Route path="new-marketer" element={<NewMarketerPage />} />
         <Route path="buy-policy/:id" element={<BuyPolicyPage />} />
+
+        <Route path="test" element={<Tester />} />
 
         <Route path="*" element={<ErrorPage />} />
       </Route>
