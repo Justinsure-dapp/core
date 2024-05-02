@@ -1,5 +1,6 @@
 import axios from "axios";
 import user from "./user";
+import policy from "./policy";
 
 let address: string | null = null;
 
@@ -56,6 +57,7 @@ export function clearAddress() {
 
 const api = {
   user,
+  policy
 };
 
 export default api;

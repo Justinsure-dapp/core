@@ -5,10 +5,10 @@ import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 
 export type Args = {
-  title: string;
-  typeTitle: string;
-  typeValue: string;
+  name: string;
+  typeName: string;
   description: string;
+  htmlType: string;
 }[];
 
 export default function ArgsTypeDefine(props: {
@@ -26,9 +26,9 @@ export default function ArgsTypeDefine(props: {
     const newRes: Args = [];
     props.args.forEach((a) => {
       newRes.push({
-        title: a,
-        typeTitle: possibleTypes[0].title,
-        typeValue: possibleTypes[0].value,
+        name: a,
+        typeName: possibleTypes[0].name,
+        htmlType: possibleTypes[0].value,
         description: "",
       });
     });
@@ -48,6 +48,7 @@ export default function ArgsTypeDefine(props: {
           <div className="w-1/2 flex gap-x-1 items-center">
             <h1 className="truncate">{arg}</h1>
             <button
+              type="button"
               onClick={() =>
                 modal.show(
                   <DescriptionModal args={res} setter={setRes} arg={arg} />
@@ -61,18 +62,19 @@ export default function ArgsTypeDefine(props: {
             <select
               className="bg-background border border-mute/40 rounded p-1"
               onChange={(e) => {
-                const newValue = e.currentTarget.value
-                const newTitle = possibleTypes.find((a) => a.value === newValue)?.title;
+                const newValue = e.currentTarget.value;
+                const newName = possibleTypes.find(
+                  (a) => a.value === newValue
+                )?.name;
                 const newRes = [...res];
-                const prev = newRes.find((a) => a.title === arg);
-                newTitle && prev && (prev.typeTitle = newTitle);
-                prev && (prev.typeValue = newValue);
-                
+                const prev = newRes.find((a) => a.name === arg);
+                newName && prev && (prev.typeName = newName);
+                prev && (prev.htmlType = newValue);
               }}
             >
               {possibleTypes.map((type, key) => (
                 <option value={type.value} key={key}>
-                  {type.title}
+                  {type.name}
                 </option>
               ))}
             </select>
@@ -95,13 +97,14 @@ function DescriptionModal(props: {
 
   const inpRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
-  const res = [...props.args]
-  const prev = res.find((e) => e.title === props.arg);
-  const description = prev?.description
- 
+  const res = [...props.args];
+  const prev = res.find((e) => e.name === props.arg);
+  const description = prev?.description;
+
   return (
     <div className="relative flex flex-col gap-y-7 bg-background w-[40vw] p-8 rounded-xl border border-front/40">
       <button
+        type="button"
         className="text-[1.6rem] text-red-500 right-2 absolute top-2"
         onClick={() => modal.hide()}
       >
@@ -113,14 +116,19 @@ function DescriptionModal(props: {
       </div>
       <div className="flex flex-col">
         <h1>Argument Description</h1>
-        <textarea className={twMerge(twInputStyle, "h-[20vh]")} ref={inpRef} defaultValue={description} />
+        <textarea
+          className={twMerge(twInputStyle, "h-[20vh]")}
+          ref={inpRef}
+          defaultValue={description}
+        />
       </div>
       <button
+        type="button"
         className="bg-primary w-max py-2 px-3 self-center rounded-lg text-back font-bold"
         onClick={() => {
           const newDesc = inpRef.current.value;
           const newRes = [...props.args];
-          const prev = newRes.find((e) => e.title === props.arg);
+          const prev = newRes.find((e) => e.name === props.arg);
           prev && (prev.description = newDesc);
           modal.hide();
         }}
@@ -132,10 +140,10 @@ function DescriptionModal(props: {
 }
 
 const possibleTypes = [
-  { title: "String", value: "text" },
-  { title: "Number", value: "number" },
-  { title: "URL", value: "url" },
-  { title: "Email", value: "email" },
-  { title: "Date", value: "date" },
-  { title: "Boolean", value: "checkbox" },
+  { name: "String", value: "text" },
+  { name: "Number", value: "number" },
+  { name: "URL", value: "url" },
+  { name: "Email", value: "email" },
+  { name: "Date", value: "date" },
+  { name: "Boolean", value: "checkbox" },
 ] as const;

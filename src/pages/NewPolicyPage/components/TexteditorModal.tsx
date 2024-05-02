@@ -40,6 +40,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
       />
       <div className="flex gap-x-[4vw] px-[2vw]">
         <button
+          type="button"
           className="flex-1 bg-front text-back rounded-md py-2 font-medium"
           onClick={() => {
             const f = extractPythonFunction(editorRef.current.value);
@@ -55,6 +56,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
           Save
         </button>
         <button
+          type="button"
           className="flex-1 bg-red-600 text-front rounded-md py-2 font-medium"
           onClick={modal.hide}
         >

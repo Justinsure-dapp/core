@@ -12,6 +12,7 @@ import useFormData from "../../hooks/useFormData";
 import ToastsInput from "../../common/ToastsInput";
 import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
+import api from "../../utils/api";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -30,6 +31,8 @@ export default function NewPolicyPage() {
   const [manualPremiumCheck, setManualPremiumCheck] = useState(false);
   const [manualClaimCheck, setManualClaimCheck] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   return (
     <>
       <DocTitle title="New Policy" />
@@ -39,6 +42,7 @@ export default function NewPolicyPage() {
           <DataForm
             className="flex-1 flex flex-col"
             callback={(data) => {
+              setLoading(true);
               let req: Record<string, any> = { ...data };
               req["tags"] = tags;
               req["premiumFuncArgs"] = premiumFuncArgsSetter;
@@ -47,7 +51,41 @@ export default function NewPolicyPage() {
                 const { premiumFuncArgs, ...r } = req;
                 req = { ...r };
               }
-              console.log(req);
+
+              (req.claimFuncArgs as Args).forEach((arg, i) => {
+                const { typeName, ...rest } = arg;
+                req.claimFuncArgs[i] = rest;
+                console.log(req.claimFuncArgs);
+              });
+
+              (req.premiumFuncArgs as Args).forEach((arg, i) => {
+                const { typeName, ...rest } = arg;
+                req.premiumFuncArgs[i] = rest;
+              });
+
+              
+              api.policy
+                .createNewPolicy({
+                  insuranceContractAddress: "0xfnkf",
+                  name: req.name,
+                  description: req.description,
+                  category: req.category,
+                  minimumClaim: req.minimumClaim,
+                  maximumClaim: req.maximumClaim,
+                  minimumDuration: req.minimumDuration,
+                  maximumDuration: req.maximumDuration,
+                  claimFunction: req.claimFunc,
+                  claimFuncDescription: req.claimFuncDescription,
+                  claimFunctionArguments: req.claimFuncArgs,
+                  premiumFunction: req.premiumFunc,
+                  premiumFuncDescription: req.premiumFuncDescription,
+                  premiumFunctionArguments: req.premiumFuncArgs,
+                  tags: req.tags,
+                  intialStake: req.intialStake,
+                })
+                .finally(() => {
+                  setLoading(false);
+                });
             }}
           >
             <h1 className="font-semibold text-xl">Policy Settings</h1>
@@ -287,7 +325,8 @@ export default function NewPolicyPage() {
             <div className="mt-2">
               <button
                 type="submit"
-                className="bg-primary py-2 px-6 rounded-md text-back font-medium"
+                className="bg-primary py-2 px-6 rounded-md text-back font-medium disabled:cursor-progress disabled:opacity-60 disabled:animate-pulse"
+                disabled={loading}
               >
                 Save
               </button>
