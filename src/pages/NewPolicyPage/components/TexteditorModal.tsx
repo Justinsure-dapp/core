@@ -34,6 +34,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
   return (
     <div className="bg-background p-5 rounded-md w-[50vw] flex flex-col gap-y-4 border border-mute/40">
       <textarea
+        required
         className="bg-transparent border rounded-md p-2 resize-none h-[50vh] border-border"
         defaultValue={props.defaultValue}
         ref={editorRef}
@@ -43,6 +44,10 @@ export default function TexteditorModal(props: TexteditorModalProps) {
           type="button"
           className="flex-1 bg-front text-back rounded-md py-2 font-medium"
           onClick={() => {
+            if (!editorRef.current.checkValidity()) {
+              alert("Please add a function")
+              return;
+            }
             const f = extractPythonFunction(editorRef.current.value);
             if (!f) {
               alert("Invalid Function");

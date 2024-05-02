@@ -8,13 +8,13 @@ import { twMerge } from "tailwind-merge";
 
 export default function ToastsInput(props: {
   className?: string;
-  setter?: React.Dispatch<React.SetStateAction<string[]>>
+  setter?: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
-  const [res, setRes] = useState<string[]>([])
+  const [res, setRes] = useState<string[]>([]);
 
-  useEffect(()=>{
-    props.setter && props.setter(res)
-  },[res])
+  useEffect(() => {
+    props.setter && props.setter(res);
+  }, [res]);
 
   const inpRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
