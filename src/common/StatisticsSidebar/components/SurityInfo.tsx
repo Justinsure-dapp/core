@@ -8,7 +8,7 @@ export default function SurityInfo() {
   useEffect(() => {
     setInterval(() => {
       setSeed(Date.now());
-    }, 100);
+    }, 500);
   }, []);
 
   return (

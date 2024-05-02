@@ -13,6 +13,7 @@ import PolicyPage from "./PolicyPage";
 import AccountPage from "./AccountPage";
 import SettingsPage from "./SettingsPage";
 import NewMarketerPage from "./NewMarketerPage";
+import Tester from "./Tester";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,8 @@ const router = createBrowserRouter(
         <Route path="policies/:id" element={<PolicyPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="new-marketer" element={<NewMarketerPage />} />
+
+        <Route path="test" element={<Tester />} />
 
         <Route path="*" element={<ErrorPage />} />
       </Route>

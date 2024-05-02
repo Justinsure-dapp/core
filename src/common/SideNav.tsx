@@ -34,8 +34,6 @@ export default function Navbar() {
 
   const { user } = useWeb3();
 
-  console.log(user);
-
   return (
     <nav className="flex flex-col p-6 border-r border-border">
       <div
