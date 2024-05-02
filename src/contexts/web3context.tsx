@@ -23,6 +23,7 @@ import type { Adapter } from "@tronweb3/tronwallet-abstract-adapter";
 import api, { clearAddress, setAddress } from "../utils/api";
 import useModal from "../hooks/useModal";
 import { User } from "../types";
+import surityContract from "../contracts/surity";
 
 interface Web3ContextType {
   adapters: (
@@ -36,6 +37,8 @@ interface Web3ContextType {
   account?: string;
   network?: Network;
   user: User | null;
+  tronWeb: any;
+  surity: any;
 }
 
 const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);
@@ -44,6 +47,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = useState("");
   const [user, setUser] = useState<User | null>(null);
   const [network, setNetwork] = useState<Network>();
+  const [surity, setSurity] = useState<any>();
 
   const modal = useModal();
 
@@ -93,8 +97,20 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     ];
   }, []);
 
+  const tron = window.tron as any;
+  const tronWeb = tron.tronWeb;
+
+  async function loadContracts() {
+    let surityInstance = await tronWeb.contract(
+      surityContract.abi,
+      surityContract.address
+    );
+    setSurity(surityInstance);
+  }
+
   useEffect(() => {
     adapter.address && setAccount(adapter.address.trim());
+    loadContracts();
 
     adapter.on("connect", () => {
       adapter.address && setAccount(adapter.address.trim());
@@ -111,6 +127,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     adapter.on("disconnect", () => {
       // location.reload();
     });
+
     return () => {
       // remove all listeners when components is destroyed
       adapter.removeAllListeners();
@@ -134,22 +151,25 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   }
 
   function onConnect() {
+    loadContracts();
     pingServerWithAddress();
     if (account) setAddress(account);
     if (!account) clearAddress();
   }
   async function onAccountsChanged() {
+    loadContracts();
     pingServerWithAddress();
     if (account) setAddress(account);
     if (!account) clearAddress();
   }
   async function onAdapterChanged(adapter: Adapter | null) {
+    loadContracts();
     pingServerWithAddress();
     if (account) setAddress(account);
     if (!account) clearAddress();
   }
 
-  const value = { adapters, account, network, user };
+  const value = { adapters, account, network, user, tronWeb, surity };
 
   return (
     <WalletProvider
