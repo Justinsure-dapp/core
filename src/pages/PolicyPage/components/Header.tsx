@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import StarRating from "../../../common/StarRating";
 import ClaimInfo from "./ClaimsInfo";
+import useModal from "../../../hooks/useModal";
+import StakeModal from "./StakeModal";
 
-export default function Header(props: {id: string | undefined}) {
+export default function Header(props: { id: string | undefined }) {
+  const modal = useModal();
   return (
     <div className="flex w-full gap-x-4 justify-between border-b pt-4 pb-8 border-front/20">
       <div className="flex gap-x-4">
@@ -10,7 +13,7 @@ export default function Header(props: {id: string | undefined}) {
           src="https://i.pinimg.com/736x/26/7f/6c/267f6c91848164e2dd570d67fab5cb96.jpg"
           className="w-[4vw] rounded-full aspect-square h-max"
         />
-        <div className="flex flex-col gap-y-1">
+        <div className="flex flex-col gap-y-2">
           <div className="flex justify-between gap-y-2">
             <div className="flex flex-col gap-y-2">
               <div className="flex items-center gap-x-2">
@@ -23,7 +26,20 @@ export default function Header(props: {id: string | undefined}) {
                 <p className="text-xs">(5 reviews) {" "} (1 expert rating)</p>
               </div>
             </div>
-            <Link to={`/buy-policy/${props.id}`} className="bg-primary h-max px-4 py-2 rounded-lg text-back font-semibold hover:scale-110 duration-300 ease-out">Buy Policy</Link>
+            <div className="flex gap-x-4">
+              <Link
+                to={`/buy-policy/${props.id}`}
+                className="bg-primary h-max px-4 py-2 rounded-lg text-back font-semibold hover:scale-105 duration-300 ease-out"
+              >
+                Buy Policy
+              </Link>
+              <button
+                onClick={() => modal.show(<StakeModal />)}
+                className="border-primary text-primary border h-max px-6 py-2 rounded-lg font-semibold hover:scale-105 duration-300 ease-out"
+              >
+                Stake
+              </button>
+            </div>
           </div>
           <div className="text-front/80">
             Protect your vehicle and your peace of mind with our comprehensive
