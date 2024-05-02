@@ -130,7 +130,7 @@ export default function PoliciesPage() {
                 ))}
               </div> */}
               <figure role="separator" className="flex-1" />
-              <button className="self-end bg-primary/90 text-back font-bold py-1 px-3 rounded-3xl hover:-translate-y-1 duration-200 ease-in text-sm">
+              <button className="self-end bg-primary/90 text-back font-bold py-1 px-3 rounded-md hover:-translate-y-1 duration-200 ease-in text-sm">
                 Buy Now
               </button>
             </Link>

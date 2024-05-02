@@ -16,7 +16,7 @@ export default function Functions() {
     else:
       return n * factorial(n-1)`}
           </pre>
-          <button className="text-sm self-end px-2 rounded-xl font-bold mt-4 bg-primary text-back w-max">
+          <button className="text-sm self-end px-3 py-1 rounded-md font-bold mt-4 bg-primary text-back w-max">
             Read More
           </button>
         </div>
@@ -48,7 +48,7 @@ bubble_sort(my_list)
 print("Sorted array is:", my_list)
 `}
             </pre>
-          <button className="text-sm self-end px-2 rounded-xl font-bold mt-4 bg-primary text-back w-max">
+          <button className="text-sm self-end px-3 py-1 rounded-md font-bold mt-4 bg-primary text-back w-max">
             Read More
           </button>
         </div>

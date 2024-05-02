@@ -23,7 +23,7 @@ export default function Header(props: {id: string | undefined}) {
                 <p className="text-xs">(5 reviews) {" "} (1 expert rating)</p>
               </div>
             </div>
-            <Link to={`/buy-policy/${props.id}`} className="bg-primary h-max px-4 py-2 rounded-3xl text-back font-semibold hover:scale-110 duration-300 ease-out">Buy Policy</Link>
+            <Link to={`/buy-policy/${props.id}`} className="bg-primary h-max px-4 py-2 rounded-lg text-back font-semibold hover:scale-110 duration-300 ease-out">Buy Policy</Link>
           </div>
           <div className="text-front/80">
             Protect your vehicle and your peace of mind with our comprehensive
