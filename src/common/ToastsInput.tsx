@@ -1,8 +1,20 @@
-import React, { HTMLInputTypeAttribute, useRef, useState } from "react";
+import React, {
+  HTMLInputTypeAttribute,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { twMerge } from "tailwind-merge";
 
-export default function ToastsInput(props: { className?: string }) {
-  const [res, setRes] = useState<Array<string>>([]);
+export default function ToastsInput(props: {
+  className?: string;
+  setter?: React.Dispatch<React.SetStateAction<string[]>>
+}) {
+  const [res, setRes] = useState<string[]>([])
+
+  useEffect(()=>{
+    props.setter && props.setter(res)
+  },[res])
 
   const inpRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
@@ -25,6 +37,7 @@ export default function ToastsInput(props: { className?: string }) {
         ref={inpRef}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === ",") {
+            e.stopPropagation();
             if (inpRef.current && inpRef.current.value)
               setRes((p) => [...p, inpRef.current.value]);
             setTimeout(() => {

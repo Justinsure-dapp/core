@@ -165,3 +165,38 @@ export function rgbToHex(rgb: RGBColor): string {
   const [r, g, b] = rgb;
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+
+
+export function closestTimeUnit(milliseconds: number) {
+  var seconds = milliseconds / 1000;
+
+  var hours = seconds / 3600;
+  if (hours < 1) {
+    return milliseconds + " milliseconds";
+  } else if (hours < 24) {
+    return Math.floor(hours) + " hours";
+  }
+
+  var days = hours / 24;
+  if (days < 30) {
+    var remainingHours = hours % 24;
+    if (remainingHours > 0) {
+      return (
+        Math.floor(days) +
+        " days and " +
+        Math.floor(remainingHours) +
+        " hours"
+      );
+    } else {
+      return Math.floor(days) + " days";
+    }
+  }
+
+  var months = days / 30;
+  if (months < 12) {
+    return Math.floor(months) + " months";
+  }
+
+  var years = months / 12;
+  return Math.floor(years) + " years";
+}
