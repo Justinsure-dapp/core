@@ -1,10 +1,13 @@
-import React, { createContext, useContext } from "react";
-import { WagmiConfig } from "wagmi";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { WagmiConfig, useAccount, useDisconnect, useSignMessage } from "wagmi";
 import wagmiConfig from "../config/wagmi";
 import getContracts from "../contracts";
+import { User } from "../types";
+import api from "../utils/api";
+import useModal from "../hooks/useModal";
 
 interface Web3ContextType {
-  contracts: ReturnType<typeof getContracts>;
+  user: User | null;
 }
 
 const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);
@@ -20,11 +23,32 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 }
 
 function Wrapper({ children }: { children: React.ReactNode }) {
-  const contracts = getContracts();
+  const [user, setUser] = useState<User | null>(null);
 
-  const value = {
-    contracts,
-  };
+  const { address } = useAccount();
+  const modal = useModal();
+
+  async function pingServerWithAddress() {
+    if (!address) return;
+    if (user && user.address == address) return;
+    setUser(null);
+
+    const { exists: userExists } = await api.user.check(address);
+
+    if (userExists) {
+      const { user } = await api.user.get(address);
+      setUser(user);
+    } else {
+      const nonce = await api.user.requestNonce(address);
+      modal.show(<VerificationModal nonce={nonce} />);
+    }
+  }
+
+  useEffect(() => {
+    pingServerWithAddress();
+  }, [address]);
+
+  const value = { user };
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;
 }
@@ -33,253 +57,51 @@ export default function useWeb3() {
   return useContext(Web3Context);
 }
 
-// import { Network } from "@tronweb3/tronwallet-abstract-adapter";
-// import {
-//   WalletProvider,
-//   useWallet,
-// } from "@tronweb3/tronwallet-adapter-react-hooks";
-// import { WalletModalProvider } from "@tronweb3/tronwallet-adapter-react-ui";
-// import {
-//   BitKeepAdapter,
-//   LedgerAdapter,
-//   OkxWalletAdapter,
-//   TokenPocketAdapter,
-//   TronLinkAdapter,
-//   WalletConnectAdapter,
-// } from "@tronweb3/tronwallet-adapters";
-// import React, {
-//   createContext,
-//   useContext,
-//   useEffect,
-//   useMemo,
-//   useState,
-// } from "react";
-// import type { Adapter } from "@tronweb3/tronwallet-abstract-adapter";
-// import api, { clearAddress, setAddress } from "../utils/api";
-// import useModal from "../hooks/useModal";
-// import { User } from "../types";
-// import surityContract from "../contracts/surity";
+function VerificationModal(props: { nonce: string }) {
+  const { disconnect } = useDisconnect();
+  const { data: signed, signMessageAsync } = useSignMessage();
+  const { address } = useAccount();
 
-// interface Web3ContextType {
-//   adapters: (
-//     | TronLinkAdapter
-//     | WalletConnectAdapter
-//     | LedgerAdapter
-//     | TokenPocketAdapter
-//     | BitKeepAdapter
-//     | OkxWalletAdapter
-//   )[];
-//   account?: string;
-//   network?: Network;
-//   user: User | null;
-//   tronWeb: any;
-//   surity: any;
-//   FUSD: any;
-// }
+  const modal = useModal();
 
-// const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);
+  const [loading, setLoading] = useState(false);
 
-// export function Web3Provider({ children }: { children: React.ReactNode }) {
-//   const [account, setAccount] = useState("");
-//   const [user, setUser] = useState<User | null>(null);
-//   const [network, setNetwork] = useState<Network>();
-//   const [surity, setSurity] = useState<any>();
-//   const [FUSD, setFUSD] = useState<any>();
+  return (
+    <div className="bg-background p-4 rounded-md flex flex-col text-center gap-y-2">
+      <h1 className="font-semibold text-primary">
+        We need you to sign a nonce
+      </h1>
+      <p className="text-sm text-mute">
+        this is done for registration and user verification purposes
+      </p>
 
-//   const modal = useModal();
-
-//   const adapter = useMemo(() => new TronLinkAdapter(), []);
-
-//   const adapters = useMemo(function () {
-//     const walletConnect1 = new WalletConnectAdapter({
-//       network: "Nile",
-//       options: {
-//         relayUrl: "wss://relay.walletconnect.com",
-//         // example WC app project ID
-//         projectId: "5fc507d8fc7ae913fff0b8071c7df231",
-//         metadata: {
-//           name: "Surity",
-//           description: "Surity WalletConnect",
-//           url: "https://your-dapp-url.org/",
-//           icons: ["https://your-dapp-url.org/mainLogo.svg"],
-//         },
-//       },
-//       web3ModalConfig: {
-//         themeMode: "dark",
-//         themeVariables: {
-//           "--w3m-z-index": "1000",
-//         },
-//         // explorerRecommendedWalletIds: 'NONE',
-//         enableExplorer: true,
-//         explorerRecommendedWalletIds: [
-//           "225affb176778569276e484e1b92637ad061b01e13a048b35a9d280c3b58970f",
-//           "1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369",
-//           "4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0",
-//         ],
-//       },
-//     });
-//     const ledger = new LedgerAdapter({
-//       accountNumber: 2,
-//     });
-//     const tokenPocket = new TokenPocketAdapter();
-//     const bitKeep = new BitKeepAdapter();
-//     const okxWalletAdapter = new OkxWalletAdapter();
-//     return [
-//       adapter,
-//       walletConnect1,
-//       ledger,
-//       tokenPocket,
-//       bitKeep,
-//       okxWalletAdapter,
-//     ];
-//   }, []);
-
-//   const tron = window.tron as any;
-//   const tronWeb = tron.tronWeb;
-
-//   async function loadContracts() {
-//     const surityInstance = await tronWeb.contract(
-//       surityContract.abi,
-//       surityContract.address
-//     );
-//     setSurity(surityInstance);
-
-//     const fusdInstance = await tronWeb.contract(fusd.abi, fusd.address);
-//     const fusdDecimals = await fusdInstance.decimals.call().call();
-//     fusdInstance.value = function (val: number) {
-//       console.log(val, fusdDecimals);
-//       return BigInt(val) * BigInt(Math.pow(10, fusdDecimals));
-//     };
-//     setFUSD(fusdInstance);
-//   }
-
-//   useEffect(() => {
-//     adapter.address && setAccount(adapter.address.trim());
-//     loadContracts();
-
-//     adapter.on("connect", () => {
-//       adapter.address && setAccount(adapter.address.trim());
-//     });
-
-//     adapter.on("accountsChanged", (data: string) => {
-//       setAccount(data.trim());
-//     });
-
-//     adapter.on("chainChanged", (data) => {
-//       setNetwork(data as Network);
-//     });
-
-//     adapter.on("disconnect", () => {
-//       // location.reload();
-//     });
-
-//     return () => {
-//       // remove all listeners when components is destroyed
-//       adapter.removeAllListeners();
-//     };
-//   }, []);
-
-//   async function pingServerWithAddress() {
-//     if (!account) return;
-//     if (user && user.address == account) return;
-//     setUser(null);
-
-//     const { exists: userExists } = await api.user.check(account);
-
-//     if (userExists) {
-//       const userData = await api.user.get(account);
-//       setUser(userData.user);
-//     } else {
-//       const nonce = await api.user.requestNonce(account);
-//       modal.show(<VerificationModal nonce={nonce} />);
-//     }
-//   }
-
-//   function onConnect() {
-//     loadContracts();
-//     pingServerWithAddress();
-//     if (account) setAddress(account);
-//     if (!account) clearAddress();
-//   }
-//   async function onAccountsChanged() {
-//     loadContracts();
-//     pingServerWithAddress();
-//     if (account) setAddress(account);
-//     if (!account) clearAddress();
-//   }
-//   async function onAdapterChanged(adapter: Adapter | null) {
-//     loadContracts();
-//     pingServerWithAddress();
-//     if (account) setAddress(account);
-//     if (!account) clearAddress();
-//   }
-
-//   const value = { adapters, account, network, user, tronWeb, surity, FUSD };
-
-//   return (
-//     <WalletProvider
-//       onConnect={onConnect}
-//       onAccountsChanged={onAccountsChanged}
-//       onAdapterChanged={onAdapterChanged}
-//       adapters={adapters}
-//       autoConnect
-//     >
-//       <WalletModalProvider>
-//         <Web3Context.Provider value={value}>{children}</Web3Context.Provider>
-//       </WalletModalProvider>
-//     </WalletProvider>
-//   );
-// }
-
-// export default function useWeb3() {
-//   return useContext(Web3Context);
-// }
-
-// function VerificationModal(props: { nonce: string }) {
-//   const { disconnect, address, signMessage } = useWallet();
-
-//   const modal = useModal();
-
-//   const [loading, setLoading] = useState(false);
-
-//   return (
-//     <div className="bg-background p-4 rounded-md flex flex-col text-center gap-y-2">
-//       <h1 className="font-semibold text-primary">
-//         We need you to sign a nonce
-//       </h1>
-//       <p className="text-sm text-mute">
-//         this is done for registration and user verification purposes
-//       </p>
-
-//       <div className="flex gap-x-5 px-[10%]">
-//         <button
-//           disabled={loading}
-//           className="flex-1 bg-foreground p-1 font-medium rounded disabled:animate-pulse disabled:opacity-60 disabled:cursor-not-allowed"
-//           onClick={async () => {
-//             setLoading(true);
-//             try {
-//               const signedMessage = await signMessage(props.nonce);
-//               if (address && signedMessage) {
-//                 await api.user.verify(address, signedMessage);
-//                 location.reload();
-//               }
-//             } finally {
-//               setLoading(false);
-//             }
-//           }}
-//         >
-//           Sign
-//         </button>
-//         <button
-//           className="flex-1 border border-front p-1 font-medium rounded"
-//           onClick={() => {
-//             disconnect();
-//             modal.hide();
-//           }}
-//         >
-//           Disconnect
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
+      <div className="flex gap-x-5 px-[10%]">
+        <button
+          disabled={loading}
+          className="flex-1 bg-foreground p-1 font-medium rounded disabled:animate-pulse disabled:opacity-60 disabled:cursor-progress"
+          onClick={() => {
+            setLoading(true);
+            signMessageAsync({ message: props.nonce })
+              .then(async (signed) => {
+                address && signed && (await api.user.verify(address, signed));
+                location.reload();
+              })
+              .finally(() => setLoading(false));
+          }}
+        >
+          Sign
+        </button>
+        <button
+          className="flex-1 border border-front p-1 font-medium rounded disabled:animate-pulse disabled:opacity-60 disabled:cursor-not-allowed"
+          onClick={() => {
+            disconnect();
+            modal.hide();
+          }}
+          disabled={loading}
+        >
+          Disconnect
+        </button>
+      </div>
+    </div>
+  );
+}

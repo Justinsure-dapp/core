@@ -23,8 +23,6 @@ export default function NewPolicyPage() {
 
   const modal = useModal();
 
-  const { surity, FUSD } = useWeb3();
-
   const [premiumFunc, setPremiumFunc] = useState("");
   const [premiumFuncArgs, setPremiumFuncArgs] = useState<Array<string>>([]);
   const [claimFunc, setClaimFunc] = useState("");

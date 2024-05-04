@@ -1,38 +1,42 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DocTitle from "../../common/DocTitle";
 import { twMerge } from "tailwind-merge";
 import api from "../../utils/api";
-import { useWallet } from "@tronweb3/tronwallet-adapter-react-hooks";
 import DataForm from "../../common/DataForm";
+import { useSignMessage } from "wagmi";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
   const [logo, setLogo] = useState("");
 
-  const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
+  const { signMessage, data: signed } = useSignMessage();
+  const [data, setData] = useState({ name: "", imageUrl: "" });
 
-  const { signMessage } = useWallet();
+  useEffect(() => {
+    if (data.name && data.imageUrl && signed) {
+      api.user
+        .becomeMarketer(data.name, data.imageUrl, signed)
+        .catch((err) => alert(err))
+        .then(() => {
+          location.replace("/");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [signed]);
 
   return (
     <>
       <DocTitle title="Register to sell Policies" />
 
       <DataForm
-        callback={async (data) => {
+        callback={(formData) => {
           setLoading(true);
-          const signed = await signMessage(JSON.stringify({ ...data }));
-          api.user
-            .becomeMarketer(data.name, data.imageUrl, signed)
-            .catch((err) => alert(err))
-            .then(() => {
-              location.replace("/");
-            })
-            .finally(() => {
-              setLoading(false);
-            });
+          signMessage({ message: JSON.stringify({ ...formData }) });
+          setData({ name: formData.name, imageUrl: formData.imageUrl });
         }}
         className="flex flex-col gap-y-4 p-page"
-        ref={formRef}
       >
         <div className="flex mt-6 gap-x-16">
           <div className="flex flex-col gap-y-6 basis-3/4">

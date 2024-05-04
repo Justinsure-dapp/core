@@ -884,28 +884,6 @@
     "@tanstack/query-core" "4.36.1"
     use-sync-external-store "^1.2.0"
 
-"@tronweb3/tronwallet-abstract-adapter@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@tronweb3/tronwallet-abstract-adapter/-/tronwallet-abstract-adapter-1.1.6.tgz#1aa844bfc7b7e79c08f64e39b518269b7ff93c55"
-  integrity sha512-3T2ojxzSKIAw4ucEcg4p5Nwr4lN1g1Om8s1ty77DOHIa0oS1YDvZmlRQekptWEppKOoRDYFWST1ERCvt2Xxm0A==
-  dependencies:
-    eventemitter3 "^4.0.0"
-
-"@tronweb3/tronwallet-adapter-react-hooks@^1.1.7":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@tronweb3/tronwallet-adapter-react-hooks/-/tronwallet-adapter-react-hooks-1.1.7.tgz#69d776f40363b21924778a7c9e3014e8751f5c10"
-  integrity sha512-nW0FnS0N6523EjNYx8WGmob22bEG6V+N3vZa+EaaJLJ1toKJBDPpktFaldSq14czc6Q8N1banUmftUl2/RyASA==
-  dependencies:
-    "@tronweb3/tronwallet-abstract-adapter" "^1.1.6"
-    "@tronweb3/tronwallet-adapter-tronlink" "^1.1.9"
-
-"@tronweb3/tronwallet-adapter-tronlink@^1.1.9":
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/@tronweb3/tronwallet-adapter-tronlink/-/tronwallet-adapter-tronlink-1.1.9.tgz#a8a6a880f629f1ab85891ccad9d83547caff45f8"
-  integrity sha512-fIDKt822OmESLVeYCG9XbXGI34lM/79/jzJ3rd81xOZD8y7V0/DuDLdg5gFiCH4g9OIutKslDXiwoMpQry9O3w==
-  dependencies:
-    "@tronweb3/tronwallet-abstract-adapter" "^1.1.6"
-
 "@types/axios@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
@@ -2013,7 +1991,7 @@ ethers@^6.12.0:
     tslib "2.4.0"
     ws "8.5.0"
 
-eventemitter3@^4.0.0, eventemitter3@^4.0.7:
+eventemitter3@^4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==

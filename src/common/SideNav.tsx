@@ -32,7 +32,7 @@ export default function Navbar() {
     { title: "Accessibility", link: "/accessibility", icon: "accessibility" },
   ];
 
-  const { user, surity } = useWeb3();
+  const { user } = useWeb3();
 
   return (
     <nav className="flex flex-col p-6 border-r border-border">

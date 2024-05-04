@@ -9,8 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.7",
-    "@types/axios": "^0.14.0",
     "abitype": "^0.10.3",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
@@ -25,6 +23,7 @@
     "wagmi": "^1.4.12"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/react-helmet": "^6.1.11",
