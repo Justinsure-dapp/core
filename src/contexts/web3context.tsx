@@ -3,7 +3,7 @@ import { WagmiConfig, useAccount, useDisconnect, useSignMessage } from "wagmi";
 import wagmiConfig from "../config/wagmi";
 import getContracts from "../contracts";
 import { User } from "../types";
-import api from "../utils/api";
+import api, { clearAddress, setAddress } from "../utils/api";
 import useModal from "../hooks/useModal";
 
 interface Web3ContextType {
@@ -46,6 +46,8 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     pingServerWithAddress();
+    if (address) setAddress(address);
+    if (!address) clearAddress();
   }, [address]);
 
   const value = { user };
@@ -59,7 +61,7 @@ export default function useWeb3() {
 
 function VerificationModal(props: { nonce: string }) {
   const { disconnect } = useDisconnect();
-  const { data: signed, signMessageAsync } = useSignMessage();
+  const { signMessageAsync } = useSignMessage();
   const { address } = useAccount();
 
   const modal = useModal();
@@ -82,9 +84,13 @@ function VerificationModal(props: { nonce: string }) {
           onClick={() => {
             setLoading(true);
             signMessageAsync({ message: props.nonce })
-              .then(async (signed) => {
-                address && signed && (await api.user.verify(address, signed));
-                location.reload();
+              .then((signed) => {
+                address &&
+                  signed &&
+                  api.user.verify(address, signed).then((v) => {
+                    v && location.reload();
+                    !v && alert("Failed to verify");
+                  });
               })
               .finally(() => setLoading(false));
           }}
