@@ -2,6 +2,8 @@ import { twMerge } from "tailwind-merge";
 import DocTitle from "../../common/DocTitle";
 import PieChart from "../../common/PieChart";
 import { useState } from "react";
+import useModal from "../../hooks/useModal";
+import AutomatedInvestingModal from "./components/AutomatedInvestingModal";
 
 export default function DashboardPage() {
   const [expanded, setExpanded] = useState(Array(policies.length).fill(false));
@@ -10,6 +12,9 @@ export default function DashboardPage() {
     newExpanded[index] = !newExpanded[index];
     setExpanded(newExpanded);
   };
+
+  const modal = useModal();
+
   return (
     <section className="p-page py-4">
       <DocTitle title="Dashboard" />
@@ -24,7 +29,9 @@ export default function DashboardPage() {
             <div className="flex gap-x-4 flex-wrap gap-y-4">
               <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
                 <div className="flex flex-col">
-                  <h1 className="text-xl font-bold font-mono">{policy.policyHolder}</h1>
+                  <h1 className="text-xl font-bold font-mono">
+                    {policy.policyHolder}
+                  </h1>
                   <p className="text-front/80 flex items-center text-sm">
                     Policy Holders &#160;{" "}
                     <span className="text-green-500">+21.4%</span>
@@ -36,7 +43,9 @@ export default function DashboardPage() {
               </div>
               <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
                 <div className="flex flex-col">
-                  <h1 className="text-xl font-bold font-mono">{policy.stakeHolder}</h1>
+                  <h1 className="text-xl font-bold font-mono">
+                    {policy.stakeHolder}
+                  </h1>
                   <p className="text-front/80 text-sm">
                     Stake Holders &#160;{" "}
                     <span className="text-red-500">-12.43%</span>
@@ -48,7 +57,9 @@ export default function DashboardPage() {
               </div>
               <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
                 <div className="flex flex-col">
-                  <h1 className="text-xl font-bold font-mono">$ {policy.MoneyInPool}</h1>
+                  <h1 className="text-xl font-bold font-mono">
+                    $ {policy.MoneyInPool}
+                  </h1>
                   <p className="text-front/80 text-sm">Money in Pool &#160; </p>
                 </div>
                 <div className="p-2 bg-front/20 rounded-xl">
@@ -95,7 +106,10 @@ export default function DashboardPage() {
                       ))}
                     </div>
                   </div>
-                  <button className="self-end bg-primary w-max font-bold text-back px-3 py-2 rounded-lg">
+                  <button
+                    className="self-end bg-primary w-max font-bold text-back px-3 py-2 rounded-lg"
+                    onClick={() => modal.show(<AutomatedInvestingModal />)}
+                  >
                     Edit Automated Investing
                   </button>
                 </div>
