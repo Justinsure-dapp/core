@@ -9,19 +9,71 @@ const twInputStyle =
 
 export default function AutomatedInvestingModal() {
   const modal = useModal();
+  const [mappedOptions, setMappedOptions] = useState([
+    <InitialMappedOption key={1} />,
+  ]);
+
+  const addTriggerEvent = () => {
+    const newIndex = mappedOptions.length + 1;
+    const newMappedOption = (
+      <div
+        key={newIndex}
+        className="relative bg-front/5 border border-front/20 p-4 rounded-lg"
+      >
+        <button
+          className="absolute top-2 right-2"
+          onClick={() => removeTriggerEvent(newIndex)}
+        >
+          <Icon icon="close" className="text-[1.2rem]" />
+        </button>{" "}
+        <Heading className="text-lg">Trigger Event {newIndex}</Heading>
+        <MappedOptions options={options} />
+      </div>
+    );
+    setMappedOptions([...mappedOptions, newMappedOption]);
+  };
+
+  const removeTriggerEvent = (indexToRemove: number) => {
+    const filteredOptions = mappedOptions.filter(
+      (option, index) => index + 1 !== indexToRemove
+    );
+    setMappedOptions(filteredOptions);
+  };
+
   return (
-    <div className="bg-background p-8 border border-front/60 rounded-xl flex flex-col gap-y-4 relative">
+    <div className="bg-background px-6 pt-6 gap-y-4 border border-front/60 rounded-xl flex flex-col max-h-[70vh] relative overflow-scroll scrollbar-primary">
       <button
         className="absolute right-4 top-4 border p-1 rounded-full text-red-500 border-red-500"
         onClick={() => modal.hide()}
       >
         <Icon icon="close" className="text-[1.5rem]" />
       </button>
-      <h1 className="text-xl font-bold">Automate Investing</h1>
-      <MappedOptions options={options} />
+      <h1 className="text-2xl font-bold">Automate Investing</h1>
+      {mappedOptions}
+      <button
+        className="flex items-center bg-front/5 w-max gap-x-3 px-3 py-3 rounded-lg border border-front/20 cursor-pointer hover:bg-front/10 o"
+        onClick={addTriggerEvent}
+      >
+        Add another Trigger event{" "}
+        <span className="border rounded-full p-1">
+          <Icon icon="add" />
+        </span>{" "}
+      </button>
       <button className="self-end bg-primary text-lg font-bold text-back py-1 px-3 rounded-lg">
         Submit
       </button>
+    </div>
+  );
+}
+
+function InitialMappedOption() {
+  return (
+    <div
+      key={1}
+      className="bg-front/5 border border-front/20 px-4 py-2 rounded-lg"
+    >
+      <Heading className="text-lg">Trigger Event 1</Heading>
+      <MappedOptions options={options} />
     </div>
   );
 }
@@ -32,44 +84,46 @@ function MappedOptions(props: { options: Array<Option> }) {
   const furtherOptions = options[selected].options;
 
   return (
-    <div className="flex flex-col gap-y-6">
-      <div className="flex gap-x-2 items-end">
-        <div>
-          <select
-            className={twMerge("", twInputStyle)}
-            defaultValue={options[0].value || options[0].title}
-            onChange={(e) => {
-              options.forEach(
-                (o, i) =>
-                  (o.value || o.title) === e.currentTarget.value &&
-                  setSelected(i)
-              );
-            }}
-          >
-            {options.map((option, key) => (
-              <option key={key} value={option.value || option.title}>
-                {option.title}
-              </option>
+    <div className="flex flex-col">
+      <div className="flex flex-col gap-y-2">
+        <div className="flex gap-x-2 items-end">
+          <div>
+            <select
+              className={twMerge("", twInputStyle)}
+              defaultValue={options[0].value || options[0].title}
+              onChange={(e) => {
+                options.forEach(
+                  (o, i) =>
+                    (o.value || o.title) === e.currentTarget.value &&
+                    setSelected(i)
+                );
+              }}
+            >
+              {options.map((option, key) => (
+                <option key={key} value={option.value || option.title}>
+                  {option.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex gap-x-2">
+            {options[selected].customElements?.map((ele, key) => (
+              <div key={key}>{ele}</div>
             ))}
-          </select>
+          </div>
+
+          <div className="flex gap-x-2">
+            {options[selected].additionalInputs?.map((inp, key) => (
+              <input key={key} {...inp} className={twMerge("", twInputStyle)} />
+            ))}
+          </div>
         </div>
 
-        <div className="flex gap-x-2">
-          {options[selected].customElements?.map((ele, key) => (
-            <div key={key}>{ele}</div>
-          ))}
-        </div>
-
-        <div className="flex gap-x-2">
-          {options[selected].additionalInputs?.map((inp, key) => (
-            <input key={key} {...inp} className={twMerge("", twInputStyle)} />
-          ))}
-        </div>
+        {options[selected].info && <p>{options[selected].info}</p>}
       </div>
 
-      {options[selected].info && <p>{options[selected].info}</p>}
-
-      <div className="">
+      <div className="mt-4">
         {furtherOptions?.length && <MappedOptions options={furtherOptions} />}
       </div>
     </div>
@@ -93,10 +147,10 @@ interface Option {
 const options: Array<Option> = [
   {
     title: "Time Duration Passed",
-    info: "Triggers when any amount is received in the pool, whether from Staking or by recieving premium.",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
     options: [
       {
-        title: "Recieved amout greater than",
+        title: "Received amount greater than",
         additionalInputs: [{ type: "number" }],
       },
     ],
@@ -114,42 +168,42 @@ const options: Array<Option> = [
   },
   {
     title: "Received Deposit In Pool through Staking",
-    info: "Triggers when any amount is received in the pool, whether from Staking or by recieving premium.",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
     options: [
       {
-        title: "Recieved amout greater than",
+        title: "Received amount greater than",
         additionalInputs: [{ type: "number" }],
       },
       {
-        title: "Recieved amout in range of",
+        title: "Received amount in range of",
         additionalInputs: [{ type: "number" }, { type: "number" }],
       },
     ],
   },
   {
     title: "Received Deposit In Pool through premium",
-    info: "Triggers when any amount is received in the pool, whether from Staking or by recieving premium.",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
     options: [
       {
-        title: "Recieved amout greater than",
+        title: "Received amount greater than",
         additionalInputs: [{ type: "number" }],
       },
       {
-        title: "Recieved amout in range of",
+        title: "Received amount in range of",
         additionalInputs: [{ type: "number" }, { type: "number" }],
       },
     ],
   },
   {
     title: "Received general deposit In Pool",
-    info: "Triggers when any amount is received in the pool, whether from Staking or by recieving premium.",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
     options: [
       {
-        title: "Recieved amout greater than",
+        title: "Received amount greater than",
         additionalInputs: [{ type: "number" }],
       },
       {
-        title: "Recieved amout in range of",
+        title: "Received amount in range of",
         additionalInputs: [{ type: "number" }, { type: "number" }],
       },
     ],
