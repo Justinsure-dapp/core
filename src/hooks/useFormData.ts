@@ -11,6 +11,8 @@ export default function useFormData(
       flag.current = true;
       const formElement = ref.current;
       formElement.addEventListener("submit", (e) => {
+        e.preventDefault();
+        return;
       });
     }
   }, []);

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import DocTitle from "../../common/DocTitle";
 import { twMerge } from "tailwind-merge";
-import useFormData from "../../hooks/useFormData";
 import api from "../../utils/api";
 import { useWallet } from "@tronweb3/tronwallet-adapter-react-hooks";
+import DataForm from "../../common/DataForm";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
@@ -13,25 +13,27 @@ export default function NewMarketerPage() {
 
   const { signMessage } = useWallet();
 
-  useFormData(formRef, async (data) => {
-    setLoading(true);
-    const signed = await signMessage(JSON.stringify({ ...data }));
-    api.user
-      .becomeMarketer(data.name, data.imageUrl, signed)
-      .catch((err) => alert(err))
-      .then(() => {
-        location.replace("/");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  });
-
   return (
     <>
       <DocTitle title="Register to sell Policies" />
 
-      <form className="flex flex-col gap-y-4 p-page" ref={formRef}>
+      <DataForm
+        callback={async (data) => {
+          setLoading(true);
+          const signed = await signMessage(JSON.stringify({ ...data }));
+          api.user
+            .becomeMarketer(data.name, data.imageUrl, signed)
+            .catch((err) => alert(err))
+            .then(() => {
+              location.replace("/");
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        }}
+        className="flex flex-col gap-y-4 p-page"
+        ref={formRef}
+      >
         <div className="flex mt-6 gap-x-16">
           <div className="flex flex-col gap-y-6 basis-3/4">
             <div className="flex flex-col gap-y-1">
@@ -79,7 +81,7 @@ export default function NewMarketerPage() {
             value="Confirm"
           />
         </div>
-      </form>
+      </DataForm>
     </>
   );
 }

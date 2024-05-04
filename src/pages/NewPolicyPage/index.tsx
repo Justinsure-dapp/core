@@ -13,12 +13,17 @@ import ToastsInput from "../../common/ToastsInput";
 import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import api from "../../utils/api";
+import useWeb3 from "../../contexts/web3context";
+import contracts from "../../contracts";
+import { AbiCoder, keccak256 } from "ethers";
 
 export default function NewPolicyPage() {
   const twInputStyle =
     "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
 
   const modal = useModal();
+
+  const { surity, FUSD } = useWeb3();
 
   const [premiumFunc, setPremiumFunc] = useState("");
   const [premiumFuncArgs, setPremiumFuncArgs] = useState<Array<string>>([]);
@@ -32,6 +37,8 @@ export default function NewPolicyPage() {
   const [manualClaimCheck, setManualClaimCheck] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  const encoder = new AbiCoder();
 
   return (
     <>
@@ -52,6 +59,14 @@ export default function NewPolicyPage() {
                 req = { ...r };
               }
 
+              const digest = keccak256(
+                encoder.encode(
+                  ["string", "string", "string"],
+                  [req.name, req.premiumFunc, req.claimFunc]
+                )
+              );
+              console.log(digest);
+
               (req.claimFuncArgs as Args).forEach((arg, i) => {
                 const { typeName, ...rest } = arg;
                 req.claimFuncArgs[i] = rest;
@@ -63,29 +78,50 @@ export default function NewPolicyPage() {
                 req.premiumFuncArgs[i] = rest;
               });
 
-              
-              api.policy
-                .createNewPolicy({
-                  insuranceContractAddress: "0xfnkf",
-                  name: req.name,
-                  description: req.description,
-                  category: req.category,
-                  minimumClaim: req.minimumClaim,
-                  maximumClaim: req.maximumClaim,
-                  minimumDuration: req.minimumDuration,
-                  maximumDuration: req.maximumDuration,
-                  claimFunction: req.claimFunc,
-                  claimFuncDescription: req.claimFuncDescription,
-                  claimFunctionArguments: req.claimFuncArgs,
-                  premiumFunction: req.premiumFunc,
-                  premiumFuncDescription: req.premiumFuncDescription,
-                  premiumFunctionArguments: req.premiumFuncArgs,
-                  tags: req.tags,
-                  intialStake: req.intialStake,
+              FUSD.approve(
+                contracts.surity.address,
+                FUSD.value(req.initialStake)
+              )
+                .send()
+                .then(() => {
+                  surity
+                    .createNewPolicy(
+                      req.initialStake,
+                      req.name,
+                      req.claimFunc,
+                      req.premiumFunc
+                    )
+                    .send()
+                    .then((addr: any) => {
+                      console.log(addr);
+                    });
                 })
                 .finally(() => {
                   setLoading(false);
                 });
+
+              // api.policy
+              //   .createNewPolicy({
+              //     insuranceContractAddress: "0xfnkf",
+              //     name: req.name,
+              //     description: req.description,
+              //     category: req.category,
+              //     minimumClaim: req.minimumClaim,
+              //     maximumClaim: req.maximumClaim,
+              //     minimumDuration: req.minimumDuration,
+              //     maximumDuration: req.maximumDuration,
+              //     claimFunction: req.claimFunc,
+              //     claimFuncDescription: req.claimFuncDescription,
+              //     claimFunctionArguments: req.claimFuncArgs,
+              //     premiumFunction: req.premiumFunc,
+              //     premiumFuncDescription: req.premiumFuncDescription,
+              //     premiumFunctionArguments: req.premiumFuncArgs,
+              //     tags: req.tags,
+              //     intialStake: req.intialStake,
+              //   })
+              //   .finally(() => {
+              //     setLoading(false);
+              //   });
             }}
           >
             <h1 className="font-semibold text-xl">Policy Settings</h1>
