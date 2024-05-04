@@ -1,4 +1,4 @@
-const address = "TQk2MEp4FGvFN37zdjP5XQ8CqtuDidKb26" as const;
+const address = "TRSUtVH1BMQTXv7N5LLyFeFu5njP62NPFh" as const;
 
 const abi = [
   {
@@ -16,27 +16,23 @@ const abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "initialStake",
+        name: "_initialStake",
         type: "uint256",
       },
       {
-        internalType: "string",
-        name: "_name",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_claimFunction",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_premiumFunction",
-        type: "string",
+        internalType: "bytes32",
+        name: "_digest",
+        type: "bytes32",
       },
     ],
     name: "createNewPolicy",
-    outputs: [],
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },
