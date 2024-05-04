@@ -395,7 +395,7 @@ export default function NewPolicyPage() {
             </div>
           </DataForm>
 
-          <div className="basis-[28%] bg-foreground rounded-xl"></div>
+          <div className="basis-[28%] bg-foreground rounded-xl mobile:hidden"></div>
         </section>
       </div>
     </>

@@ -5,7 +5,7 @@ export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
 
   return (
-    <div className="py-4 flex flex-col gap-y-8">
+    <div className="py-4 flex flex-col gap-y-8 p-page">
       <div className="flex justify-between items-end">
         <h1 className="text-xl font-bold tracking-wide">Your Policies</h1>
         <div className="flex flex-col gap-y-2 items-end">
@@ -15,7 +15,7 @@ export default function YourPolicies() {
           </button>
         </div>
       </div>
-      <div className="flex gap-y-8 flex-col p-6 rounded-lg bg-primary/5">
+      <div className="flex gap-y-8 flex-col p-6 rounded-lg bg-primary/5 mobile:p-2">
         {policies.map(
           (policy, key) =>
             (viewMore || key < 2) && (
@@ -26,7 +26,7 @@ export default function YourPolicies() {
                 <div className="flex gap-x-4">
                   <img
                     src={policy.logoUrl}
-                    className="w-[5vw] rounded-full h-max"
+                    className="w-[5vw] rounded-full h-max mobile:w-[15vw]"
                   />
                   <div className="flex flex-col">
                     <h1 className="text-xl font-bold tracking-wide">
@@ -59,8 +59,8 @@ export default function YourPolicies() {
                           </p>
                         </>
                       ) : (
-                        <div className="flex justify-between">
-                          <button className="mt-2 bg-primary px-4 py-2 text-back font-bold rounded-lg text-sm">
+                        <div className="flex justify-between mobile:flex-col-reverse">
+                          <button className="mt-2 bg-primary px-4 py-2 text-back font-bold rounded-lg text-sm w-max mobile:self-end">
                             Request Claim
                           </button>
                           <div className="flex flex-col">
@@ -83,14 +83,14 @@ export default function YourPolicies() {
               </div>
             )
         )}
-        {policies.length > 2 &&
+        {policies.length > 2 && (
           <button
             className="bg-primary w-max px-4 py-2 self-end text-back font-bold rounded-lg -translate-y-2"
             onClick={() => setViewMore(!viewMore)}
           >
             {viewMore ? "View Less" : "View More"}{" "}
           </button>
-        }
+        )}
       </div>
     </div>
   );

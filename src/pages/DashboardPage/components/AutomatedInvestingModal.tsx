@@ -41,7 +41,7 @@ export default function AutomatedInvestingModal() {
   };
 
   return (
-    <div className="bg-background px-6 pt-6 gap-y-6 border border-front/60 rounded-xl flex flex-col max-h-[70vh] relative overflow-scroll scrollbar-primary">
+    <div className="bg-background mobile:max-w-[90vw] px-6 pt-6 gap-y-6 border border-front/60 rounded-xl flex flex-col max-h-[70vh] relative overflow-scroll scrollbar-primary">
       <button
         className="absolute right-4 top-4 border p-1 rounded-full text-red-500 border-red-500"
         onClick={() => modal.hide()}
@@ -92,7 +92,7 @@ export function MappedOptions(props: {
         <div className="flex gap-y-2 items-end flex-wrap gap-x-2">
           <select
             disabled={props.disabled}
-            className={twMerge("", twInputStyle)}
+            className={twMerge("mobile:w-[90vw]", twInputStyle)}
             defaultValue={options[0].value || options[0].title}
             onChange={(e) => {
               options.forEach(
@@ -115,7 +115,7 @@ export function MappedOptions(props: {
                 <input
                   key={key}
                   {...inp}
-                  className={twMerge("w-max", twInputStyle)}
+                  className={twMerge("w-max mobile:w-[30vw]", twInputStyle)}
                   disabled={props.disabled}
                 />
               ))}
@@ -129,7 +129,7 @@ export function MappedOptions(props: {
           </div>
         </div>
 
-        {options[selected].info && <p>{options[selected].info}</p>}
+        {options[selected].info && <p className="mobile:text-sm">{options[selected].info}</p>}
       </div>
 
       <div className="mt-4">

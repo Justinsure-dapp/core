@@ -9,13 +9,13 @@ export default function HomePage() {
 
       <div className="p-page py-8">
         <div className="flex gap-6">
-          <article className="flex flex-col w-1/4 bg-pink-200 rounded-lg h-[60vh]"></article>
-          <div className="flex flex-col w-3/4 gap-6">
+          <article className="flex flex-col w-1/4 bg-pink-200 rounded-lg h-[60vh] mobile:hidden"></article>
+          <div className="flex flex-col w-3/4 gap-6 mobile:w-full">
             <article className="bg-secondary rounded-lg overflow-b-hidden flex">
               <img
                 src="/images/soparu.webp"
                 alt="sopo mascot"
-                className="w-1/4 scale-125 -translate-y-3"
+                className="w-1/4 scale-125 -translate-y-3 mobile:w-1/2"
               />
               <div className="py-4 flex flex-col gap-y-5 px-4">
                 <p className="flex items-start font-medium text-3xl">

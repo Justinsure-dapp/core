@@ -97,7 +97,7 @@ export default function PoliciesPage() {
             <Link
               to={`/policies/${i}`}
               key={i}
-              className="w-[calc(33%_-_0.82rem)] border-2 border-border hover:border-primary/60 px-4 py-4 rounded-xl flex flex-col gap-y-2 hover:bg-front/5 duration-200 ease-in cursor-pointer"
+              className="w-[calc(33%_-_0.82rem)] mobile:w-full border-2 border-border hover:border-primary/60 px-4 py-4 rounded-xl flex flex-col gap-y-2 hover:bg-front/5 duration-200 ease-in cursor-pointer"
             >
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
@@ -106,7 +106,7 @@ export default function PoliciesPage() {
                 </div>
                 <img
                   src={policy.logoUrl}
-                  className="w-[4vw] rounded-full bg-foreground object-cover"
+                  className="w-[4vw] rounded-full bg-foreground object-cover mobile:w-[15vw]"
                 />
               </div>
               <div className="flex gap-x-1">

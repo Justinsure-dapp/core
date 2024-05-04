@@ -4,17 +4,17 @@ export default function ClaimInfo() {
 
   return (
     <>
-      <div className="flex flex-wrap w-full justify-around pt-12 gap-y-7">
+      <div className="flex flex-wrap w-full justify-around pt-12 gap-y-7  mobile:gap-x-4 p-page">
         {claimInfoData.map((data, i) => (
           <div
-            className="w-[28%] text-center justify-center duration-200 ease-in-out bg-foreground/40 border-2 border-foreground px-4 py-8 rounded-xl flex flex-col items-center gap-y-2"
+            className="w-[28%] mobile:w-[30%] text-center justify-center duration-200 ease-in-out bg-foreground/40 border-2 border-foreground px-4 py-8 rounded-xl flex flex-col items-center gap-y-2"
             key={i}
           >
             <h1 className="text-lg tracking-wide">{data.title}</h1>
             <p className="text-3xl font-mono">{data.value}</p>
           </div>
         ))}
-      <div className="w-[40%] duration-200 ease-in-out bg-foreground/40 border-2 border-foreground px-8 py-6 justify-center rounded-xl flex flex-col">
+      <div className="w-[40%] mobile:w-full duration-200 ease-in-out bg-foreground/40 border-2 border-foreground px-8 py-6 justify-center rounded-xl flex flex-col">
         {" "}
         <h1 className="text-lg tracking-wide">Required duration for the policy</h1>
         <div className="text-sm mt-2">
@@ -30,7 +30,7 @@ export default function ClaimInfo() {
           </span>
         </div>
       </div>
-      <div className="w-[40%] duration-200 ease-in-out bg-foreground/40 border-2 border-foreground px-8 py-6 justify-center rounded-xl flex flex-col">
+      <div className="w-[40%] mobile:w-full duration-200 ease-in-out bg-foreground/40 border-2 border-foreground px-8 py-6 justify-center rounded-xl flex flex-col">
         {" "}
         <h1 className="text-lg tracking-wide">Limit of the claim</h1>
         <div className="text-sm mt-2">

@@ -1,6 +1,6 @@
 export default function Functions() {
   return (
-    <div className="flex flex-col pt-12 pb-8 gap-y-8">
+    <div className="flex flex-col pt-12 pb-8 gap-y-8 p-page">
       <div className="flex flex-col basis-1/2">
         <h1 className="text-xl border-b border-front/20 pb-1">Claim validation function</h1>
         <p className="mt-2 text-front/60">

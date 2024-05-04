@@ -49,7 +49,7 @@ export default function BuyPolicyPage() {
     <>
       <DocTitle title="Buy Policy" />
       <div className="flex gap-x-6 p-page py-8">
-        <DataForm className="flex flex-col gap-y-7 flex-1">
+        <DataForm className="flex flex-col gap-y-7 flex-1 mobile:p-page">
           <div>
             <Heading
               className=""
@@ -158,7 +158,7 @@ export default function BuyPolicyPage() {
           </button>
         </DataForm>
 
-        <div className="basis-[28%] bg-foreground rounded-xl"></div>
+        <div className="basis-[28%] bg-foreground rounded-xl mobile:hidden"></div>
       </div>
     </>
   );

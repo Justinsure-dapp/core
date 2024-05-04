@@ -8,7 +8,7 @@ export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
 
   return (
-    <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen">
+    <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen mobile:hidden">
       <div
         className={twMerge(
           "absolute top-2 right-4 text-sm text-secondary",

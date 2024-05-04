@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import Icon, { IconType } from "./Icon";
 import useWeb3 from "../contexts/web3context";
+import { useState } from "react";
 
 export default function Navbar() {
   const navItems: Array<{
@@ -33,61 +34,121 @@ export default function Navbar() {
   ];
 
   const { user } = useWeb3();
+  const [showNav, setShowNav] = useState(false);
 
   return (
-    <nav className="flex flex-col p-6 border-r border-border">
-      <div
-        className="flex items-center gap-x-2 cursor-pointer relative"
-        role="button"
-        onClick={() => null}
-      >
-        <img src="/logo.png" alt="logo" className="aspect-square w-10" />
-        <div className="flex flex-col items-start gap-y-1">
-          <div className="relative">
-            <h1 className="font-black text-2xl tracking-wider">Surity</h1>
-            {user?.marketer && (
-              <div className="group">
-                <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
-                  Pro
-                </p>
+    <>
+      <nav className="flex flex-col p-6 border-r border-border mobile:hidden">
+        <div
+          className="flex items-center gap-x-2 cursor-pointer relative"
+          role="button"
+          onClick={() => null}
+        >
+          <img src="/logo.png" alt="logo" className="aspect-square w-10" />
+          <div className="flex flex-col items-start gap-y-1">
+            <div className="relative">
+              <h1 className="font-black text-2xl tracking-wider">Surity</h1>
+              {user?.marketer && (
+                <div className="group">
+                  <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
+                    Pro
+                  </p>
 
-                <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-primary p-2 rounded-lg pointer-events-none">
-                  "Pro" indicates that you are a marketer and you can list
-                  <br />
-                  policies on our platform
-                </p>
-              </div>
-            )}
+                  <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-primary p-2 rounded-lg pointer-events-none">
+                    "Pro" indicates that you are a marketer and you can list
+                    <br />
+                    policies on our platform
+                  </p>
+                </div>
+              )}
+            </div>
+            <p className="text-primary text-xs font-semibold">
+              Rest assured on Web3
+            </p>
           </div>
-          <p className="text-primary text-xs font-semibold">
-            Rest assured on Web3
-          </p>
         </div>
-      </div>
 
-      <div role="list" className="flex flex-col gap-y-2 py-4">
-        {navItems.map((item, key) => (
-          <NavLink
-            to={item.link}
-            key={key}
-            role="listitem"
-            className={({ isActive, isPending }) =>
-              twMerge(
-                "p-2 rounded-lg",
-                isActive && "bg-primary text-back pointer-events-none",
-                !isActive && "hover:outline hover:outline-[1.5px]",
-                isPending && "animate-pulse pointer-events-none",
-                item.marketersOnly && (user?.marketer ? "" : "hidden")
-              )
-            }
+        <div role="list" className="flex flex-col gap-y-2 py-4">
+          {navItems.map((item, key) => (
+            <NavLink
+              to={item.link}
+              key={key}
+              role="listitem"
+              className={({ isActive, isPending }) =>
+                twMerge(
+                  "p-2 rounded-lg",
+                  isActive && "bg-primary text-back pointer-events-none",
+                  !isActive && "hover:outline hover:outline-[1.5px]",
+                  isPending && "animate-pulse pointer-events-none",
+                  item.marketersOnly && (user?.marketer ? "" : "hidden")
+                )
+              }
+            >
+              <span className="flex items-center gap-x-2 text-base font-semibold">
+                <Icon icon={item.icon} className="text-lg" />
+                {item.title}
+              </span>
+            </NavLink>
+          ))}
+        </div>
+      </nav>
+
+      {showNav &&
+        <nav className="flex flex-col p-6 border-r border-border widescreen:hidden absolute top-0 left-0 bg-background z-10 h-full">
+          <div
+            className="flex items-center gap-x-2 cursor-pointer relative"
+            role="button"
+            onClick={() => null}
           >
-            <span className="flex items-center gap-x-2 text-base font-semibold">
-              <Icon icon={item.icon} className="text-lg" />
-              {item.title}
-            </span>
-          </NavLink>
-        ))}
-      </div>
-    </nav>
+            <img src="/logo.png" alt="logo" className="aspect-square w-10" />
+            <div className="flex flex-col items-start gap-y-1">
+              <div className="relative">
+                <h1 className="font-black text-2xl tracking-wider">Surity</h1>
+                {user?.marketer && (
+                  <div className="group">
+                    <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
+                      Pro
+                    </p>
+
+                    <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-primary p-2 rounded-lg pointer-events-none">
+                      "Pro" indicates that you are a marketer and you can list
+                      <br />
+                      policies on our platform
+                    </p>
+                  </div>
+                )}
+              </div>
+              <p className="text-primary text-xs font-semibold">
+                Rest assured on Web3
+              </p>
+            </div>
+          </div>
+
+          <div role="list" className="flex flex-col gap-y-2 py-4">
+            {navItems.map((item, key) => (
+              <NavLink
+                to={item.link}
+                key={key}
+                role="listitem"
+                className={({ isActive, isPending }) =>
+                  twMerge(
+                    "p-2 rounded-lg",
+                    isActive && "bg-primary text-back pointer-events-none",
+                    !isActive && "hover:outline hover:outline-[1.5px]",
+                    isPending && "animate-pulse pointer-events-none",
+                    item.marketersOnly && (user?.marketer ? "" : "hidden")
+                  )
+                }
+              >
+                <span className="flex items-center gap-x-2 text-base font-semibold">
+                  <Icon icon={item.icon} className="text-lg" />
+                  {item.title}
+                </span>
+              </NavLink>
+            ))}
+          </div>
+        </nav>
+      }
+    </>
   );
 }

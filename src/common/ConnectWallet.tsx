@@ -31,7 +31,7 @@ export default function ConnectWallet() {
       {!isConnected && (
         <button
           onClick={() => setShowConnectors(true)}
-          className="flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm font-semibold"
+          className="flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm font-semibold mobile:px-3"
         >
           <img className="w-[1.3em]" src="/icons/bttc.png" />
           Connect

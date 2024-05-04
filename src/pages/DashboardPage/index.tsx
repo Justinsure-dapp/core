@@ -29,7 +29,7 @@ export default function DashboardPage() {
               <h1 className="text-xl font-semibold">{policy.name}</h1>
               <div className="text-front/80 text-sm">{policy.description}</div>
             </div>
-            <div className="flex gap-x-4 flex-wrap gap-y-4">
+            <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
               <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
                 <div className="flex flex-col">
                   <h1 className="text-xl font-bold font-mono">
@@ -76,23 +76,25 @@ export default function DashboardPage() {
             >
               {expanded[i] ? "View Less" : "View More"}
             </button>
+
+
             {expanded[i] && (
               <div className="flex flex-col">
                 <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
                   Recent Activity
                 </button>
-                <div className="flex flex-col gap-x-8 bg-background rounded-xl py-6 px-8 my-5">
-                  <div className="flex justify-between">
+                <div className="flex flex-col gap-x-8 bg-background rounded-xl py-6 px-8 my-5 mobile:px-4 mobile:py-3">
+                  <div className="flex justify-between mobile:flex-col mobile:gap-y-1">
                     <h1 className="text-xl">
                       Total money & distribution of pool
                     </h1>
-                    <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl">
+                    <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end mobile:text-sm">
                       Total Staked : <span className="font-mono">890.32</span>
                     </p>
                   </div>
-                  <div className="flex pt-6 justify-around">
-                    <PieChart data={policy.data} className="w-[20vw]" />
-                    <div className="basis-1/2 flex flex-col gap-y-3">
+                  <div className="flex pt-6 justify-around mobile:flex-col mobile:w-full mobile:items-center mobile:gap-y-4">
+                    <PieChart data={policy.data} className="w-[20vw] mobile:w-[40vw]" />
+                    <div className="basis-1/2 flex flex-col gap-y-3 mobile:w-full">
                       {policy.data.labels.map((label, i) => (
                         <div className="flex w-full items-center gap-x-4">
                           <span className="">{i + 1}</span>
