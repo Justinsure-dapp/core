@@ -106,8 +106,33 @@ export default function DashboardPage() {
                       ))}
                     </div>
                   </div>
+                </div>
+                <div className="flex flex-col gap-y-3 pb-6">
+                  <h1 className="text-xl font-bold">
+                    Automated Investment Triggers
+                  </h1>
+                  {AutomatedInvestmentTriggers.map((trigger, key) => (
+                    <div className="flex flex-col gap-y-3 bg-background p-4 rounded-xl">
+                      <h1 className="text-lg font-bold">
+                        Trigger Event {key + 1}
+                      </h1>
+                      <h2>
+                        Event:{" "}
+                        <span className="bg-front/5 rounded-md border border-front/10 px-2 py-1 text-primary">
+                          {trigger.title}
+                        </span>
+                      </h2>
+                      <h3 className="">
+                        {trigger.optionTitle}:{" "}
+                        <span className="bg-front/5 rounded-md border border-front/10 px-2 py-1 text-primary">
+                          ${trigger.optionValue}{" "}
+                        </span>
+                      </h3>
+                    </div>
+                  ))}
+
                   <button
-                    className="self-end bg-primary w-max font-bold text-back px-3 py-2 rounded-lg"
+                    className="self-end bg-primary w-max font-bold text-sm text-back px-3 py-1 rounded-lg"
                     onClick={() => modal.show(<AutomatedInvestingModal />)}
                   >
                     Edit Automated Investing
@@ -121,6 +146,24 @@ export default function DashboardPage() {
     </section>
   );
 }
+
+const AutomatedInvestmentTriggers = [
+  {
+    title: "Received Deposit In Pool through Staking",
+    optionTitle: "Received amount greater than",
+    optionValue: "234",
+  },
+  {
+    title: "Received Deposit In Pool through Policy",
+    optionTitle: "Received amount in range of",
+    optionValue: "234-532",
+  },
+  {
+    title: "Received Deposit In Pool through Staking",
+    optionTitle: "Received amount greater than",
+    optionValue: "533",
+  },
+];
 
 const policies = [
   {

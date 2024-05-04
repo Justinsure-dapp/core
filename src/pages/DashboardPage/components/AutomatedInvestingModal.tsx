@@ -41,7 +41,7 @@ export default function AutomatedInvestingModal() {
   };
 
   return (
-    <div className="bg-background px-6 pt-6 gap-y-4 border border-front/60 rounded-xl flex flex-col max-h-[70vh] relative overflow-scroll scrollbar-primary">
+    <div className="bg-background px-6 pt-6 gap-y-6 border border-front/60 rounded-xl flex flex-col max-h-[70vh] relative overflow-scroll scrollbar-primary">
       <button
         className="absolute right-4 top-4 border p-1 rounded-full text-red-500 border-red-500"
         onClick={() => modal.hide()}
