@@ -3,7 +3,10 @@ import DocTitle from "../../common/DocTitle";
 import PieChart from "../../common/PieChart";
 import { useState } from "react";
 import useModal from "../../hooks/useModal";
-import AutomatedInvestingModal from "./components/AutomatedInvestingModal";
+import AutomatedInvestingModal, {
+  MappedOptions,
+} from "./components/AutomatedInvestingModal";
+import { twInputStyle } from "../../utils";
 
 export default function DashboardPage() {
   const [expanded, setExpanded] = useState(Array(policies.length).fill(false));
@@ -111,7 +114,7 @@ export default function DashboardPage() {
                   <h1 className="text-xl font-bold">
                     Automated Investment Triggers
                   </h1>
-                  {AutomatedInvestmentTriggers.map((trigger, key) => (
+                  {/* {AutomatedInvestmentTriggers.map((trigger, key) => (
                     <div className="flex flex-col gap-y-3 bg-background p-4 rounded-xl">
                       <h1 className="text-lg font-bold">
                         Trigger Event {key + 1}
@@ -129,7 +132,11 @@ export default function DashboardPage() {
                         </span>
                       </h3>
                     </div>
-                  ))}
+                  ))} */}
+
+                  <div>
+                    <MappedOptions options={triggers} disabled={true} />
+                  </div>
 
                   <button
                     className="self-end bg-primary w-max font-bold text-sm text-back px-3 py-1 rounded-lg"
@@ -146,24 +153,6 @@ export default function DashboardPage() {
     </section>
   );
 }
-
-const AutomatedInvestmentTriggers = [
-  {
-    title: "Received Deposit In Pool through Staking",
-    optionTitle: "Received amount greater than",
-    optionValue: "234",
-  },
-  {
-    title: "Received Deposit In Pool through Policy",
-    optionTitle: "Received amount in range of",
-    optionValue: "234-532",
-  },
-  {
-    title: "Received Deposit In Pool through Staking",
-    optionTitle: "Received amount greater than",
-    optionValue: "533",
-  },
-];
 
 const policies = [
   {
@@ -290,5 +279,81 @@ const policies = [
         "rgb(243, 186, 47, 0.4)",
       ],
     },
+  },
+];
+
+const triggers = [
+  {
+    title: "Time Duration Passed",
+    value: "Time Duration Passed",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
+    options: [
+      {
+        title: "Received amount greater than",
+        additionalInputs: [{ type: "number", value: 550 }],
+      },
+    ],
+    additionalInputs: [{ type: "number", value: 456 }],
+    customElements: [
+      <select
+        key="durationFormat"
+        className={twMerge("", twInputStyle)}
+        value="Days"
+        disabled
+      >
+        <option value="">Select duration format</option>
+        {["Days", "Weeks", "Months", "Years"].map((format, index) => (
+          <option key={index} value={format}>
+            {format}
+          </option>
+        ))}
+      </select>,
+    ],
+  },
+  {
+    title: "Received Deposit In Pool through Staking",
+    value: "Received Deposit In Pool through Staking",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
+    options: [
+      {
+        title: "Received amount greater than",
+        additionalInputs: [{ type: "number", value: 2345 }],
+      },
+      {
+        title: "Received amount in range of",
+        additionalInputs: [
+          { type: "number", value: 3434 },
+          { type: "number", value: 4398 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Received Deposit In Pool through premium",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
+    options: [
+      {
+        title: "Received amount greater than",
+        additionalInputs: [{ type: "number" }],
+      },
+      {
+        title: "Received amount in range of",
+        additionalInputs: [{ type: "number" }, { type: "number" }],
+      },
+    ],
+  },
+  {
+    title: "Received general deposit In Pool",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
+    options: [
+      {
+        title: "Received amount greater than",
+        additionalInputs: [{ type: "number" }],
+      },
+      {
+        title: "Received amount in range of",
+        additionalInputs: [{ type: "number" }, { type: "number" }],
+      },
+    ],
   },
 ];

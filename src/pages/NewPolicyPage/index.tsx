@@ -1,20 +1,15 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import DocTitle from "../../common/DocTitle";
-import Icon, { IconType } from "../../common/Icon";
-import HelpTooltip from "../../common/HelpTooltip";
 import Heading from "./components/Heading";
 import useModal from "../../hooks/useModal";
 import TexteditorModal from "./components/TexteditorModal";
 import ArgsTypeDefine, { Args } from "./components/ArgsTypeDefine";
 import insuranceCategories from "../../assets/data/insuranceCategories";
 import { twMerge } from "tailwind-merge";
-import useFormData from "../../hooks/useFormData";
 import ToastsInput from "../../common/ToastsInput";
 import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import api from "../../utils/api";
-import useWeb3 from "../../contexts/web3context";
-import contracts from "../../contracts";
 import { AbiCoder, keccak256 } from "ethers";
 
 export default function NewPolicyPage() {

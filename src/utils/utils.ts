@@ -166,7 +166,6 @@ export function rgbToHex(rgb: RGBColor): string {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-
 export function closestTimeUnit(milliseconds: number) {
   var seconds = milliseconds / 1000;
 
@@ -182,10 +181,7 @@ export function closestTimeUnit(milliseconds: number) {
     var remainingHours = hours % 24;
     if (remainingHours > 0) {
       return (
-        Math.floor(days) +
-        " days and " +
-        Math.floor(remainingHours) +
-        " hours"
+        Math.floor(days) + " days and " + Math.floor(remainingHours) + " hours"
       );
     } else {
       return Math.floor(days) + " days";
@@ -200,3 +196,6 @@ export function closestTimeUnit(milliseconds: number) {
   var years = months / 12;
   return Math.floor(years) + " years";
 }
+
+export const twInputStyle =
+  "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";

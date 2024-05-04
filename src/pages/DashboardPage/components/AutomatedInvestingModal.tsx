@@ -27,7 +27,7 @@ export default function AutomatedInvestingModal() {
           <Icon icon="close" className="text-[1.2rem]" />
         </button>{" "}
         <Heading className="text-lg">Trigger Event {newIndex}</Heading>
-        <MappedOptions options={options} />
+        <MappedOptions options={options} disabled={false} />
       </div>
     );
     setMappedOptions([...mappedOptions, newMappedOption]);
@@ -73,12 +73,15 @@ function InitialMappedOption() {
       className="bg-front/5 border border-front/20 px-4 py-2 rounded-lg"
     >
       <Heading className="text-lg">Trigger Event 1</Heading>
-      <MappedOptions options={options} />
+      <MappedOptions options={options} disabled={false} />
     </div>
   );
 }
 
-function MappedOptions(props: { options: Array<Option> }) {
+export function MappedOptions(props: {
+  options: Array<Option>;
+  disabled: boolean;
+}) {
   const { options } = props;
   const [selected, setSelected] = useState(0);
   const furtherOptions = options[selected].options;
@@ -86,37 +89,43 @@ function MappedOptions(props: { options: Array<Option> }) {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-y-2">
-        <div className="flex gap-x-2 items-end">
-          <div>
-            <select
-              className={twMerge("", twInputStyle)}
-              defaultValue={options[0].value || options[0].title}
-              onChange={(e) => {
-                options.forEach(
-                  (o, i) =>
-                    (o.value || o.title) === e.currentTarget.value &&
-                    setSelected(i)
-                );
-              }}
-            >
-              {options.map((option, key) => (
-                <option key={key} value={option.value || option.title}>
-                  {option.title}
-                </option>
+        <div className="flex gap-y-2 items-end flex-wrap gap-x-2">
+          <select
+            disabled={props.disabled}
+            className={twMerge("", twInputStyle)}
+            defaultValue={options[0].value || options[0].title}
+            onChange={(e) => {
+              options.forEach(
+                (o, i) =>
+                  (o.value || o.title) === e.currentTarget.value &&
+                  setSelected(i)
+              );
+            }}
+          >
+            {options.map((option, key) => (
+              <option key={key} value={option.value || option.title}>
+                {option.title}
+              </option>
+            ))}
+          </select>
+
+          <div className="flex gap-x-2 items-center">
+            <div className="flex gap-x-2">
+              {options[selected].additionalInputs?.map((inp, key) => (
+                <input
+                  key={key}
+                  {...inp}
+                  className={twMerge("w-max", twInputStyle)}
+                  disabled={props.disabled}
+                />
               ))}
-            </select>
-          </div>
+            </div>
 
-          <div className="flex gap-x-2">
-            {options[selected].customElements?.map((ele, key) => (
-              <div key={key}>{ele}</div>
-            ))}
-          </div>
-
-          <div className="flex gap-x-2">
-            {options[selected].additionalInputs?.map((inp, key) => (
-              <input key={key} {...inp} className={twMerge("", twInputStyle)} />
-            ))}
+            <div className="flex gap-x-2">
+              {options[selected].customElements?.map((ele, key) => (
+                <div key={key}>{ele}</div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -124,7 +133,9 @@ function MappedOptions(props: { options: Array<Option> }) {
       </div>
 
       <div className="mt-4">
-        {furtherOptions?.length && <MappedOptions options={furtherOptions} />}
+        {furtherOptions?.length && (
+          <MappedOptions options={furtherOptions} disabled={props.disabled} />
+        )}
       </div>
     </div>
   );
@@ -154,9 +165,9 @@ const options: Array<Option> = [
         additionalInputs: [{ type: "number" }],
       },
     ],
-    additionalInputs: [{ type: "date" }],
+    additionalInputs: [{ type: "number" }],
     customElements: [
-      <select key="durationFormat" className={twMerge("", twInputStyle)}>
+      <select key="durationFormat" className={twMerge("w-max", twInputStyle)}>
         <option value="">Select duration format</option>
         {["Days", "Weeks", "Months", "Years"].map((format, index) => (
           <option key={index} value={format}>
