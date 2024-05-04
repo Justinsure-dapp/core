@@ -1,9 +1,18 @@
+import { twMerge } from "tailwind-merge";
 import DocTitle from "../../common/DocTitle";
+import PieChart from "../../common/PieChart";
+import { useState } from "react";
 
 export default function DashboardPage() {
+  const [expanded, setExpanded] = useState(Array(policies.length).fill(false));
+  const toggleExpanded = (index: number) => {
+    const newExpanded = [...expanded];
+    newExpanded[index] = !newExpanded[index];
+    setExpanded(newExpanded);
+  };
   return (
     <section className="p-page py-4">
-        <DocTitle title="Dashboard" />
+      <DocTitle title="Dashboard" />
       <h1 className="text-xl font-bold">Your Policies</h1>
       <div className="flex flex-col gap-y-8 mt-4">
         {policies.map((policy, i) => (
@@ -40,31 +49,73 @@ export default function DashboardPage() {
               <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
                 <div className="flex flex-col">
                   <h1 className="text-xl font-bold font-mono">345</h1>
-                  <p className="text-front/80 text-sm">
-                    Money in Pool &#160;{" "}
-                    {/* <span className="text-red-500">-12.43%</span> */}
-                  </p>
+                  <p className="text-front/80 text-sm">Money in Pool &#160; </p>
                 </div>
                 <div className="p-2 bg-front/20 rounded-xl">
                   <img src="https://img.icons8.com/pulsar-color/32/money-bag.png" />
                 </div>
               </div>
             </div>
-            <button className="absolute bottom-2 right-3 underline">
-              View More
+            <button
+              className="absolute bottom-2 right-4 underline"
+              onClick={() => toggleExpanded(i)}
+            >
+              {expanded[i] ? "View Less" : "View More"}
             </button>
-            <div className="flex flex-col">
+            {expanded[i] && (
+              <div className="flex flex-col">
                 <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
-                    Recent Activity
+                  Recent Activity
                 </button>
-                <div></div>
-            </div>
+                <div className="flex flex-col gap-x-8 bg-background rounded-xl py-6 px-8 my-5">
+                  <div className="flex justify-between">
+                    <h1 className="text-xl">
+                      Total money & distribution of pool
+                    </h1>
+                    <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl">
+                      Total Staked : <span className="font-mono">890.32</span>
+                    </p>
+                  </div>
+                  <div className="flex pt-6 justify-around">
+                    <PieChart data={data} className="w-[20vw]" />
+                    <div className="basis-1/2 flex flex-col gap-y-3">
+                      {data.labels.map((label, i) => (
+                        <div className="flex w-full items-center gap-x-4">
+                          <span className="">{i + 1}</span>
+                          <div
+                            className={twMerge(
+                              "bg-front/5 border border-front/10 w-full py-2 px-4 rounded-xl flex justify-between items-center",
+                              `hover:cursor-pointer hover:scale-[102%] duration-150 ease-in`
+                            )}
+                          >
+                            <h1 className="">{label}</h1>
+                            <p className="font-mono">{data.values[i]}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <button className="self-end bg-primary w-max font-bold text-back px-3 py-2 rounded-lg">Edit Automated Investing</button>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
     </section>
   );
 }
+
+const data = {
+    labels: ["Sol", "Link", "Avax", "Bnb"],
+    values: [23, 19, 15, 3],
+    bgColor: [
+      "rgb(220, 31, 255, 0.4)",
+      "rgb(55, 91, 210, 0.4)",
+      "rgb(232, 65, 66, 0.4)",
+      "rgb(243, 186, 47, 0.4)",
+    ],
+  };
 
 const policies = [
   {
