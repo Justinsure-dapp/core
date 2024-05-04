@@ -118,21 +118,15 @@ export default function PoliciesPage() {
                   ? `${policy.description.slice(0, 150)}...`
                   : policy.description}
               </p>
-            
-              {/* <div className="text-sm flex flex-wrap gap-2">
-                {policy.tags.map((tag, i) => (
-                  <span
-                    className="border-primary border whitespace-nowrap px-2 py-1 rounded-xl bg-background"
-                    key={i}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div> */}
               <figure role="separator" className="flex-1" />
-              <button className="self-end bg-primary/90 text-back font-bold py-1 px-3 rounded-md hover:-translate-y-1 duration-200 ease-in text-sm">
-                Buy Now
+              <div className="flex gap-x-2 self-end">
+                <button className="bg-primary/90 text-back font-bold py-1 px-3 rounded-md hover:-translate-y-1 duration-200 ease-in text-sm">
+                  Buy Now
+                </button>
+                <button className="bg-back/90 text-primary border-primary border font-bold py-1 px-3 rounded-md hover:-translate-y-1 duration-200 ease-in text-sm">
+                Stake
               </button>
+              </div>
             </Link>
           ))}
         </div>

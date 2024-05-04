@@ -49,6 +49,17 @@ export default function NewPolicyPage() {
           <DataForm
             className="flex-1 flex flex-col"
             callback={(data) => {
+              if (data.maximumClaim <= data.minimumClaim) {
+                alert("Maximum claim must be greater than minimum claim.");
+                return;
+              }
+
+              if (data.maximumDuration <= data.minimumDuration) {
+                alert(
+                  "Maximum duration must be greater than minimum duration."
+                );
+                return;
+              }
               setLoading(true);
               let req: Record<string, any> = { ...data };
               req["tags"] = tags;
@@ -78,23 +89,24 @@ export default function NewPolicyPage() {
                 req.premiumFuncArgs[i] = rest;
               });
 
-              FUSD.approve(
-                contracts.surity.address,
-                FUSD.value(req.initialStake)
-              )
-                .send()
-                .then(() => {
-                  surity
-                    .createNewPolicy(
-                      req.initialStake,
-                      req.name,
-                      req.claimFunc,
-                      req.premiumFunc
-                    )
-                    .send()
-                    .then((addr: any) => {
-                      console.log(addr);
-                    });
+              api.policy
+                .createNewPolicy({
+                  insuranceContractAddress: "0xfnkf",
+                  name: req.name,
+                  description: req.description,
+                  category: req.category,
+                  minimumClaim: req.minimumClaim,
+                  maximumClaim: req.maximumClaim,
+                  minimumDuration: req.minimumDuration,
+                  maximumDuration: req.maximumDuration,
+                  claimFunction: req.claimFunc,
+                  claimFuncDescription: req.claimFuncDescription,
+                  claimFunctionArguments: req.claimFuncArgs,
+                  premiumFunction: req.premiumFunc,
+                  premiumFuncDescription: req.premiumFuncDescription,
+                  premiumFunctionArguments: req.premiumFuncArgs,
+                  tags: req.tags,
+                  intialStake: req.intialStake,
                 })
                 .finally(() => {
                   setLoading(false);
@@ -131,6 +143,7 @@ export default function NewPolicyPage() {
 
             <Heading className="mt-7">Name of insurance</Heading>
             <input
+              required
               type="text"
               name="name"
               className={twInputStyle}
@@ -139,6 +152,7 @@ export default function NewPolicyPage() {
 
             <Heading className="mt-7">Insurance Description</Heading>
             <textarea
+              required
               className={twMerge(twInputStyle, "h-[20vh] resize-none")}
               placeholder="Description"
               name="description"
@@ -160,6 +174,7 @@ export default function NewPolicyPage() {
             {category == "other" && (
               <>
                 <input
+                  required
                   className={twMerge("mt-2", twInputStyle)}
                   placeholder="Enter what this insurance is for (Eg: Naval Accidents)"
                   name="category"
@@ -173,9 +188,11 @@ export default function NewPolicyPage() {
                   Minimum claim for the policy
                 </Heading>
                 <input
+                  required
                   name="minimumClaim"
                   className={twMerge(twInputStyle, "w-full")}
                   placeholder="Amount"
+                  type="number"
                 />
               </div>
               <div className="basis-1/2 w-1/2">
@@ -183,9 +200,11 @@ export default function NewPolicyPage() {
                   Maximum claim for the policy
                 </Heading>
                 <input
+                  required
                   name="maximumClaim"
                   className={twMerge(twInputStyle, "w-full")}
                   placeholder="Amount"
+                  type="number"
                 />
               </div>
             </div>
@@ -197,6 +216,7 @@ export default function NewPolicyPage() {
                       Premium Calculation Function
                     </Heading>
                     <textarea
+                      required
                       className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
                       readOnly
                       value={premiumFunc}
@@ -223,6 +243,7 @@ export default function NewPolicyPage() {
                       Describe this function
                     </Heading>
                     <textarea
+                      required
                       className={twMerge(
                         twInputStyle,
                         "h-[25vh] w-full resize-none scrollbar-primary text-sm"
@@ -252,6 +273,7 @@ export default function NewPolicyPage() {
                   <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
                     <Heading className="p-2">Claim Validation Function</Heading>
                     <textarea
+                      required
                       className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
                       readOnly
                       value={claimFunc}
@@ -278,6 +300,7 @@ export default function NewPolicyPage() {
                       Describe this function
                     </Heading>
                     <textarea
+                      required
                       className={twMerge(
                         twInputStyle,
                         "h-[25vh] w-full resize-none scrollbar-primary text-sm"
@@ -330,6 +353,7 @@ export default function NewPolicyPage() {
                 <div className="flex-1 flex-col">
                   <Heading>Initial Stake</Heading>
                   <input
+                    required
                     type="number"
                     name="initialStake"
                     min={5}

@@ -1,5 +1,6 @@
 import React, { DetailedHTMLProps, useState } from "react";
 import DocTitle from "../../common/DocTitle";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
@@ -31,7 +32,12 @@ export default function HomePage() {
                 </p>
 
                 <div className="flex">
-                  <button className="bg-background px-6 py-2 rounded-md font-medium">
+                  <button
+                    onClick={() =>
+                      window.open("https://forms.gle/eKgCiw8u9R5haZK86")
+                    }
+                    className="bg-background px-6 py-2 rounded-md font-medium"
+                  >
                     Take Survey
                   </button>
                 </div>

@@ -12,12 +12,13 @@ export default function DurationInput(props: {
 
   useEffect(() => {
     setMillis(inp * multiplier);
-    props.setter && props.setter(millis)
+    props.setter && props.setter(millis);
   }, [inp, multiplier]);
 
   return (
     <div className="flex gap-x-2">
       <input
+        required
         onChange={(e) => {
           setInp(Number(e.currentTarget.value));
         }}
