@@ -5,7 +5,7 @@ export default function YourStakes() {
   return (
     <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl py-12 px-8 my-12 mobile:py-6">
       <div className="flex justify-between mobile:flex-col mobile:gap-y-2">
-        <h1 className="text-xl mobile:whitespace-nowrap">Total money & distribution of pool</h1>
+        <h1 className="text-xl mobile:whitespace-nowrap">Total Stakes & distribution</h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end">
           Total Staked : <span className="font-mono">890.32</span>
         </p>
@@ -46,9 +46,13 @@ const data = {
   ],
   values: [23, 19, 15, 3, 23, 19, 15, 12],
   bgColor: [
-    "rgb(220, 31, 255, 0.4)",
-    "rgb(55, 91, 210, 0.4)",
-    "rgb(232, 65, 66, 0.4)",
-    "rgb(243, 186, 47, 0.4)",
+    "rgb(26, 201, 255, 0.9)",
+    "rgb(26, 201, 255, 0.8)",
+    "rgb(26, 201, 255, 0.7)",
+    "rgb(26, 201, 255, 0.6)",
+    "rgb(26, 201, 255, 0.5)",
+    "rgb(26, 201, 255, 0.3)",
+    "rgb(26, 201, 255, 0.2)",
+    "rgb(26, 201, 255, 0.1)",
   ],
 };
