@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { closestTimeUnit } from "../../../utils";
+import useModal from "../../../hooks/useModal";
+import RequestClaimModal from "./RequestClaimModal";
 
 export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
+  const modal = useModal();
 
   return (
     <div className="py-4 flex flex-col gap-y-8 p-page">
@@ -60,7 +63,10 @@ export default function YourPolicies() {
                         </>
                       ) : (
                         <div className="flex justify-between mobile:flex-col-reverse">
-                          <button className="mt-2 bg-primary px-4 py-2 text-back font-bold rounded-lg text-sm w-max mobile:self-end">
+                          <button
+                            className="mt-2 bg-primary px-4 py-2 text-back font-bold rounded-lg text-sm w-max mobile:self-end"
+                            onClick={() => modal.show(<RequestClaimModal />)}
+                          >
                             Request Claim
                           </button>
                           <div className="flex flex-col">
