@@ -5,7 +5,7 @@ export default function StakeDistribution(props: {
   data: { labels: string[]; values: number[]; bgColor: string[] };
 }) {
   return (
-    <div className="flex flex-col gap-x-8 bg-background rounded-xl py-6 px-8 my-5 mobile:px-4 mobile:py-3">
+    <div className="flex flex-col gap-x-8 bg-background rounded-xl py-6 px-6 my-5 mobile:px-4 mobile:py-3">
       <div className="flex justify-between mobile:flex-col mobile:gap-y-1">
         <h1 className="text-xl">Total money & distribution of pool</h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end mobile:text-sm">

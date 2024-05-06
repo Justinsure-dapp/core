@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import Icon from "../../common/Icon";
 import StakeDistribution from "./components/StakeDistribution";
 import AutomatedInvestment from "./components/AutomatedInvestment";
-import PolicyHolders from "./components/PolicyHolders";
 
 export default function DashboardPage() {
   const [expanded, setExpanded] = useState(Array(policies.length).fill(false));
@@ -45,7 +44,7 @@ export default function DashboardPage() {
       </div>
       <div className="flex flex-col gap-y-8 mt-4">
         {policies.map((policy, i) => (
-          <div className="flex flex-col gap-y-4 p-4 rounded-lg border border-secondary/20 relative">
+          <div className="flex flex-col gap-y-4 bg-primary/5 p-4 rounded-lg border border-secondary/20 relative">
             <div className="flex flex-col gap-y-1">
               <h1 className="text-xl font-semibold">{policy.name}</h1>
               <div className="text-front/80 text-sm">{policy.description}</div>
@@ -101,10 +100,10 @@ export default function DashboardPage() {
 
             {expanded[i] && (
               <div className="flex flex-col">
-                {/* <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
+                <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
                   Recent Activity
-                </button> */}
-                <PolicyHolders />
+                </button>
+                <PolicyHol
                 <StakeDistribution data={policy.data} />
                 <AutomatedInvestment />
               </div>
