@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function HomePage() {
   return (
     <>
-      <DocTitle title="Home" />
+      <DocTitle title="What's New" />
 
       <div className="p-page py-8">
         <div className="flex gap-6">

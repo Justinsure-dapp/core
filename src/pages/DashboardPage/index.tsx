@@ -1,12 +1,11 @@
 import { twMerge } from "tailwind-merge";
 import DocTitle from "../../common/DocTitle";
-import PieChart from "../../common/PieChart";
 import { useState } from "react";
 import useModal from "../../hooks/useModal";
-import AutomatedInvestingModal, {
-  MappedOptions,
-} from "./components/AutomatedInvestingModal";
-import { twInputStyle } from "../../utils";
+import { Link } from "react-router-dom";
+import Icon from "../../common/Icon";
+import StakeDistribution from "./components/StakeDistribution";
+import AutomatedInvestment from "./components/AutomatedInvestment";
 
 export default function DashboardPage() {
   const [expanded, setExpanded] = useState(Array(policies.length).fill(false));
@@ -21,7 +20,28 @@ export default function DashboardPage() {
   return (
     <section className="p-page py-4">
       <DocTitle title="Dashboard" />
-      <h1 className="text-xl font-bold">Your Policies</h1>
+      <h1 className="text-2xl font-semibold">Your Policies</h1>
+      <div className="mt-4 w-full flex gap-x-4">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="w-full bg-background border border-primary/50 px-4 py-2 rounded-lg focus-within:outline-none"
+        />
+        <button className="border border-primary/50 font-medium px-4 rounded-lg">
+          Search
+        </button>
+      </div>
+      <div className="mt-3 flex justify-between">
+        <button className="border border-primary/50 rounded-lg px-4 py-2  flex items-center gap-x-6">
+          Filter <Icon icon="expand_more" className="text-[1.5rem]" />{" "}
+        </button>
+        <Link
+          to="/new-policy"
+          className="bg-primary text-back px-6 rounded-lg py-2 font-medium"
+        >
+          Create New Policy
+        </Link>
+      </div>
       <div className="flex flex-col gap-y-8 mt-4">
         {policies.map((policy, i) => (
           <div className="flex flex-col gap-y-4 bg-primary/5 p-4 rounded-lg border border-secondary/20 relative">
@@ -70,6 +90,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
+
             <button
               className="absolute bottom-2 right-4 underline"
               onClick={() => toggleExpanded(i)}
@@ -77,76 +98,13 @@ export default function DashboardPage() {
               {expanded[i] ? "View Less" : "View More"}
             </button>
 
-
             {expanded[i] && (
               <div className="flex flex-col">
                 <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
                   Recent Activity
                 </button>
-                <div className="flex flex-col gap-x-8 bg-background rounded-xl py-6 px-8 my-5 mobile:px-4 mobile:py-3">
-                  <div className="flex justify-between mobile:flex-col mobile:gap-y-1">
-                    <h1 className="text-xl">
-                      Total money & distribution of pool
-                    </h1>
-                    <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end mobile:text-sm">
-                      Total Staked : <span className="font-mono">890.32</span>
-                    </p>
-                  </div>
-                  <div className="flex pt-6 justify-around mobile:flex-col mobile:w-full mobile:items-center mobile:gap-y-4">
-                    <PieChart data={policy.data} className="w-[20vw] mobile:w-[40vw]" />
-                    <div className="basis-1/2 flex flex-col gap-y-3 mobile:w-full">
-                      {policy.data.labels.map((label, i) => (
-                        <div className="flex w-full items-center gap-x-4">
-                          <span className="">{i + 1}</span>
-                          <div
-                            className={twMerge(
-                              "bg-front/5 border border-front/10 w-full py-2 px-4 rounded-xl flex justify-between items-center",
-                              `hover:cursor-pointer hover:scale-[102%] duration-150 ease-in`
-                            )}
-                          >
-                            <h1 className="">{label}</h1>
-                            <p className="font-mono">{policy.data.values[i]}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-y-3 pb-6">
-                  <h1 className="text-xl font-bold">
-                    Automated Investment Triggers
-                  </h1>
-                  {/* {AutomatedInvestmentTriggers.map((trigger, key) => (
-                    <div className="flex flex-col gap-y-3 bg-background p-4 rounded-xl">
-                      <h1 className="text-lg font-bold">
-                        Trigger Event {key + 1}
-                      </h1>
-                      <h2>
-                        Event:{" "}
-                        <span className="bg-front/5 rounded-md border border-front/10 px-2 py-1 text-primary">
-                          {trigger.title}
-                        </span>
-                      </h2>
-                      <h3 className="">
-                        {trigger.optionTitle}:{" "}
-                        <span className="bg-front/5 rounded-md border border-front/10 px-2 py-1 text-primary">
-                          ${trigger.optionValue}{" "}
-                        </span>
-                      </h3>
-                    </div>
-                  ))} */}
-
-                  <div>
-                    <MappedOptions options={triggers} disabled={true} />
-                  </div>
-
-                  <button
-                    className="self-end bg-primary w-max font-bold text-sm text-back px-3 py-1 rounded-lg"
-                    onClick={() => modal.show(<AutomatedInvestingModal />)}
-                  >
-                    Edit Automated Investing
-                  </button>
-                </div>
+                <StakeDistribution data={policy.data} />
+                <AutomatedInvestment />
               </div>
             )}
           </div>
@@ -281,81 +239,5 @@ const policies = [
         "rgb(243, 186, 47, 0.4)",
       ],
     },
-  },
-];
-
-const triggers = [
-  {
-    title: "Time Duration Passed",
-    value: "Time Duration Passed",
-    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
-    options: [
-      {
-        title: "Received amount greater than",
-        additionalInputs: [{ type: "number", value: 550 }],
-      },
-    ],
-    additionalInputs: [{ type: "number", value: 456 }],
-    customElements: [
-      <select
-        key="durationFormat"
-        className={twMerge("", twInputStyle)}
-        value="Days"
-        disabled
-      >
-        <option value="">Select duration format</option>
-        {["Days", "Weeks", "Months", "Years"].map((format, index) => (
-          <option key={index} value={format}>
-            {format}
-          </option>
-        ))}
-      </select>,
-    ],
-  },
-  {
-    title: "Received Deposit In Pool through Staking",
-    value: "Received Deposit In Pool through Staking",
-    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
-    options: [
-      {
-        title: "Received amount greater than",
-        additionalInputs: [{ type: "number", value: 2345 }],
-      },
-      {
-        title: "Received amount in range of",
-        additionalInputs: [
-          { type: "number", value: 3434 },
-          { type: "number", value: 4398 },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Received Deposit In Pool through premium",
-    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
-    options: [
-      {
-        title: "Received amount greater than",
-        additionalInputs: [{ type: "number" }],
-      },
-      {
-        title: "Received amount in range of",
-        additionalInputs: [{ type: "number" }, { type: "number" }],
-      },
-    ],
-  },
-  {
-    title: "Received general deposit In Pool",
-    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
-    options: [
-      {
-        title: "Received amount greater than",
-        additionalInputs: [{ type: "number" }],
-      },
-      {
-        title: "Received amount in range of",
-        additionalInputs: [{ type: "number" }, { type: "number" }],
-      },
-    ],
   },
 ];
