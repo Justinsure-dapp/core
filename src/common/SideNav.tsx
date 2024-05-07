@@ -13,10 +13,14 @@ export default function Navbar() {
   }> = [
     { title: "Home", link: "/", icon: "home" },
     { title: "Account", link: "/account", icon: "person" },
-    { title: "Dashboard", link: "/dashboard", icon: "analytics" },
+    {
+      title: "Dashboard",
+      link: "/dashboard",
+      icon: "analytics",
+      marketersOnly: true,
+    },
     { title: "Policies", link: "/policies", icon: "description" },
     { title: "Applications", link: "/applications", icon: "grid" },
-    { title: "Providers", link: "/providers", icon: "key" },
     {
       title: "Marketing",
       link: "/new-policy",
@@ -93,7 +97,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {showNav &&
+      {showNav && (
         <nav className="flex flex-col p-6 border-r border-border widescreen:hidden absolute top-0 left-0 bg-background z-10 h-full">
           <div
             className="flex items-center gap-x-2 cursor-pointer relative"
@@ -148,7 +152,7 @@ export default function Navbar() {
             ))}
           </div>
         </nav>
-      }
+      )}
     </>
   );
 }

@@ -10,7 +10,10 @@ import ToastsInput from "../../common/ToastsInput";
 import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import api from "../../utils/api";
-import { AbiCoder, keccak256 } from "ethers";
+import { AbiCoder, FunctionFragment, ethers, keccak256 } from "ethers";
+import { useContractWrite } from "wagmi";
+import contractDefinitions from "../../contracts";
+import { usdtDecimals } from "../../contracts/usdt";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -32,6 +35,17 @@ export default function NewPolicyPage() {
   const [loading, setLoading] = useState(false);
 
   const encoder = new AbiCoder();
+
+  const newPolicyOnSurity = useContractWrite({
+    ...contractDefinitions.surity,
+    functionName: "deployNewScheme",
+  });
+  const approveTransfer = useContractWrite({
+    ...contractDefinitions.usdt,
+    functionName: "approve",
+  });
+
+  const abiEncoder = new ethers.AbiCoder();
 
   return (
     <>
@@ -63,13 +77,9 @@ export default function NewPolicyPage() {
                 req = { ...r };
               }
 
-              const digest = keccak256(
-                encoder.encode(
-                  ["string", "string", "string"],
-                  [req.name, req.premiumFunc, req.claimFunc]
-                )
+              req.initialStake = BigInt(
+                req.initialStake * Math.pow(10, usdtDecimals)
               );
-              console.log(digest);
 
               (req.claimFuncArgs as Args).forEach((arg, i) => {
                 const { typeName, ...rest } = arg;
@@ -82,29 +92,33 @@ export default function NewPolicyPage() {
                 req.premiumFuncArgs[i] = rest;
               });
 
-              api.policy
-                .createNewPolicy({
-                  insuranceContractAddress: "0xfnkf",
-                  name: req.name,
-                  description: req.description,
-                  category: req.category,
-                  minimumClaim: req.minimumClaim,
-                  maximumClaim: req.maximumClaim,
-                  minimumDuration: req.minimumDuration,
-                  maximumDuration: req.maximumDuration,
-                  claimFunction: req.claimFunc,
-                  claimFuncDescription: req.claimFuncDescription,
-                  claimFunctionArguments: req.claimFuncArgs,
-                  premiumFunction: req.premiumFunc,
-                  premiumFuncDescription: req.premiumFuncDescription,
-                  premiumFunctionArguments: req.premiumFuncArgs,
-                  tags: req.tags,
-                  intialStake: req.intialStake,
+              approveTransfer
+                .writeAsync({
+                  args: [
+                    contractDefinitions.surity.address,
+                    req.initialStake + BigInt(1),
+                  ],
+                })
+                .then(() => {
+                  newPolicyOnSurity
+                    .writeAsync({
+                      args: [
+                        req.initialStake,
+                        ethers.keccak256(
+                          abiEncoder.encode(
+                            ["string", "string"],
+                            [req.premiumFunc || null, req.claimFunc || null]
+                          )
+                        ) as `0x`,
+                      ],
+                    })
+                    .then((res) => {
+                      console.log(res);
+                    });
                 })
                 .finally(() => {
                   setLoading(false);
                 });
-
               // api.policy
               //   .createNewPolicy({
               //     insuranceContractAddress: "0xfnkf",
@@ -379,7 +393,7 @@ export default function NewPolicyPage() {
               <button
                 type="submit"
                 className="bg-primary py-2 px-6 rounded-md text-back font-medium disabled:cursor-progress disabled:opacity-60 disabled:animate-pulse"
-                disabled={loading}
+                // disabled={loading}
               >
                 Save
               </button>

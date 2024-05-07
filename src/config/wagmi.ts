@@ -14,8 +14,8 @@ const donau: Chain = {
   },
   network: "bittorrent-chain-donau",
   rpcUrls: {
-    default: { http: ["https://testscan.bt.io"] },
-    public: { http: ["https://testscan.bt.io"] },
+    default: { http: ["https://pre-rpc.bt.io/"] },
+    public: { http: ["https://pre-rpc.bt.io/"] },
   },
   blockExplorers: {
     default: { name: "BTTscan donau", url: "https://testscan.bt.io" },

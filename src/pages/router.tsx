@@ -15,20 +15,30 @@ import SettingsPage from "./SettingsPage";
 import NewMarketerPage from "./NewMarketerPage";
 import BuyPolicyPage from "./BuyPolicyPage";
 import DashboardPage from "./DashboardPage";
+import ProtectedRoute, { ProtectedTypes } from "../common/ProtectedRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route element={<Layout.Default />}>
         <Route index element={<HomePage />} />
-        <Route path="account" element={<AccountPage />} />
         <Route path="policies" element={<PoliciesPage />} />
-        <Route path="new-policy" element={<NewPolicyPage />} />
         <Route path="policies/:id" element={<PolicyPage />} />
-        <Route path="settings" element={<SettingsPage />} />
-        <Route path="new-marketer" element={<NewMarketerPage />} />
-        <Route path="buy-policy/:id" element={<BuyPolicyPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+
+        <Route element={<ProtectedRoute type={ProtectedTypes.VERIFIEDONLY} />}>
+          <Route path="account" element={<AccountPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="buy-policy/:id" element={<BuyPolicyPage />} />
+        </Route>
+
+        <Route element={<ProtectedRoute type={ProtectedTypes.CONSUMERONLY} />}>
+          <Route path="new-marketer" element={<NewMarketerPage />} />
+        </Route>
+
+        <Route element={<ProtectedRoute type={ProtectedTypes.MARKETERONLY} />}>
+          <Route path="new-policy" element={<NewPolicyPage />} />
+          <Route path="dashboard" element={<DashboardPage />} />
+        </Route>
 
         <Route path="*" element={<ErrorPage />} />
       </Route>

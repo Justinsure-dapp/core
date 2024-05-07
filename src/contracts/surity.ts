@@ -1,4 +1,4 @@
-const address = "0xB9e2A2008d3A58adD8CC1cE9c15BF6D4bB9C6d72" as const;
+const address = "0x19f387Ee54e0220Ac1fDFA24b19F859c89256494" as const;
 
 const abi = [
   {
@@ -41,16 +41,6 @@ const abi = [
       },
       {
         internalType: "bytes32",
-        name: "_hashedName",
-        type: "bytes32",
-      },
-      {
-        internalType: "bytes",
-        name: "_serverSignedContractVerification",
-        type: "bytes",
-      },
-      {
-        internalType: "bytes32",
         name: "_digestFunctionVerification",
         type: "bytes32",
       },
@@ -71,11 +61,6 @@ const abi = [
       {
         internalType: "address",
         name: "_usdtAddress",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_rewardTokenAddress",
         type: "address",
       },
     ],

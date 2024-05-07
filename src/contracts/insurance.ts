@@ -18,16 +18,6 @@ const abi = [
       },
       {
         internalType: "bytes32",
-        name: "_hashedName",
-        type: "bytes32",
-      },
-      {
-        internalType: "bytes",
-        name: "_serverSignedContractVerification",
-        type: "bytes",
-      },
-      {
-        internalType: "bytes32",
         name: "_digestFunctionVerification",
         type: "bytes32",
       },

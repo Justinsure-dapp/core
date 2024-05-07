@@ -1,11 +1,12 @@
 import { twMerge } from "tailwind-merge";
-import DocTitle from "../../common/DocTitle";
+import DocTitle from "../../../common/DocTitle";
 import { useState } from "react";
-import useModal from "../../hooks/useModal";
+import useModal from "../../../hooks/useModal";
 import { Link } from "react-router-dom";
-import Icon from "../../common/Icon";
-import StakeDistribution from "./components/StakeDistribution";
-import AutomatedInvestment from "./components/AutomatedInvestment";
+import Icon from "../../../common/Icon";
+import StakeDistribution from "./StakeDistribution";
+import AutomatedInvestment from "./AutomatedInvestment";
+import PolicyHolders from "./PolicyHolders";
 
 export default function DashboardPage() {
   const [expanded, setExpanded] = useState(Array(policies.length).fill(false));
@@ -103,7 +104,7 @@ export default function DashboardPage() {
                 <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
                   Recent Activity
                 </button>
-                <PolicyHol
+                <PolicyHolders />
                 <StakeDistribution data={policy.data} />
                 <AutomatedInvestment />
               </div>

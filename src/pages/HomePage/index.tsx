@@ -9,8 +9,23 @@ export default function HomePage() {
 
       <div className="p-page py-8">
         <div className="flex gap-6">
-          <article className="flex flex-col w-1/4 bg-pink-200 rounded-lg h-[60vh] mobile:hidden"></article>
-          <div className="flex flex-col w-3/4 gap-6 mobile:w-full">
+          <article className="flex flex-col w-1/4 bg-pink-200 rounded-lg h-[60vh] mobile:hidden overflow-hidden items-center py-2 text-violet-950 px-3 gap-y-4 text-center">
+            <p className="font-bold text-lg">Soparu the Rabbit</p>
+            <p>
+              Has an interesting back story of how she went from being a farmer
+              to working with Insurances on Web3 with Surity
+            </p>
+
+            <p className="font-medium mt-1 -mb-1">Did you know?</p>
+            <p className="-my-1 text-xs">Soparu the Rabbit is a Robbot</p>
+            <p className="-my-1 text-xs">Soparu the Rab(bit) is holding BTTC</p>
+
+            <img
+              className="aspect-square scale-[115%] translate-y-[10%]"
+              src="/images/soparu-on-farm.jpg"
+            />
+          </article>
+          <div className="flex flex-col w-3/4 gap-6 mobile:w-full ">
             <article className="bg-secondary rounded-lg overflow-b-hidden flex">
               <img
                 src="/images/soparu.webp"
@@ -44,14 +59,25 @@ export default function HomePage() {
               </div>
             </article>
 
-            <article className="bg-gradient-to-br relative from-violet-400 via-blue-800-200 to-green-600 flex-1 w-full rounded-lg flex justify-center items-center">
+            <article
+              onClick={() => {
+                window.open("https://bttc.bittorrent.com/");
+              }}
+              className="cursor-pointer bg-gradient-to-br relative from-violet-400 via-blue-800-200 to-green-600 flex-1 group w-full rounded-lg flex justify-center items-center"
+            >
               <div className="absolute-cover z-1 bg-gradient-to-bl from-white/30 to-white/40 via-transparent" />
 
-              <div className="relative z-10 bg-red-100 rounded-full flex items-center gap-x-1 text-tron-red px-5">
+              <div className="relative z-10 bg-gray-800 rounded-full flex items-center gap-x-2 text-white px-5 py-3 duration-700 group-hover:scale-110">
                 Powered By
-                <img src="/icons/tron.svg" alt="tron" className="h-[2em]" />
-                Tron
+                <img src="/icons/bttc.png" alt="bttc" className="h-[2em]" />
+                BitTorrent Chain
               </div>
+
+              <p className="absolute flex gap-x-1 z-10 text-xs items-center bottom-3 right-2 text-tron-red bg-red-100 px-3 rounded-full">
+                Coming soon to the
+                <img src="/icons/tron.svg" alt="tron" className="h-[2em]" />
+                Tron Network
+              </p>
             </article>
           </div>
         </div>
