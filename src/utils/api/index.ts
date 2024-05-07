@@ -1,10 +1,9 @@
 import axios from "axios";
 import user from "./user";
 import policy from "./policy";
+import { serverUrl } from "../../config";
 
 let address: string | null = null;
-
-const serverUrl = "http://localhost:9090";
 
 export let client = createApi();
 
@@ -57,7 +56,7 @@ export function clearAddress() {
 
 const api = {
   user,
-  policy
+  policy,
 };
 
 export default api;
