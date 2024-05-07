@@ -1,16 +1,36 @@
-const address = "TRSUtVH1BMQTXv7N5LLyFeFu5njP62NPFh" as const;
+const address = "0xB9e2A2008d3A58adD8CC1cE9c15BF6D4bB9C6d72" as const;
 
 const abi = [
   {
     inputs: [
       {
         internalType: "address",
-        name: "_usdtContractAddress",
+        name: "_user",
         type: "address",
       },
     ],
+    name: "addPolicyToUsersRecords",
+    outputs: [],
     stateMutability: "nonpayable",
-    type: "constructor",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_policy",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_index",
+        type: "uint256",
+      },
+    ],
+    name: "claimRewardEarned",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
@@ -21,11 +41,21 @@ const abi = [
       },
       {
         internalType: "bytes32",
-        name: "_digest",
+        name: "_hashedName",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes",
+        name: "_serverSignedContractVerification",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes32",
+        name: "_digestFunctionVerification",
         type: "bytes32",
       },
     ],
-    name: "createNewPolicy",
+    name: "deployNewScheme",
     outputs: [
       {
         internalType: "address",
@@ -40,16 +70,106 @@ const abi = [
     inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "_usdtAddress",
         type: "address",
       },
+      {
+        internalType: "address",
+        name: "_rewardTokenAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "getAllSchemes",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_addr",
+        type: "address",
+      },
+    ],
+    name: "getpoliciesStakedInByUser",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_policy",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_index",
+        type: "uint256",
+      },
+    ],
+    name: "getRewardEarned",
+    outputs: [
       {
         internalType: "uint256",
         name: "",
         type: "uint256",
       },
     ],
-    name: "policySchemes",
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "_packed",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes",
+        name: "_signature",
+        type: "bytes",
+      },
+    ],
+    name: "recoverAddressV2",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "serverAddress",
     outputs: [
       {
         internalType: "address",
