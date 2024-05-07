@@ -51,10 +51,10 @@ export default function NewPolicyPage() {
     <>
       <DocTitle title="New Policy" />
 
-      <div className="p-page">
-        <section className="py-8 flex gap-x-6">
+      <div className="p-page overflow-x-hidden">
+        <section className="py-8">
           <DataForm
-            className="flex-1 flex flex-col"
+            className="flex flex-col"
             callback={(data) => {
               if (data.maximumClaim <= data.minimumClaim) {
                 alert("Maximum claim must be greater than minimum claim.");
@@ -409,7 +409,7 @@ export default function NewPolicyPage() {
             </div>
           </DataForm>
 
-          <div className="basis-[28%] bg-foreground rounded-xl mobile:hidden"></div>
+          {/* <div className="basis-[28%] bg-foreground rounded-xl mobile:hidden"></div> */}
         </section>
       </div>
     </>

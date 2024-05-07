@@ -45,11 +45,16 @@ export default function SurityInfo() {
         <p>{new Date(Date.now()).toDateString()}</p>
       </div>
 
-      <div className="flex items-center gap-x-3">
+      <div className="flex items-center gap-x-2 mt-1">
         Socials
         {socialLinks.map((social, key) => (
           <Link to={social.link} key={key}>
-            <Icon icon={social.icon} />
+            <div className="rounded-full overflow-hidden flex items-center justify-center object-cover">
+              <img
+                src={social.imgUrl}
+                className="rounded-full w-[1.5vw] object-cover"
+              />
+            </div>
           </Link>
         ))}
       </div>
@@ -57,9 +62,30 @@ export default function SurityInfo() {
   );
 }
 
-const socialLinks: Array<{ link: string; icon: IconType }> = [
-  { link: "", icon: "github" },
-  { link: "", icon: "github" },
-  { link: "", icon: "github" },
-  { link: "", icon: "github" },
+const socialLinks: Array<{ link: string; imgUrl: string }> = [
+  {
+    link: "",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png",
+  },
+  {
+    link: "",
+    imgUrl:
+      "https://scontent.fdel29-1.fna.fbcdn.net/v/t39.30808-1/277519684_10158675188522823_7436488509713286219_n.jpg?stp=dst-jpg_p200x200&_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_ohc=F_DHgHf32okQ7kNvgFoDMRJ&_nc_oc=AdjrUmHCntXRL9eOPCBtHPxVVuPVWDCHqb0ZTzb2L4NkUqsC8hp-eIRmI_AGQVweuOU&_nc_ht=scontent.fdel29-1.fna&oh=00_AfCaEPtKb2uNPNySl52-Yn_nRg5gjnl7HyWLs2gokqC7Ww&oe=6640025B",
+  },
+  {
+    link: "",
+    imgUrl:
+      "https://cdn.iconscout.com/icon/premium/png-256-thumb/tron-4441424-3679719.png?f=webp",
+  },
+  {
+    link: "",
+    imgUrl:
+      "https://seeklogo.com/images/D/devpost-logo-95FF685C5D-seeklogo.com.png",
+  },
+  {
+    link: "",
+    imgUrl:
+      "https://m.media-amazon.com/images/I/61w1Q5OxE2L.jpg",
+  },
 ];
