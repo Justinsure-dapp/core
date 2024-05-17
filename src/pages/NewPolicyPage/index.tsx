@@ -82,12 +82,12 @@ export default function NewPolicyPage() {
           <DataForm
             className="flex flex-col"
             callback={(data) => {
-              if (data.maximumClaim <= data.minimumClaim) {
+              if (Number(data.maximumClaim) < Number(data.minimumClaim)) {
                 alert("Maximum claim must be greater than minimum claim.");
                 return;
               }
 
-              if (data.maximumDuration <= data.minimumDuration) {
+              if (Number(data.maximumDuration) < Number(data.minimumDuration)) {
                 alert(
                   "Maximum duration must be greater than minimum duration."
                 );
