@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import Icon, { IconType } from "./Icon";
 import useWeb3 from "../contexts/web3context";
 import { useState } from "react";
+import Header from "./Header";
 
 export default function Navbar() {
   const navItems: Array<{
@@ -38,7 +39,7 @@ export default function Navbar() {
   ];
 
   const { user } = useWeb3();
-  const [showNav, setShowNav] = useState(false);
+  const [showNav, setShowNav] = useState(true);
 
   return (
     <>
@@ -97,8 +98,15 @@ export default function Navbar() {
         </div>
       </nav>
 
+      <button
+        className="absolute top-4 right-0 z-[102] -translate-x-4 text-2xl bg-primary text-back p-1 rounded-lg"
+        onClick={() => setShowNav(!showNav)}
+      >
+        <Icon icon="menu" />
+      </button>
+
       {showNav && (
-        <nav className="flex flex-col p-6 border-r border-border widescreen:hidden absolute top-0 left-0 bg-background z-10 h-full">
+        <nav className="flex flex-col p-6 border-l border-border widescreen:hidden absolute top-0 right-0 bg-background z-30 h-full mt-12 ">
           <div
             className="flex items-center gap-x-2 cursor-pointer relative"
             role="button"
@@ -131,6 +139,7 @@ export default function Navbar() {
           <div role="list" className="flex flex-col gap-y-2 py-4">
             {navItems.map((item, key) => (
               <NavLink
+                onClick={() => setShowNav(false)}
                 to={item.link}
                 key={key}
                 role="listitem"
@@ -151,6 +160,13 @@ export default function Navbar() {
               </NavLink>
             ))}
           </div>
+
+          <button
+            className="self-end mt-4 underline"
+            onClick={() => setShowNav(false)}
+          >
+            close
+          </button>
         </nav>
       )}
     </>
