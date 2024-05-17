@@ -99,7 +99,7 @@ export default function Navbar() {
       </nav>
 
       <button
-        className="absolute top-4 right-0 z-[102] -translate-x-4 text-2xl bg-primary text-back p-1 rounded-lg"
+        className="absolute top-4 right-0 z-[102] -translate-x-4 text-2xl bg-primary text-back p-1 rounded-lg widescreen:hidden"
         onClick={() => setShowNav(!showNav)}
       >
         <Icon icon="menu" />
