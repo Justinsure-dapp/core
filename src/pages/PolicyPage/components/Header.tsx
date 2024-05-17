@@ -3,9 +3,13 @@ import StarRating from "../../../common/StarRating";
 import ClaimInfo from "./ClaimsInfo";
 import useModal from "../../../hooks/useModal";
 import StakeModal from "./StakeModal";
+import { Policy } from "../../../types";
 
-export default function Header(props: { id: string | undefined }) {
+export default function Header(props: { policy: Policy }) {
   const modal = useModal();
+
+  const { policy } = props;
+
   return (
     <div className="flex w-full gap-x-4 justify-between border-b pt-4 pb-8 border-front/20 ">
       <div className="flex gap-x-4">
@@ -17,8 +21,10 @@ export default function Header(props: { id: string | undefined }) {
           <div className="flex justify-between gap-y-2 mobile:flex-col">
             <div className="flex flex-col gap-y-2">
               <div className="flex items-center gap-x-2 mobile:items-end">
-                <h1 className="text-2xl font-semibold">Car insurance Policy</h1>{" "}
-                -<h2 className="text-2xl text-primary font-bold">SureCar</h2>
+                <h1 className="text-2xl font-semibold">{policy.name}</h1> -
+                <h2 className="text-2xl text-primary font-bold">
+                  {policy.owner || "Error"}
+                </h2>
               </div>
               <div className="flex gap-x-1 items-center">
                 <StarRating rating={2.7} />
@@ -28,7 +34,7 @@ export default function Header(props: { id: string | undefined }) {
             </div>
             <div className="flex gap-x-4">
               <Link
-                to={`/buy-policy/${props.id}`}
+                to={`/buy-policy/${policy.address}`}
                 className="bg-primary h-max px-4 py-2 rounded-lg text-back font-semibold hover:scale-105 duration-300 ease-out"
               >
                 Buy Policy
@@ -41,14 +47,7 @@ export default function Header(props: { id: string | undefined }) {
               </button>
             </div>
           </div>
-          <div className="text-front/80">
-            Protect your vehicle and your peace of mind with our comprehensive
-            car insurance. Whether you're driving around town or hitting the
-            open road, our coverage offers financial protection against
-            accidents, theft, and unexpected damages. With 24/7 support and
-            flexible payment options, you can drive with confidence knowing
-            you're covered. jaf fk kwnwwks mkwon kwnke.
-          </div>
+          <div className="text-front/80">{policy.description}</div>
         </div>
       </div>
     </div>

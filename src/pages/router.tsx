@@ -23,12 +23,12 @@ const router = createBrowserRouter(
       <Route element={<Layout.Default />}>
         <Route index element={<HomePage />} />
         <Route path="policies" element={<PoliciesPage />} />
-        <Route path="policies/:id" element={<PolicyPage />} />
+        <Route path="policies/:address" element={<PolicyPage />} />
 
         <Route element={<ProtectedRoute type={ProtectedTypes.VERIFIEDONLY} />}>
           <Route path="account" element={<AccountPage />} />
           <Route path="settings" element={<SettingsPage />} />
-          <Route path="buy-policy/:id" element={<BuyPolicyPage />} />
+          <Route path="buy-policy/:address" element={<BuyPolicyPage />} />
         </Route>
 
         <Route element={<ProtectedRoute type={ProtectedTypes.CONSUMERONLY} />}>

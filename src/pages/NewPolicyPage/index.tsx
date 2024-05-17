@@ -12,18 +12,22 @@ import DataForm from "../../common/DataForm";
 import api from "../../utils/api";
 import { AbiCoder, FunctionFragment, ethers, keccak256 } from "ethers";
 import {
+  useAccount,
   useContractRead,
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
 import contractDefinitions from "../../contracts";
 import { usdtDecimals } from "../../contracts/usdt";
+import { useNavigate } from "react-router-dom";
 
 export default function NewPolicyPage() {
   const twInputStyle =
     "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
 
   const modal = useModal();
+
+  const { address } = useAccount();
 
   const [premiumFunc, setPremiumFunc] = useState("");
   const [premiumFuncArgs, setPremiumFuncArgs] = useState<Array<string>>([]);
@@ -47,16 +51,16 @@ export default function NewPolicyPage() {
     functionName: "approve",
   });
 
+  const latestPolicy = useContractRead({
+    ...contractDefinitions.surity,
+    functionName: "getLatestScheme",
+  });
+
   const abiEncoder = new ethers.AbiCoder();
+  const navigate = useNavigate();
 
   const [newPolicyArgs, setNewPolicyArgs] = useState<[bigint, `0x${string}`]>();
-  console.log(newPolicyArgs);
-
-  const d = useContractRead({
-    ...contractDefinitions.surity,
-    functionName: "getAllSchemes",
-  });
-  console.log(d.data);
+  const [reqData, setReq] = useState<any>({});
 
   useWaitForTransaction({
     hash: approveTransfer.data?.hash,
@@ -67,9 +71,38 @@ export default function NewPolicyPage() {
 
   useWaitForTransaction({
     hash: newPolicyOnSurity.data?.hash,
-    onSettled(data, error) {
-      const response = data ? data.logs[0] : [];
-      console.log(data);
+    async onSettled(data, error) {
+      const addr = await latestPolicy.refetch();
+
+      const newPolicyAddress = addr?.data;
+
+      if (!newPolicyAddress) {
+        alert("Error Happened");
+        return setLoading(false);
+      }
+
+      await api.policy
+        .createNewPolicy({
+          category: reqData.category,
+          claimFunction: reqData.claimFunc,
+          claimFunctionArguments: reqData.claimFuncArgs,
+          claimFuncDescription: reqData.claimFuncDescription,
+          description: reqData.description,
+          intialStake: Number(reqData.initialStake),
+          insuranceContractAddress: newPolicyAddress,
+          maximumClaim: reqData.maximumClaim,
+          minimumClaim: reqData.minimumClaim,
+          maximumDuration: reqData.maximumDuration,
+          minimumDuration: reqData.minimumDuration,
+          name: reqData.name,
+          premiumFuncDescription: reqData.premiumFuncDescription,
+          premiumFunction: reqData.premiumFunc,
+          premiumFunctionArguments: reqData.premiumFuncArgs,
+          tags: reqData.tags,
+        })
+        .then(() => {
+          navigate(`/policies/${newPolicyAddress}`);
+        });
     },
   });
 
@@ -134,6 +167,8 @@ export default function NewPolicyPage() {
                   req.initialStake + BigInt(1),
                 ],
               });
+
+              setReq(req);
             }}
           >
             <h1 className="font-semibold text-xl">Policy Settings</h1>

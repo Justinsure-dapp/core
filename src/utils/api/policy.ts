@@ -1,5 +1,6 @@
 import { Address } from "abitype";
 import { client } from ".";
+import { Policy } from "../../types";
 
 const user = {
   async createNewPolicy(options: {
@@ -35,6 +36,15 @@ const user = {
 
     const data = response.data;
     return data;
+  },
+
+  async getByAddress(address: string) {
+    const response = await client.get<{ policy: Policy }>(
+      `/policy/get/${address}`
+    );
+
+    const data = response.data;
+    return data.policy;
   },
 };
 

@@ -1,4 +1,4 @@
-const address = "0x19f387Ee54e0220Ac1fDFA24b19F859c89256494" as const;
+const address = "0xCC834d698E60D283Fa86d08Fd7726535339aC0B1" as const;
 
 const abi = [
   {
@@ -75,6 +75,19 @@ const abi = [
         internalType: "address[]",
         name: "",
         type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getLatestScheme",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
