@@ -11,7 +11,11 @@ import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import api from "../../utils/api";
 import { AbiCoder, FunctionFragment, ethers, keccak256 } from "ethers";
-import { useContractWrite } from "wagmi";
+import {
+  useContractRead,
+  useContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import contractDefinitions from "../../contracts";
 import { usdtDecimals } from "../../contracts/usdt";
 
@@ -34,8 +38,6 @@ export default function NewPolicyPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const encoder = new AbiCoder();
-
   const newPolicyOnSurity = useContractWrite({
     ...contractDefinitions.surity,
     functionName: "deployNewScheme",
@@ -46,6 +48,30 @@ export default function NewPolicyPage() {
   });
 
   const abiEncoder = new ethers.AbiCoder();
+
+  const [newPolicyArgs, setNewPolicyArgs] = useState<[bigint, `0x${string}`]>();
+  console.log(newPolicyArgs);
+
+  const d = useContractRead({
+    ...contractDefinitions.surity,
+    functionName: "getAllSchemes",
+  });
+  console.log(d.data);
+
+  useWaitForTransaction({
+    hash: approveTransfer.data?.hash,
+    onSettled() {
+      newPolicyArgs && newPolicyOnSurity.write({ args: newPolicyArgs });
+    },
+  });
+
+  useWaitForTransaction({
+    hash: newPolicyOnSurity.data?.hash,
+    onSettled(data, error) {
+      const response = data ? data.logs[0] : [];
+      console.log(data);
+    },
+  });
 
   return (
     <>
@@ -92,55 +118,22 @@ export default function NewPolicyPage() {
                 req.premiumFuncArgs[i] = rest;
               });
 
-              approveTransfer
-                .writeAsync({
-                  args: [
-                    contractDefinitions.surity.address,
-                    req.initialStake + BigInt(1),
-                  ],
-                })
-                .then(() => {
-                  newPolicyOnSurity
-                    .writeAsync({
-                      args: [
-                        req.initialStake,
-                        ethers.keccak256(
-                          abiEncoder.encode(
-                            ["string", "string"],
-                            [req.premiumFunc || null, req.claimFunc || null]
-                          )
-                        ) as `0x`,
-                      ],
-                    })
-                    .then((res) => {
-                      console.log(res);
-                    });
-                })
-                .finally(() => {
-                  setLoading(false);
-                });
-              // api.policy
-              //   .createNewPolicy({
-              //     insuranceContractAddress: "0xfnkf",
-              //     name: req.name,
-              //     description: req.description,
-              //     category: req.category,
-              //     minimumClaim: req.minimumClaim,
-              //     maximumClaim: req.maximumClaim,
-              //     minimumDuration: req.minimumDuration,
-              //     maximumDuration: req.maximumDuration,
-              //     claimFunction: req.claimFunc,
-              //     claimFuncDescription: req.claimFuncDescription,
-              //     claimFunctionArguments: req.claimFuncArgs,
-              //     premiumFunction: req.premiumFunc,
-              //     premiumFuncDescription: req.premiumFuncDescription,
-              //     premiumFunctionArguments: req.premiumFuncArgs,
-              //     tags: req.tags,
-              //     intialStake: req.intialStake,
-              //   })
-              //   .finally(() => {
-              //     setLoading(false);
-              //   });
+              setNewPolicyArgs([
+                BigInt(Number(req.initialStake)),
+                ethers.keccak256(
+                  abiEncoder.encode(
+                    ["string", "string"],
+                    [req.premiumFunc || null, req.claimFunc || null]
+                  )
+                ) as `0x`,
+              ]);
+
+              approveTransfer.write({
+                args: [
+                  contractDefinitions.surity.address,
+                  req.initialStake + BigInt(1),
+                ],
+              });
             }}
           >
             <h1 className="font-semibold text-xl">Policy Settings</h1>
