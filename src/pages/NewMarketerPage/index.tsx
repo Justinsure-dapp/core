@@ -38,7 +38,7 @@ export default function NewMarketerPage() {
         }}
         className="flex flex-col gap-y-4 p-page"
       >
-        <div className="flex mt-6 gap-x-16">
+        <div className="flex mt-6 gap-x-16 mobile:gap-x-4">
           <div className="flex flex-col gap-y-6 basis-3/4">
             <div className="flex flex-col gap-y-1">
               <h1 className="text-sm text-front/80">Marketing Name</h1>
@@ -61,7 +61,7 @@ export default function NewMarketerPage() {
           </div>
           <div
             className={twMerge(
-              "bg-secondary/20 rounded-xl basis-1/4 flex items-center justify-center aspect-square",
+              "bg-secondary/20 rounded-xl basis-1/4 flex items-center justify-center aspect-square mobile:basis-1/2",
               !logo && "animate-pulse"
             )}
           >

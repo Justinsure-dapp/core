@@ -45,7 +45,9 @@ export default function Header() {
         <h1 className="text-xl font-black text-mute">{title}</h1>
       </div>
 
-      <ConnectWallet />
+      <div className="flex items-center gap-x-4 mobile:-translate-x-12">
+        <ConnectWallet />
+      </div>
       {/*className="text-sm max-h-10 py-2 px-6 w-max h-max" />*/}
     </header>
   );
