@@ -8,8 +8,8 @@ export default function HomePage() {
       <DocTitle title="What's New" />
 
       <div className="p-page py-8">
-        <div className="flex gap-6">
-          <article className="flex flex-col w-1/4 bg-pink-200 rounded-lg h-[60vh] mobile:hidden overflow-hidden items-center py-2 text-violet-950 px-3 gap-y-4 text-center">
+        <div className="flex gap-6 mobile:flex-col-reverse">
+          <article className="flex flex-col w-1/4 mobile:w-full bg-pink-200 rounded-lg h-[60vh] overflow-hidden items-center py-2 text-violet-950 px-3 gap-y-4 mobile:gap-y-2 text-center">
             <p className="font-bold text-lg">Soparu the Rabbit</p>
             <p>
               Has an interesting back story of how she went from being a farmer
@@ -25,12 +25,12 @@ export default function HomePage() {
               src="/images/soparu-on-farm.jpg"
             />
           </article>
-          <div className="flex flex-col w-3/4 gap-6 mobile:w-full ">
+          <div className="flex flex-col w-3/4 gap-6 mobile:w-full">
             <article className="bg-secondary rounded-lg overflow-b-hidden flex">
               <img
                 src="/images/soparu.webp"
                 alt="sopo mascot"
-                className="w-1/4 scale-125 -translate-y-3 mobile:w-1/2"
+                className="w-1/4 scale-125 -translate-y-3 mobile:w-1/2 mobile:hidden"
               />
               <div className="py-4 flex flex-col gap-y-5 px-4">
                 <p className="flex items-start font-medium text-3xl">
@@ -63,7 +63,7 @@ export default function HomePage() {
               onClick={() => {
                 window.open("https://bttc.bittorrent.com/");
               }}
-              className="cursor-pointer bg-gradient-to-br relative from-violet-400 via-blue-800-200 to-green-600 flex-1 group w-full rounded-lg flex justify-center items-center"
+              className="cursor-pointer bg-gradient-to-br relative from-violet-400 via-blue-800-200 to-green-600 mobile:py-16 flex-1 group w-full rounded-lg flex justify-center items-center"
             >
               <div className="absolute-cover z-1 bg-gradient-to-bl from-white/30 to-white/40 via-transparent" />
 
@@ -88,7 +88,7 @@ export default function HomePage() {
         >
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-100 group-hover:duration-200 animate-tilt"></div>
-            <button className="relative px-7 py-4 bg-black rounded-lg leading-none flex items-center divide-x divide-gray-600">
+            <button className="relative px-7 py-4 bg-black rounded-lg leading-none flex items-center widescreen:divide-x widescreen:divide-gray-600 mobile:flex-col mobile:gap-y-2">
               <span className="flex items-center space-x-5">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -100,11 +100,11 @@ export default function HomePage() {
                   <path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z" />
                 </svg>
 
-                <span className="pr-6 text-gray-100">
+                <span className="pr-6 text-gray-100 whitespace-nowrap">
                   We are live on Telegram
                 </span>
               </span>
-              <span className="pl-6 text-indigo-400 group-hover:text-gray-100 transition duration-200">
+              <span className="pl-6 text-indigo-400 group-hover:text-gray-100 transition duration-200 whitespace-nowrap">
                 Click here to try it &rarr;
               </span>
             </button>
