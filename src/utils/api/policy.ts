@@ -46,6 +46,15 @@ const user = {
     const data = response.data;
     return data.policy;
   },
+
+  async fetchAllPolicies() {
+    const response = await client.get<{ policies: Policy[] }>(
+      `/policy/fetch-all`
+    );
+
+    const data = response.data;
+    return data.policies;
+  },
 };
 
 export default user;
