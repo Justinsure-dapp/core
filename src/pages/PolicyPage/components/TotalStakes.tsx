@@ -7,7 +7,6 @@ export default function TotalStakes(props: { policy: Policy }) {
     (Number(policy.intialStake) / (1000000 * 15)) *
     100
   ).toFixed(2);
-  console.log(policy.intialStake);
   return (
     <div className="w-ful flex-col flex gap-y-2 pt-8 pb-16 p-page">
       <div className="flex justify-between mobile:flex-col mobile:gap-y-2">

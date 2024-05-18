@@ -43,7 +43,7 @@ export default function Header(props: { policy: Policy }) {
                 Buy Policy
               </Link>
               <button
-                onClick={() => modal.show(<StakeModal />)}
+                onClick={() => modal.show(<StakeModal policy={policy} />)}
                 className="border-primary text-primary border h-max px-6 py-2 rounded-lg font-semibold hover:scale-105 duration-300 ease-out"
               >
                 Stake

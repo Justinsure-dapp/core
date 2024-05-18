@@ -7,8 +7,9 @@ import { usdtDecimals } from "../../../contracts/usdt";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 
 import contractDefinitions from "../../../contracts";
+import { Policy } from "../../../types";
 
-export default function StakeModal() {
+export default function StakeModal(props: { policy: Policy }) {
   const modal = useModal();
   const stakeRef = useRef<HTMLInputElement>(null);
   const [stake, setStake] = useState<bigint>(BigInt(0));
@@ -30,6 +31,7 @@ export default function StakeModal() {
 
   const stakeToPolicy = useContractWrite({
     ...contractDefinitions.insurance,
+    address: props.policy.address,
     functionName: "stakeToPolicy",
   });
 
@@ -38,15 +40,15 @@ export default function StakeModal() {
     onSettled() {
       stakeToPolicy.write({ args: [stake] });
       setLoading(false);
-      modal.hide();
     },
   });
 
   function stakeApprove() {
     setLoading(true);
     approveTransfer.write({
-      args: [contractDefinitions.usdt.address, stake + BigInt(1)],
+      args: [props.policy.address, stake + BigInt(1)],
     });
+  
   }
 
   return (
