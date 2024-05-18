@@ -2,6 +2,7 @@ import axios from "axios";
 import user from "./user";
 import policy from "./policy";
 import { serverUrl } from "../../config";
+import marketer from "./marketer";
 
 let address: string | null = null;
 
@@ -57,6 +58,7 @@ export function clearAddress() {
 const api = {
   user,
   policy,
+  marketer
 };
 
 export default api;
