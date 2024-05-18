@@ -5,8 +5,6 @@ import PoolDistribution from "./components/PoolDistribution";
 import ClaimInfo from "./components/ClaimsInfo";
 import InvestmentPolicy from "./components/InvestmentPolicy";
 import Functions from "./components/Functions";
-import { useEffect, useState } from "react";
-import { Policy } from "../../types";
 import api from "../../utils/api";
 import useApiResponse from "../../hooks/useApiResponse";
 import DocTitle from "../../common/DocTitle";
