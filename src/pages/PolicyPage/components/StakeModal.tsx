@@ -2,14 +2,45 @@ import { twMerge } from "tailwind-merge";
 import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
+import { useRef, useState } from "react";
+import { usdtDecimals } from "../../../contracts/usdt";
+import { useContractWrite } from "wagmi";
 
-export default function StakeModal(){
+import contractDefinitions from "../../../contracts";
+
+export default function StakeModal() {
   const modal = useModal();
+  const stakeRef = useRef<HTMLInputElement>(null);
+  const [stake, setStake] = useState<bigint>(BigInt(0));
+  const [loading, setLoading] = useState(false);
+
+  const handleStakeChange = () => {
+    if (stakeRef.current) {
+      const value = Number(stakeRef.current.value);
+      if (!isNaN(value)) {
+        setStake(BigInt(value) * BigInt(Math.pow(10, usdtDecimals)));
+      }
+    }
+  };
+
+  const approveTransfer = useContractWrite({
+    ...contractDefinitions.usdt,
+    functionName: "approve",
+  });
+
+  function stakeApprove() {
+    setLoading(true);
+    approveTransfer.write({
+      args: [contractDefinitions.usdt.address, stake + BigInt(1)],
+    });
+    setLoading(false);
+  }
+
   return (
     <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
       <button
         className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1"
-        onClick={() => (modal.hide())}
+        onClick={() => modal.hide()}
       >
         <Icon icon="close" className="text-[1.5rem] mobile:text-[1rem]" />
       </button>
@@ -26,12 +57,22 @@ export default function StakeModal(){
       <div className="flex flex-col mt-3">
         <Heading>Enter amount to be Staked in policy</Heading>
         <input
+          ref={stakeRef}
+          type="number"
           className="rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
-          placeholder="Enter Amount"
+          placeholder="Enter Amount in FUSDT"
+          onChange={handleStakeChange}
         />
       </div>
-      <button className="mt-6 text-primary border-primary font-bold border duration-150 ease-in hover:-translate-y-1 w-max px-6 py-2 self-end rounded-lg">
-        Stake
+      <button
+        className={twMerge(
+          "mt-6 text-primary border-primary font-bold border duration-300 ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
+          loading ? "animate-pulse" : ""
+        )}
+        onClick={stakeApprove}
+        disabled={loading}
+      >
+        {loading ? "Staking..." : "Stake"}
       </button>
     </div>
   );
