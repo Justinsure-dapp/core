@@ -23,8 +23,8 @@ export default function PolicyPage() {
         <>
           <Header policy={policy.data} />
           <ClaimInfo policy={policy.data} />
-          <Functions />
-          <TotalStakes />
+          <Functions policy={policy.data} />
+          <TotalStakes policy={policy.data} />
           <PoolDistribution />
           <InvestmentPolicy />
         </>
