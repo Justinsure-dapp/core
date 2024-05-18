@@ -18,16 +18,16 @@ export default function ClaimInfo(props: { policy: Policy }) {
         ))}
         <div className="w-[45.3%] mobile:w-full duration-200 ease-in-out bg-foreground/40 border-2 border-foreground px-8 py-6 justify-center rounded-xl flex flex-col">
           {" "}
-          <h1 className="text-lg tracking-wide">
+          <h1 className="text-lg tracking-wide border-foreground border-b-2">
             Required duration for the policy
           </h1>
-          <div className="text-sm mt-2">
+          <div className=" mt-2">
             Minimum:{" "}
             <span className="text-primary font-bold">
               {closestTimeUnit(policy.durationLimits.minimum)}
             </span>
           </div>
-          <div className="text-sm mt-1">
+          <div className=" mt-1">
             Maximum:{" "}
             <span className="text-primary font-bold">
               {closestTimeUnit(policy.durationLimits.maximum)}
@@ -36,14 +36,14 @@ export default function ClaimInfo(props: { policy: Policy }) {
         </div>
         <div className="w-[45.3%] mobile:w-full duration-200 ease-in-out bg-foreground/40 border-2 border-foreground px-8 py-6 justify-center rounded-xl flex flex-col">
           {" "}
-          <h1 className="text-lg tracking-wide">Limit of the claim</h1>
-          <div className="text-sm mt-2">
+          <h1 className="text-lg tracking-wide border-foreground border-b-2">Limit of the claim</h1>
+          <div className="mt-2">
             Minimum:{" "}
             <span className="text-primary font-bold">
               ${policy.claimLimits.minimum}
             </span>
           </div>
-          <div className="text-sm mt-1">
+          <div className="mt-1">
             Maximum:{" "}
             <span className="text-primary font-bold">
               ${policy.claimLimits.maximum}
