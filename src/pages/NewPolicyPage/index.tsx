@@ -427,11 +427,12 @@ export default function NewPolicyPage() {
               </button>
               <div className="my-2 bg-red-300 w-full p-2 rounded-lg text-red-950">
                 <p className="text-xs leading-tight">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
-                  facere voluptates aspernatur expedita exercitationem
-                  perferendis dignissimos, provident itaque explicabo hic nobis
-                  maiores repellendus magni neque officiis magnam ipsam dolorum,
-                  quis, earum maxime. Labore, mollitia.
+                  Once you create this policy, you won't be able to edit its
+                  details. Therefore, it is crucial to carefully review all the
+                  information you provide. Double-check every field to ensure
+                  accuracy and completeness before proceeding. Make sure
+                  everything is correct to avoid any future issues or
+                  discrepancies.
                 </p>
               </div>
             </div>

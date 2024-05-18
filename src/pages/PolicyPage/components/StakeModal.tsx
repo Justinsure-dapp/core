@@ -3,7 +3,7 @@ import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 
-export default function StakeModal() {
+export default function StakeModal(){
   const modal = useModal();
   return (
     <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">

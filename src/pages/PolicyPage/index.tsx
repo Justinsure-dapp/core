@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Policy } from "../../types";
 import api from "../../utils/api";
 import useApiResponse from "../../hooks/useApiResponse";
+import DocTitle from "../../common/DocTitle";
 
 export default function PolicyPage() {
   const { address } = useParams();
