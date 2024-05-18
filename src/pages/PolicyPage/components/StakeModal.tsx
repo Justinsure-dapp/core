@@ -4,7 +4,7 @@ import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 import { useRef, useState } from "react";
 import { usdtDecimals } from "../../../contracts/usdt";
-import { useContractWrite } from "wagmi";
+import { useContractWrite, useWaitForTransaction } from "wagmi";
 
 import contractDefinitions from "../../../contracts";
 
@@ -28,12 +28,25 @@ export default function StakeModal() {
     functionName: "approve",
   });
 
+  const stakeToPolicy = useContractWrite({
+    ...contractDefinitions.insurance,
+    functionName: "stakeToPolicy",
+  });
+
+  useWaitForTransaction({
+    hash: approveTransfer.data?.hash,
+    onSettled() {
+      stakeToPolicy.write({ args: [stake] });
+      setLoading(false);
+      modal.hide();
+    },
+  });
+
   function stakeApprove() {
     setLoading(true);
     approveTransfer.write({
       args: [contractDefinitions.usdt.address, stake + BigInt(1)],
     });
-    setLoading(false);
   }
 
   return (
