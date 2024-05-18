@@ -17,7 +17,7 @@ export default function Header(props: { policy: Policy }) {
     <div className="flex w-full gap-x-4 justify-between border-b pt-4 pb-8 border-front/20 ">
       <div className="flex gap-x-4 w-full">
         <img
-          src="https://i.pinimg.com/736x/26/7f/6c/267f6c91848164e2dd570d67fab5cb96.jpg"
+          src={marketerData.data?.marketer.image}
           className="w-[4vw] rounded-full aspect-square h-max mobile:w-[15vw]"
         />
         <div className="flex flex-col gap-y-2 w-full">

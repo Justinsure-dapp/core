@@ -7,6 +7,7 @@ import InvestmentPolicy from "./components/InvestmentPolicy";
 import Functions from "./components/Functions";
 import api from "../../utils/api";
 import useApiResponse from "../../hooks/useApiResponse";
+import DocTitle from "../../common/DocTitle";
 
 export default function PolicyPage() {
   const { address } = useParams();

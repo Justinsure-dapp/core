@@ -20,6 +20,7 @@ import {
 import contractDefinitions from "../../contracts";
 import { usdtDecimals } from "../../contracts/usdt";
 import { useNavigate } from "react-router-dom";
+import Icon from "../../common/Icon";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -290,13 +291,20 @@ export default function NewPolicyPage() {
                 </div>
               )}
 
-              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg">
-                <p className="">
+              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg group hover:bg-primary/10 duration-300 ease-in">
+                <p className="group-hover:opacity-40 ease-in duration-300">
                   I want to manually verify the request and calculate the
                   premium
                 </p>
+                <div className="font-bold text-red-500  animate-pulse items-center hidden group-hover:flex duration-300 ease-in gap-x-1">
+                  Work in Progress{" "}
+                  <span>
+                    <Icon icon="warning" />
+                  </span>
+                </div>
                 <input
-                  className="w-[1.2rem]"
+                  disabled
+                  className="w-[1.2rem] group-hover:opacity-40 ease-in duration-300"
                   type="checkbox"
                   checked={manualPremiumCheck}
                   onChange={() => setManualPremiumCheck(!manualPremiumCheck)}
@@ -347,12 +355,19 @@ export default function NewPolicyPage() {
                 </div>
               )}
 
-              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg">
-                <p className="">
-                  I want to manually verify the request of the claim
+              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg group hover:bg-primary/10 duration-300 ease-in">
+                <p className="group-hover:opacity-40 ease-in duration-300">
+                  I want to manually verify the request of the Claim
                 </p>
+                <div className="font-bold text-red-500  animate-pulse items-center hidden group-hover:flex duration-300 ease-in gap-x-1">
+                  Work in Progress{" "}
+                  <span>
+                    <Icon icon="warning" />
+                  </span>
+                </div>
                 <input
-                  className="w-[1.2rem]"
+                  disabled
+                  className="w-[1.2rem] group-hover:opacity-40 ease-in duration-300"
                   type="checkbox"
                   checked={manualClaimCheck}
                   onChange={() => setManualClaimCheck(!manualClaimCheck)}
@@ -427,11 +442,12 @@ export default function NewPolicyPage() {
               </button>
               <div className="my-2 bg-red-300 w-full p-2 rounded-lg text-red-950">
                 <p className="text-xs leading-tight">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
-                  facere voluptates aspernatur expedita exercitationem
-                  perferendis dignissimos, provident itaque explicabo hic nobis
-                  maiores repellendus magni neque officiis magnam ipsam dolorum,
-                  quis, earum maxime. Labore, mollitia.
+                  Once you create this policy, you won't be able to edit its
+                  details. Therefore, it is crucial to carefully review all the
+                  information you provide. Double-check every field to ensure
+                  accuracy and completeness before proceeding. Make sure
+                  everything is correct to avoid any future issues or
+                  discrepancies.
                 </p>
               </div>
             </div>
