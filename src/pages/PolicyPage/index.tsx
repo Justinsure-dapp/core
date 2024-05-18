@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Header from "./components/Header";
 import TotalStakes from "./components/TotalStakes";
 import PoolDistribution from "./components/PoolDistribution";
@@ -8,37 +8,21 @@ import Functions from "./components/Functions";
 import { useEffect, useState } from "react";
 import { Policy } from "../../types";
 import api from "../../utils/api";
+import useApiResponse from "../../hooks/useApiResponse";
 
 export default function PolicyPage() {
   const { address } = useParams();
 
-  const [policy, setPolicy] = useState<Policy>();
-  const [loading, setLoading] = useState(false);
+  if (!address) return <Navigate to="/" />;
 
-  const navigate = useNavigate();
-
-  async function loadData() {
-    setLoading(true);
-
-    if (!address) {
-      return navigate("/");
-    }
-
-    const policyData = await api.policy.getByAddress(address);
-    setPolicy(policyData);
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    loadData();
-  }, []);
+  const policy = useApiResponse(api.policy.getByAddress, address);
 
   return (
     <article className="p-page py-8 flex flex-col gap-y-4 w-full">
-      {!loading && policy && (
+      {!policy.loading && policy.data && (
         <>
-          <Header policy={policy} />
-          <ClaimInfo policy={policy} />
+          <Header policy={policy.data} />
+          <ClaimInfo policy={policy.data} />
           <Functions />
           <TotalStakes />
           <PoolDistribution />
