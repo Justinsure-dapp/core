@@ -5,27 +5,50 @@ import { useEffect, useState } from "react";
 import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import { closestTimeUnit } from "../../utils";
+import axios from "axios";
+import { useParams } from 'react-router-dom';
 
 export default function BuyPolicyPage() {
   const twInputStyle =
     "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
   const [claimValue, setClaimValue] = useState<string>("");
   const [isClaimInRange, setIsClaimInRange] = useState<boolean>(true);
+  const [insuranceDataLive, setInsuranceDataLive] = useState<any>({});
   const [duration, setDuration] = useState<number>(
-    insuranceData.durationLimits.minimum
+    0
   );
   const [isDurationInRange, setIsDurationInRange] = useState<boolean>(true);
+  const { address } = useParams<{ address: string }>();
 
   function checkRange(min: number, max: number, inputValue: number) {
     return inputValue >= min && inputValue <= max;
   }
 
   useEffect(() => {
+    const fetchInsuranceData = async () => {
+      try {
+        // fetch data from the server
+        const result = await axios.get(`http://localhost:9090/policy/get/${address}`);
+
+        // set the data to the state
+        setInsuranceDataLive(result.data?.policy);
+        setDuration(result.data?.policy.durationLimits.minimum);
+      } catch (error) {
+        console.error("Error fetching data", error);
+        setInsuranceDataLive({});
+      }
+    }
+
+    fetchInsuranceData();
+  }
+  , []);
+
+  useEffect(() => {
     if (
       duration &&
       checkRange(
-        insuranceData.claimLimits.minimum,
-        insuranceData.claimLimits.maximum,
+        insuranceDataLive.claimLimits?.minimum,
+        insuranceDataLive.claimLimits?.maximum,
         duration
       )
     ) {
@@ -35,14 +58,15 @@ export default function BuyPolicyPage() {
       console.log(
         "clain",
         checkRange(
-          insuranceData.claimLimits.minimum,
-          insuranceData.claimLimits.maximum,
+          insuranceDataLive.claimLimits?.minimum,
+          insuranceDataLive.claimLimits?.maximum,
           duration
         )
       );
       console.log(duration);
       setIsDurationInRange(false);
     }
+
   }, [duration]);
 
   return (
@@ -67,8 +91,8 @@ export default function BuyPolicyPage() {
               value={claimValue}
               onChange={(e) => {
                 const isClaimInRange = checkRange(
-                  insuranceData.claimLimits.minimum,
-                  insuranceData.claimLimits.maximum,
+                  insuranceDataLive.claimLimits?.minimum,
+                  insuranceDataLive.claimLimits?.maximum,
                   parseFloat(e.currentTarget.value)
                 );
                 setClaimValue(e.target.value);
@@ -78,7 +102,7 @@ export default function BuyPolicyPage() {
             />
             <p className="text-red-500">
               {!isClaimInRange &&
-                `Claim value must be between ${insuranceData.claimLimits.minimum} and ${insuranceData.claimLimits.maximum}`}
+                `Claim value must be between ${insuranceDataLive.claimLimits?.minimum} and ${insuranceDataLive.claimLimits?.maximum}`}
             </p>
           </div>
 
@@ -102,9 +126,9 @@ export default function BuyPolicyPage() {
             <p className="text-red-500">
               {!isDurationInRange &&
                 `Duration value must be between ${closestTimeUnit(
-                  insuranceData.durationLimits.minimum
+                  insuranceDataLive.durationLimits?.minimum
                 )} and ${closestTimeUnit(
-                  insuranceData.durationLimits.maximum
+                  insuranceDataLive.durationLimits?.maximum
                 )}`}
             </p>
           </div>
@@ -112,8 +136,8 @@ export default function BuyPolicyPage() {
           <div className="w-full">
             <h1>Premium calculation function arguments</h1>
             <div className="mt-2 bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
-              {insuranceData.premiumCalculationFunction.arguments.map(
-                (arg, key) => (
+              {insuranceDataLive.premiumCalculationFunction?.arguments.map(
+                (arg:any, key:number) => (
                   <div key={key} className="w-full flex flex-col gap-y-2">
                     <div className="flex gap-x-2">
                       <Heading className="capitalize">{arg.name}:</Heading>
@@ -163,22 +187,79 @@ export default function BuyPolicyPage() {
     </>
   );
 }
-const insuranceData = {
-  claimLimits: { minimum: 1000, maximum: 50000 },
-  durationLimits: { minimum: 864000000, maximum: 2592000000 },
-  premiumCalculationFunction: {
-    function: "calculateAutoPremium",
-    arguments: [
-      { name: "carValue", description: "Value of the car", htmlType: "number" },
-      { name: "age", description: "Age of the driver", htmlType: "number" },
-      {
-        name: "drivingHistory",
-        description: "Driving history of the insured",
-        htmlType: "text",
-      },
-    ],
-    description: "Function to calculate premium for auto insurance",
+
+// const insuranceData = {
+//   claimLimits: { minimum: 1000, maximum: 50000 },
+//   durationLimits: { minimum: 864000000, maximum: 2592000000 },
+//   premiumCalculationFunction: {
+//     function: "calculateAutoPremium",
+//     arguments: [
+//       { name: "carValue", description: "Value of the car", htmlType: "number" },
+//       { name: "age", description: "Age of the driver", htmlType: "number" },
+//       {
+//         name: "drivingHistory",
+//         description: "Driving history of the insured",
+//         htmlType: "text",
+//       },
+//     ],
+//     description: "Function to calculate premium for auto insurance",
+//   },
+//   intialStake: 1500,
+//   tags: ["auto", "insurance", "vehicle"],
+// };
+
+const newObj = {
+  "claimLimits": {
+      "minimum": 1,
+      "maximum": 100
   },
-  intialStake: 1500,
-  tags: ["auto", "insurance", "vehicle"],
-};
+  "durationLimits": {
+      "minimum": 172800000,
+      "maximum": 518400000
+  },
+  "claimValidationFunction": {
+      "function": "def sex(ok, no):\n   return",
+      "description": "no",
+      "arguments": [
+          {
+              "name": "ok",
+              "description": "",
+              "htmlType": "text",
+              "_id": "66e8acf27ec72a0ac134741d"
+          },
+          {
+              "name": "no",
+              "description": "",
+              "htmlType": "text",
+              "_id": "66e8acf27ec72a0ac134741e"
+          }
+      ]
+  },
+  "premiumCalculationFunction": {
+      "function": "def sex(ok, no):\n   return",
+      "description": "ok",
+      "arguments": [
+          {
+              "name": "ok",
+              "description": "",
+              "htmlType": "text",
+              "_id": "66e8acf27ec72a0ac134741f"
+          },
+          {
+              "name": "no",
+              "description": "",
+              "htmlType": "text",
+              "_id": "66e8acf27ec72a0ac1347420"
+          }
+      ]
+  },
+  "_id": "66e8acf27ec72a0ac134741c",
+  "address": "0x1AB121856693bD8Cab8Ce88AB47BC5d1c9dD2260",
+  "owner": "0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0",
+  "name": "iiitm",
+  "description": "marr gye toh / suicide. college ki mkc",
+  "category": "Terrorism",
+  "intialStake": 500000000,
+  "tags": [],
+  "__v": 0
+}
