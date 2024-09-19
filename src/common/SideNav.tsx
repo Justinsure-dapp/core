@@ -43,7 +43,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="flex flex-col p-6 border-r border-border mobile:hidden">
+      <nav className="flex flex-col w-[16rem] p-6 border-r border-border mobile:hidden">
         <div
           className="flex items-center gap-x-2 cursor-pointer relative"
           role="button"
@@ -52,7 +52,7 @@ export default function Navbar() {
           <img src="/logo.png" alt="logo" className="aspect-square w-10" />
           <div className="flex flex-col items-start gap-y-1">
             <div className="relative">
-              <h1 className="font-black text-2xl tracking-wider">Surity</h1>
+              <h1 className="font-black text-2xl tracking-wider">JustInsure</h1>
               {user?.marketer && (
                 <div className="group">
                   <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
@@ -106,7 +106,7 @@ export default function Navbar() {
       </button>
 
       {showNav && (
-        <nav className="flex flex-col p-6 border-l border-border widescreen:hidden absolute top-0 right-0 bg-background z-30 h-full mt-12 ">
+        <nav className="flex flex-col p-6 w-[16rem] border-l border-border widescreen:hidden absolute top-0 right-0 bg-background z-30 h-full mt-12 ">
           <div
             className="flex items-center gap-x-2 cursor-pointer relative"
             role="button"
@@ -115,7 +115,7 @@ export default function Navbar() {
             <img src="/logo.png" alt="logo" className="aspect-square w-10" />
             <div className="flex flex-col items-start gap-y-1">
               <div className="relative">
-                <h1 className="font-black text-2xl tracking-wider">Surity</h1>
+                <h1 className="font-black text-2xl tracking-wider">JustInsure</h1>
                 {user?.marketer && (
                   <div className="group">
                     <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
@@ -162,10 +162,11 @@ export default function Navbar() {
           </div>
 
           <button
-            className="self-end mt-4 underline"
+            className="self-start flex items-center gap-1 mt-4 ml-2 font-semibold border-zinc-700 border rounded-md py-2 px-3 hover:bg-zinc-800 transition-all"
             onClick={() => setShowNav(false)}
           >
-            close
+            <Icon icon='close' className="text-lg" />
+            Close
           </button>
         </nav>
       )}

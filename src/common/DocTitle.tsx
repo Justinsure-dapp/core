@@ -14,7 +14,7 @@ export default function DocTitle(props: {
 
   return (
     <Helmet key={seed}>
-      <title>{`Surity | Web3 Insurance ${title && "| " + title}`}</title>
+      <title>{`JustInsure | Web3 Insurance ${title && "| " + title}`}</title>
     </Helmet>
   );
 }

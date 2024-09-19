@@ -37,8 +37,8 @@ const wagmiConfig = createConfig({
         projectId: "756f8ad5a4c44ce4fbd9897445a10187",
         qrModalOptions: { themeMode: "dark" },
         metadata: {
-          name: "Surity",
-          description: "Surity Web3 Insurance",
+          name: "JustInsure",
+          description: "JustInsure Web3 Insurance",
           icons: ["/favicon.ico"],
           url: window.location.hostname,
         },

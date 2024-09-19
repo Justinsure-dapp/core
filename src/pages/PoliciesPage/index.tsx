@@ -12,7 +12,7 @@ export default function PoliciesPage() {
 
   return (
     <>
-      <DocTitle title="Policies on Surity" />
+      <DocTitle title="Policies on JustInsure" />
       <article className="p-page">
         <div className="flex py-6 gap-x-4 items-center">
           <input

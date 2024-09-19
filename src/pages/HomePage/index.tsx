@@ -13,7 +13,7 @@ export default function HomePage() {
             <p className="font-bold text-lg">Soparu the Rabbit</p>
             <p>
               Has an interesting back story of how she went from being a farmer
-              to working with Insurances on Web3 with Surity
+              to working with Insurances on Web3 with JustInsure
             </p>
 
             <p className="font-medium mt-1 -mb-1">Did you know?</p>
@@ -34,7 +34,7 @@ export default function HomePage() {
               />
               <div className="py-4 flex flex-col gap-y-5 px-4">
                 <p className="flex items-start font-medium text-3xl">
-                  Surity Early Access
+                  JustInsure Early Access
                   <span className="text-sm pl-1 font-normal">* testnet</span>
                 </p>
 
@@ -87,7 +87,7 @@ export default function HomePage() {
           className="flex items-start justify-center mt-8 w-full"
         >
           <div className="relative group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-100 group-hover:duration-200 animate-tilt"></div>
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-sky-600 to-cyan-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-100 group-hover:duration-200 animate-tilt"></div>
             <button className="relative px-7 py-4 bg-black rounded-lg leading-none flex items-center widescreen:divide-x widescreen:divide-gray-600 mobile:flex-col mobile:gap-y-2">
               <span className="flex items-center space-x-5">
                 <svg
@@ -95,7 +95,7 @@ export default function HomePage() {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  className="h-6 w-6 text-pink-600"
+                  className="h-6 w-6 text-sky-600"
                 >
                   <path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z" />
                 </svg>
@@ -104,7 +104,7 @@ export default function HomePage() {
                   We are live on Telegram
                 </span>
               </span>
-              <span className="pl-6 text-indigo-400 group-hover:text-gray-100 transition duration-200 whitespace-nowrap">
+              <span className="pl-6 text-cyan-400 group-hover:text-gray-100 transition duration-200 whitespace-nowrap">
                 Click here to try it &rarr;
               </span>
             </button>

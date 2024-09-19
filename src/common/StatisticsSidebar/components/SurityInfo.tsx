@@ -19,7 +19,7 @@ export default function SurityInfo() {
         <div className="flex relative z-10">
           <div className="w-1/4 flex flex-col items-center">
             <img src="/logo.png" alt="logo" className="brightness-0 invert" />
-            <p className="font-black text-lg">Surity</p>
+            <p className="font-black text-lg">JustInsure</p>
           </div>
 
           <figure role="separator" className="flex-1" />
