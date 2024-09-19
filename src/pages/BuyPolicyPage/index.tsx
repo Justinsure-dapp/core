@@ -6,7 +6,12 @@ import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import { closestTimeUnit } from "../../utils";
 import axios from "axios";
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import {
+  useContractWrite,
+} from "wagmi";
+import contractDefinitions from "../../contracts";
+import { isAddress } from "viem";
 
 export default function BuyPolicyPage() {
   const twInputStyle =
@@ -14,11 +19,15 @@ export default function BuyPolicyPage() {
   const [claimValue, setClaimValue] = useState<string>("");
   const [isClaimInRange, setIsClaimInRange] = useState<boolean>(true);
   const [insuranceDataLive, setInsuranceDataLive] = useState<any>({});
-  const [duration, setDuration] = useState<number>(
-    0
-  );
+  const [duration, setDuration] = useState<number>(0);
   const [isDurationInRange, setIsDurationInRange] = useState<boolean>(true);
   const { address } = useParams<{ address: string }>();
+
+  if (typeof address !== 'string' || !isAddress(address)) {
+    return <Navigate to="/policies" />
+  }
+
+  const buyInsurance = useContractWrite({ ...contractDefinitions.insurance, address: address, functionName: "buyInsurance" });
 
   function checkRange(min: number, max: number, inputValue: number) {
     return inputValue >= min && inputValue <= max;
@@ -32,7 +41,6 @@ export default function BuyPolicyPage() {
 
         // set the data to the state
         setInsuranceDataLive(result.data?.policy);
-        setDuration(result.data?.policy.durationLimits.minimum);
       } catch (error) {
         console.error("Error fetching data", error);
         setInsuranceDataLive({});
@@ -41,39 +49,38 @@ export default function BuyPolicyPage() {
 
     fetchInsuranceData();
   }
-  , []);
+    , []);
 
   useEffect(() => {
     if (
       duration &&
       checkRange(
-        insuranceDataLive.claimLimits?.minimum,
-        insuranceDataLive.claimLimits?.maximum,
+        insuranceDataLive.durationLimits?.minimum,
+        insuranceDataLive.durationLimits?.maximum,
         duration
       )
     ) {
       setIsDurationInRange(true);
     } else {
-      console.log("first");
-      console.log(
-        "clain",
-        checkRange(
-          insuranceDataLive.claimLimits?.minimum,
-          insuranceDataLive.claimLimits?.maximum,
-          duration
-        )
+      checkRange(
+        insuranceDataLive.durationLimits?.minimum,
+        insuranceDataLive.durationLimits?.maximum,
+        duration
       );
-      console.log(duration);
       setIsDurationInRange(false);
     }
 
   }, [duration]);
 
+  const handleFormSubmit = (data: Record<string, string>) => {
+    console.log(data);
+  };
+
   return (
     <>
       <DocTitle title="Buy Policy" />
       <div className="flex gap-x-6 p-page py-8">
-        <DataForm className="flex flex-col gap-y-7 flex-1 mobile:p-page">
+        <DataForm callback={handleFormSubmit} className="flex flex-col gap-y-7 flex-1 mobile:p-page">
           <div>
             <Heading
               className=""
@@ -88,6 +95,7 @@ export default function BuyPolicyPage() {
                 isClaimInRange ? "" : "border-red-500 "
               )}
               placeholder="Claim value"
+              name="Claim Value"
               value={claimValue}
               onChange={(e) => {
                 const isClaimInRange = checkRange(
@@ -119,8 +127,8 @@ export default function BuyPolicyPage() {
                 twInputStyle,
                 isDurationInRange ? "" : "border-red-500"
               )}
-              name="minimumDuration"
-              defaultValue="Days"
+              name="Duration"
+              defaultValue={1000 * 60 * 60 * 24}
               setter={setDuration}
             />
             <p className="text-red-500">
@@ -137,7 +145,7 @@ export default function BuyPolicyPage() {
             <h1>Premium calculation function arguments</h1>
             <div className="mt-2 bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
               {insuranceDataLive.premiumCalculationFunction?.arguments.map(
-                (arg:any, key:number) => (
+                (arg: any, key: number) => (
                   <div key={key} className="w-full flex flex-col gap-y-2">
                     <div className="flex gap-x-2">
                       <Heading className="capitalize">{arg.name}:</Heading>
@@ -147,6 +155,7 @@ export default function BuyPolicyPage() {
                       type={arg.htmlType}
                       className={twMerge(twInputStyle, "w-full")}
                       placeholder={arg.htmlType}
+                      name={arg.name}
                     />
                   </div>
                 )
@@ -210,48 +219,48 @@ export default function BuyPolicyPage() {
 
 const newObj = {
   "claimLimits": {
-      "minimum": 1,
-      "maximum": 100
+    "minimum": 1,
+    "maximum": 100
   },
   "durationLimits": {
-      "minimum": 172800000,
-      "maximum": 518400000
+    "minimum": 172800000,
+    "maximum": 518400000
   },
   "claimValidationFunction": {
-      "function": "def sex(ok, no):\n   return",
-      "description": "no",
-      "arguments": [
-          {
-              "name": "ok",
-              "description": "",
-              "htmlType": "text",
-              "_id": "66e8acf27ec72a0ac134741d"
-          },
-          {
-              "name": "no",
-              "description": "",
-              "htmlType": "text",
-              "_id": "66e8acf27ec72a0ac134741e"
-          }
-      ]
+    "function": "def sex(ok, no):\n   return",
+    "description": "no",
+    "arguments": [
+      {
+        "name": "ok",
+        "description": "",
+        "htmlType": "text",
+        "_id": "66e8acf27ec72a0ac134741d"
+      },
+      {
+        "name": "no",
+        "description": "",
+        "htmlType": "text",
+        "_id": "66e8acf27ec72a0ac134741e"
+      }
+    ]
   },
   "premiumCalculationFunction": {
-      "function": "def sex(ok, no):\n   return",
-      "description": "ok",
-      "arguments": [
-          {
-              "name": "ok",
-              "description": "",
-              "htmlType": "text",
-              "_id": "66e8acf27ec72a0ac134741f"
-          },
-          {
-              "name": "no",
-              "description": "",
-              "htmlType": "text",
-              "_id": "66e8acf27ec72a0ac1347420"
-          }
-      ]
+    "function": "def sex(ok, no):\n   return",
+    "description": "ok",
+    "arguments": [
+      {
+        "name": "ok",
+        "description": "",
+        "htmlType": "text",
+        "_id": "66e8acf27ec72a0ac134741f"
+      },
+      {
+        "name": "no",
+        "description": "",
+        "htmlType": "text",
+        "_id": "66e8acf27ec72a0ac1347420"
+      }
+    ]
   },
   "_id": "66e8acf27ec72a0ac134741c",
   "address": "0x1AB121856693bD8Cab8Ce88AB47BC5d1c9dD2260",

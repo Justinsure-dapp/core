@@ -107,6 +107,63 @@ export default function NewPolicyPage() {
     },
   });
 
+  const handleSubmit = (data: Record<string, string>) => {
+    if (Number(data.maximumClaim) < Number(data.minimumClaim)) {
+      alert("Maximum claim must be greater than minimum claim.");
+      return;
+    }
+
+    if (Number(data.maximumDuration) < Number(data.minimumDuration)) {
+      alert(
+        "Maximum duration must be greater than minimum duration."
+      );
+      return;
+    }
+    setLoading(true);
+    let req: Record<string, any> = { ...data };
+    req["tags"] = tags;
+    req["premiumFuncArgs"] = premiumFuncArgsSetter;
+    req["claimFuncArgs"] = claimFuncArgsSetter;
+    if (manualPremiumCheck) {
+      const { premiumFuncArgs, ...r } = req;
+      req = { ...r };
+    }
+
+    req.initialStake = BigInt(
+      req.initialStake * Math.pow(10, usdtDecimals)
+    );
+
+    (req.claimFuncArgs as Args).forEach((arg, i) => {
+      const { typeName, ...rest } = arg;
+      req.claimFuncArgs[i] = rest;
+      console.log(req.claimFuncArgs);
+    });
+
+    (req.premiumFuncArgs as Args).forEach((arg, i) => {
+      const { typeName, ...rest } = arg;
+      req.premiumFuncArgs[i] = rest;
+    });
+
+    setNewPolicyArgs([
+      BigInt(Number(req.initialStake)),
+      ethers.keccak256(
+        abiEncoder.encode(
+          ["string", "string"],
+          [req.premiumFunc || null, req.claimFunc || null]
+        )
+      ) as `0x`,
+    ]);
+
+    approveTransfer.write({
+      args: [
+        contractDefinitions.surity.address,
+        req.initialStake + BigInt(1),
+      ],
+    });
+
+    setReq(req);
+  }
+
   return (
     <>
       <DocTitle title="New Policy" />
@@ -115,62 +172,7 @@ export default function NewPolicyPage() {
         <section className="py-8">
           <DataForm
             className="flex flex-col"
-            callback={(data) => {
-              if (Number(data.maximumClaim) < Number(data.minimumClaim)) {
-                alert("Maximum claim must be greater than minimum claim.");
-                return;
-              }
-
-              if (Number(data.maximumDuration) < Number(data.minimumDuration)) {
-                alert(
-                  "Maximum duration must be greater than minimum duration."
-                );
-                return;
-              }
-              setLoading(true);
-              let req: Record<string, any> = { ...data };
-              req["tags"] = tags;
-              req["premiumFuncArgs"] = premiumFuncArgsSetter;
-              req["claimFuncArgs"] = claimFuncArgsSetter;
-              if (manualPremiumCheck) {
-                const { premiumFuncArgs, ...r } = req;
-                req = { ...r };
-              }
-
-              req.initialStake = BigInt(
-                req.initialStake * Math.pow(10, usdtDecimals)
-              );
-
-              (req.claimFuncArgs as Args).forEach((arg, i) => {
-                const { typeName, ...rest } = arg;
-                req.claimFuncArgs[i] = rest;
-                console.log(req.claimFuncArgs);
-              });
-
-              (req.premiumFuncArgs as Args).forEach((arg, i) => {
-                const { typeName, ...rest } = arg;
-                req.premiumFuncArgs[i] = rest;
-              });
-
-              setNewPolicyArgs([
-                BigInt(Number(req.initialStake)),
-                ethers.keccak256(
-                  abiEncoder.encode(
-                    ["string", "string"],
-                    [req.premiumFunc || null, req.claimFunc || null]
-                  )
-                ) as `0x`,
-              ]);
-
-              approveTransfer.write({
-                args: [
-                  contractDefinitions.surity.address,
-                  req.initialStake + BigInt(1),
-                ],
-              });
-
-              setReq(req);
-            }}
+            callback={handleSubmit}
           >
             <h1 className="font-semibold text-xl">Policy Settings</h1>
             <h2 className=" text-mute font-semibold">
@@ -383,7 +385,7 @@ export default function NewPolicyPage() {
                 <DurationInput
                   className={twMerge("w-1/2", twInputStyle)}
                   name="minimumDuration"
-                  defaultValue="Days"
+                  defaultValue={1000 * 60 * 60 * 24}
                 />
               </div>
               <div className="basis-1/2 w-1/2">
@@ -393,7 +395,7 @@ export default function NewPolicyPage() {
                 <DurationInput
                   className={twMerge("w-1/2", twInputStyle)}
                   name="maximumDuration"
-                  defaultValue="Days"
+                  defaultValue={1000 * 60 * 60 * 24}
                 />
               </div>
             </div>

@@ -67,7 +67,7 @@ export default function HomePage() {
             >
               <div className="absolute-cover z-1 bg-gradient-to-bl from-white/30 to-white/40 via-transparent" />
 
-              <div className="relative z-10 bg-gray-800 rounded-full flex items-center gap-x-2 text-white px-5 py-3 duration-700 group-hover:scale-110">
+              <div className="relative z-10 bg-gray-800 rounded-full flex items-center gap-x-2 text-white px-5 py-3 duration-200 group-hover:scale-105">
                 Powered By
                 <img src="/icons/bttc.png" alt="bttc" className="h-[2em]" />
                 BitTorrent Chain

@@ -30,7 +30,7 @@ export default function ConnectWallet() {
     <>
       {!isConnected && (
         <button
-          onClick={() => setShowConnectors(true)}
+          onClick={() => setShowConnectors(prev => !prev)}
           className="flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm font-semibold mobile:px-3"
         >
           <img className="w-[1.3em]" src="/icons/bttc.png" />
@@ -40,8 +40,8 @@ export default function ConnectWallet() {
 
       {isConnected && (
         <button
-          className="font-light flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm"
-          onClick={() => setShowNetworks(true)}
+          className="font-light flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm "
+          onClick={() => setShowNetworks(prev => !prev)}
         >
           {correctNetwork && (
             <p>
@@ -56,21 +56,23 @@ export default function ConnectWallet() {
       )}
 
       {showConnectors && (
-        <div className="fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">
+        <div className="fixed mobile:top-32 mobile:right-28 widescreen:top-0 widescreen:left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">
           <div className="bg-foreground rounded-lg border border-front/20 shadow shadow-front/20 flex flex-col p-5 gap-y-3">
-            {connectors.map((connector) => (
-              <button
-                className="bg-teal-300 w-[33vh] py-2 text-black rounded font-medium disabled:opacity-50"
-                disabled={isLoading}
-                key={connector.id}
-                onClick={() => {
-                  connect({ connector });
-                  setShowConnectors(false);
-                }}
-              >
-                {connector.name}
-              </button>
-            ))}
+            {connectors.map((connector) => {
+              return (
+                <button
+                  className="bg-teal-300 w-[33vh] py-2 text-black rounded font-medium disabled:opacity-50"
+                  disabled={isLoading}
+                  key={connector.id}
+                  onClick={() => {
+                    connect({ connector });
+                    setShowConnectors(false);
+                  }}
+                >
+                  {connector.name}
+                </button>
+              );
+            })}
             <button
               className="py-2 bg-red-500 rounded"
               onClick={() => {
@@ -84,7 +86,7 @@ export default function ConnectWallet() {
       )}
 
       {showNetworks && (
-        <div className="fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">
+        <div className="fixed mobile:top-32 mobile:-left-32 top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">
           <div className="bg-foreground rounded-lg border border-front/20 shadow shadow-front/20 flex flex-col p-5 gap-y-4">
             <p className="text-center">Choose Network</p>
             {chains.map((chain) => (

@@ -9,13 +9,13 @@ export default function Heading(props: {
 }) {
   return (
     <div >
-      <p className={twMerge("relative font-bold w-max pb-1 flex gap-x-2", props.className)}>
+      <div className={twMerge("relative font-bold w-max pb-1 flex gap-x-2", props.className)}>
         {props.children}
         <div className="absolute left-full translate-x-2">
 
         {props.tooltip && <HelpTooltip>{props.tooltip}</HelpTooltip>}
         </div>
-      </p>
+      </div>
     </div>
   );
 }
