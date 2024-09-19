@@ -7,7 +7,7 @@ export default function App() {
   return (
     <GlobalContextProvider>
       <Web3Provider>
-        <RouterProvider router={router} />
+            <RouterProvider router={router} />
       </Web3Provider>
     </GlobalContextProvider>
   );

@@ -6,7 +6,7 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 import React, { useEffect, useState } from "react";
-import Icon from "./Icon";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function ConnectWallet() {
   const { connect, connectors, error, isLoading, pendingConnector } =
@@ -29,13 +29,16 @@ export default function ConnectWallet() {
   return (
     <>
       {!isConnected && (
-        <button
-          onClick={() => setShowConnectors(prev => !prev)}
-          className="flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm font-semibold mobile:px-3"
-        >
-          <img className="w-[1.3em]" src="/icons/bttc.png" />
-          Connect
-        </button>
+        <div>
+          <ConnectButton />
+          {/* <button
+            onClick={() => setShowConnectors(prev => !prev)}
+            className="flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm font-semibold mobile:px-3"
+          >
+            <img className="w-[1.3em]" src="/icons/bttc.png" />
+            Connect
+          </button> */}
+        </div>
       )}
 
       {isConnected && (
@@ -57,11 +60,11 @@ export default function ConnectWallet() {
 
       {showConnectors && (
         <div className="fixed mobile:top-32 mobile:right-28 widescreen:top-0 widescreen:left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">
-          <div className="bg-foreground rounded-lg border border-front/20 shadow shadow-front/20 flex flex-col p-5 gap-y-3">
+          <div className="bg-background rounded-lg border border-front/20 shadow shadow-front/20 flex flex-col p-5 gap-y-3">
             {connectors.map((connector) => {
               return (
                 <button
-                  className="bg-teal-300 w-[33vh] py-2 text-black rounded font-medium disabled:opacity-50"
+                  className="bg-primary w-[33vh] py-2 text-black rounded font-medium disabled:opacity-50"
                   disabled={isLoading}
                   key={connector.id}
                   onClick={() => {
@@ -74,7 +77,7 @@ export default function ConnectWallet() {
               );
             })}
             <button
-              className="py-2 bg-red-500 rounded"
+              className="py-2 bg-tron-red rounded"
               onClick={() => {
                 setShowConnectors(false);
               }}
@@ -87,11 +90,11 @@ export default function ConnectWallet() {
 
       {showNetworks && (
         <div className="fixed mobile:top-32 mobile:-left-32 top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">
-          <div className="bg-foreground rounded-lg border border-front/20 shadow shadow-front/20 flex flex-col p-5 gap-y-4">
+          <div className="bg-background rounded-lg border border-front/20 shadow shadow-front/20 flex flex-col p-5 gap-y-4">
             <p className="text-center">Choose Network</p>
             {chains.map((chain) => (
               <button
-                className="bg-teal-300 w-[40vh] py-2 text-black rounded font-medium disabled:opacity-50"
+                className="bg-primary w-[40vh] py-2 text-black rounded font-medium disabled:opacity-50"
                 key={chain.id}
                 onClick={() => {
                   switchNetwork && switchNetwork(chain.id);
@@ -102,7 +105,7 @@ export default function ConnectWallet() {
               </button>
             ))}
             <button
-              className="py-2 bg-red-500 rounded"
+              className="py-2 bg-tron-red rounded"
               onClick={() => {
                 disconnect();
                 setShowNetworks(false);

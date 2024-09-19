@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { WagmiConfig, useAccount, useDisconnect, useSignMessage } from "wagmi";
-import wagmiConfig from "../config/wagmi";
+import { WagmiConfig, useAccount, useDisconnect, useSignMessage, configureChains, createConfig } from "wagmi";
+import wagmiConfig, { chains, publicClient } from "../config/wagmi";
 import getContracts from "../contracts";
 import { User } from "../types";
 import api, { clearAddress, setAddress } from "../utils/api";
 import useModal from "../hooks/useModal";
+import { mainnet } from 'wagmi/chains'
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import '@rainbow-me/rainbowkit/styles.css'
+import { publicProvider } from 'wagmi/providers/public';
 
 interface Web3ContextType {
   user: User | null;
@@ -16,7 +20,9 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
-        <Wrapper>{children}</Wrapper>
+        <RainbowKitProvider chains={chains}>
+          <Wrapper>{children}</Wrapper>
+        </RainbowKitProvider>
       </WagmiConfig>
     </>
   );

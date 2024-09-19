@@ -3,6 +3,7 @@ import { bitTorrent, bitTorrentTestnet } from "wagmi/chains";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { publicProvider } from "wagmi/providers/public";
+import { getDefaultWallets, connectorsForWallets } from '@rainbow-me/rainbowkit'
 
 const donau: Chain = {
   id: 1029,
@@ -27,28 +28,37 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()]
 );
 
+const { wallets } = getDefaultWallets({
+  appName: 'JustInsure',
+  projectId: '756f8ad5a4c44ce4fbd9897445a10187',
+  chains,
+})
+
+const connectors = connectorsForWallets([...wallets])
+
 const wagmiConfig = createConfig({
   autoConnect: true,
   logger: { warn: (msg) => console.warn(msg) },
-  connectors: [
-    new InjectedConnector({ chains }),
-    new WalletConnectConnector({
-      options: {
-        projectId: "756f8ad5a4c44ce4fbd9897445a10187",
-        qrModalOptions: { themeMode: "dark" },
-        metadata: {
-          name: "JustInsure",
-          description: "JustInsure Web3 Insurance",
-          icons: ["/favicon.ico"],
-          url: window.location.hostname,
-        },
-      },
-      chains: [donau],
-    }),
-  ],
+  connectors,
+  // connectors: [
+  //   new InjectedConnector({ chains }),
+  //   new WalletConnectConnector({
+  //     options: {
+  //       projectId: "756f8ad5a4c44ce4fbd9897445a10187",
+  //       qrModalOptions: { themeMode: "dark" },
+  //       metadata: {
+  //         name: "JustInsure",
+  //         description: "JustInsure Web3 Insurance",
+  //         icons: ["/favicon.ico"],
+  //         url: window.location.hostname,
+  //       },
+  //     },
+  //     chains: [donau],
+  //   }),
+  // ],
   publicClient,
   webSocketPublicClient,
 });
 
 export default wagmiConfig;
-export { publicClient, webSocketPublicClient };
+export { chains, publicClient, webSocketPublicClient };
