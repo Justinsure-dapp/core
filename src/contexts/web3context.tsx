@@ -6,7 +6,7 @@ import { User } from "../types";
 import api, { clearAddress, setAddress } from "../utils/api";
 import useModal from "../hooks/useModal";
 import { mainnet } from 'wagmi/chains'
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { publicProvider } from 'wagmi/providers/public';
 
@@ -20,7 +20,11 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains}>
+        <RainbowKitProvider theme={darkTheme({
+          accentColor: '#006faa',
+          accentColorForeground: 'white',
+          overlayBlur: 'small',
+        })} chains={chains}>
           <Wrapper>{children}</Wrapper>
         </RainbowKitProvider>
       </WagmiConfig>
