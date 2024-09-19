@@ -17,7 +17,7 @@ export default function SurityInfo() {
         <div className="absolute-cover bg-gradient-to-r from-transparent to-front/50" />
 
         <div className="flex relative z-10">
-          <div className="w-1/4 flex flex-col items-center">
+          <div className="flex flex-col items-center">
             <img src="/logo.png" alt="logo" className="brightness-0 invert" />
             <p className="font-black text-lg">JustInsure</p>
           </div>
@@ -71,7 +71,7 @@ const socialLinks: Array<{ link: string; imgUrl: string }> = [
   {
     link: "",
     imgUrl:
-      "https://scontent.fdel29-1.fna.fbcdn.net/v/t39.30808-1/277519684_10158675188522823_7436488509713286219_n.jpg?stp=dst-jpg_p200x200&_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_ohc=F_DHgHf32okQ7kNvgFoDMRJ&_nc_oc=AdjrUmHCntXRL9eOPCBtHPxVVuPVWDCHqb0ZTzb2L4NkUqsC8hp-eIRmI_AGQVweuOU&_nc_ht=scontent.fdel29-1.fna&oh=00_AfCaEPtKb2uNPNySl52-Yn_nRg5gjnl7HyWLs2gokqC7Ww&oe=6640025B",
+      "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png",
   },
   {
     link: "",
