@@ -8,6 +8,7 @@ import { useContractWrite, useWaitForTransaction } from "wagmi";
 
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
+import { useParams } from "react-router-dom";
 
 export default function StakeModal(props: { policy: Policy }) {
   const modal = useModal();
@@ -48,7 +49,7 @@ export default function StakeModal(props: { policy: Policy }) {
     approveTransfer.write({
       args: [props.policy.address, stake + BigInt(1)],
     });
-  
+
   }
 
   return (
@@ -59,16 +60,13 @@ export default function StakeModal(props: { policy: Policy }) {
       >
         <Icon icon="close" className="text-[1.5rem] mobile:text-[1rem]" />
       </button>
-      <h1 className="text-2xl font-bold">Stake in CarSure Policy</h1>
-      <p className="text-sm text-front/80">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum,
-        labore molestiae architecto praesentium deleniti id quia animi, laborum
-        cumque similique facere. Harum quaerat nostrum eos rem iste fuga omnis
-        temporibus. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        Nostrum, labore molestiae architecto praesentium deleniti id quia animi,
-        laborum cumque similique facere. Harum quaerat nostrum eos rem iste fuga
-        omnis temporibus.
-      </p>
+      <h1 className="text-2xl font-bold">Stake in <span className="text-primary">{props.policy.name}</span> {" "} policy</h1>
+      {props.policy.description && <p className="text-front/80 text-sm">{props.policy.description}</p>}
+      {props.policy.tags.length > 0 && (
+        <p className="mt-3">
+          <span className="font-bold text-primary">Tags</span>: {props.policy.tags.map((tag) => `#${tag}`).join(", ")}
+        </p>
+      )}
       <div className="flex flex-col mt-3">
         <Heading>Enter amount to be Staked in policy</Heading>
         <input

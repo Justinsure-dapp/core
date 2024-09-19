@@ -8,9 +8,12 @@ import StakeDistribution from "./components/StakeDistribution";
 import AutomatedInvestment from "./components/AutomatedInvestment";
 import PolicyHolders from "./components/PolicyHolders";
 import PolicyCard from "./components/PolicyCard";
+import useApiResponse from "../../hooks/useApiResponse";
+import api from "../../utils/api";
 
 export default function DashboardPage() {
   const modal = useModal();
+  const response = useApiResponse(api.policy.fetchAllPolicies);
 
   return (
     <section className="p-page py-4">
@@ -38,15 +41,19 @@ export default function DashboardPage() {
         </Link>
       </div>
       <div className="flex flex-col gap-y-8 mt-4">
-        {policies.map((policy, i) => (
-          <PolicyCard policy={policy} />
+        {/* {response.data?.map((policy, i) => (
+          <PolicyCard key={i} policy={policy} />
+        ))} */}
+
+        {dummyPolicies.map((policy, i) => (
+          <PolicyCard key={i} policy={policy} />
         ))}
       </div>
     </section>
   );
 }
 
-const policies = [
+const dummyPolicies = [
   {
     name: "Life insurance",
     marketer: "MyInsure",
