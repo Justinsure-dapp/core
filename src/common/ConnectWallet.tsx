@@ -7,6 +7,7 @@ import {
 } from "wagmi";
 import React, { useEffect, useState } from "react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import gradient from '../../public/images/gradient.webp';
 
 export default function ConnectWallet() {
   const { connect, connectors, error, isLoading, pendingConnector } =
@@ -43,13 +44,16 @@ export default function ConnectWallet() {
 
       {isConnected && (
         <button
-          className="font-light flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm "
+          className="font-light flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm px-4"
           onClick={() => setShowNetworks(prev => !prev)}
         >
           {correctNetwork && (
-            <p>
-              {address?.slice(0, 5)}....{address?.slice(-5)}
-            </p>
+            <div className="flex gap-2">
+              <img src={gradient} className="w-5 rounded-full" />
+              <p>
+                {address?.slice(0, 5)}....{address?.slice(-5)}
+              </p>
+            </div>
           )}
 
           {!correctNetwork && (

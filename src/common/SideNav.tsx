@@ -145,8 +145,8 @@ export default function Navbar() {
                 role="listitem"
                 className={({ isActive, isPending }) =>
                   twMerge(
-                    "p-2 rounded-lg",
-                    isActive && "bg-primary text-back pointer-events-none",
+                    "p-2 rounded-lg transition-all hover:bg-zinc-800",
+                    isActive && "bg-primary text-black pointer-events-none",
                     !isActive && "hover:outline hover:outline-[1.5px]",
                     isPending && "animate-pulse pointer-events-none",
                     item.marketersOnly && (user?.marketer ? "" : "hidden")
