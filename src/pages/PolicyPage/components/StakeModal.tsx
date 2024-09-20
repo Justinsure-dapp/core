@@ -8,7 +8,6 @@ import { useContractWrite, useWaitForTransaction } from "wagmi";
 
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
-import { useParams } from "react-router-dom";
 
 export default function StakeModal(props: { policy: Policy }) {
   const modal = useModal();

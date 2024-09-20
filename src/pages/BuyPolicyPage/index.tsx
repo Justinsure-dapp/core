@@ -73,6 +73,7 @@ export default function BuyPolicyPage() {
   }, [duration]);
 
   const handleFormSubmit = (data: Record<string, string>) => {
+    alert("Form submitted");
     console.log(data);
   };
 

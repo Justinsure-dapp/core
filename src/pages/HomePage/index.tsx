@@ -1,13 +1,44 @@
 import React, { DetailedHTMLProps, useState } from "react";
 import DocTitle from "../../common/DocTitle";
 import { Link } from "react-router-dom";
+import logo from "../../../public/logo.png";
+import useWeb3 from "../../contexts/web3context";
 
 export default function HomePage() {
+
+  const { user } = useWeb3();
   return (
     <>
       <DocTitle title="What's New" />
 
       <div className="p-page py-8">
+        {/* Logo on Mobile */}
+        <div className="hidden mobile:flex w-full items-center justify-center border p-4 mb-4 rounded-md sm:pr-12">
+          <img src="/logo.png" alt="logo" className="w-12 sm:w-32" />
+
+          <div className="flex flex-col items-start gap-y-1 sm:pb-4">
+            <div className="relative">
+              <h1 className="font-black text-2xl sm:text-4xl tracking-wider">JustInsure</h1>
+              {user?.marketer && (
+                <div className="group">
+                  <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
+                    Pro
+                  </p>
+
+                  <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-primary p-2 rounded-lg pointer-events-none">
+                    "Pro" indicates that you are a marketer and you can list
+                    <br />
+                    policies on our platform
+                  </p>
+                </div>
+              )}
+            </div>
+            <p className="text-primary text-xs font-semibold">
+              Rest assured on Web3
+            </p>
+          </div>
+        </div>
+
         <div className="flex gap-6 mobile:flex-col-reverse">
           <article className="flex flex-col w-1/4 mobile:w-full bg-pink-200 rounded-lg h-[60vh] overflow-hidden items-center py-2 text-violet-950 px-3 gap-y-4 mobile:gap-y-2 text-center">
             <p className="font-bold text-lg">Soparu the Rabbit</p>

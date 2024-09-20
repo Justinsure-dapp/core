@@ -24,7 +24,7 @@ export default function PoliciesPage() {
             <span className="">Filter</span>
           </div>
         </div>
-        <div className="flex flex-wrap justify-between gap-6">
+        <div className="flex flex-wrap gap-6">
           {!policies.loading &&
             policies.data &&
             policies.data.map((policy, key) => <PolicyCard policy={policy} />)}

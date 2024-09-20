@@ -30,9 +30,9 @@ export default function Header(props: { policy: Policy }) {
                 </h2>
               </div>
               <div className="flex gap-x-1 items-center">
-                <StarRating rating={2.7} />
-                <p>2.7</p>
-                <p className="text-xs">(5 reviews) {" "} (1 expert rating)</p>
+                <StarRating rating={4} />
+                <p>4</p>
+                <p className="text-xs">(48 reviews) {" "} (9 expert rating)</p>
               </div>
             </div>
             <div className="flex gap-x-4">

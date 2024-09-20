@@ -8,7 +8,8 @@ import DocTitle from "../../../common/DocTitle";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const marketerData = useApiResponse(api.marketer.get, props.policy.owner);
-  console.log(marketerData.data?.marketer.image);
+
+  console.log(marketerData.data?.marketer);
   return (
       <Link
         to={`/policies/${props.policy.address}`}
@@ -29,8 +30,8 @@ export default function PolicyCard(props: { policy: Policy }) {
           />
         </div>
         <div className="flex gap-x-1">
-          <p>{2}</p>
-          <StarRating rating={2} />
+          <p>{4}</p>
+          <StarRating rating={4} />
         </div>
         <p className="text-sm text-opacity-80 text-front">
           {props.policy.description.length > 150
