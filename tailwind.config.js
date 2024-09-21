@@ -49,7 +49,7 @@ export default {
         front: "#FFFFFF",
         back: "#FFFFFF",
         mute: "#71717a",
-        border: "#52525b",
+        border: "#2A2A30",
         hoverbg: "#18181b",
         "tron-red": "#EB0029",
       },
