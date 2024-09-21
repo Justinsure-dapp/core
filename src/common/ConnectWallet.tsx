@@ -5,8 +5,9 @@ import {
   useNetwork,
   useSwitchNetwork,
 } from "wagmi";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function ConnectWallet() {
   const { connect, connectors, error, isLoading, pendingConnector } =
@@ -16,6 +17,7 @@ export default function ConnectWallet() {
   const { switchNetwork } = useSwitchNetwork();
   const { disconnect } = useDisconnect();
   const { address, isConnected } = useAccount();
+  const [parent] = useAutoAnimate();
 
   const [showConnectors, setShowConnectors] = useState(false);
   const [showNetworks, setShowNetworks] = useState(false);
@@ -27,7 +29,7 @@ export default function ConnectWallet() {
   }, [chain]);
 
   return (
-    <>
+    <div ref={parent}>
       {!isConnected && (
         <div className="scale-90">
           <ConnectButton />
@@ -48,7 +50,7 @@ export default function ConnectWallet() {
         >
           {correctNetwork && (
             <div className="flex gap-2">
-              <img src="images/gradient.webp" className="w-5 rounded-full" />
+              <img src="/images/gradient.webp" className="w-5 rounded-full" />
               <p>
                 {address?.slice(0, 5)}....{address?.slice(-5)}
               </p>
@@ -92,7 +94,7 @@ export default function ConnectWallet() {
       )}
 
       {showNetworks && (
-        <div className="fixed mobile:top-32 mobile:-left-32 top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">
+        <div className="fixed mobile:top-[116px] mobile:-left-[106px] top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">
           <div className="bg-background rounded-lg border border-front/20 shadow shadow-front/20 flex flex-col p-5 gap-y-4">
             <p className="text-center">Choose Network</p>
             {chains.map((chain) => (
@@ -119,6 +121,6 @@ export default function ConnectWallet() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

@@ -201,13 +201,29 @@ export function closestTimeUnit(milliseconds: number) {
 export const twInputStyle =
   "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
 
-
 export function formatEvmAddress(address: string) {
-    if (isAddress(address))
-      return (
-        address.slice(0, 7) +
-        "..." +
-        address.slice(address.length - 5, address.length)
-      );
-    return address;
+  if (isAddress(address))
+    return (
+      address.slice(0, 7) +
+      "..." +
+      address.slice(address.length - 5, address.length)
+    );
+  return address;
+}
+
+// generate shades for chart
+export function generateShades(primaryColor: string, numberOfShades: number): string[] {
+  const shades: string[] = [];
+  const baseColor = primaryColor.match(/\d+/g)?.map(Number);
+
+  if (!baseColor || baseColor.length < 3) {
+    throw new Error("Invalid primary color format. Use 'rgb(r, g, b)' format.");
   }
+
+  for (let i = 0; i < numberOfShades; i++) {
+    const alpha = (1 - (i / numberOfShades)).toFixed(2);
+    shades.push(`rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha})`);
+  }
+
+  return shades;
+}

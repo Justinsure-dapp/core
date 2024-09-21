@@ -355,7 +355,7 @@ export default function NewPolicyPage() {
               </div>
             </div>
 
-            <div className="flex flex-col mt-2">
+            <div className="flex flex-col mt-7">
               <Heading>Tags</Heading>
               <ToastsInput
                 setter={setTags}
@@ -363,7 +363,7 @@ export default function NewPolicyPage() {
               />
             </div>
 
-            <div className="mt-2">
+            <div className="mt-2 flex items-start gap-4">
               <button
                 type="submit"
                 className="bg-primary py-2 px-6 rounded-md text-back font-medium disabled:cursor-progress disabled:opacity-60 disabled:animate-pulse"
@@ -371,7 +371,7 @@ export default function NewPolicyPage() {
               >
                 Save
               </button>
-              <div className="my-2 bg-red-300 w-full p-2 rounded-lg text-red-950">
+              <div className="bg-red-300 w-full p-2 rounded-lg text-red-950">
                 <p className="text-xs leading-tight">
                   Once you create this policy, you won't be able to edit its
                   details. Therefore, it is crucial to carefully review all the
@@ -390,101 +390,3 @@ export default function NewPolicyPage() {
     </>
   );
 }
-
-
-  // useWaitForTransaction({
-  //   hash: newPolicyOnSurity.data?.hash,
-  //   async onSettled(data, error) {
-  //     const addr = await latestPolicy.refetch();
-
-  //     const newPolicyAddress = addr?.data;
-
-  //     if (!newPolicyAddress) {
-  //       alert("Error Happened");
-  //       return setLoading(false);
-  //     }
-
-  //     await api.policy
-  //       .createNewPolicy({
-  //         category: reqData.category,
-  //         claimFunction: reqData.claimFunc,
-  //         claimFunctionArguments: reqData.claimFuncArgs,
-  //         claimFuncDescription: reqData.claimFuncDescription,
-  //         description: reqData.description,
-  //         intialStake: Number(reqData.initialStake),
-  //         insuranceContractAddress: newPolicyAddress,
-  //         maximumClaim: reqData.maximumClaim,
-  //         minimumClaim: reqData.minimumClaim,
-  //         maximumDuration: reqData.maximumDuration,
-  //         minimumDuration: reqData.minimumDuration,
-  //         name: reqData.name,
-  //         premiumFuncDescription: reqData.premiumFuncDescription,
-  //         premiumFunction: reqData.premiumFunc,
-  //         premiumFunctionArguments: reqData.premiumFuncArgs,
-  //         tags: reqData.tags,
-  //       })
-  //       .then(() => {
-  //         navigate(`/policies/${newPolicyAddress}`);
-  //       });
-  //   },
-  // });
-
-  // const handleSubmit = (data: Record<string, string>) => {
-  //   if (Number(data.maximumClaim) < Number(data.minimumClaim)) {
-  //     alert("Maximum claim must be greater than minimum claim.");
-  //     return;
-  //   }
-
-  //   if (Number(data.maximumDuration) < Number(data.minimumDuration)) {
-  //     alert(
-  //       "Maximum duration must be greater than minimum duration."
-  //     );
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   let req: Record<string, any> = { ...data };
-  //   req["tags"] = tags;
-  //   req["premiumFuncArgs"] = premiumFuncArgsSetter;
-  //   req["claimFuncArgs"] = claimFuncArgsSetter;
-  //   if (manualPremiumCheck) {
-  //     const { premiumFuncArgs, ...r } = req;
-  //     req = { ...r };
-  //   }
-
-  //   req.initialStake = BigInt(
-  //     req.initialStake * Math.pow(10, usdtDecimals)
-  //   );
-
-  //   (req.claimFuncArgs as Args).forEach((arg, i) => {
-  //     const { typeName, ...rest } = arg;
-  //     req.claimFuncArgs[i] = rest;
-  //     console.log(req.claimFuncArgs);
-  //   });
-
-  //   (req.premiumFuncArgs as Args).forEach((arg, i) => {
-  //     const { typeName, ...rest } = arg;
-  //     req.premiumFuncArgs[i] = rest;
-  //   });
-
-  //   setNewPolicyArgs([
-  //     BigInt(Number(req.initialStake)),
-  //     ethers.keccak256(
-  //       abiEncoder.encode(
-  //         ["string", "string"],
-  //         [req.premiumFunc || null, req.claimFunc || null]
-  //       )
-  //     ) as `0x`,
-  //   ]);
-
-  //   approveTransfer.write({
-  //     args: [
-  //       contractDefinitions.surity.address,
-  //       req.initialStake + BigInt(1),
-  //     ],
-  //   });
-
-  //   setReq(req);
-  // }
-
-  // watch for nonceData change

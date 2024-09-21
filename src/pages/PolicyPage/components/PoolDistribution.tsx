@@ -3,13 +3,14 @@ import PieChart from "../../../common/PieChart";
 import { Policy } from "../../../types";
 import useIdleScrollbar from "../../../hooks/useIdleScrollbar";
 import React, { useRef } from "react";
+import { generateShades } from "../../../utils";
 
 export default function PoolDistribution({ policy }: { policy: Policy }) {
   const accountRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   useIdleScrollbar(accountRef);
 
   return (
-    <div className="flex flex-col gap-x-8 mx-4  bg-secondary/5 rounded-xl py-12 px-8 mobile:py-6 border border-secondary/20">
+    <div className="flex flex-col gap-x-8 mx-4 bg-secondary/5 rounded-xl py-12 px-8 mobile:py-6 border border-secondary/20">
       <div className="flex justify-between mobile:flex-col mobile:gap-y-2">
         <h1 className="text-xl">Total money & distribution of pool</h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end">
@@ -56,19 +57,3 @@ const data = {
   values: [42, 17, 93, 58, 76, 34, 89, 21],
   bgColor: generateShades("rgb(26, 201, 255)", 8),
 };
-
-function generateShades(primaryColor: string, numberOfShades: number): string[] {
-  const shades: string[] = [];
-  const baseColor = primaryColor.match(/\d+/g)?.map(Number);
-
-  if (!baseColor || baseColor.length < 3) {
-    throw new Error("Invalid primary color format. Use 'rgb(r, g, b)' format.");
-  }
-
-  for (let i = 0; i < numberOfShades; i++) {
-    const alpha = (1 - (i / numberOfShades)).toFixed(2);
-    shades.push(`rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha})`);
-  }
-
-  return shades;
-}

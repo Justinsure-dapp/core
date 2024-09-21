@@ -25,32 +25,31 @@ export default function Header(props: { policy: Policy }) {
             <div className="flex flex-col gap-y-2">
               <div className="flex items-center gap-x-2 mobile:items-end">
                 <h1 className="text-2xl font-semibold">{policy.name}</h1> -
-                <h2 className="text-2xl text-primary font-bold">
-                  {marketerData.data?.marketer.name || "Error"}
+                <h2 className="text-2xl font-bold">
+                  {marketerData.data?.marketer.name || "Marketer"}
                 </h2>
               </div>
               <div className="flex gap-x-1 items-center">
-                <StarRating rating={4} />
-                <p>4</p>
-                <p className="text-xs">(48 reviews) {" "} (9 expert rating)</p>
+                <StarRating rating={policy.rating} />
+                <p>{policy.rating}</p>
               </div>
             </div>
             <div className="flex gap-x-4">
               <Link
                 to={`/buy-policy/${policy.address}`}
-                className="bg-primary h-max px-4 py-2 rounded-lg text-back font-semibold hover:scale-105 duration-300 ease-out"
+                className="bg-primary border border-border h-max px-4 py-2 rounded-lg text-back font-semibold hover:bg-primary/80 transition-all"
               >
                 Buy Policy
               </Link>
               <button
                 onClick={() => modal.show(<StakeModal policy={policy} />)}
-                className="border-primary text-primary border h-max px-6 py-2 rounded-lg font-semibold hover:scale-105 duration-300 ease-out"
+                className="border-border hover:bg-hoverbg border h-max px-6 py-2 rounded-lg font-semibold ease-out transition-all"
               >
                 Stake
               </button>
             </div>
           </div>
-          <div className="text-front/80">{policy.description}</div>
+          <div className="text-front/80"><span className="font-semibold">Description:</span> {policy.description}</div>
         </div>
       </div>
     </div>

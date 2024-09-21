@@ -11,7 +11,7 @@ export default function StatisticsSidebar() {
     <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen mobile:hidden">
       <div
         className={twMerge(
-          "absolute top-2 right-4 text-sm text-secondary",
+          "absolute top-4 right-4 text-sm text-secondary",
           hidden && "relative"
         )}
       >
@@ -33,7 +33,7 @@ export default function StatisticsSidebar() {
 
       {!hidden && (
         <>
-          <div className="p-6 flex flex-col gap-y-2">
+          <div className="px-6 py-3 flex flex-col gap-y-2">
             <h1 className="text-mute text-base font-bold">SureCoin Balance</h1>
             <div>
               <h2 className="text-xs -mb-1">Wallet</h2>
