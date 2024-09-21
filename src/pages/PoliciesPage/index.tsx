@@ -13,7 +13,7 @@ export default function PoliciesPage() {
   return (
     <>
       <DocTitle title="Policies on JustInsure" />
-      <article className="p-page">
+      <article className="p-page w-full">
         <div className="flex py-6 gap-x-4 items-center">
           <input
             className="bg-foreground p-4 rounded-xl w-full focus-within:outline-none focus-within:bg-background border-2 border-primary focus-within:border-opacity-80 border-opacity-0 duration-300 ease-in-out"
@@ -24,10 +24,12 @@ export default function PoliciesPage() {
             <span className="">Filter</span>
           </div>
         </div>
-        <div className="flex flex-wrap gap-6">
+        <div className="flex flex-wrap gap-6 w-full">
           {!policies.loading &&
             policies.data &&
-            policies.data.map((policy, key) => <PolicyCard policy={policy} />)}
+            policies.data.map((policy, key) => (
+              <PolicyCard policy={policy} className="w-[calc(50%_-_7px)]" />
+            ))}
         </div>
       </article>
     </>

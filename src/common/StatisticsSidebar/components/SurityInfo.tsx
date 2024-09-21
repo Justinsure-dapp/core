@@ -24,7 +24,7 @@ export default function SurityInfo() {
 
           <figure role="separator" className="flex-1" />
 
-          <div className="flex flex-col text-red-500 text-end font-bold">
+          {/* <div className="flex flex-col text-red-500 text-end font-bold">
             <figure role="separator" className="flex-1" />
 
             <p className="pl-2 text-xs">Powered by</p>
@@ -36,7 +36,7 @@ export default function SurityInfo() {
               />
               <p className="text-sm">TRON Network</p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

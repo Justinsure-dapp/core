@@ -2,7 +2,8 @@ import { useState } from "react";
 import AutomatedInvestment from "./AutomatedInvestment";
 import PolicyHolders from "./PolicyHolders";
 import StakeDistribution from "./StakeDistribution";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { twMerge } from "tailwind-merge";
 
 interface Policy {
   name: string;
@@ -19,12 +20,15 @@ interface Policy {
   };
 }
 
-export default function PolicyCard(props: { policy: Policy}) {
+export default function PolicyCard(props: { policy: Policy }) {
   const [expanded, setExpanded] = useState(false);
   const [parent] = useAutoAnimate();
 
   return (
-    <div ref={parent} className="flex flex-col gap-y-4 p-4 rounded-lg border border-secondary/20 relative">
+    <div
+      ref={parent}
+      className="flex flex-col gap-y-4 p-4 rounded-lg border border-secondary/20 relative"
+    >
       <div className="flex flex-col gap-y-1">
         <h1 className="text-xl font-semibold">{props.policy.name}</h1>
         <div className="text-front/80 text-sm">{props.policy.description}</div>
