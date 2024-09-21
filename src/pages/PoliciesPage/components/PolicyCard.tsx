@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Line } from "react-chartjs-2";
 import { Policy } from "../../../types";
 import { Link } from "react-router-dom";
@@ -16,12 +17,38 @@ export default function PolicyCard(props: {
 }) {
   const marketerData = useApiResponse(api.marketer.get, props.policy.owner);
   const { policy } = props;
-  
+
+  const dummy = {
+    "_id": "66eee2ac9ab10cbb3c6e2077",
+    "address": "0x12345779999",
+    "cid": "bafkreidpx7e3bzcvdqdvqgfzqsk3huwisjc44lvt7jvwfoqcxpb3kfwggy",
+    "rating": 0,
+    "tags": [
+      "aaa"
+    ],
+    "name": "1111",
+    "description": "1",
+    "category": "ATV",
+    "minimumClaim": "1",
+    "maximumClaim": "2",
+    "premiumFunc": "def function_name(arg1, arg2):\n    return arg1 + arg2",
+    "premiumFuncDescription": "2",
+    "claimFunc": "def function_name(arg1, arg2):\n    return arg1 + arg2",
+    "claimFuncDescription": "2",
+    "minimumDuration": "86400000",
+    "maximumDuration": "432000000",
+    "owner": "0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0",
+    "__v": 0
+  }
+
+  const minimumDurationInDays = moment.duration(policy.minimumDuration, 'milliseconds').asDays();
+  const maximumDurationInDays = moment.duration(policy.maximumDuration, 'milliseconds').asDays();
+
   return (
     <Link
       to={`/policies/${props.policy.address}`}
       className={twMerge(
-        "py-6 p-4 bg-mute/5 rounded-md relative group",
+        "py-6 p-4 bg-mute/5 rounded-md relative group border border-border",
         props.className
       )}
     >
@@ -73,34 +100,34 @@ export default function PolicyCard(props: {
         </div>
         <span className="text-xs text-mute absolute right-0 top-0 cursor-default saturate-150 brightness-150">
           <div className="flex gap-x-1">
-            <p>{4}</p>
-            <StarRating rating={4} />
+            <p>{policy.rating}</p>
+            <StarRating rating={policy.rating} />
           </div>
         </span>
       </div>
       <div className="relative flex flex-col">
         <div className="flex gap-x-4 mt-4">
           <span className="bg-mute/20 rounded-full w-max py-1 px-2 text-xs">
-            Initial Stake : {1000}
+            Initial Stake : TBI
           </span>
           <span className="bg-mute/20 rounded-full w-max py-1 px-2 text-xs">
-            Total Stake : {20130}
+            Total Stake : TBI
           </span>
         </div>
 
-        <div className="flex justify-between">
-          <div className="flex flex-col mt-5 w-[70%]">
+        <div className="flex justify-between w-[70%]">
+          <div className="flex flex-col mt-5">
             <div className="text-xs text-mute flex gap-x-3">
-              <p>Min Claim : 100</p> <span>|</span>
-              <p className="whitespace-nowrap">Max Claim : 1000</p>
+              <p className="">Min Claim : {policy.minimumClaim}</p> <span>|</span>
+              <p className="">Max Claim : {policy.maximumClaim}</p>
             </div>
             <div className="text-xs mt-2 text-mute flex gap-x-3">
-              <p>Min Duration : 24hr</p> <span>|</span>
-              <p className="whitespace-nowrap">Max Duration : 100 Days</p>
+              <p className="">Min Duration : {minimumDurationInDays} Days</p> <span>|</span>
+              <p className="">Max Duration : {maximumDurationInDays} Days</p>
             </div>
           </div>
 
-          <div className="flex flex-col w-[20%] text-end text-xs gap-y-2 items-end mt-5 text-secondary">
+          <div className="flex flex-col text-end text-xs gap-y-2 items-end mt-5 text-secondary">
             <p className="flex gap-x-1 items-center text-green-500">
               <Icon icon="check" /> Verified
             </p>

@@ -11,8 +11,7 @@ import DocTitle from "../../common/DocTitle";
 
 export default function PolicyPage() {
   const { address } = useParams();
-
-  if (!address) return <Navigate to="/" />;
+  if (!address) return <Navigate to="/policies" />;
 
   const policy = useApiResponse(api.policy.getByAddress, address);
 

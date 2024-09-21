@@ -12,23 +12,22 @@ export interface Marketer {
 }
 
 export interface Policy {
-  address: `0x${string}`;
+  _id: string;
+  address: string;
+  cid: string;
+  rating: number;
+  tags: string[];
   name: string;
-  owner: string;
   description: string;
   category: string;
-  claimLimits: { minimum: number; maximum: number };
-  durationLimits: { minimum: number; maximum: number };
-  claimValidationFunction: {
-    function: string;
-    description: string;
-    arguments: { name: string; description: string; htmlType: string }[];
-  };
-  premiumCalculationFunction: {
-    function: string;
-    description: string;
-    arguments: { name: string; description: string; htmlType: string }[];
-  };
-  intialStake: { type: number };
-  tags: Array<string>;
+  minimumClaim: string;
+  maximumClaim: string;
+  premiumFunc: string;
+  premiumFuncDescription: string;
+  claimFunc: string;
+  claimFuncDescription: string;
+  minimumDuration: string;
+  maximumDuration: string;
+  owner: string;
+  __v: number;
 }

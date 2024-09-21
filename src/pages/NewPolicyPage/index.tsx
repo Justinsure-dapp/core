@@ -355,32 +355,6 @@ export default function NewPolicyPage() {
               </div>
             </div>
 
-            <div className="mt-7">
-              <div className="flex w-full gap-x-3 items-center">
-                <div className="flex-1 flex-col">
-                  <Heading>Initial Stake</Heading>
-                  <input
-                    required
-                    type="number"
-                    name="initialStake"
-                    min={5}
-                    defaultValue={5}
-                    className={twMerge(
-                      twInputStyle,
-                      "border-mute/40 shadow-mute/30 text-sm"
-                    )}
-                  />
-                </div>
-                <div className="my-4 bg-yellow-200 w-full p-2 rounded-lg text-yellow-950">
-                  <p className="text-xs leading-tight">
-                    This is the amount you are staking yourself initially. It is
-                    recommended that you stake atleast $5. Higher amounts of
-                    staking by the owner leads to higher levels of user trust.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             <div className="flex flex-col mt-2">
               <Heading>Tags</Heading>
               <ToastsInput
