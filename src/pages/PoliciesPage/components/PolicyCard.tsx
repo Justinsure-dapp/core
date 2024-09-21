@@ -115,7 +115,7 @@ export default function PolicyCard(props: {
           </span>
         </div>
 
-        <div className="flex justify-between w-[70%]">
+        <div className="flex justify-between">
           <div className="flex flex-col mt-5">
             <div className="text-xs text-mute flex gap-x-3">
               <p className="">Min Claim : {policy.minimumClaim}</p> <span>|</span>

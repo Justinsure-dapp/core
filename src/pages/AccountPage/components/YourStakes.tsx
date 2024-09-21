@@ -3,7 +3,7 @@ import PieChart from "../../../common/PieChart";
 
 export default function YourStakes() {
   return (
-    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl py-12 px-8 my-12 mobile:py-6">
+    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl py-12 px-8 my-12 mobile:mx-2 widescreen:mx-8 mobile:py-6">
       <div className="flex justify-between mobile:flex-col mobile:gap-y-2">
         <h1 className="text-xl mobile:whitespace-nowrap">Total Stakes & distribution</h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end">
