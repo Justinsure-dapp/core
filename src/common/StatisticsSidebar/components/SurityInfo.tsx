@@ -17,25 +17,25 @@ export default function SurityInfo() {
         <div className="absolute-cover bg-gradient-to-r from-transparent to-front/50" />
 
         <div className="flex relative z-10">
-          <div className="flex flex-col items-center">
+          <div className="w-1/4 flex flex-col items-centers">
             <img src="/logo.png" alt="logo" className="brightness-0 invert" />
             <p className="font-black text-lg">JustInsure</p>
           </div>
 
           <figure role="separator" className="flex-1" />
 
-          <div className="flex flex-col text-red-500 font-black">
+          <div className="flex flex-col text-red-500 text-end font-bold">
             <figure role="separator" className="flex-1" />
 
-            {/* <p className="pl-2 text-sm">Powered by</p>
-            <div className="flex items-center text-base">
+            <p className="pl-2 text-xs">Powered by</p>
+            <div className="flex items-center">
               <img
                 src="/icons/tron.svg"
                 alt="tron"
-                className="aspect-square w-[2em]"
+                className="aspect-square w-[1.5em]"
               />
-              <p>TRON Network</p>
-            </div> */}
+              <p className="text-sm">TRON Network</p>
+            </div>
           </div>
         </div>
       </div>
