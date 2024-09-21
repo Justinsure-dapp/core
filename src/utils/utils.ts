@@ -213,6 +213,12 @@ export function formatEvmAddress(address: string) {
 
 // generate shades for chart
 export function generateShades(primaryColor: string, numberOfShades: number): string[] {
+  
+  // check if primaryColor is in rgb format
+  if (!primaryColor.startsWith("rgb(")) {
+    primaryColor = "rgb(26, 201, 255)";
+  }
+
   const shades: string[] = [];
   const baseColor = primaryColor.match(/\d+/g)?.map(Number);
 

@@ -10,17 +10,17 @@ export default function YourPolicies() {
   const [parent] = useAutoAnimate();
 
   return (
-    <div className="py-4 flex flex-col gap-y-8 p-page">
-      <div className="flex justify-between items-end">
+    <div className="flex flex-col p-page">
+      <div className="flex justify-between mt-4 items-center">
         <h1 className="text-xl font-bold tracking-wide">Your Policies</h1>
-        <div className="flex flex-col gap-y-2 items-end">
+        <div className="flex items-center gap-4">
           <p className="font-mono font-semibold">SureCoin: 103.00</p>
-          <button className="bg-primary text-back text-sm opacity-90 hover:opacity-100 duration-200 ease-in px-4 py-1 font-bold rounded-lg">
+          <button className="bg-primary text-back text-sm opacity-100 hover:opacity-90 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
             Withdraw
           </button>
         </div>
       </div>
-      <div ref={parent} className="flex gap-y-6 flex-col p-6 rounded-lg bg-secondary/10 border border-border/20 mobile:p-2">
+      <div ref={parent} className="flex mt-4 gap-y-2 flex-col p-6 rounded-lg bg-secondary/10 border border-border/20 mobile:p-2">
         {policies.map(
           (policy, key) =>
             (viewMore || key < 2) && (
@@ -47,9 +47,9 @@ export default function YourPolicies() {
                             {" "}
                             Status:{" "}
                             {policy.claimed ? (
-                              <span className="text-green-500">Claimed</span>
+                              <span className="text-green-600">Claimed</span>
                             ) : (
-                              <span className="text-red-500">Expired</span>
+                              <span className="text-red-600">Expired</span>
                             )}
                           </p>
 
@@ -64,9 +64,9 @@ export default function YourPolicies() {
                           </p>
                         </>
                       ) : (
-                        <div className="flex justify-between mobile:flex-col-reverse">
+                        <div className="flex justify-between ">
                           <button
-                            className="mt-4 bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-back font-bold rounded-lg text-sm w-max mobile:self-end"
+                            className="mt-2 bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-back font-bold rounded-lg text-sm w-max mobile:self-end"
                             onClick={() => modal.show(<RequestClaimModal />)}
                           >
                             Request Claim
@@ -74,9 +74,9 @@ export default function YourPolicies() {
                           <div className="flex flex-col">
                             <p className="text-sm">
                               Status:{" "}
-                              <span className="text-orange-500">Ongoing</span>
+                              <span className="text-orange-600">Ongoing</span>
                             </p>
-                            <p className="text-sm">
+                            <p className="text-sm mt-1">
                               Time Left:{" "}
                               {closestTimeUnit(
                                 policy.boughtAt + policy.duration - Date.now()
@@ -93,7 +93,7 @@ export default function YourPolicies() {
         )}
         {policies.length > 2 && (
           <button
-            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-back font-bold rounded-lg -translate-y-2"
+            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-back font-bold rounded-lg"
             onClick={() => setViewMore(!viewMore)}
           >
             {viewMore ? "View Less" : "View More"}{" "}

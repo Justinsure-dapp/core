@@ -32,7 +32,9 @@ export default function ConnectWallet() {
     <div ref={parent}>
       {!isConnected && (
         <div className="scale-90">
-          <ConnectButton />
+          <div className="rounded-xl border border-primary">
+            <ConnectButton />
+          </div>
           {/* <button
             onClick={() => setShowConnectors(prev => !prev)}
             className="flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm font-semibold mobile:px-3"
