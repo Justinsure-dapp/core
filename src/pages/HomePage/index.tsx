@@ -45,9 +45,9 @@ export default function HomePage() {
         </div>
 
         <div className="flex gap-6 mobile:flex-col-reverse">
-          <article className="flex flex-col w-1/4 mobile:w-full border border-zinc-700 rounded-lg h-[60vh] overflow-hidden items-center py-4 text-zinc-100 px-3 gap-y-4 mobile:gap-y-2 text-center  dark:bg-background bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative">
+          <article className="flex flex-col w-1/4 mobile:w-full border border-zinc-700 rounded-lg h-[60vh] overflow-hidden items-center py-4 text-zinc-100 px-3 gap-y-4 mobile:gap-y-2 text-center  bg-mute/20  bg-dot-white/[0.1] relative">
 
-            <div className="absolute rounded-xl pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+            <div className="absolute rounded-xl  pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
 
             <p className="font-bold text-lg z-10">Soparu the Rabbit</p>
             <p className="z-10">
