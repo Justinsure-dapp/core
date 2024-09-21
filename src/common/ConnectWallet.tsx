@@ -29,7 +29,7 @@ export default function ConnectWallet() {
   return (
     <>
       {!isConnected && (
-        <div>
+        <div className="scale-90">
           <ConnectButton />
           {/* <button
             onClick={() => setShowConnectors(prev => !prev)}
