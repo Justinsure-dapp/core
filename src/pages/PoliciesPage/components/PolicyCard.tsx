@@ -81,7 +81,7 @@ export default function PolicyCard(props: {
       <div className="relative flex flex-col">
         <div className="flex gap-x-4 mt-4">
           <span className="bg-mute/20 rounded-full w-max py-1 px-2 text-xs">
-            Initial Stake : {1000}
+            Holding of Marketer : {"23%"}
           </span>
           <span className="bg-mute/20 rounded-full w-max py-1 px-2 text-xs">
             Total Stake : {20130}

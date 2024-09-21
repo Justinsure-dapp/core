@@ -16,12 +16,12 @@ export default function PoliciesPage() {
       <article className="p-page w-full">
         <div className="flex py-6 gap-x-4 items-center">
           <input
-            className="bg-foreground p-4 rounded-xl w-full focus-within:outline-none focus-within:bg-background border-2 border-primary focus-within:border-opacity-80 border-opacity-0 duration-300 ease-in-out"
+            className="bg-foreground px-4 py-2 rounded-md w-full focus-within:outline-none focus-within:bg-background border-2 border-primary focus-within:border-opacity-80 border-opacity-0 duration-300 ease-in-out"
             placeholder="Search..."
           />
-          <div className="flex items-center gap-x-2 border-2 p-4 border-foreground rounded-xl">
-            <Icon icon="filter" className="text-2xl" />
-            <span className="">Filter</span>
+          <div className="flex items-center gap-x-2 border-2 px-4 py-2 border-foreground rounded-md">
+            <Icon icon="filter" className="text-2xl text-mute" />
+            <span className="text-mute">Filter</span>
           </div>
         </div>
         <div className="flex flex-wrap gap-6 w-full">
