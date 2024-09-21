@@ -45,7 +45,7 @@ export default function ConnectWallet() {
 
       {isConnected && (
         <button
-          className="font-light flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm px-4"
+          className="font-light flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-border rounded-lg text-sm px-4"
           onClick={() => setShowNetworks(prev => !prev)}
         >
           {correctNetwork && (

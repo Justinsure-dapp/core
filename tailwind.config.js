@@ -43,7 +43,7 @@ export default {
         primary: "#22333b",
         secondary: "#50798c",
         background: "#09090b",
-        foreground: "#171923",
+        foreground: "#18181b",
         accent: "#ffbc42",
         accent2: "#d81159",
         front: "#FFFFFF",
