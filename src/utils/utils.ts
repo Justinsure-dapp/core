@@ -1,3 +1,4 @@
+import { isAddress } from "viem";
 import { RGBColor } from "../types";
 
 export function generateRandomString(length: number, seed?: string) {
@@ -199,3 +200,14 @@ export function closestTimeUnit(milliseconds: number) {
 
 export const twInputStyle =
   "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
+
+
+export function formatEvmAddress(address: string) {
+    if (isAddress(address))
+      return (
+        address.slice(0, 7) +
+        "..." +
+        address.slice(address.length - 5, address.length)
+      );
+    return address;
+  }
