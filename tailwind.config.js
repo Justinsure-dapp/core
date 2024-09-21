@@ -50,6 +50,7 @@ export default {
         back: "#FFFFFF",
         mute: "#71717a",
         border: "#52525b",
+        hoverbg: "#18181b",
         "tron-red": "#EB0029",
       },
       borderRadius: {

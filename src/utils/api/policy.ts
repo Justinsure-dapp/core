@@ -2,40 +2,54 @@ import { Address } from "abitype";
 import { client } from ".";
 import { Policy } from "../../types";
 
-const user = {
-  async createNewPolicy(options: {
-    insuranceContractAddress: Address;
+type PolicyOptions = {
+  insuranceContractAddress: Address;
+  name: string;
+  description: string;
+  category: string;
+  minimumClaim: number;
+  maximumClaim: number;
+  minimumDuration: number;
+  maximumDuration: number;
+  claimFunction: string;
+  claimFuncDescription: string;
+  claimFunctionArguments: Array<{
     name: string;
     description: string;
-    category: string;
-    minimumClaim: number;
-    maximumClaim: number;
-    minimumDuration: number;
-    maximumDuration: number;
-    claimFunction: string;
-    claimFuncDescription: string;
-    claimFunctionArguments: Array<{
-      name: string;
-      description: string;
-      htmlType: string;
-    }>;
-    premiumFunction: string;
-    premiumFuncDescription: string;
-    premiumFunctionArguments: Array<{
-      name: string;
-      description: string;
-      htmlType: string;
-    }>;
-    tags: string[];
-    intialStake: number;
-  }) {
-    const response = await client.post<{ verified: boolean }>(
+    htmlType: string;
+  }>;
+  premiumFunction: string;
+  premiumFuncDescription: string;
+  premiumFunctionArguments: Array<{
+    name: string;
+    description: string;
+    htmlType: string;
+  }>;
+  tags: string[];
+  intialStake: number;
+};
+
+const policy = {
+  async createNewPolicy(options: any) {
+    const response = await client.post(
       "/policy/new",
       options
     );
 
     const data = response.data;
     return data;
+  },
+
+  async requestNonce(address: string) {
+    const response = await client.post<{ nonce: string }>(
+      "/policy/new/request-nonce",
+      {
+        address,
+      }
+    );
+
+    const data = response.data;
+    return data.nonce;
   },
 
   async getByAddress(address: string) {
@@ -57,4 +71,4 @@ const user = {
   },
 };
 
-export default user;
+export default policy;
