@@ -74,104 +74,8 @@ export default function NewPolicyPage() {
     },
   });
 
-  // useWaitForTransaction({
-  //   hash: newPolicyOnSurity.data?.hash,
-  //   async onSettled(data, error) {
-  //     const addr = await latestPolicy.refetch();
-
-  //     const newPolicyAddress = addr?.data;
-
-  //     if (!newPolicyAddress) {
-  //       alert("Error Happened");
-  //       return setLoading(false);
-  //     }
-
-  //     await api.policy
-  //       .createNewPolicy({
-  //         category: reqData.category,
-  //         claimFunction: reqData.claimFunc,
-  //         claimFunctionArguments: reqData.claimFuncArgs,
-  //         claimFuncDescription: reqData.claimFuncDescription,
-  //         description: reqData.description,
-  //         intialStake: Number(reqData.initialStake),
-  //         insuranceContractAddress: newPolicyAddress,
-  //         maximumClaim: reqData.maximumClaim,
-  //         minimumClaim: reqData.minimumClaim,
-  //         maximumDuration: reqData.maximumDuration,
-  //         minimumDuration: reqData.minimumDuration,
-  //         name: reqData.name,
-  //         premiumFuncDescription: reqData.premiumFuncDescription,
-  //         premiumFunction: reqData.premiumFunc,
-  //         premiumFunctionArguments: reqData.premiumFuncArgs,
-  //         tags: reqData.tags,
-  //       })
-  //       .then(() => {
-  //         navigate(`/policies/${newPolicyAddress}`);
-  //       });
-  //   },
-  // });
-
-  // const handleSubmit = (data: Record<string, string>) => {
-  //   if (Number(data.maximumClaim) < Number(data.minimumClaim)) {
-  //     alert("Maximum claim must be greater than minimum claim.");
-  //     return;
-  //   }
-
-  //   if (Number(data.maximumDuration) < Number(data.minimumDuration)) {
-  //     alert(
-  //       "Maximum duration must be greater than minimum duration."
-  //     );
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   let req: Record<string, any> = { ...data };
-  //   req["tags"] = tags;
-  //   req["premiumFuncArgs"] = premiumFuncArgsSetter;
-  //   req["claimFuncArgs"] = claimFuncArgsSetter;
-  //   if (manualPremiumCheck) {
-  //     const { premiumFuncArgs, ...r } = req;
-  //     req = { ...r };
-  //   }
-
-  //   req.initialStake = BigInt(
-  //     req.initialStake * Math.pow(10, usdtDecimals)
-  //   );
-
-  //   (req.claimFuncArgs as Args).forEach((arg, i) => {
-  //     const { typeName, ...rest } = arg;
-  //     req.claimFuncArgs[i] = rest;
-  //     console.log(req.claimFuncArgs);
-  //   });
-
-  //   (req.premiumFuncArgs as Args).forEach((arg, i) => {
-  //     const { typeName, ...rest } = arg;
-  //     req.premiumFuncArgs[i] = rest;
-  //   });
-
-  //   setNewPolicyArgs([
-  //     BigInt(Number(req.initialStake)),
-  //     ethers.keccak256(
-  //       abiEncoder.encode(
-  //         ["string", "string"],
-  //         [req.premiumFunc || null, req.claimFunc || null]
-  //       )
-  //     ) as `0x`,
-  //   ]);
-
-  //   approveTransfer.write({
-  //     args: [
-  //       contractDefinitions.surity.address,
-  //       req.initialStake + BigInt(1),
-  //     ],
-  //   });
-
-  //   setReq(req);
-  // }
-
-  // watch for nonceData change
-
   const [formData, setFormData] = useState<any>({})
+
   useEffect(() => {
     const submitForm = async () => {
       try {
@@ -198,12 +102,14 @@ export default function NewPolicyPage() {
     try {
       setFormData({
         ...data,
+        owner: address,
         tags,
       });
       const nonce = await api.policy.requestNonce(`${address}`);
       signMessage({
         message: `${JSON.stringify({
           ...data,
+          owner: address,
           tags,
         })}${nonce}`
       });
@@ -510,3 +416,101 @@ export default function NewPolicyPage() {
     </>
   );
 }
+
+
+  // useWaitForTransaction({
+  //   hash: newPolicyOnSurity.data?.hash,
+  //   async onSettled(data, error) {
+  //     const addr = await latestPolicy.refetch();
+
+  //     const newPolicyAddress = addr?.data;
+
+  //     if (!newPolicyAddress) {
+  //       alert("Error Happened");
+  //       return setLoading(false);
+  //     }
+
+  //     await api.policy
+  //       .createNewPolicy({
+  //         category: reqData.category,
+  //         claimFunction: reqData.claimFunc,
+  //         claimFunctionArguments: reqData.claimFuncArgs,
+  //         claimFuncDescription: reqData.claimFuncDescription,
+  //         description: reqData.description,
+  //         intialStake: Number(reqData.initialStake),
+  //         insuranceContractAddress: newPolicyAddress,
+  //         maximumClaim: reqData.maximumClaim,
+  //         minimumClaim: reqData.minimumClaim,
+  //         maximumDuration: reqData.maximumDuration,
+  //         minimumDuration: reqData.minimumDuration,
+  //         name: reqData.name,
+  //         premiumFuncDescription: reqData.premiumFuncDescription,
+  //         premiumFunction: reqData.premiumFunc,
+  //         premiumFunctionArguments: reqData.premiumFuncArgs,
+  //         tags: reqData.tags,
+  //       })
+  //       .then(() => {
+  //         navigate(`/policies/${newPolicyAddress}`);
+  //       });
+  //   },
+  // });
+
+  // const handleSubmit = (data: Record<string, string>) => {
+  //   if (Number(data.maximumClaim) < Number(data.minimumClaim)) {
+  //     alert("Maximum claim must be greater than minimum claim.");
+  //     return;
+  //   }
+
+  //   if (Number(data.maximumDuration) < Number(data.minimumDuration)) {
+  //     alert(
+  //       "Maximum duration must be greater than minimum duration."
+  //     );
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   let req: Record<string, any> = { ...data };
+  //   req["tags"] = tags;
+  //   req["premiumFuncArgs"] = premiumFuncArgsSetter;
+  //   req["claimFuncArgs"] = claimFuncArgsSetter;
+  //   if (manualPremiumCheck) {
+  //     const { premiumFuncArgs, ...r } = req;
+  //     req = { ...r };
+  //   }
+
+  //   req.initialStake = BigInt(
+  //     req.initialStake * Math.pow(10, usdtDecimals)
+  //   );
+
+  //   (req.claimFuncArgs as Args).forEach((arg, i) => {
+  //     const { typeName, ...rest } = arg;
+  //     req.claimFuncArgs[i] = rest;
+  //     console.log(req.claimFuncArgs);
+  //   });
+
+  //   (req.premiumFuncArgs as Args).forEach((arg, i) => {
+  //     const { typeName, ...rest } = arg;
+  //     req.premiumFuncArgs[i] = rest;
+  //   });
+
+  //   setNewPolicyArgs([
+  //     BigInt(Number(req.initialStake)),
+  //     ethers.keccak256(
+  //       abiEncoder.encode(
+  //         ["string", "string"],
+  //         [req.premiumFunc || null, req.claimFunc || null]
+  //       )
+  //     ) as `0x`,
+  //   ]);
+
+  //   approveTransfer.write({
+  //     args: [
+  //       contractDefinitions.surity.address,
+  //       req.initialStake + BigInt(1),
+  //     ],
+  //   });
+
+  //   setReq(req);
+  // }
+
+  // watch for nonceData change

@@ -9,7 +9,11 @@ import DocTitle from "../../../common/DocTitle";
 export default function PolicyCard(props: { policy: Policy }) {
   const marketerData = useApiResponse(api.marketer.get, props.policy.owner);
 
-  console.log(marketerData.data?.marketer);
+  console.log({
+    marketerData: marketerData.data,
+    policy: props.policy,
+  });
+
   return (
       <Link
         to={`/policies/${props.policy.address}`}
