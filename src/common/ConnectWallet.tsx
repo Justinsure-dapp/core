@@ -98,7 +98,7 @@ export default function ConnectWallet() {
             <p className="text-center">Choose Network</p>
             {chains.map((chain) => (
               <button
-                className="bg-primary w-[40vh] py-2 text-black rounded font-medium disabled:opacity-50"
+                className="bg-primary w-[40vh] py-2 text-back rounded font-medium disabled:opacity-50"
                 key={chain.id}
                 onClick={() => {
                   switchNetwork && switchNetwork(chain.id);

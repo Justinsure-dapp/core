@@ -1,38 +1,55 @@
 /** @type {import('tailwindcss').Config} */
 
+const svgToDataUri = require("mini-svg-data-uri");
+
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
+
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-        animation: {
-          tilt: 'tilt 10s infinite linear',
-        },
-        keyframes: {
-          tilt: {
-            '0%, 50%, 100%': {
-              transform: 'rotate(0deg)',
-            },
-            '25%': {
-              transform: 'rotate(0.5deg)',
-            },
-            '75%': {
-              transform: 'rotate(-0.5deg)',
-            },
+      animation: {
+        tilt: "tilt 10s infinite linear",
+        aurora: "aurora 60s linear infinite",
+      },
+      keyframes: {
+        tilt: {
+          "0%, 50%, 100%": {
+            transform: "rotate(0deg)",
           },
+          "25%": {
+            transform: "rotate(0.5deg)",
+          },
+          "75%": {
+            transform: "rotate(-0.5deg)",
+          },
+        },
+        aurora: {
+          from: {
+            backgroundPosition: "50% 50%, 50% 50%",
+          },
+          to: {
+            backgroundPosition: "350% 50%, 350% 50%",
+          },
+        },
       },
       screens: {
         mobile: { max: "780px" },
         widescreen: { min: "780px" },
       },
       colors: {
-        primary: "#1AC9FF",
-        secondary: "#0198EA",
-        background: "#060606",
+        primary: "#22333b",
+        secondary: "#50798c",
+        background: "#09090b",
         foreground: "#171923",
+        accent: "#ffbc42",
+        accent2: "#d81159",
         front: "#FFFFFF",
-        back: "#0a0a0a",
-        mute: "#718096",
-        border: "#171923",
+        back: "#FFFFFF",
+        mute: "#71717a",
+        border: "#52525b",
         "tron-red": "#EB0029",
       },
       borderRadius: {
@@ -51,5 +68,39 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [addVariablesForColors, somethingElse],
 };
+
+function addVariablesForColors({ addBase, theme }) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+ 
+  addBase({
+    ":root": newVars,
+  });
+}
+
+function somethingElse({ matchUtilities, theme }) {
+  matchUtilities(
+    {
+      "bg-grid": (value) => ({
+        backgroundImage: `url("${svgToDataUri(
+          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
+        )}")`,
+      }),
+      "bg-grid-small": (value) => ({
+        backgroundImage: `url("${svgToDataUri(
+          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
+        )}")`,
+      }),
+      "bg-dot": (value) => ({
+        backgroundImage: `url("${svgToDataUri(
+          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`
+        )}")`,
+      }),
+    },
+    { values: flattenColorPalette(theme("backgroundColor")), type: "color" }
+  );
+}

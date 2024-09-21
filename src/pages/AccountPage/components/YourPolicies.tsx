@@ -2,28 +2,30 @@ import React, { useState } from "react";
 import { closestTimeUnit } from "../../../utils";
 import useModal from "../../../hooks/useModal";
 import RequestClaimModal from "./RequestClaimModal";
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
   const modal = useModal();
+  const [parent] = useAutoAnimate();
 
   return (
     <div className="py-4 flex flex-col gap-y-8 p-page">
       <div className="flex justify-between items-end">
         <h1 className="text-xl font-bold tracking-wide">Your Policies</h1>
         <div className="flex flex-col gap-y-2 items-end">
-          <p className="font-mono">SureCoin: 103.00</p>
+          <p className="font-mono font-semibold">SureCoin: 103.00</p>
           <button className="bg-primary text-back text-sm opacity-90 hover:opacity-100 duration-200 ease-in px-4 py-1 font-bold rounded-lg">
             Withdraw
           </button>
         </div>
       </div>
-      <div className="flex gap-y-8 flex-col p-6 rounded-lg bg-primary/5 mobile:p-2">
+      <div ref={parent} className="flex gap-y-6 flex-col p-6 rounded-lg bg-secondary/10 border border-border/20 mobile:p-2">
         {policies.map(
           (policy, key) =>
             (viewMore || key < 2) && (
               <div
-                className="bg-background rounded-lg flex flex-col p-4 border border-primary/25"
+                className="bg-background m-2 rounded-lg flex flex-col p-4 border border-border/50 "
                 key={key}
               >
                 <div className="flex gap-x-4">
@@ -64,7 +66,7 @@ export default function YourPolicies() {
                       ) : (
                         <div className="flex justify-between mobile:flex-col-reverse">
                           <button
-                            className="mt-2 bg-primary px-4 py-2 text-back font-bold rounded-lg text-sm w-max mobile:self-end"
+                            className="mt-4 bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-back font-bold rounded-lg text-sm w-max mobile:self-end"
                             onClick={() => modal.show(<RequestClaimModal />)}
                           >
                             Request Claim
@@ -91,7 +93,7 @@ export default function YourPolicies() {
         )}
         {policies.length > 2 && (
           <button
-            className="bg-primary w-max px-4 py-2 self-end text-back font-bold rounded-lg -translate-y-2"
+            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-back font-bold rounded-lg -translate-y-2"
             onClick={() => setViewMore(!viewMore)}
           >
             {viewMore ? "View Less" : "View More"}{" "}

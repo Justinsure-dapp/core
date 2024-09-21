@@ -55,11 +55,11 @@ export default function Navbar() {
               <h1 className="font-black text-2xl tracking-wider">JustInsure</h1>
               {user?.marketer && (
                 <div className="group">
-                  <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
+                  <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-zinc-100 font-bold">
                     Pro
                   </p>
 
-                  <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-primary p-2 rounded-lg pointer-events-none">
+                  <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none">
                     "Pro" indicates that you are a marketer and you can list
                     <br />
                     policies on our platform
@@ -67,7 +67,7 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-            <p className="text-primary text-xs font-semibold">
+            <p className="text-secondary text-xs font-semibold">
               Rest assured on Web3
             </p>
           </div>
@@ -82,7 +82,7 @@ export default function Navbar() {
               className={({ isActive, isPending }) =>
                 twMerge(
                   "p-2 rounded-lg",
-                  isActive && "bg-primary text-back pointer-events-none",
+                  isActive && "bg-primary text-zinc-100 pointer-events-none",
                   !isActive && "hover:outline hover:outline-[1.5px]",
                   isPending && "animate-pulse pointer-events-none",
                   item.marketersOnly && (user?.marketer ? "" : "hidden")
@@ -99,7 +99,7 @@ export default function Navbar() {
       </nav>
 
       <button
-        className="absolute top-4 right-0 z-[102] -translate-x-4 text-2xl bg-primary text-back p-1 rounded-lg widescreen:hidden"
+        className="absolute top-4 right-4 z-[102] text-2xl bg-primary text-back p-1 rounded-lg widescreen:hidden"
         onClick={() => setShowNav(!showNav)}
       >
         <Icon icon="menu" />
@@ -118,11 +118,11 @@ export default function Navbar() {
                 <h1 className="font-black text-2xl tracking-wider">JustInsure</h1>
                 {user?.marketer && (
                   <div className="group">
-                    <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-back font-bold">
+                    <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-zinc-100 font-bold">
                       Pro
                     </p>
 
-                    <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-primary p-2 rounded-lg pointer-events-none">
+                    <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none">
                       "Pro" indicates that you are a marketer and you can list
                       <br />
                       policies on our platform
@@ -130,7 +130,7 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-              <p className="text-primary text-xs font-semibold">
+              <p className="text-secondary text-xs font-semibold">
                 Rest assured on Web3
               </p>
             </div>
@@ -146,8 +146,8 @@ export default function Navbar() {
                 className={({ isActive, isPending }) =>
                   twMerge(
                     "p-2 rounded-lg transition-all hover:bg-zinc-800",
-                    isActive && "bg-primary text-black pointer-events-none",
-                    !isActive && "hover:outline hover:outline-[1.5px]",
+                    isActive && "bg-primary text-zinc-100 pointer-events-none",
+                    !isActive && "hover:outline hover:outline-[1px] outline-zinc-500",
                     isPending && "animate-pulse pointer-events-none",
                     item.marketersOnly && (user?.marketer ? "" : "hidden")
                   )
@@ -162,7 +162,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="self-start flex items-center gap-1 mt-4 ml-2 font-semibold border-zinc-700 border rounded-md py-2 px-3 hover:bg-zinc-800 transition-all"
+            className="self-start flex items-center gap-1 mt-4 ml-2 font-semibold border-zinc-700 border rounded-md py-2 px-3 hover:outline hover:outline-[1px] outline-zinc-500 hover:bg-zinc-800 transition-all"
             onClick={() => setShowNav(false)}
           >
             <Icon icon='close' className="text-lg" />

@@ -2,6 +2,7 @@ import { useState } from "react";
 import AutomatedInvestment from "./AutomatedInvestment";
 import PolicyHolders from "./PolicyHolders";
 import StakeDistribution from "./StakeDistribution";
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 interface Policy {
   name: string;
@@ -20,8 +21,10 @@ interface Policy {
 
 export default function PolicyCard(props: { policy: Policy}) {
   const [expanded, setExpanded] = useState(false);
+  const [parent] = useAutoAnimate();
+
   return (
-    <div className="flex flex-col gap-y-4 p-4 rounded-lg border border-secondary/20 relative">
+    <div ref={parent} className="flex flex-col gap-y-4 p-4 rounded-lg border border-secondary/20 relative">
       <div className="flex flex-col gap-y-1">
         <h1 className="text-xl font-semibold">{props.policy.name}</h1>
         <div className="text-front/80 text-sm">{props.policy.description}</div>
@@ -68,7 +71,7 @@ export default function PolicyCard(props: { policy: Policy}) {
       </div>
 
       <button
-        className="absolute bottom-2 right-4 underline"
+        className="absolute bottom-2 right-4 underline underline-offset-2 text-zinc-100"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "View Less" : "View More"}

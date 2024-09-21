@@ -20,14 +20,14 @@ export default function StatisticsSidebar() {
           className="disabled:hidden"
           disabled={hidden}
         >
-          hide
+          Hide
         </button>
         <button
           onClick={() => setHidden(!true)}
           className="disabled:hidden pl-7"
           disabled={!hidden}
         >
-          expand
+          Expand
         </button>
       </div>
 
@@ -37,13 +37,13 @@ export default function StatisticsSidebar() {
             <h1 className="text-mute text-base font-bold">SureCoin Balance</h1>
             <div>
               <h2 className="text-xs -mb-1">Wallet</h2>
-              <p className="font-mono text-primary text-2xl font-medium">
+              <p className="font-mono text-secondary text-2xl font-medium">
                 103.00
               </p>
             </div>
             <div>
               <h2 className="text-xs -mb-1">Pending</h2>
-              <p className="font-mono text-primary text-2xl font-medium">
+              <p className="font-mono text-secondary text-2xl font-medium">
                 84.20
               </p>
             </div>
