@@ -3,7 +3,7 @@ import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 import { useRef, useState } from "react";
-import { usdtDecimals } from "../../../contracts/usdt";
+import { usdtDecimals } from "../../../contracts/usdj";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 
 import contractDefinitions from "../../../contracts";

@@ -1,6 +1,6 @@
 import React from "react";
 import useWeb3 from "../contexts/web3context";
-import { usdtDecimals } from "../contracts/usdt";
+import { usdtDecimals } from "../contracts/usdj";
 
 export default function FormattedCurrency(props: { children: string }) {
   // const { FUSD } = useWeb3();

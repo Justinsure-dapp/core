@@ -19,7 +19,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import contractDefinitions from "../../contracts";
-import { usdtDecimals } from "../../contracts/usdt";
+import { usdtDecimals } from "../../contracts/usdj";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../common/Icon";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
