@@ -1,7 +1,19 @@
-import insurance from "./insuranceController";
 import surity from "./surityInterface";
-import usdt from "./usdj";
+import usdj from "./usdj";
+import sureCoin from "./sureCoin";
+import stakeToken from "./stakeToken";
+import vault from "./vault";
+import surityInterface from "./surityInterface";
+import insuranceController from "./insuranceController";
 
-const contractDefinitions = { surity, usdt, insurance } as const;
+const contractDefinitions = {
+    surity,
+    usdj,
+    sureCoin,
+    stakeToken,
+    vault,
+    surityInterface,
+    insuranceController,
+} as const;
 
 export default contractDefinitions;

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import useWeb3 from "../contexts/web3context";
 import { Navigate, Outlet } from "react-router-dom";
+import api from "../utils/api";
+import { useAccount } from "wagmi";
+import { User } from "../types";
 
 export enum ProtectedTypes {
   PUBLICONLY,
@@ -15,15 +17,24 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute(props: ProtectedRouteProps) {
-  const { user } = useWeb3();
+  const [user, setUser] = useState<User>();
+  const { address } = useAccount();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    // const timer = setTimeout(() => {
+    //   setLoading(false);
+    // }, 1000);
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
+
+    const fetchUser = api.user.get(address as string);
+    fetchUser.then((data) => {
+      console.log(data);
+      setUser(data.user);
+      setLoading(false);
+    });
+
   }, []);
 
   if (loading) {
@@ -39,9 +50,9 @@ export default function ProtectedRoute(props: ProtectedRouteProps) {
     return <>{user ? <Outlet /> : <Navigate to="/" />}</>;
   }
 
-  if (props.type === ProtectedTypes.CONSUMERONLY) {
-    return <>{user && !user.marketer ? <Outlet /> : <Navigate to="/" />}</>;
-  }
+  // if (props.type === ProtectedTypes.CONSUMERONLY) {
+  //   return <>{user && !user.marketer ? <Outlet /> : <Navigate to="/" />}</>;
+  // }
 
   if (props.type === ProtectedTypes.MARKETERONLY) {
     return <>{user && user.marketer ? <Outlet /> : <Navigate to="/" />}</>;

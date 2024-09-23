@@ -1,4 +1,4 @@
-const address = "0xC509DDD886DAB2Da3b4986E75CBFACDB1150A20d";
+const address = "0xC509DDD886DAB2Da3b4986E75CBFACDB1150A20d" as const;
 
 const abi = [
   {
@@ -129,3 +129,5 @@ const abi = [
     type: "function",
   },
 ] as const;
+
+export default { address, abi };

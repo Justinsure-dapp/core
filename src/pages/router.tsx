@@ -25,15 +25,15 @@ const router = createBrowserRouter(
         <Route path="policies" element={<PoliciesPage />} />
         <Route path="policies/:address" element={<PolicyPage />} />
 
-        <Route element={<ProtectedRoute type={ProtectedTypes.VERIFIEDONLY} />}>
-          <Route path="account" element={<AccountPage />} />
+        <Route path="account" element={<AccountPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="buy-policy/:address" element={<BuyPolicyPage />} />
+
+        <Route element={<ProtectedRoute type={ProtectedTypes.VERIFIEDONLY} />}>
+          
         </Route>
 
-        <Route element={<ProtectedRoute type={ProtectedTypes.CONSUMERONLY} />}>
-          <Route path="new-marketer" element={<NewMarketerPage />} />
-        </Route>
+        <Route path="new-marketer" element={<NewMarketerPage />} />
 
         <Route element={<ProtectedRoute type={ProtectedTypes.MARKETERONLY} />}>
           <Route path="new-policy" element={<NewPolicyPage />} />

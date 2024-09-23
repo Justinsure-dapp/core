@@ -8,12 +8,15 @@ import { useContractWrite, useWaitForTransaction } from "wagmi";
 
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
+import { isAddress } from "viem";
 
 export default function StakeModal(props: { policy: Policy }) {
   const modal = useModal();
   const stakeRef = useRef<HTMLInputElement>(null);
   const [stake, setStake] = useState<bigint>(BigInt(0));
   const [loading, setLoading] = useState(false);
+
+  const address = isAddress(props.policy.address) ? props.policy.address : undefined;
 
   const handleStakeChange = () => {
     if (stakeRef.current) {
@@ -25,31 +28,30 @@ export default function StakeModal(props: { policy: Policy }) {
   };
 
   const approveTransfer = useContractWrite({
-    ...contractDefinitions.usdt,
+    ...contractDefinitions.usdj,
     functionName: "approve",
   });
 
   const stakeToPolicy = useContractWrite({
-    ...contractDefinitions.insurance,
-    address: props.policy.address,
+    ...contractDefinitions.insuranceController,
+    address,
     functionName: "stakeToPolicy",
   });
 
-  useWaitForTransaction({
-    hash: approveTransfer.data?.hash,
-    onSettled() {
-      stakeToPolicy.write({ args: [stake] });
-      setLoading(false);
-    },
-  });
+  // useWaitForTransaction({
+  //   hash: approveTransfer.data?.hash,
+  //   onSettled() {
+  //     stakeToPolicy.write({ args: [stake] });
+  //     setLoading(false);
+  //   },
+  // });
 
-  function stakeApprove() {
-    setLoading(true);
-    approveTransfer.write({
-      args: [props.policy.address, stake + BigInt(1)],
-    });
-
-  }
+  // function stakeApprove() {
+  //   setLoading(true);
+  //   approveTransfer.write({
+  //     args: [address, stake + BigInt(1)],
+  //   });
+  // }
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
@@ -81,7 +83,7 @@ export default function StakeModal(props: { policy: Policy }) {
           "mt-6 text-primary border-primary font-bold border duration-300 ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
           loading ? "animate-pulse" : ""
         )}
-        onClick={stakeApprove}
+        // onClick={stakeApprove}
         disabled={loading}
       >
         {loading ? "Staking..." : "Stake"}

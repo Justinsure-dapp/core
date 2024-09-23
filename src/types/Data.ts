@@ -1,16 +1,15 @@
 export type RGBColor = [number, number, number];
 
-export interface User {
+export type User = {
   address: string;
-  marketer: string;
+  name?: string;
+  image?: string;
+  marketer?: {
+    name: string;
+    image: string;
+  };
+  policies?: string[];
 }
-
-export interface Marketer {
-  name: string;
-  image: string;
-  policies: string[];
-}
-
 export interface Policy {
   _id: string;
   address: string;

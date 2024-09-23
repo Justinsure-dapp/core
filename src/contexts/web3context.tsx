@@ -8,7 +8,6 @@ import useModal from "../hooks/useModal";
 import { mainnet } from 'wagmi/chains'
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
-import { publicProvider } from 'wagmi/providers/public';
 
 interface Web3ContextType {
   user: User | null;
@@ -21,11 +20,11 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     <>
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider theme={darkTheme({
-          accentColor: '#22333b',
-          accentColorForeground: 'white',
+          accentColor: '#18181b',
           overlayBlur: 'small',
+          fontStack: 'system',
         })} chains={chains}>
-          <Wrapper>{children}</Wrapper>
+          {children}
         </RainbowKitProvider>
       </WagmiConfig>
     </>
@@ -34,7 +33,6 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
 function Wrapper({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-
   const { address } = useAccount();
 
   async function pingServerWithAddress() {
@@ -47,6 +45,9 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     if (userExists) {
       const { user } = await api.user.get(address);
       setUser(user);
+    } else {
+      const result = await api.user.createUser(address);
+      setUser(result.user);
     }
   }
 

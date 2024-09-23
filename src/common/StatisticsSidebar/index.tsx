@@ -3,9 +3,25 @@ import StakingStats from "./components/StakingStats";
 import SurityInfo from "./components/SurityInfo";
 import { twMerge } from "tailwind-merge";
 import SurityBranding from "./components/SurityBranding";
+import { useAccount, useContractRead } from "wagmi";
+import contractDefinitions from "../../contracts";
+import { isAddress } from "viem";
 
 export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
+  const { address } = useAccount();
+
+  const balance = useContractRead({
+    ...contractDefinitions.sureCoin,
+    functionName: "balanceOf",
+    args: [address || "0x1"],
+  });
+
+  const earned = useContractRead({
+    ...contractDefinitions.sureCoin,
+    functionName: "earned",
+    args: [address || "0x1"],
+  });
 
   return (
     <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen mobile:hidden">
@@ -38,13 +54,13 @@ export default function StatisticsSidebar() {
             <div>
               <h2 className="text-xs -mb-1">Wallet</h2>
               <p className="font-mono text-secondary text-2xl font-medium">
-                103.00
+                {balance.data?.toString()}
               </p>
             </div>
             <div>
               <h2 className="text-xs -mb-1">Pending</h2>
               <p className="font-mono text-secondary text-2xl font-medium">
-                84.20
+                {earned.data?.toString()}
               </p>
             </div>
           </div>

@@ -1,14 +1,19 @@
 import { client } from ".";
-import { Marketer, User } from "../../types";
+import { User } from "../../types";
 
 const user = {
   async check(address: string) {
     const response = await client.get<{ exists: boolean }>(
       `/user/check/${address}`
     );
+    return response.data;
+  },
 
-    const data = response.data;
-    return data;
+  async createUser(address: string) {
+    const response = await client.post<{ user: User }>(`/user/create`, {
+      address,
+    });
+    return response.data;
   },
 
   async requestNonce(address: string) {
@@ -23,35 +28,32 @@ const user = {
     return data.nonce;
   },
 
-  async verify(address: string, signedNonce: string) {
-    const response = await client.post<{ verified: boolean }>("/user/verify", {
-      address,
-      signedNonce,
-    });
+  // async verify(address: string, signedNonce: string) {
+  //   const response = await client.post<{ verified: boolean }>("/user/verify", {
+  //     address,
+  //     signedNonce,
+  //   });
 
-    const data = response.data;
-    return data.verified ? true : false;
-  },
+  //   const data = response.data;
+  //   return data.verified ? true : false;
+  // },
 
   async get(address: string) {
     const response = await client.get<{ user: User }>(`/user/get/${address}`);
-
-    const data = response.data;
-    return data;
+    return response.data;
   },
 
-  async becomeMarketer(name: string, imageUrl: string, signed: string) {
-    const response = await client.post<{ marketer: Marketer }>(
-      "/user/become-marketer",
-      {
-        name,
-        imageUrl,
-        signed,
-      }
-    );
-
-    const data = response.data;
-    return data;
+  async becomeMarketer(
+    data: { name: string; imageUrl: string },
+    sign: string,
+    address: string
+  ) {
+    const response = await client.post("/user/become-marketer", {
+      data,
+      sign,
+      address,
+    });
+    return response.data;
   },
 };
 

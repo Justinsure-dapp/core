@@ -30,40 +30,9 @@ export default function ConnectWallet() {
 
   return (
     <div ref={parent}>
-      {!isConnected && (
-        <div className="scale-90">
-          <div className="rounded-xl border border-primary">
-            <ConnectButton />
-          </div>
-          {/* <button
-            onClick={() => setShowConnectors(prev => !prev)}
-            className="flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-front/10 rounded-md text-sm font-semibold mobile:px-3"
-          >
-            <img className="w-[1.3em]" src="/icons/bttc.png" />
-            Connect
-          </button> */}
-        </div>
-      )}
-
-      {isConnected && (
-        <button
-          className="font-light flex gap-x-2 items-center bg-foreground min-w-[10vw] justify-center py-2 border border-border rounded-lg text-sm px-4"
-          onClick={() => setShowNetworks(prev => !prev)}
-        >
-          {correctNetwork && (
-            <div className="flex gap-2">
-              <img src="/images/gradient.webp" className="w-5 rounded-full" />
-              <p>
-                {address?.slice(0, 5)}....{address?.slice(-5)}
-              </p>
-            </div>
-          )}
-
-          {!correctNetwork && (
-            <p className="text-red-500 font-medium">Wrong Network</p>
-          )}
-        </button>
-      )}
+      <div className="rounded-xl">
+        <ConnectButton />
+      </div>
 
       {showConnectors && (
         <div className="fixed mobile:top-32 mobile:right-28 widescreen:top-0 widescreen:left-0 w-full h-full flex flex-col items-center justify-center bg-black/80">

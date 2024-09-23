@@ -113,9 +113,8 @@ export default function NewPolicyPage() {
           tags,
         })}${nonce}`
       });
-    } catch (error: any) {
-      console.log(error);
-      alert(error?.message);
+    } catch (error) {
+      console.error(error);
     }
   }
 

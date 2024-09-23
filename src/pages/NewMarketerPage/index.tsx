@@ -1,40 +1,66 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import DocTitle from "../../common/DocTitle";
 import { twMerge } from "tailwind-merge";
 import api from "../../utils/api";
 import DataForm from "../../common/DataForm";
-import { useSignMessage } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
   const [logo, setLogo] = useState("");
+  const { address } = useAccount();
 
-  const { signMessage, data: signed } = useSignMessage();
-  const [data, setData] = useState({ name: "", imageUrl: "" });
+  const { signMessage, data: sign } = useSignMessage();
+  const [data, setData] = useState<{
+    name: string,
+    imageUrl: string
+  }>({ name: "", imageUrl: "" });
 
   useEffect(() => {
-    if (data.name && data.imageUrl && signed) {
-      api.user
-        .becomeMarketer(data.name, data.imageUrl, signed)
-        .catch((err) => alert(err))
-        .then(() => {
-          location.replace("/");
+    if (data && sign && address) {
+      console.log('useEffect called')
+      api.user.becomeMarketer(data, sign, address)
+        .then((result) => {
+          console.log(result);
+          alert("You are now a marketer");
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("An error occured, please try again");
         })
         .finally(() => {
           setLoading(false);
         });
     }
-  }, [signed]);
+  }, [sign]);
 
   return (
     <>
       <DocTitle title="Register to sell Policies" />
 
       <DataForm
-        callback={(formData) => {
+        callback={async (formData) => {
           setLoading(true);
-          signMessage({ message: JSON.stringify({ ...formData }) });
-          setData({ name: formData.name, imageUrl: formData.imageUrl });
+
+          try {
+            if (address) {
+              const nonce = await api.user.requestNonce(address);
+              signMessage({
+                message: `${JSON.stringify({
+                  name: formData.name,
+                  imageUrl: formData?.imageUrl || ""
+                })}${nonce}`
+              });
+              setData({
+                name: formData.name,
+                imageUrl: formData?.imageUrl || ""
+              });
+            }
+          } catch (error) {
+            setLoading(false);
+            console.error(error);
+            alert("An error occured, please try again");
+          }
         }}
         className="flex flex-col gap-y-4 p-page"
       >
@@ -46,6 +72,7 @@ export default function NewMarketerPage() {
                 className="bg-background focus-within:outline-none px-3 py-3 border border-front/20 rounded-lg"
                 placeholder="What name would you want to be known as"
                 name="name"
+                required
               />
             </div>
             <div className="flex flex-col gap-y-1">
