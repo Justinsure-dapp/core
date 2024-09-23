@@ -3,6 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import api from "../utils/api";
 import { useAccount } from "wagmi";
 import { User } from "../types";
+import useWeb3 from "../contexts/web3context";
 
 export enum ProtectedTypes {
   PUBLICONLY,
@@ -17,42 +18,44 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute(props: ProtectedRouteProps) {
-  const [user, setUser] = useState<User>();
-  const { address } = useAccount();
+  const { user } = useWeb3();
   const [loading, setLoading] = useState(true);
 
+  console.log({
+    page: 'ProtectedRoute',
+    user
+  });
+
   useEffect(() => {
-    // const timer = setTimeout(() => {
-    //   setLoading(false);
-    // }, 1000);
-
-    // return () => clearTimeout(timer);
-
-    const fetchUser = api.user.get(address as string);
-    fetchUser.then((data) => {
-      console.log(data);
-      setUser(data.user);
+    const timer = setTimeout(() => {
       setLoading(false);
-    });
-
+    }, 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
-    return <div className="w-full h-full flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="flex flex-col gap-4 justify-center items-center h-full">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500"></div>
+        <p className="text-lg">Verifying...</p>
+      </div>
+    );
   }
 
   if (props.type === ProtectedTypes.PUBLICONLY) {
     return <>{!user ? <Outlet /> : <Navigate to="/" />}</>;
   }
 
-  if (props.type === ProtectedTypes.VERIFIEDONLY) {
-    !user && alert("Please Connect your wallet");
-    return <>{user ? <Outlet /> : <Navigate to="/" />}</>;
-  }
-
-  // if (props.type === ProtectedTypes.CONSUMERONLY) {
-  //   return <>{user && !user.marketer ? <Outlet /> : <Navigate to="/" />}</>;
+  // if (props.type === ProtectedTypes.VERIFIEDONLY) {
+  //   !user && alert("Please Connect your wallet");
+  //   return <>{user ? <Outlet /> : <Navigate to="/" />}</>;
   // }
+
+  if (props.type === ProtectedTypes.CONSUMERONLY) {
+    return <>
+      {!user ? <Outlet /> : user.marketer ? <Navigate to="/" /> : <Outlet />}
+    </>;
+  }
 
   if (props.type === ProtectedTypes.MARKETERONLY) {
     return <>{user && user.marketer ? <Outlet /> : <Navigate to="/" />}</>;

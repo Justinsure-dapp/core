@@ -24,7 +24,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
           overlayBlur: 'small',
           fontStack: 'system',
         })} chains={chains}>
-          {children}
+          <Wrapper>{children}</Wrapper>
         </RainbowKitProvider>
       </WagmiConfig>
     </>
@@ -45,20 +45,24 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     if (userExists) {
       const { user } = await api.user.get(address);
       setUser(user);
-    } else {
-      const result = await api.user.createUser(address);
-      setUser(result.user);
     }
   }
 
   useEffect(() => {
     pingServerWithAddress();
     if (address) setAddress(address);
-    if (!address) clearAddress();
+    if (!address) {
+      setUser(null);
+      clearAddress();
+    }
   }, [address]);
 
   const value = { user };
 
+  console.log({
+    page: 'Web3Provider',
+    user: value.user
+  });
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;
 }
 

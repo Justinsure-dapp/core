@@ -26,7 +26,12 @@ export default function NewMarketerPage() {
         })
         .catch((error) => {
           console.error(error);
-          alert("An error occured, please try again");
+
+          if(error.response?.data?.message) {
+            alert(error.response.data.message);
+          } else {
+            alert("An error occured, please try again");
+          }
         })
         .finally(() => {
           setLoading(false);
