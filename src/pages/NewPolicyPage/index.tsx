@@ -14,12 +14,7 @@ import { AbiCoder, FunctionFragment, ethers, keccak256 } from "ethers";
 import {
   useAccount,
   useSignMessage,
-  useContractRead,
-  useContractWrite,
-  useWaitForTransaction,
 } from "wagmi";
-import contractDefinitions from "../../contracts";
-import { usdtDecimals } from "../../contracts/usdj";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../common/Icon";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
@@ -46,35 +41,10 @@ export default function NewPolicyPage() {
   const { signMessage, data: nonceData, isLoading: nonceLoading, isSuccess: nonceSuccess, isError: nonceError } = useSignMessage();
 
   const [loading, setLoading] = useState(false);
-
-  const newPolicyOnSurity = useContractWrite({
-    ...contractDefinitions.surity,
-    functionName: "deployNewScheme",
-  });
-  const approveTransfer = useContractWrite({
-    ...contractDefinitions.usdt,
-    functionName: "approve",
-  });
-
-  const latestPolicy = useContractRead({
-    ...contractDefinitions.surity,
-    functionName: "getLatestScheme",
-  });
-
-  const abiEncoder = new ethers.AbiCoder();
-  const navigate = useNavigate();
-
   const [newPolicyArgs, setNewPolicyArgs] = useState<[bigint, `0x${string}`]>();
   const [reqData, setReq] = useState<any>({});
-
-  useWaitForTransaction({
-    hash: approveTransfer.data?.hash,
-    onSettled() {
-      newPolicyArgs && newPolicyOnSurity.write({ args: newPolicyArgs });
-    },
-  });
-
   const [formData, setFormData] = useState<any>({})
+  const navigate = useNavigate();
 
   useEffect(() => {
     const submitForm = async () => {
@@ -83,13 +53,18 @@ export default function NewPolicyPage() {
           const reqBody = {
             data: formData,
             sign: nonceData,
-            address
           }
           const result = await api.policy.createNewPolicy(reqBody);
+          setLoading(false);
           alert(result?.message);
+          navigate("/policies");
         }
       } catch (error: any) {
-        alert(error?.message);
+        console.error(error);
+        if (error.response.data.message) {
+          alert(error.response.data.message);
+        }
+        setLoading(false);
       }
     }
 
@@ -99,22 +74,24 @@ export default function NewPolicyPage() {
   }, [nonceData, nonceSuccess]);
 
   const handleSubmit = async (data: Record<string, string>) => {
+    setLoading(true);
     try {
       setFormData({
         ...data,
-        owner: address,
+        creator: address,
         tags,
       });
       const nonce = await api.policy.requestNonce(`${address}`);
       signMessage({
         message: `${JSON.stringify({
           ...data,
-          owner: address,
+          creator: address,
           tags,
         })}${nonce}`
       });
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   }
 
@@ -123,6 +100,16 @@ export default function NewPolicyPage() {
       <DocTitle title="New Policy" />
 
       <div className="p-page overflow-x-hidden">
+        {loading && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+            <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
+              <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
+              <p className="text-primary mt-2 font-semibold">Creating Policy</p>
+              <p className="text-mute">Please wait...</p>
+            </div>
+          </div>
+        )}
+
         <section className="py-8">
           <DataForm
             className="flex flex-col"
@@ -200,7 +187,7 @@ export default function NewPolicyPage() {
                 />
               </div>
             </div>
-            <div  className="flex gap-x-7 mt-7 flex-col gap-y-7">
+            <div className="flex gap-x-7 mt-7 flex-col gap-y-7">
               {!manualPremiumCheck && (
                 <div className="flex gap-x-7">
                   <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
@@ -366,7 +353,7 @@ export default function NewPolicyPage() {
               <button
                 type="submit"
                 className="bg-primary py-2 px-6 rounded-md text-back font-medium disabled:cursor-progress disabled:opacity-60 disabled:animate-pulse"
-              // disabled={loading}
+                disabled={loading}
               >
                 Save
               </button>
@@ -382,8 +369,6 @@ export default function NewPolicyPage() {
               </div>
             </div>
           </DataForm>
-
-          {/* <div className="basis-[28%] bg-foreground rounded-xl mobile:hidden"></div> */}
         </section>
       </div>
     </>

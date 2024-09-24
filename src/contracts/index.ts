@@ -6,6 +6,7 @@ import vault from "./vault";
 import surityInterface from "./surityInterface";
 import insuranceController from "./insuranceController";
 
+
 const contractDefinitions = {
     surity,
     usdj,
