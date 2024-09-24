@@ -28,7 +28,9 @@ export default function PoliciesPage() {
           {!policies.loading &&
             policies.data &&
             policies.data.map((policy, key) => (
-              <PolicyCard policy={policy} className="w-[calc(48%_-_7px)]" />
+              <div key={key}>
+                <PolicyCard policy={policy} className="w-[calc(48%_-_7px)]" />
+              </div>
             ))}
         </div>
       </article>

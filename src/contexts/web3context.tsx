@@ -59,10 +59,10 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 
   const value = { user };
 
-  console.log({
-    page: 'Web3Provider',
-    user: value.user
-  });
+  // console.log({
+  //   page: 'Web3Provider',
+  //   user: value.user
+  // });
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;
 }
 

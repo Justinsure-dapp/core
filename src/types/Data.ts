@@ -27,6 +27,6 @@ export interface Policy {
   claimFuncDescription: string;
   minimumDuration: string;
   maximumDuration: string;
-  owner: string;
+  creator: string;
   __v: number;
 }

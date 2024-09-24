@@ -11,7 +11,7 @@ export default function StakingStats() {
 
   return (
     <div
-      className="border-y border-border px-6 py-4 flex flex-col gap-y-5 max-h-[50vh] overflow-y-scroll scrollbar-primary"
+      className="border-y border-border px-6 py-4 flex flex-col gap-y-5 max-h-[80vh] overflow-y-scroll scrollbar-primary"
       ref={containerRef}
     >
       <div className="flex items-center justify-between gap-x-3">

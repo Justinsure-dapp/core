@@ -24,7 +24,7 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
         />
         <div className="basis-1/2 flex flex-col gap-y-3 border border-border p-4 rounded-xl max-h-[240px] overflow-y-scroll scrollbar-primary" ref={accountRef}>
           {data.labels.map((label, i) => (
-            <div className="flex w-full items-center gap-x-4">
+            <div key={i} className="flex w-full items-center gap-x-4">
               <span className="">{i + 1}</span>
               <div
                 className={twMerge(

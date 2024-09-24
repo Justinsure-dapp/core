@@ -15,8 +15,10 @@ export default function PolicyCard(props: {
   policy: Policy;
   className: string;
 }) {
-  const marketerData = useApiResponse(api.marketer.get, props.policy.owner);
+  const marketerData = useApiResponse(api.marketer.get, props.policy.creator);
   const { policy } = props;
+
+  console.log(marketerData.data);
 
   const dummy = {
     "_id": "66eee2ac9ab10cbb3c6e2077",
@@ -37,7 +39,7 @@ export default function PolicyCard(props: {
     "claimFuncDescription": "2",
     "minimumDuration": "86400000",
     "maximumDuration": "432000000",
-    "owner": "0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0",
+    "creator": "0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0",
     "__v": 0
   }
 

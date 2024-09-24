@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StakingStats from "./components/StakingStats";
 import SurityInfo from "./components/SurityInfo";
 import { twMerge } from "tailwind-merge";
@@ -11,57 +11,46 @@ export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
   const { address } = useAccount();
 
-  const balance = useContractRead({
+  const fetchedBalance = useContractRead({
     ...contractDefinitions.sureCoin,
     functionName: "balanceOf",
-    args: [address || "0x1"],
+    args: [address || '0x5071437be4b13e62522D2b48E9514FF36f68641d'],
   });
 
-  const earned = useContractRead({
+  const fetchedEarned = useContractRead({
     ...contractDefinitions.sureCoin,
     functionName: "earned",
-    args: [address || "0x1"],
+    args: [address || '0x5071437be4b13e62522D2b48E9514FF36f68641d'],
   });
 
   return (
     <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen mobile:hidden">
-      <div
-        className={twMerge(
-          "absolute top-4 right-4 text-sm text-secondary",
-          hidden && "relative"
-        )}
-      >
-        <button
-          onClick={() => setHidden(true)}
-          className="disabled:hidden"
-          disabled={hidden}
-        >
-          Hide
-        </button>
-        <button
-          onClick={() => setHidden(!true)}
-          className="disabled:hidden pl-7"
-          disabled={!hidden}
-        >
-          Expand
-        </button>
-      </div>
-
       {!hidden && (
         <>
           <div className="px-6 py-3 flex flex-col gap-y-2">
-            <h1 className="text-mute text-base font-bold">SureCoin Balance</h1>
-            <div>
-              <h2 className="text-xs -mb-1">Wallet</h2>
-              <p className="font-mono text-secondary text-2xl font-medium">
-                {balance.data?.toString()}
-              </p>
+            <div className="flex items-center justify-between text-mute text-base font-bold">
+              <h1 className="">SureCoin Balance</h1>
+              <button
+                onClick={() => setHidden(true)}
+                className="disabled:hidden text-sm text-secondary"
+                disabled={hidden}
+              >
+                Hide
+              </button>
             </div>
-            <div>
-              <h2 className="text-xs -mb-1">Pending</h2>
-              <p className="font-mono text-secondary text-2xl font-medium">
-                {earned.data?.toString()}
-              </p>
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center">
+                <h2 className="text-xs">Wallet:</h2>
+                <p className="font-mono text-secondary text-2xl font-medium">
+                  {fetchedBalance.data ? fetchedBalance.data.toString() : "0"}
+                </p>
+              </div>
+              <div className="flex gap-2 items-center">
+                <h2 className="text-xs">Pending:</h2>
+                <p className="font-mono text-secondary text-2xl font-medium">
+                  {fetchedEarned.data ? fetchedEarned.data.toString() : "0"}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -73,7 +62,25 @@ export default function StatisticsSidebar() {
         </>
       )}
 
-      {hidden && <SurityBranding />}
+      <div
+        className={twMerge(
+          "flex flex-col overflow-y-clip",
+          hidden ? "h-full" : ""
+        )}
+      >
+        <button
+          onClick={() => setHidden(!true)}
+          className="disabled:hidden text-sm text-secondary pt-7 px-4 font-bold"
+          disabled={!hidden}
+        >
+          Expand
+        </button>
+
+        {hidden && <SurityBranding />}
+      </div>
+      
+
+
     </section>
   );
 }
