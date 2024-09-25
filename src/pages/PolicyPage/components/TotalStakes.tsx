@@ -1,18 +1,38 @@
+import { useContractRead } from "wagmi";
 import Icon from "../../../common/Icon";
 import { Policy } from "../../../types";
+import contractDefinitions from "../../../contracts";
+import { isAddress } from "viem";
 
 export default function TotalStakes({ policy }: { policy: Policy }) {
   const ownerStakePercentage = (
     (500000 / (1000000 * 15)) *
     100
   ).toFixed(2);
+  
+
+  if(!policy.address || !policy.creator) return null;
+  if(!isAddress(policy.creator)) return null;
+
+  const { data: totalStake } = useContractRead({
+    ...contractDefinitions.insuranceController,
+    address: isAddress(policy.address) ? policy.address : undefined,
+    functionName: "totalStake",
+  });
+
+  // const { data: ownerStake } = useContractRead({
+  //   ...contractDefinitions.insuranceController,
+  //   address: isAddress(policy.address) ? policy.address : undefined,
+  //   functionName: "",
+  //   args: [policy.creator]
+  // });
 
   return (
     <div className="w-full flex-col flex gap-y-2 pt-4 pb-16 p-page">
       <div className="flex justify-between mobile:gap-y-2">
         <h1 className="text-xl">Staked Amount</h1>
         <div className="bg-primary/20 border border-primary/40 rounded-xl px-4 mobile:w-max mobile:self-end">
-          SureCoin: <span className="font-mono">15</span>
+          SureCoin: <span className="font-mono">{totalStake?.toString()}</span>
         </div>
       </div>
       <div className="w-full bg-primary/20 h-[1vh] rounded-xl relative mt-3">

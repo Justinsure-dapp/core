@@ -43,7 +43,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     const { exists: userExists } = await api.user.check(address);
 
     if (userExists) {
-      const { user } = await api.user.get(address);
+      const user = await api.user.get(address);
       setUser(user);
     }
   }

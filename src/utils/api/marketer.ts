@@ -1,10 +1,10 @@
 import { client } from ".";
-import { Marketer, User } from "../../types";
+import { User } from "../../types";
 
 const marketer = {
   async get(address: string) {
-    const response = await client.get<{ marketer: Marketer }>(
-      `/marketer/get/${address}`
+    const response = await client.get<{ marketer: User }>(
+      `/user/get/${address}`
     );
     const data = response.data;
     return data;

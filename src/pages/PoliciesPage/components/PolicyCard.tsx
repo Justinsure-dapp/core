@@ -10,41 +10,26 @@ import { twMerge } from "tailwind-merge";
 import ClipboardWrapper from "../../../common/ClipboardWrapper";
 import { formatEvmAddress } from "../../../utils";
 import Icon from "../../../common/Icon";
+import { useContractRead } from "wagmi";
+import contractDefinitions from "../../../contracts";
+import { isAddress } from "viem";
 
 export default function PolicyCard(props: {
   policy: Policy;
-  className: string;
+  className?: string;
 }) {
-  const marketerData = useApiResponse(api.marketer.get, props.policy.creator);
   const { policy } = props;
-
-  console.log(marketerData.data);
-
-  const dummy = {
-    "_id": "66eee2ac9ab10cbb3c6e2077",
-    "address": "0x12345779999",
-    "cid": "bafkreidpx7e3bzcvdqdvqgfzqsk3huwisjc44lvt7jvwfoqcxpb3kfwggy",
-    "rating": 0,
-    "tags": [
-      "aaa"
-    ],
-    "name": "1111",
-    "description": "1",
-    "category": "ATV",
-    "minimumClaim": "1",
-    "maximumClaim": "2",
-    "premiumFunc": "def function_name(arg1, arg2):\n    return arg1 + arg2",
-    "premiumFuncDescription": "2",
-    "claimFunc": "def function_name(arg1, arg2):\n    return arg1 + arg2",
-    "claimFuncDescription": "2",
-    "minimumDuration": "86400000",
-    "maximumDuration": "432000000",
-    "creator": "0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0",
-    "__v": 0
-  }
-
+  const { data: user } = useApiResponse(api.user.get, policy.creator);
   const minimumDurationInDays = moment.duration(policy.minimumDuration, 'milliseconds').asDays();
   const maximumDurationInDays = moment.duration(policy.maximumDuration, 'milliseconds').asDays();
+
+  if(!policy.address) return null;
+
+  const { data: isPaused } = useContractRead({
+    ...contractDefinitions.insuranceController,
+    address: isAddress(policy.address) ? policy.address : undefined,
+    functionName: "paused",
+  });
 
   return (
     <Link
@@ -68,75 +53,81 @@ export default function PolicyCard(props: {
       />
 
       <div className="flex flex-col items-start relative">
-        <div className="flex gap-x-4">
-          <img
-            src={marketerData.data?.marketer.image}
-            alt={policy.name}
-            className="w-[3vw] rounded-full"
-          />
-          <div className="flex flex-col justify-evenly">
-            <h2 className="text-sm flex items-center gap-x-2">
-              {policy.name}
-              <span className="text-xs text-secondary">
-                {"("}
-                Car Insurance
-                {")"}
-              </span>
-            </h2>
-            <ClipboardWrapper
-              textToBeCopied="0xc0ffee254729296a45a3885639AC7E10F9d54979"
-              className="text-xs text-mute"
-            >
-              <p className="flex items-center gap-x-1">
-                {formatEvmAddress("0xc0ffee254729296a45a3885639AC7E10F9d54979")}
-                <Icon icon="contentCopy" />
-              </p>
-            </ClipboardWrapper>
+
+        {/* Title Section */}
+        <div className="flex justify-between w-full">
+          <div className="flex gap-4 items-center">
+            <img
+              src={user?.marketer?.image}
+              alt={policy.name}
+              className="rounded-full w-10 h-10"
+            />
+
+            <div className="flex flex-col justify-evenly">
+              <h2 className="text-sm flex font-black items-center gap-x-2">
+                {policy.name}
+                <span className="text-xs text-secondary">
+                  {policy.category}
+                </span>
+              </h2>
+              <ClipboardWrapper
+                textToBeCopied={policy.address}
+                className="text-xs text-mute"
+              >
+                <p className="flex items-center gap-x-1">
+                  {formatEvmAddress(policy.address)}
+                  <Icon icon="contentCopy" />
+                </p>
+              </ClipboardWrapper>
+
+              <div className="flex  text-xs  text-front/80">
+                Marketer :
+                <div className="ml-1 text-secondary/80">
+                  {user?.marketer?.name}
+                </div>
+              </div>
+            </div>
           </div>
+
+          <span className="flex flex-col items-end text-xs text-mute saturate-150 brightness-150">
+            <div className="flex flex-col text-end text-xs gap-y-2 items-end text-secondary">
+              {!isPaused ? (
+                <p className="flex gap-x-1 items-center text-green-500">
+                  <Icon icon="check" /> Claimable
+                </p>
+              ) : (
+                <p className="flex gap-x-1 items-center text-red-500">
+                  <Icon icon="close" /> Unclaimable
+                </p>
+              )}
+            </div>
+
+            <div className="flex mt-1 gap-x-1">
+              <p>{policy.rating}</p>
+              <StarRating rating={policy.rating} />
+            </div>
+          </span>
         </div>
-        <div className="flex  text-xs mt-3  text-front/80">
-          Marketer :
-          <div className="ml-1 text-secondary/60">
-            {marketerData.data?.marketer.name}
-          </div>
-        </div>
-        <span className="text-xs text-mute absolute right-0 top-0 cursor-default saturate-150 brightness-150">
-          <div className="flex gap-x-1">
-            <p>{policy.rating}</p>
-            <StarRating rating={policy.rating} />
-          </div>
-        </span>
+
       </div>
       <div className="relative flex flex-col">
-        <div className="flex gap-x-4 mt-4">
+        {/* <div className="flex mobile:flex-col flex-row gap-2 mt-4">
           <span className="bg-mute/20 rounded-full w-max py-1 px-2 text-xs">
             Holding of Marketer : {"23%"}
           </span>
           <span className="bg-mute/20 rounded-full w-max py-1 px-2 text-xs">
             Total Stake : TBI
           </span>
-        </div>
+        </div> */}
 
-        <div className="flex justify-between">
-          <div className="flex flex-col mt-5">
-            <div className="text-xs text-mute flex gap-x-3">
-              <p className="">Min Claim : {policy.minimumClaim}</p> <span>|</span>
-              <p className="">Max Claim : {policy.maximumClaim}</p>
-            </div>
-            <div className="text-xs mt-2 text-mute flex gap-x-3">
-              <p className="">Min Duration : {minimumDurationInDays} Days</p> <span>|</span>
-              <p className="">Max Duration : {maximumDurationInDays} Days</p>
-            </div>
+        <div className="flex flex-col mt-5">
+          <div className="text-xs text-mute flex gap-2 justify-between items-center">
+            <p className="">Min Claim : {policy.minimumClaim}</p>
+            <p className="">Max Claim : {policy.maximumClaim}</p>
           </div>
-
-          <div className="flex flex-col text-end text-xs gap-y-2 items-end mt-5 text-secondary">
-            <p className="flex gap-x-1 items-center text-green-500">
-              <Icon icon="check" /> Verified
-            </p>
-
-            <p className="flex gap-x-1 items-center text-red-500 whitespace-nowrap text-xs">
-              <Icon icon="close" /> Claimable
-            </p>
+          <div className="text-xs mt-2 text-mute flex gap-2 justify-between items-center">
+            <p className="">Min Duration : {minimumDurationInDays} Days</p>
+            <p className="">Max Duration : {maximumDurationInDays} Days</p>
           </div>
         </div>
       </div>

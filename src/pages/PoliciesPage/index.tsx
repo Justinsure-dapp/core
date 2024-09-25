@@ -24,13 +24,11 @@ export default function PoliciesPage() {
             <span className="text-mute">Filter</span>
           </div>
         </div>
-        <div className="flex flex-wrap gap-6 w-full">
+        <div className="grid gap-6 mb-8 w-full widescreen:grid-cols-2">
           {!policies.loading &&
             policies.data &&
             policies.data.map((policy, key) => (
-              <div key={key}>
-                <PolicyCard policy={policy} className="w-[calc(48%_-_7px)]" />
-              </div>
+              <PolicyCard key={key} policy={policy} />
             ))}
         </div>
       </article>

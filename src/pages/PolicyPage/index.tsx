@@ -8,22 +8,28 @@ import Functions from "./components/Functions";
 import api from "../../utils/api";
 import useApiResponse from "../../hooks/useApiResponse";
 import DocTitle from "../../common/DocTitle";
+import { useState } from "react";
+import { useContractRead } from "wagmi";
+import contractDefinitions from "../../contracts";
+import { isAddress } from "viem";
 
 export default function PolicyPage() {
-  const { address } = useParams();
-  if (!address) return <Navigate to="/policies" />;
+  const { address: policyAddress } = useParams();
 
-  const policy = useApiResponse(api.policy.getByAddress, address);
+  if (!policyAddress) return <Navigate to="/policies" />;
+  const { data: policy } = useApiResponse(api.policy.getByAddress, policyAddress);
 
   return (
     <article className="p-page py-8 flex flex-col gap-y-4 w-full">
-      {policy && policy.data && (
+      <DocTitle title={"View Policy"} />
+
+      {policy && (
         <>
-          <Header policy={policy.data} />
-          <ClaimInfo policy={policy.data} />
-          <Functions policy={policy.data} />
-          <TotalStakes policy={policy.data} />
-          <PoolDistribution policy={policy.data} />
+          <Header policy={policy} />
+          <ClaimInfo policy={policy} />
+          <Functions policy={policy} />
+          <TotalStakes policy={policy} />
+          <PoolDistribution policy={policy} />
           <InvestmentPolicy />
         </>
       )}

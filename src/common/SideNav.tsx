@@ -39,7 +39,7 @@ export default function Navbar() {
   ];
 
   const { user } = useWeb3();
-  const [showNav, setShowNav] = useState(true);
+  const [showNav, setShowNav] = useState(false);
 
   return (
     <>
