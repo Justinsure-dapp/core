@@ -1,6 +1,5 @@
 export type RGBColor = [number, number, number];
 
-
 interface Marketer {
   name?: string;
   image?: string;
@@ -11,10 +10,6 @@ export interface User {
   address: string;
   name?: string;
   image?: string;
-  policiesOwned?: [{
-    address: string;
-    expiry: number;
-  }];
   marketer?: Marketer;
 }
 
@@ -22,8 +17,8 @@ export interface Policy {
   _id: string;
   address: string;
   cid: string;
-  rating: number;
-  tags: string[];
+  rating?: number;
+  tags?: string[];
   name: string;
   description: string;
   category: string;
@@ -36,5 +31,8 @@ export interface Policy {
   minimumDuration: string;
   maximumDuration: string;
   creator: string;
+  stakeToken: string;
+  policyHolders?: string[];
+  policyStakers?: string[];
   __v: number;
 }

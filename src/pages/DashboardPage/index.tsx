@@ -1,19 +1,21 @@
-import { twMerge } from "tailwind-merge";
 import DocTitle from "../../common/DocTitle";
-import { useState } from "react";
 import useModal from "../../hooks/useModal";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Icon from "../../common/Icon";
-import StakeDistribution from "./components/StakeDistribution";
-import AutomatedInvestment from "./components/AutomatedInvestment";
-import PolicyHolders from "./components/PolicyHolders";
 import PolicyCard from "./components/PolicyCard";
 import useApiResponse from "../../hooks/useApiResponse";
 import api from "../../utils/api";
+import { useAccount } from "wagmi";
+import { isAddress } from "viem";
 
 export default function DashboardPage() {
-  const modal = useModal();
-  const response = useApiResponse(api.policy.fetchAllPolicies);
+  const { address } = useAccount();
+
+  if(!address) {
+    return <Navigate to="/" />;
+  };
+
+  const { data: policies, loading } = useApiResponse(api.policy.fetchAllPoliciesByCreator, address.toString());
 
   return (
     <section className="p-page py-4">
@@ -35,19 +37,23 @@ export default function DashboardPage() {
         </button>
         <Link
           to="/new-policy"
-          className="bg-primary text-back px-6 rounded-lg py-2 font-medium"
+          className="bg-primary hover:bg-primary/80 transition-all text-back px-6 rounded-lg py-2 font-medium"
         >
           Create New Policy
         </Link>
       </div>
       <div className="flex flex-col gap-y-8 mt-4">
-        {/* {response.data?.map((policy, i) => (
-          <PolicyCard key={i} policy={policy} />
-        ))} */}
-
-        {dummyPolicies.map((policy, i) => (
-          <PolicyCard key={i} policy={policy} />
-        ))}
+        {!loading && policies && policies?.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            {policies?.map((policy, i) => (
+              <PolicyCard key={i} policy={policy} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-front/60">
+            You have not created any policies yet..{" "}
+          </div>
+        )}
       </div>
     </section>
   );

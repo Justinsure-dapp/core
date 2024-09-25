@@ -285,5 +285,4 @@ const abi = [
 ] as const;
 
 export const usdtDecimals = 6;
-
 export default { address, abi };

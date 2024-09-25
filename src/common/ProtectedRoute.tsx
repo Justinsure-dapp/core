@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import api from "../utils/api";
-import { useAccount } from "wagmi";
-import { User } from "../types";
 import useWeb3 from "../contexts/web3context";
 
 export enum ProtectedTypes {
@@ -21,10 +18,10 @@ export default function ProtectedRoute(props: ProtectedRouteProps) {
   const { user } = useWeb3();
   const [loading, setLoading] = useState(true);
 
-  console.log({
-    page: 'ProtectedRoute',
-    user
-  });
+  // console.log({
+  //   page: 'ProtectedRoute',
+  //   user
+  // });
 
   useEffect(() => {
     const timer = setTimeout(() => {

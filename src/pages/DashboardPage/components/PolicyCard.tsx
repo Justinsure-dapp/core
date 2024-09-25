@@ -1,33 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AutomatedInvestment from "./AutomatedInvestment";
 import PolicyHolders from "./PolicyHolders";
 import StakeDistribution from "./StakeDistribution";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { twMerge } from "tailwind-merge";
-
-interface Policy {
-  name: string;
-  marketer: string;
-  logoUrl: string;
-  description: string;
-  policyHolder: number;
-  stakeHolder: number;
-  MoneyInPool: number;
-  data: {
-    labels: string[];
-    values: number[];
-    bgColor: string[];
-  };
-}
+import { useContractRead } from "wagmi";
+import contractDefinitions from "../../../contracts";
+import { isAddress } from "viem";
+import { Policy, User } from "../../../types";
+import api from "../../../utils/api";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [expanded, setExpanded] = useState(false);
+  const [creator, setCreator] = useState<User>();
   const [parent] = useAutoAnimate();
+
+  console.log(creator)
+
+  const { data: isPaused } = useContractRead({
+    ...contractDefinitions.insuranceController,
+    address: isAddress(props.policy.address) ? props.policy.address : undefined,
+    functionName: "paused",
+  });
+
+  useEffect(() => {
+    api.user.get(props.policy.creator)
+      .then((user) => {
+        setCreator(user);
+      }).catch((error) => {
+        console.error(error);
+        alert("Failed to fetch creator details");
+      });
+  }, [props.policy.creator]);
 
   return (
     <div
       ref={parent}
-      className="flex flex-col gap-y-4 p-4 rounded-lg border border-secondary/20 relative"
+      className="flex flex-col gap-y-4 p-6 rounded-lg border border-secondary/30 relative"
     >
       <div className="flex flex-col gap-y-1">
         <h1 className="text-xl font-semibold">{props.policy.name}</h1>
@@ -36,12 +45,8 @@ export default function PolicyCard(props: { policy: Policy }) {
       <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
         <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold font-mono">
-              {props.policy.policyHolder}
-            </h1>
             <p className="text-front/80 flex items-center text-sm">
-              Policy Holders &#160;{" "}
-              <span className="text-green-500">+21.4%</span>
+              Stake Holders &#160;{" "}
             </p>
           </div>
           <div className="p-2 bg-green-500/20 rounded-xl">
@@ -50,22 +55,6 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
         <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold font-mono">
-              {props.policy.stakeHolder}
-            </h1>
-            <p className="text-front/80 text-sm">
-              Stake Holders &#160; <span className="text-red-500">-12.43%</span>
-            </p>
-          </div>
-          <div className="p-2 bg-red-500/20 rounded-xl">
-            <img src="https://img.icons8.com/ios-filled/32/FA5252/bearish.png" />
-          </div>
-        </div>
-        <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
-          <div className="flex flex-col">
-            <h1 className="text-xl font-bold font-mono">
-              $ {props.policy.MoneyInPool}
-            </h1>
             <p className="text-front/80 text-sm">Money in Pool &#160; </p>
           </div>
           <div className="p-2 bg-front/20 rounded-xl">
@@ -87,7 +76,7 @@ export default function PolicyCard(props: { policy: Policy }) {
               Recent Activity
             </button> */}
           <PolicyHolders />
-          <StakeDistribution data={props.policy.data} />
+          {/* <StakeDistribution data={props.policy.data} /> */}
           <AutomatedInvestment />
         </div>
       )}

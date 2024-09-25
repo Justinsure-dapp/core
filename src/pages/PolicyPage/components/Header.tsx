@@ -9,7 +9,6 @@ import api from "../../../utils/api";
 
 export default function Header(props: { policy: Policy }) {
   const modal = useModal();
-
   const { policy } = props;
   const { data: user } = useApiResponse(api.user.get, policy.creator);
 
@@ -32,7 +31,7 @@ export default function Header(props: { policy: Policy }) {
                 </h2>
               </div>
               <div className="flex gap-x-1 items-center">
-                <StarRating rating={policy.rating} />
+                <StarRating rating={policy.rating ? policy.rating : 0} />
                 <p>{policy.rating}</p>
               </div>
             </div>

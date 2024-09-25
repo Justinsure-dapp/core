@@ -61,14 +61,35 @@ const policy = {
     return data.policy;
   },
 
+  async registerStake(address: string, amount: number) {
+    const response = await client.post(
+      "policy/stake/register",
+      {
+        address,
+        amount,
+      }
+    );
+    
+    return response.data;
+  },
+
   async fetchAllPolicies() {
     const response = await client.get<{ policies: Policy[] }>(
-      `/policy/fetch-all`
+      `/policy/fetch/all`
     );
 
     const data = response.data;
     return data.policies;
   },
+
+  async fetchAllPoliciesByCreator(address: string) {
+    const response = await client.get<{ policies: Policy[] }>(
+      `/policy/fetch/${address}`
+    );
+
+    const data = response.data;
+    return data.policies;
+  }
 };
 
 export default policy;

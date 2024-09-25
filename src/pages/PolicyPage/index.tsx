@@ -8,10 +8,6 @@ import Functions from "./components/Functions";
 import api from "../../utils/api";
 import useApiResponse from "../../hooks/useApiResponse";
 import DocTitle from "../../common/DocTitle";
-import { useState } from "react";
-import { useContractRead } from "wagmi";
-import contractDefinitions from "../../contracts";
-import { isAddress } from "viem";
 
 export default function PolicyPage() {
   const { address: policyAddress } = useParams();

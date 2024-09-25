@@ -5,14 +5,10 @@ import contractDefinitions from "../../../contracts";
 import { isAddress } from "viem";
 
 export default function TotalStakes({ policy }: { policy: Policy }) {
-  const ownerStakePercentage = (
-    (500000 / (1000000 * 15)) *
-    100
-  ).toFixed(2);
-  
 
-  if(!policy.address || !policy.creator) return null;
-  if(!isAddress(policy.creator)) return null;
+  if (!policy.address || !policy.creator) return null;
+  if (!isAddress(policy.creator)) return null;
+  if (!isAddress(policy.address)) return null;
 
   const { data: totalStake } = useContractRead({
     ...contractDefinitions.insuranceController,
@@ -20,12 +16,14 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
     functionName: "totalStake",
   });
 
-  // const { data: ownerStake } = useContractRead({
-  //   ...contractDefinitions.insuranceController,
-  //   address: isAddress(policy.address) ? policy.address : undefined,
-  //   functionName: "",
-  //   args: [policy.creator]
-  // });
+  const { data: ownerStake } = useContractRead({
+    ...contractDefinitions.stakeToken,
+    address: isAddress(policy.stakeToken) ? policy.stakeToken : undefined,
+    functionName: "balanceOf",
+    args: [policy.address]
+  });
+
+  const ownerStakePercentage = ownerStake && totalStake ? (ownerStake / totalStake) * BigInt(100) : 0;
 
   return (
     <div className="w-full flex-col flex gap-y-2 pt-4 pb-16 p-page">
@@ -49,7 +47,7 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
           className="mobile:whitespace-nowrap mt-4"
           style={{ left: `${ownerStakePercentage}%` }}
         >
-          By owner: {ownerStakePercentage}%
+          By owner: {ownerStakePercentage.toString()}%
         </div>
       </div>
       <div className="flex w-full justify-between mt-2 relative"></div>
