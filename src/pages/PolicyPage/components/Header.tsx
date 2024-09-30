@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import StarRating from "../../../common/StarRating";
-import ClaimInfo from "./ClaimsInfo";
 import useModal from "../../../hooks/useModal";
 import StakeModal from "./StakeModal";
 import { Policy } from "../../../types";
@@ -44,7 +43,7 @@ export default function Header(props: { policy: Policy }) {
                 Buy Policy
               </Link>
               <button
-                onClick={() => modal.show(<StakeModal policy={policy} />)}
+                onClick={() => modal.show(<StakeModal policy={policy} initialStake={false} />)}
                 className="border-border hover:bg-hoverbg border h-max px-6 py-2 rounded-lg font-semibold ease-out transition-all"
               >
                 Stake

@@ -1,3 +1,6 @@
+import { Address } from "viem";
+import { Args } from "../pages/NewPolicyPage/components/ArgsTypeDefine";
+
 export type RGBColor = [number, number, number];
 
 interface Marketer {
@@ -22,17 +25,21 @@ export interface Policy {
   name: string;
   description: string;
   category: string;
-  minimumClaim: string;
-  maximumClaim: string;
+  minimumClaim: number;
+  maximumClaim: number;
   premiumFunc: string;
   premiumFuncDescription: string;
   claimFunc: string;
   claimFuncDescription: string;
-  minimumDuration: string;
-  maximumDuration: string;
+  minimumDuration: number;
+  maximumDuration: number;
   creator: string;
   stakeToken: string;
   policyHolders?: string[];
   policyStakers?: string[];
+  createdAt: string;
+  updatedAt: string;
+  premiumFuncArgs: Args;
+  claimFuncArgs: Args;
   __v: number;
 }

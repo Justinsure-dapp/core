@@ -1,45 +1,76 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AutomatedInvestment from "./AutomatedInvestment";
 import PolicyHolders from "./PolicyHolders";
-import StakeDistribution from "./StakeDistribution";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { twMerge } from "tailwind-merge";
 import { useContractRead } from "wagmi";
 import contractDefinitions from "../../../contracts";
-import { isAddress } from "viem";
+import { isAddress, zeroAddress } from "viem";
 import { Policy, User } from "../../../types";
-import api from "../../../utils/api";
+import useModal from "../../../hooks/useModal";
+import StakeModal from "../../PolicyPage/components/StakeModal";
 
 export default function PolicyCard(props: { policy: Policy }) {
-  const [expanded, setExpanded] = useState(false);
-  const [creator, setCreator] = useState<User>();
   const [parent] = useAutoAnimate();
-
-  console.log(creator)
+  const [expanded, setExpanded] = useState(false);
+  const modal = useModal();
+  const policyAddress = isAddress(props.policy.address) ? props.policy.address : zeroAddress;
+  const creatorAddress = isAddress(props.policy.creator) ? props.policy.creator : zeroAddress;
 
   const { data: isPaused } = useContractRead({
-    ...contractDefinitions.insuranceController,
-    address: isAddress(props.policy.address) ? props.policy.address : undefined,
+    abi: contractDefinitions.insuranceController.abi,
+    address: policyAddress,
     functionName: "paused",
   });
 
-  useEffect(() => {
-    api.user.get(props.policy.creator)
-      .then((user) => {
-        setCreator(user);
-      }).catch((error) => {
-        console.error(error);
-        alert("Failed to fetch creator details");
-      });
-  }, [props.policy.creator]);
+  const { data: totalStake } = useContractRead({
+    ...contractDefinitions.insuranceController,
+    address: isAddress(props.policy.address) ? props.policy.address : undefined,
+    functionName: "totalStake",
+  })
+
+  const { data } = useContractRead({
+    ...contractDefinitions.stakeToken,
+    address: isAddress(props.policy.stakeToken) ? props.policy.stakeToken : undefined,
+    functionName: "totalSupply",
+  })
+
+  console.log(data)
+
+  // const { data: creator } = useApiResponse(api.user.get, props.policy.creator);
 
   return (
     <div
       ref={parent}
       className="flex flex-col gap-y-4 p-6 rounded-lg border border-secondary/30 relative"
     >
-      <div className="flex flex-col gap-y-1">
-        <h1 className="text-xl font-semibold">{props.policy.name}</h1>
+      <div className="flex flex-col  gap-4">
+        <div className="flex gap-y-1 justify-between ">
+          <h1 className="text-xl font-semibold">{props.policy.name}</h1>
+          <div className="font-semibold">
+            {isPaused ? (
+              <div className="flex items-center gap-4">
+                <p className="text-red-500">
+                  POLICY INACTIVE:
+                </p>
+                <button
+                  onClick={() => modal.show(<StakeModal policy={props.policy} initialStake={true} />)}
+                  className="transition-all border hover:bg-zinc-900 border-zinc-600 p-2 text-back rounded-lg font-medium"
+                >
+                  Set Initial Stake
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <div className="text-green-500">POLICY ACTIVE:</div>
+                <div
+                  className="transition-all border border-zinc-600 p-2 text-back rounded-lg font-medium"
+                >
+                  Total Stake: {totalStake?.toString()} FUSDT
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
         <div className="text-front/80 text-sm">{props.policy.description}</div>
       </div>
       <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">

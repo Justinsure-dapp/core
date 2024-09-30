@@ -5,77 +5,58 @@ import { useEffect, useState } from "react";
 import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import { closestTimeUnit } from "../../utils";
-import axios from "axios";
 import { Navigate, useParams } from 'react-router-dom';
-import {
-  useContractWrite,
-} from "wagmi";
-import contractDefinitions from "../../contracts";
 import { isAddress } from "viem";
+import useApiResponse from "../../hooks/useApiResponse";
+import api from "../../utils/api";
+import useModal from "../../hooks/useModal";
+import RequestQuoteModal from "./RequestQuoteModal";
 
 export default function BuyPolicyPage() {
   const twInputStyle =
     "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
   const [claimValue, setClaimValue] = useState<string>("");
   const [isClaimInRange, setIsClaimInRange] = useState<boolean>(true);
-  const [insuranceDataLive, setInsuranceDataLive] = useState<any>({});
   const [duration, setDuration] = useState<number>(0);
   const [isDurationInRange, setIsDurationInRange] = useState<boolean>(true);
-  const { address } = useParams<{ address: string }>();
-
-  if (typeof address !== 'string' || !isAddress(address)) {
-    return <Navigate to="/policies" />
-  }
-
-  const buyInsurance = useContractWrite({ ...contractDefinitions.insurance, address: address, functionName: "buyInsurance" });
+  const { address: policyAddress } = useParams<{ address: string }>();
+  const modal = useModal();
 
   function checkRange(min: number, max: number, inputValue: number) {
     return inputValue >= min && inputValue <= max;
   }
 
-  useEffect(() => {
-    const fetchInsuranceData = async () => {
-      try {
-        // fetch data from the server
-        const result = await axios.get(`http://localhost:9090/policy/get/${address}`);
-
-        // set the data to the state
-        setInsuranceDataLive(result.data?.policy);
-      } catch (error) {
-        console.error("Error fetching data", error);
-        setInsuranceDataLive({});
-      }
-    }
-
-    fetchInsuranceData();
-  }
-    , []);
+  const { data: policyData } = useApiResponse(api.policy.getByAddress, policyAddress ? policyAddress : "");
 
   useEffect(() => {
     if (
-      duration &&
+      duration && policyData &&
       checkRange(
-        insuranceDataLive.durationLimits?.minimum,
-        insuranceDataLive.durationLimits?.maximum,
+        policyData?.minimumDuration,
+        policyData?.maximumDuration,
         duration
       )
     ) {
       setIsDurationInRange(true);
-    } else {
+    } else if (policyData) {
       checkRange(
-        insuranceDataLive.durationLimits?.minimum,
-        insuranceDataLive.durationLimits?.maximum,
+        policyData?.minimumDuration,
+        policyData?.maximumDuration,
         duration
       );
       setIsDurationInRange(false);
     }
-
   }, [duration]);
 
   const handleFormSubmit = (data: Record<string, string>) => {
-    alert("Form submitted");
-    console.log(data);
+    if (policyData) {
+      modal.show(<RequestQuoteModal policy={policyData} initialStake={true} />);
+    }
   };
+
+  if (!policyAddress || !isAddress(policyAddress)) {
+    return <Navigate to="/policies" />
+  }
 
   return (
     <>
@@ -99,19 +80,21 @@ export default function BuyPolicyPage() {
               name="Claim Value"
               value={claimValue}
               onChange={(e) => {
-                const isClaimInRange = checkRange(
-                  insuranceDataLive.claimLimits?.minimum,
-                  insuranceDataLive.claimLimits?.maximum,
-                  parseFloat(e.currentTarget.value)
-                );
-                setClaimValue(e.target.value);
-                setIsClaimInRange(isClaimInRange);
+                if (policyData) {
+                  const isClaimInRange = checkRange(
+                    policyData?.minimumClaim,
+                    policyData?.maximumClaim,
+                    parseFloat(e.currentTarget.value)
+                  );
+                  setClaimValue(e.target.value);
+                  setIsClaimInRange(isClaimInRange);
+                }
               }}
               type="number"
             />
             <p className="text-red-500">
               {!isClaimInRange &&
-                `Claim value must be between ${insuranceDataLive.claimLimits?.minimum} and ${insuranceDataLive.claimLimits?.maximum}`}
+                `Claim value must be between ${policyData?.minimumClaim} and ${policyData?.maximumClaim}`}
             </p>
           </div>
 
@@ -133,11 +116,11 @@ export default function BuyPolicyPage() {
               setter={setDuration}
             />
             <p className="text-red-500">
-              {!isDurationInRange &&
+              {!isDurationInRange && policyData &&
                 `Duration value must be between ${closestTimeUnit(
-                  insuranceDataLive.durationLimits?.minimum
+                  policyData?.minimumDuration
                 )} and ${closestTimeUnit(
-                  insuranceDataLive.durationLimits?.maximum
+                  policyData?.maximumDuration
                 )}`}
             </p>
           </div>
@@ -145,7 +128,7 @@ export default function BuyPolicyPage() {
           <div className="w-full">
             <h1>Premium calculation function arguments</h1>
             <div className="mt-2 bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
-              {insuranceDataLive.premiumCalculationFunction?.arguments.map(
+              {policyData?.premiumFuncArgs && policyData?.premiumFuncArgs.length > 0 && policyData?.premiumFuncArgs.map(
                 (arg: any, key: number) => (
                   <div key={key} className="w-full flex flex-col gap-y-2">
                     <div className="flex gap-x-2">

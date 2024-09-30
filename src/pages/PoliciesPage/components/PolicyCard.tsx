@@ -23,13 +23,15 @@ export default function PolicyCard(props: {
   const minimumDurationInDays = moment.duration(policy.minimumDuration, 'milliseconds').asDays();
   const maximumDurationInDays = moment.duration(policy.maximumDuration, 'milliseconds').asDays();
 
-  if(!policy.address) return null;
+  if (!policy.address) return null;
 
   const { data: isPaused } = useContractRead({
     ...contractDefinitions.insuranceController,
     address: isAddress(policy.address) ? policy.address : undefined,
     functionName: "paused",
   });
+
+  if (isPaused) return null;
 
   return (
     <Link
@@ -91,20 +93,14 @@ export default function PolicyCard(props: {
 
           <span className="flex flex-col items-end text-xs text-mute saturate-150 brightness-150">
             <div className="flex flex-col text-end text-xs gap-y-2 items-end text-secondary">
-              {!isPaused ? (
-                <p className="flex gap-x-1 items-center text-green-500">
-                  <Icon icon="check" /> Claimable
-                </p>
-              ) : (
-                <p className="flex gap-x-1 items-center text-red-500">
-                  <Icon icon="close" /> Unclaimable
-                </p>
-              )}
+              <p className="flex gap-x-1 items-center text-green-500">
+                <Icon icon="check" /> Verified
+              </p>
             </div>
 
             <div className="flex mt-1 gap-x-1">
               <p>{policy.rating}</p>
-              <StarRating rating={policy.rating} />
+              <StarRating rating={policy?.rating || 0} />
             </div>
           </span>
         </div>

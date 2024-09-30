@@ -10,14 +10,12 @@ import ToastsInput from "../../common/ToastsInput";
 import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import api from "../../utils/api";
-import { AbiCoder, FunctionFragment, ethers, keccak256 } from "ethers";
 import {
   useAccount,
   useSignMessage,
 } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../common/Icon";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -26,8 +24,6 @@ export default function NewPolicyPage() {
   const modal = useModal();
 
   const { address } = useAccount();
-  const [parent] = useAutoAnimate();
-
   const [premiumFunc, setPremiumFunc] = useState("");
   const [premiumFuncArgs, setPremiumFuncArgs] = useState<Array<string>>([]);
   const [claimFunc, setClaimFunc] = useState("");
@@ -38,18 +34,21 @@ export default function NewPolicyPage() {
   const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Args>([]);
   const [manualPremiumCheck, setManualPremiumCheck] = useState(false);
   const [manualClaimCheck, setManualClaimCheck] = useState(false);
-  const { signMessage, data: nonceData, isLoading: nonceLoading, isSuccess: nonceSuccess, isError: nonceError } = useSignMessage();
+  const { signMessage, data: nonceData, isSuccess: nonceSuccess } = useSignMessage();
 
   const [loading, setLoading] = useState(false);
-  const [newPolicyArgs, setNewPolicyArgs] = useState<[bigint, `0x${string}`]>();
-  const [reqData, setReq] = useState<any>({});
-  const [formData, setFormData] = useState<any>({})
+  const [formData, setFormData] = useState<any>()
   const navigate = useNavigate();
 
   useEffect(() => {
     const submitForm = async () => {
       try {
         if (nonceData && nonceSuccess) {
+          console.log({
+            data: formData,
+            sign: nonceData,
+          })
+
           const reqBody = {
             data: formData,
             sign: nonceData,
@@ -57,7 +56,7 @@ export default function NewPolicyPage() {
           const result = await api.policy.createNewPolicy(reqBody);
           setLoading(false);
           alert(result?.message);
-          navigate("/policies");
+          navigate("/dashboard");
         }
       } catch (error: any) {
         console.error(error);
@@ -78,6 +77,8 @@ export default function NewPolicyPage() {
     try {
       setFormData({
         ...data,
+        premiumFuncArgs: premiumFuncArgsSetter,
+        claimFuncArgs: claimFuncArgsSetter,
         creator: address,
         tags,
       });
@@ -85,6 +86,8 @@ export default function NewPolicyPage() {
       signMessage({
         message: `${JSON.stringify({
           ...data,
+          premiumFuncArgs: premiumFuncArgsSetter,
+          claimFuncArgs: claimFuncArgsSetter,
           creator: address,
           tags,
         })}${nonce}`
