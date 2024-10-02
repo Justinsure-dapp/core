@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ConnectWallet from "./ConnectWallet";
 import Icon from "./Icon";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 export default function Header() {
@@ -45,9 +45,16 @@ export default function Header() {
         <h1 className="text-xl font-black text-mute">{title}</h1>
       </div>
 
-      <div className="flex items-center gap-x-4 mobile:-translate-x-12">
-        <ConnectWallet />
+      <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-4 mobile:-translate-x-12">
+          <ConnectWallet />
+        </div>
+
+        <Link to="/faucet" className="border border-mute py-1 px-2 rounded-lg hover:border-front hover:text-front group duration-150 ease-in">
+          <Icon icon="money" className="text-2xl text-mute group-hover:text-front duration-150 ease-in" />
+        </Link>
       </div>
+
     </header>
   );
 }
