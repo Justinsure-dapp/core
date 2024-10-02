@@ -13,7 +13,10 @@ export default function PolicyPage() {
   const { address: policyAddress } = useParams();
 
   if (!policyAddress) return <Navigate to="/policies" />;
-  const { data: policy } = useApiResponse(api.policy.getByAddress, policyAddress);
+  const { data: policy } = useApiResponse(
+    api.policy.getByAddress,
+    policyAddress
+  );
 
   return (
     <article className="p-page py-8 flex flex-col gap-y-4 w-full">

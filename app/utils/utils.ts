@@ -212,8 +212,10 @@ export function formatEvmAddress(address: string) {
 }
 
 // generate shades for chart
-export function generateShades(primaryColor: string, numberOfShades: number): string[] {
-  
+export function generateShades(
+  primaryColor: string,
+  numberOfShades: number
+): string[] {
   // check if primaryColor is in rgb format
   if (!primaryColor.startsWith("rgb(")) {
     primaryColor = "rgb(26, 201, 255)";
@@ -227,8 +229,10 @@ export function generateShades(primaryColor: string, numberOfShades: number): st
   }
 
   for (let i = 0; i < numberOfShades; i++) {
-    const alpha = (1 - (i / numberOfShades)).toFixed(2);
-    shades.push(`rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha})`);
+    const alpha = (1 - i / numberOfShades).toFixed(2);
+    shades.push(
+      `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha})`
+    );
   }
 
   return shades;

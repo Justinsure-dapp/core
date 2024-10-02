@@ -21,7 +21,7 @@ const useUsdj = (props: { amount: number }) => {
 
   let isAllowed = false;
 
-  if(allowance && Number(allowance) >= props.amount) {
+  if (allowance && Number(allowance) >= props.amount) {
     isAllowed = true;
   }
 

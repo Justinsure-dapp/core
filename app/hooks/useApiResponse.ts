@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function useApiResponse<
-  T extends (...args: Parameters<T>) => Promise<Awaited<ReturnType<T>>>
+  T extends (...args: Parameters<T>) => Promise<Awaited<ReturnType<T>>>,
 >(call: T, ...args: Parameters<T>) {
   const [data, setData] = useState<Awaited<ReturnType<T>>>();
   const [loading, setLoading] = useState(true);

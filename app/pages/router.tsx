@@ -29,7 +29,6 @@ const router = createBrowserRouter(
         <Route path="settings" element={<SettingsPage />} />
         <Route path="buy-policy/:address" element={<BuyPolicyPage />} />
 
-
         <Route element={<ProtectedRoute type={ProtectedTypes.CONSUMERONLY} />}>
           <Route path="new-marketer" element={<NewMarketerPage />} />
         </Route>

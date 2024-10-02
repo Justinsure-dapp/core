@@ -22,7 +22,10 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
           data={data}
           className="self-center w-[20vw] mobile:w-[40vw]"
         />
-        <div className="basis-1/2 flex flex-col gap-y-3 border border-border p-4 rounded-xl max-h-[240px] overflow-y-scroll scrollbar-primary" ref={accountRef}>
+        <div
+          className="basis-1/2 flex flex-col gap-y-3 border border-border p-4 rounded-xl max-h-[240px] overflow-y-scroll scrollbar-primary"
+          ref={accountRef}
+        >
           {data.labels.map((label, i) => (
             <div key={i} className="flex w-full items-center gap-x-4">
               <span className="">{i + 1}</span>
@@ -52,7 +55,7 @@ const data = {
     "0x90abcdef1234567890abcdef1234567890abcdef",
     "0x567890abcdef1234567890abcdef1234567890ab",
     "0xef1234567890abcdef1234567890abcdef1234",
-    "0x34567890abcdef1234567890abcdef1234567890"
+    "0x34567890abcdef1234567890abcdef1234567890",
   ],
   values: [42, 17, 93, 58, 76, 34, 89, 21],
   bgColor: generateShades("rgb(26, 201, 255)", 8),

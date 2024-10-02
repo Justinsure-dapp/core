@@ -10,10 +10,7 @@ import ToastsInput from "../../common/ToastsInput";
 import DurationInput from "../../common/DurationInput";
 import DataForm from "../../common/DataForm";
 import api from "../../utils/api";
-import {
-  useAccount,
-  useSignMessage,
-} from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../common/Icon";
 
@@ -34,10 +31,14 @@ export default function NewPolicyPage() {
   const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Args>([]);
   const [manualPremiumCheck, setManualPremiumCheck] = useState(false);
   const [manualClaimCheck, setManualClaimCheck] = useState(false);
-  const { signMessage, data: nonceData, isSuccess: nonceSuccess } = useSignMessage();
+  const {
+    signMessage,
+    data: nonceData,
+    isSuccess: nonceSuccess,
+  } = useSignMessage();
 
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<any>()
+  const [formData, setFormData] = useState<any>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,12 +48,12 @@ export default function NewPolicyPage() {
           console.log({
             data: formData,
             sign: nonceData,
-          })
+          });
 
           const reqBody = {
             data: formData,
             sign: nonceData,
-          }
+          };
           const result = await api.policy.createNewPolicy(reqBody);
           setLoading(false);
           alert(result?.message);
@@ -65,7 +66,7 @@ export default function NewPolicyPage() {
         }
         setLoading(false);
       }
-    }
+    };
 
     if (nonceData && nonceSuccess) {
       submitForm();
@@ -90,13 +91,13 @@ export default function NewPolicyPage() {
           claimFuncArgs: claimFuncArgsSetter,
           creator: address,
           tags,
-        })}${nonce}`
+        })}${nonce}`,
       });
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -114,10 +115,7 @@ export default function NewPolicyPage() {
         )}
 
         <section className="py-8">
-          <DataForm
-            className="flex flex-col"
-            callback={handleSubmit}
-          >
+          <DataForm className="flex flex-col" callback={handleSubmit}>
             <h1 className="font-semibold text-xl">Policy Settings</h1>
             <h2 className=" text-mute font-semibold">
               Configure your new policy

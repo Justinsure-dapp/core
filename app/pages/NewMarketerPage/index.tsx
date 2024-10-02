@@ -12,14 +12,15 @@ export default function NewMarketerPage() {
 
   const { signMessage, data: sign } = useSignMessage();
   const [data, setData] = useState<{
-    name: string,
-    imageUrl: string
+    name: string;
+    imageUrl: string;
   }>({ name: "", imageUrl: "" });
 
   useEffect(() => {
     if (data && sign && address) {
-      console.log('useEffect called')
-      api.user.becomeMarketer(data, sign, address)
+      console.log("useEffect called");
+      api.user
+        .becomeMarketer(data, sign, address)
         .then((result) => {
           console.log(result);
           alert("You are now a marketer");
@@ -27,7 +28,7 @@ export default function NewMarketerPage() {
         .catch((error) => {
           console.error(error);
 
-          if(error.response?.data?.message) {
+          if (error.response?.data?.message) {
             alert(error.response.data.message);
           } else {
             alert("An error occured, please try again");
@@ -53,12 +54,12 @@ export default function NewMarketerPage() {
               signMessage({
                 message: `${JSON.stringify({
                   name: formData.name,
-                  imageUrl: formData?.imageUrl || ""
-                })}${nonce}`
+                  imageUrl: formData?.imageUrl || "",
+                })}${nonce}`,
               });
               setData({
                 name: formData.name,
-                imageUrl: formData?.imageUrl || ""
+                imageUrl: formData?.imageUrl || "",
               });
             }
           } catch (error) {

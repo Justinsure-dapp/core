@@ -49,9 +49,11 @@ export default function ProtectedRoute(props: ProtectedRouteProps) {
   // }
 
   if (props.type === ProtectedTypes.CONSUMERONLY) {
-    return <>
-      {!user ? <Outlet /> : user.marketer ? <Navigate to="/" /> : <Outlet />}
-    </>;
+    return (
+      <>
+        {!user ? <Outlet /> : user.marketer ? <Navigate to="/" /> : <Outlet />}
+      </>
+    );
   }
 
   if (props.type === ProtectedTypes.MARKETERONLY) {

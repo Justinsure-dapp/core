@@ -9,29 +9,33 @@ import contractDefinitions from "../../contracts";
 import Icon from "../../common/Icon";
 import Heading from "../NewPolicyPage/components/Heading";
 
-export default function RequestQuoteModal(props: { policy: Policy, initialStake: boolean }) {
+export default function RequestQuoteModal(props: {
+  policy: Policy;
+  initialStake: boolean;
+}) {
   const modal = useModal();
   const stakeRef = useRef<HTMLInputElement>(null);
   const [stake, setStake] = useState(0);
   const [loading, setLoading] = useState(false);
   const usdjHook = useUsdj({ amount: stake });
   const [decimal, setDecimal] = useState(0);
-  const policyAddress = isAddress(props.policy.address) ? props.policy.address : zeroAddress;
+  const policyAddress = isAddress(props.policy.address)
+    ? props.policy.address
+    : zeroAddress;
 
   // Set USDJ Decimals
   const { data: usdjDecimals } = useContractRead({
     abi: contractDefinitions.usdj.abi,
     address: contractDefinitions.usdj.address,
     functionName: "decimals",
-  })
+  });
 
   const { data } = useContractRead({
     ...contractDefinitions.sureCoin,
     functionName: "totalStake",
-  })
+  });
 
-  console.log(data)
-
+  console.log(data);
 
   useEffect(() => {
     if (usdjDecimals) {
@@ -51,7 +55,11 @@ export default function RequestQuoteModal(props: { policy: Policy, initialStake:
   }, [usdjHook?.isSuccess, usdjHook?.error]);
 
   // Register Stake
-  const { write: registerStakeWrite, isSuccess: registerStakeSuccess, error: registerStakeError } = useContractWrite({
+  const {
+    write: registerStakeWrite,
+    isSuccess: registerStakeSuccess,
+    error: registerStakeError,
+  } = useContractWrite({
     abi: contractDefinitions.insuranceController.abi,
     address: policyAddress,
     functionName: "stakeToPolicy",
@@ -64,7 +72,7 @@ export default function RequestQuoteModal(props: { policy: Policy, initialStake:
     } else {
       usdjHook?.approve();
     }
-  }
+  };
 
   useEffect(() => {
     if (registerStakeSuccess) {
@@ -75,9 +83,13 @@ export default function RequestQuoteModal(props: { policy: Policy, initialStake:
   }, [registerStakeSuccess, registerStakeError]);
 
   // Initial Staking
-  const amount = BigInt(stake * (10**decimal));
+  const amount = BigInt(stake * 10 ** decimal);
   console.log(amount);
-  const { write: initialStakeWrite, isSuccess: initialStakeSuccess, error: initialStakeError } = useContractWrite({
+  const {
+    write: initialStakeWrite,
+    isSuccess: initialStakeSuccess,
+    error: initialStakeError,
+  } = useContractWrite({
     abi: contractDefinitions.insuranceController.abi,
     address: policyAddress,
     functionName: "initialStake",
@@ -90,7 +102,7 @@ export default function RequestQuoteModal(props: { policy: Policy, initialStake:
     } else {
       usdjHook?.approve();
     }
-  }
+  };
 
   useEffect(() => {
     if (initialStakeSuccess) {
@@ -103,7 +115,7 @@ export default function RequestQuoteModal(props: { policy: Policy, initialStake:
   }, [initialStakeSuccess, initialStakeError]);
 
   // Modal UI
-  if(policyAddress === zeroAddress) return null;
+  if (policyAddress === zeroAddress) return null;
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
@@ -113,11 +125,16 @@ export default function RequestQuoteModal(props: { policy: Policy, initialStake:
       >
         <Icon icon="close" className="text-[1.5rem] mobile:text-[1rem]" />
       </button>
-      <h1 className="text-2xl font-bold">Buy policy: <span className="text-secondary">{props.policy.name}</span></h1>
-      {props.policy.description && <p className="text-front/80 text-sm">{props.policy.description}</p>}
+      <h1 className="text-2xl font-bold">
+        Buy policy: <span className="text-secondary">{props.policy.name}</span>
+      </h1>
+      {props.policy.description && (
+        <p className="text-front/80 text-sm">{props.policy.description}</p>
+      )}
       {props.policy.tags && props.policy.tags.length > 0 && (
         <p className="mt-1">
-          <span className="font-bold text-secondary">Tags</span>: {props.policy.tags.map((tag) => `#${tag}`).join(", ")}
+          <span className="font-bold text-secondary">Tags</span>:{" "}
+          {props.policy.tags.map((tag) => `#${tag}`).join(", ")}
         </p>
       )}
       <button

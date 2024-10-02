@@ -36,10 +36,18 @@ export default function DurationInput(props: {
         defaultValue={props.defaultValue}
         onChange={(e) => setMultiplier(Number(e.currentTarget.value))}
       >
-        <option id="hours" value={1000 * 60 * 60}>Hours</option>
-        <option id="days" value={1000 * 60 * 60 * 24}>Days</option>
-        <option id="months" value={1000 * 60 * 60 * 24 * 30}>Months</option>
-        <option id="years" value={1000 * 60 * 60 * 24 * 365}>Years</option>
+        <option id="hours" value={1000 * 60 * 60}>
+          Hours
+        </option>
+        <option id="days" value={1000 * 60 * 60 * 24}>
+          Days
+        </option>
+        <option id="months" value={1000 * 60 * 60 * 24 * 30}>
+          Months
+        </option>
+        <option id="years" value={1000 * 60 * 60 * 24 * 365}>
+          Years
+        </option>
       </select>
 
       <input

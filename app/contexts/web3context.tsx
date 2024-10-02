@@ -1,13 +1,20 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { WagmiConfig, useAccount, useDisconnect, useSignMessage, configureChains, createConfig } from "wagmi";
+import {
+  WagmiConfig,
+  useAccount,
+  useDisconnect,
+  useSignMessage,
+  configureChains,
+  createConfig,
+} from "wagmi";
 import wagmiConfig, { chains, publicClient } from "../config/wagmi";
 import getContracts from "../contracts";
 import { User } from "../types";
 import api, { clearAddress, setAddress } from "../utils/api";
 import useModal from "../hooks/useModal";
-import { mainnet } from 'wagmi/chains'
-import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
-import '@rainbow-me/rainbowkit/styles.css'
+import { mainnet } from "wagmi/chains";
+import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 
 interface Web3ContextType {
   user: User | null;
@@ -19,11 +26,14 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider theme={darkTheme({
-          accentColor: '#18181b',
-          overlayBlur: 'small',
-          fontStack: 'system',
-        })} chains={chains}>
+        <RainbowKitProvider
+          theme={darkTheme({
+            accentColor: "#18181b",
+            overlayBlur: "small",
+            fontStack: "system",
+          })}
+          chains={chains}
+        >
           <Wrapper>{children}</Wrapper>
         </RainbowKitProvider>
       </WagmiConfig>

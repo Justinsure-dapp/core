@@ -39,9 +39,7 @@ const user = {
   // },
 
   async get(address: string) {
-    const result = await client.get< { user: User } >(
-      `/user/get/${address}`
-    );
+    const result = await client.get<{ user: User }>(`/user/get/${address}`);
 
     return result.data.user;
   },

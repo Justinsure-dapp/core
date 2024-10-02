@@ -13,8 +13,12 @@ export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
   const [expanded, setExpanded] = useState(false);
   const modal = useModal();
-  const policyAddress = isAddress(props.policy.address) ? props.policy.address : zeroAddress;
-  const creatorAddress = isAddress(props.policy.creator) ? props.policy.creator : zeroAddress;
+  const policyAddress = isAddress(props.policy.address)
+    ? props.policy.address
+    : zeroAddress;
+  const creatorAddress = isAddress(props.policy.creator)
+    ? props.policy.creator
+    : zeroAddress;
 
   const { data: isPaused } = useContractRead({
     abi: contractDefinitions.insuranceController.abi,
@@ -26,15 +30,17 @@ export default function PolicyCard(props: { policy: Policy }) {
     ...contractDefinitions.insuranceController,
     address: isAddress(props.policy.address) ? props.policy.address : undefined,
     functionName: "totalStake",
-  })
+  });
 
   const { data } = useContractRead({
     ...contractDefinitions.stakeToken,
-    address: isAddress(props.policy.stakeToken) ? props.policy.stakeToken : undefined,
+    address: isAddress(props.policy.stakeToken)
+      ? props.policy.stakeToken
+      : undefined,
     functionName: "totalSupply",
-  })
+  });
 
-  console.log(data)
+  console.log(data);
 
   // const { data: creator } = useApiResponse(api.user.get, props.policy.creator);
 
@@ -49,11 +55,13 @@ export default function PolicyCard(props: { policy: Policy }) {
           <div className="font-semibold">
             {isPaused ? (
               <div className="flex items-center gap-4">
-                <p className="text-red-500">
-                  POLICY INACTIVE:
-                </p>
+                <p className="text-red-500">POLICY INACTIVE:</p>
                 <button
-                  onClick={() => modal.show(<StakeModal policy={props.policy} initialStake={true} />)}
+                  onClick={() =>
+                    modal.show(
+                      <StakeModal policy={props.policy} initialStake={true} />
+                    )
+                  }
                   className="transition-all border hover:bg-zinc-900 border-zinc-600 p-2 text-back rounded-lg font-medium"
                 >
                   Set Initial Stake
@@ -62,9 +70,7 @@ export default function PolicyCard(props: { policy: Policy }) {
             ) : (
               <div className="flex items-center gap-4">
                 <div className="text-green-500">POLICY ACTIVE:</div>
-                <div
-                  className="transition-all border border-zinc-600 p-2 text-back rounded-lg font-medium"
-                >
+                <div className="transition-all border border-zinc-600 p-2 text-back rounded-lg font-medium">
                   Total Stake: {totalStake?.toString()} FUSDT
                 </div>
               </div>

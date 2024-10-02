@@ -129,7 +129,9 @@ export function MappedOptions(props: {
           </div>
         </div>
 
-        {options[selected].info && <p className="mobile:text-sm">{options[selected].info}</p>}
+        {options[selected].info && (
+          <p className="mobile:text-sm">{options[selected].info}</p>
+        )}
       </div>
 
       <div className="mt-4">

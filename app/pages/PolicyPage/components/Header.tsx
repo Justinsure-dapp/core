@@ -20,14 +20,11 @@ export default function Header(props: { policy: Policy }) {
         />
         <div className="flex flex-col gap-y-2 w-full">
           <div className="flex justify-between gap-y-2 mobile:flex-col w-full">
-            
             {/* Title + Ratings */}
             <div className="flex flex-col">
               <div className="flex items-center gap-x-2">
                 <h1 className="text-2xl font-semibold">{policy.name}</h1> -
-                <h2 className="text-2xl font-bold">
-                  {user?.marketer?.name}
-                </h2>
+                <h2 className="text-2xl font-bold">{user?.marketer?.name}</h2>
               </div>
               <div className="flex gap-x-1 items-center">
                 <StarRating rating={policy.rating ? policy.rating : 0} />
@@ -43,14 +40,21 @@ export default function Header(props: { policy: Policy }) {
                 Buy Policy
               </Link>
               <button
-                onClick={() => modal.show(<StakeModal policy={policy} initialStake={false} />)}
+                onClick={() =>
+                  modal.show(
+                    <StakeModal policy={policy} initialStake={false} />
+                  )
+                }
                 className="border-border hover:bg-hoverbg border h-max px-6 py-2 rounded-lg font-semibold ease-out transition-all"
               >
                 Stake
               </button>
             </div>
           </div>
-          <div className="text-front/80"><span className="font-semibold">Description:</span> {policy.description}</div>
+          <div className="text-front/80">
+            <span className="font-semibold">Description:</span>{" "}
+            {policy.description}
+          </div>
         </div>
       </div>
     </div>

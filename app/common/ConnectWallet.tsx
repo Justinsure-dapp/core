@@ -6,7 +6,7 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 import { useEffect, useState } from "react";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function ConnectWallet() {

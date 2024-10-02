@@ -14,13 +14,13 @@ export default function StatisticsSidebar() {
   const fetchedBalance = useContractRead({
     ...contractDefinitions.sureCoin,
     functionName: "balanceOf",
-    args: [address || '0x5071437be4b13e62522D2b48E9514FF36f68641d'],
+    args: [address || "0x5071437be4b13e62522D2b48E9514FF36f68641d"],
   });
 
   const fetchedEarned = useContractRead({
     ...contractDefinitions.sureCoin,
     functionName: "earned",
-    args: [address || '0x5071437be4b13e62522D2b48E9514FF36f68641d'],
+    args: [address || "0x5071437be4b13e62522D2b48E9514FF36f68641d"],
   });
 
   return (
@@ -78,9 +78,6 @@ export default function StatisticsSidebar() {
 
         {hidden && <SurityBranding />}
       </div>
-      
-
-
     </section>
   );
 }

@@ -3,7 +3,7 @@ import ConnectWallet from "./ConnectWallet";
 import Icon from "./Icon";
 import { useNavigate, useLocation } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function Header() {
   const navigate = useNavigate();

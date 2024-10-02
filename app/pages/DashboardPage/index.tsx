@@ -9,7 +9,8 @@ import { useAccount } from "wagmi";
 export default function DashboardPage() {
   const { address } = useAccount();
 
-  const { data: policies, loading } = useApiResponse(api.policy.fetchAllPoliciesByCreator,
+  const { data: policies, loading } = useApiResponse(
+    api.policy.fetchAllPoliciesByCreator,
     address?.toString() || ""
   );
 
@@ -42,10 +43,12 @@ export default function DashboardPage() {
         {!loading && policies && policies?.length > 0 ? (
           <div className="flex flex-col gap-4">
             {policies
-              ?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-              .map((policy, i) => (
-                <PolicyCard key={i} policy={policy} />
-              ))}
+              ?.sort(
+                (a, b) =>
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+              )
+              .map((policy, i) => <PolicyCard key={i} policy={policy} />)}
           </div>
         ) : (
           <div className="text-center text-front/60">

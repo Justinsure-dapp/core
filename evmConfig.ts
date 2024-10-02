@@ -8,7 +8,7 @@ export const primaryChain = defineChain({
 });
 
 export const periphery = {
-  adddress: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0,
+  adddress: "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
   abi: [
     {
       inputs: [{ internalType: "address", name: "usdToken_", type: "address" }],
@@ -310,7 +310,7 @@ export const periphery = {
   ],
 };
 export const surecoin = {
-  adddress: 0x75537828f2ce51be7289709686a69cbfdbb714f1,
+  adddress: "0x75537828f2ce51be7289709686A69CbFDbB714F1",
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -812,7 +812,7 @@ export const surecoin = {
   ],
 };
 export const vault = {
-  adddress: 0xe451980132e65465d0a498c53f0b5227326dd73f,
+  adddress: "0xE451980132E65465d0a498c53f0b5227326Dd73F",
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -898,7 +898,7 @@ export const vault = {
   ],
 };
 export const usdj = {
-  adddress: 0x5fbdb2315678afecb367f032d93f642f64180aa3,
+  adddress: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {

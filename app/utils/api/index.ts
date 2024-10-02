@@ -58,7 +58,7 @@ export function clearAddress() {
 const api = {
   user,
   policy,
-  marketer
+  marketer,
 };
 
 export default api;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { closestTimeUnit } from "../../../utils";
 import useModal from "../../../hooks/useModal";
 import RequestClaimModal from "./RequestClaimModal";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
@@ -20,7 +20,10 @@ export default function YourPolicies() {
           </button>
         </div>
       </div>
-      <div ref={parent} className="flex mt-4 gap-y-2 flex-col p-6 rounded-lg bg-secondary/10 border border-border/20 mobile:p-2">
+      <div
+        ref={parent}
+        className="flex mt-4 gap-y-2 flex-col p-6 rounded-lg bg-secondary/10 border border-border/20 mobile:p-2"
+      >
         {policies.map(
           (policy, key) =>
             (viewMore || key < 2) && (

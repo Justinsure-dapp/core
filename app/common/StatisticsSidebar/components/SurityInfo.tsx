@@ -85,7 +85,6 @@ const socialLinks: Array<{ link: string; imgUrl: string }> = [
   },
   {
     link: "",
-    imgUrl:
-      "https://m.media-amazon.com/images/I/61w1Q5OxE2L.jpg",
+    imgUrl: "https://m.media-amazon.com/images/I/61w1Q5OxE2L.jpg",
   },
 ];

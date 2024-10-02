@@ -5,7 +5,6 @@ import contractDefinitions from "../../../contracts";
 import { isAddress } from "viem";
 
 export default function TotalStakes({ policy }: { policy: Policy }) {
-
   if (!policy.address || !policy.creator) return null;
   if (!isAddress(policy.creator)) return null;
   if (!isAddress(policy.address)) return null;
@@ -20,10 +19,11 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
     ...contractDefinitions.stakeToken,
     address: isAddress(policy.stakeToken) ? policy.stakeToken : undefined,
     functionName: "balanceOf",
-    args: [policy.address]
+    args: [policy.address],
   });
 
-  const ownerStakePercentage = ownerStake && totalStake ? (ownerStake / totalStake) * BigInt(100) : 0;
+  const ownerStakePercentage =
+    ownerStake && totalStake ? (ownerStake / totalStake) * BigInt(100) : 0;
 
   return (
     <div className="w-full flex-col flex gap-y-2 pt-4 pb-16 p-page">

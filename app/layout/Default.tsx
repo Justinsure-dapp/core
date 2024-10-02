@@ -5,7 +5,7 @@ import { useRef } from "react";
 import useIdleScrollbar from "../hooks/useIdleScrollbar";
 import StatisticsSidebar from "../common/StatisticsSidebar";
 import Header from "../common/Header";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function Default() {
   const mainSectionRef = useRef() as React.MutableRefObject<HTMLDivElement>;

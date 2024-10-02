@@ -5,7 +5,7 @@ type ApiEndpoints = [
     uri: "/";
     response: {};
     parms: {};
-  }
+  },
 ];
 
 export type ApiEndpoint = ApiEndpoints[number]["uri"];
@@ -17,11 +17,12 @@ type EndpointByUri<T extends ApiEndpoint> = Extract<
 
 export type ApiResponse<T extends ApiEndpoint> = EndpointByUri<T>["response"];
 
-export type ApiParams<T extends ApiEndpoint> = EndpointByUri<T> extends {
-  params: any;
-}
-  ? EndpointByUri<T>["params"]
-  : never;
+export type ApiParams<T extends ApiEndpoint> =
+  EndpointByUri<T> extends {
+    params: any;
+  }
+    ? EndpointByUri<T>["params"]
+    : never;
 
 type BaseApiCallConfig = {
   method?: "get" | "post" | "put" | "delete";

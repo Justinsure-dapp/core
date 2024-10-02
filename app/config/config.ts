@@ -3,4 +3,4 @@ export const serverUrl =
     ? "http://localhost:9090"
     : import.meta.env.VITE_BACKEND_URL;
 
-export const UINT256_MAX = BigInt((2**56) - 1)
+export const UINT256_MAX = BigInt(2 ** 56 - 1);

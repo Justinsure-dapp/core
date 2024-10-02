@@ -6,7 +6,9 @@ export default function YourStakes() {
   return (
     <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl py-12 px-8 my-12 mobile:mx-2 widescreen:mx-8 mobile:py-6">
       <div className="flex justify-between">
-        <h1 className="text-xl mobile:whitespace-nowrap">Total Stakes & distribution</h1>
+        <h1 className="text-xl mobile:whitespace-nowrap">
+          Total Stakes & distribution
+        </h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end">
           Total Staked : <span className="font-mono">890.32</span>
         </p>

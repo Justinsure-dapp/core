@@ -115,7 +115,9 @@ export default function Navbar() {
             <img src="/logo.png" alt="logo" className="aspect-square w-10" />
             <div className="flex flex-col items-start gap-y-1">
               <div className="relative">
-                <h1 className="font-black text-2xl tracking-wider">JustInsure</h1>
+                <h1 className="font-black text-2xl tracking-wider">
+                  JustInsure
+                </h1>
                 {user?.marketer && (
                   <div className="group">
                     <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-zinc-100 font-bold">
@@ -147,7 +149,8 @@ export default function Navbar() {
                   twMerge(
                     "p-2 rounded-lg transition-all hover:bg-zinc-800",
                     isActive && "bg-primary text-zinc-100 pointer-events-none",
-                    !isActive && "hover:outline hover:outline-[1px] outline-zinc-500",
+                    !isActive &&
+                      "hover:outline hover:outline-[1px] outline-zinc-500",
                     isPending && "animate-pulse pointer-events-none",
                     item.marketersOnly && (user?.marketer ? "" : "hidden")
                   )
@@ -165,7 +168,7 @@ export default function Navbar() {
             className="self-start flex items-center gap-1 mt-4 ml-2 font-semibold border-zinc-700 border rounded-md py-2 px-3 hover:outline hover:outline-[1px] outline-zinc-500 hover:bg-zinc-800 transition-all"
             onClick={() => setShowNav(false)}
           >
-            <Icon icon='close' className="text-lg" />
+            <Icon icon="close" className="text-lg" />
             Close
           </button>
         </nav>

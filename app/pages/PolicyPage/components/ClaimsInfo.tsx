@@ -36,18 +36,14 @@ export default function ClaimInfo(props: { policy: Policy }) {
         </div>
         <div className="w-[45.3%] mobile:w-full duration-200 ease-in-out bg-background border-2 border-border px-8 py-6 justify-center rounded-xl flex flex-col text-secondary">
           {" "}
-          <h1 className="text-lg tracking-wide text-white border-foreground border-b-2">Limit of the claim</h1>
+          <h1 className="text-lg tracking-wide text-white border-foreground border-b-2">
+            Limit of the claim
+          </h1>
           <div className="mt-2">
-            Minimum:{" "}
-            <span className="font-bold">
-              ${policy.minimumClaim}
-            </span>
+            Minimum: <span className="font-bold">${policy.minimumClaim}</span>
           </div>
           <div className="mt-1">
-            Maximum:{" "}
-            <span className="font-bold">
-              ${policy.maximumClaim}
-            </span>
+            Maximum: <span className="font-bold">${policy.maximumClaim}</span>
           </div>
         </div>
       </div>

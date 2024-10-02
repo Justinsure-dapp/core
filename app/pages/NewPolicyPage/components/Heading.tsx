@@ -8,12 +8,16 @@ export default function Heading(props: {
   tooltip?: string;
 }) {
   return (
-    <div >
-      <div className={twMerge("relative font-bold w-max pb-1 flex gap-x-2", props.className)}>
+    <div>
+      <div
+        className={twMerge(
+          "relative font-bold w-max pb-1 flex gap-x-2",
+          props.className
+        )}
+      >
         {props.children}
         <div className="absolute left-full translate-x-2">
-
-        {props.tooltip && <HelpTooltip>{props.tooltip}</HelpTooltip>}
+          {props.tooltip && <HelpTooltip>{props.tooltip}</HelpTooltip>}
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ export const usdj = {adddress : "${usdj.address}", abi : ${JSON.stringify(usdj.a
 `;
 
   fs.writeFileSync("./evmConfig.ts", file);
-  console.log("\n\nUPDATED EVM CONFIG")
+  console.log("\n\nUPDATED EVM CONFIG");
 }
 
 main()

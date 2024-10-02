@@ -3,7 +3,10 @@ import { bitTorrent, bitTorrentTestnet } from "wagmi/chains";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { publicProvider } from "wagmi/providers/public";
-import { getDefaultWallets, connectorsForWallets } from '@rainbow-me/rainbowkit'
+import {
+  getDefaultWallets,
+  connectorsForWallets,
+} from "@rainbow-me/rainbowkit";
 
 const donau: Chain = {
   id: 1029,
@@ -29,12 +32,12 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 );
 
 const { wallets } = getDefaultWallets({
-  appName: 'JustInsure',
-  projectId: '756f8ad5a4c44ce4fbd9897445a10187',
+  appName: "JustInsure",
+  projectId: "756f8ad5a4c44ce4fbd9897445a10187",
   chains,
-})
+});
 
-const connectors = connectorsForWallets([...wallets])
+const connectors = connectorsForWallets([...wallets]);
 
 const wagmiConfig = createConfig({
   autoConnect: true,

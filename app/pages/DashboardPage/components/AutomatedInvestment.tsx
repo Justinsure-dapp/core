@@ -1,10 +1,12 @@
 import { twMerge } from "tailwind-merge";
 import useModal from "../../../hooks/useModal";
-import AutomatedInvestingModal, { MappedOptions } from "./AutomatedInvestingModal";
+import AutomatedInvestingModal, {
+  MappedOptions,
+} from "./AutomatedInvestingModal";
 import { twInputStyle } from "../../../utils";
 
 export default function AutomatedInvestment() {
-    const modal = useModal()
+  const modal = useModal();
   return (
     <div className="flex flex-col gap-y-3 pb-6">
       <h1 className="text-xl font-bold">Automated Investment Triggers</h1>
@@ -42,79 +44,78 @@ export default function AutomatedInvestment() {
   );
 }
 
-
 const triggers = [
-    {
-      title: "Time Duration Passed",
-      value: "Time Duration Passed",
-      info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
-      options: [
-        {
-          title: "Received amount greater than",
-          additionalInputs: [{ type: "number", value: 550 }],
-        },
-      ],
-      additionalInputs: [{ type: "number", value: 456 }],
-      customElements: [
-        <select
-          key="durationFormat"
-          className={twMerge("", twInputStyle)}
-          value="Days"
-          disabled
-        >
-          <option value="">Select duration format</option>
-          {["Days", "Weeks", "Months", "Years"].map((format, index) => (
-            <option key={index} value={format}>
-              {format}
-            </option>
-          ))}
-        </select>,
-      ],
-    },
-    {
-      title: "Received Deposit In Pool through Staking",
-      value: "Received Deposit In Pool through Staking",
-      info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
-      options: [
-        {
-          title: "Received amount greater than",
-          additionalInputs: [{ type: "number", value: 2345 }],
-        },
-        {
-          title: "Received amount in range of",
-          additionalInputs: [
-            { type: "number", value: 3434 },
-            { type: "number", value: 4398 },
-          ],
-        },
-      ],
-    },
-    {
-      title: "Received Deposit In Pool through premium",
-      info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
-      options: [
-        {
-          title: "Received amount greater than",
-          additionalInputs: [{ type: "number" }],
-        },
-        {
-          title: "Received amount in range of",
-          additionalInputs: [{ type: "number" }, { type: "number" }],
-        },
-      ],
-    },
-    {
-      title: "Received general deposit In Pool",
-      info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
-      options: [
-        {
-          title: "Received amount greater than",
-          additionalInputs: [{ type: "number" }],
-        },
-        {
-          title: "Received amount in range of",
-          additionalInputs: [{ type: "number" }, { type: "number" }],
-        },
-      ],
-    },
-  ];
+  {
+    title: "Time Duration Passed",
+    value: "Time Duration Passed",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
+    options: [
+      {
+        title: "Received amount greater than",
+        additionalInputs: [{ type: "number", value: 550 }],
+      },
+    ],
+    additionalInputs: [{ type: "number", value: 456 }],
+    customElements: [
+      <select
+        key="durationFormat"
+        className={twMerge("", twInputStyle)}
+        value="Days"
+        disabled
+      >
+        <option value="">Select duration format</option>
+        {["Days", "Weeks", "Months", "Years"].map((format, index) => (
+          <option key={index} value={format}>
+            {format}
+          </option>
+        ))}
+      </select>,
+    ],
+  },
+  {
+    title: "Received Deposit In Pool through Staking",
+    value: "Received Deposit In Pool through Staking",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
+    options: [
+      {
+        title: "Received amount greater than",
+        additionalInputs: [{ type: "number", value: 2345 }],
+      },
+      {
+        title: "Received amount in range of",
+        additionalInputs: [
+          { type: "number", value: 3434 },
+          { type: "number", value: 4398 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Received Deposit In Pool through premium",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
+    options: [
+      {
+        title: "Received amount greater than",
+        additionalInputs: [{ type: "number" }],
+      },
+      {
+        title: "Received amount in range of",
+        additionalInputs: [{ type: "number" }, { type: "number" }],
+      },
+    ],
+  },
+  {
+    title: "Received general deposit In Pool",
+    info: "Triggers when any amount is received in the pool, whether from Staking or by receiving premium.",
+    options: [
+      {
+        title: "Received amount greater than",
+        additionalInputs: [{ type: "number" }],
+      },
+      {
+        title: "Received amount in range of",
+        additionalInputs: [{ type: "number" }, { type: "number" }],
+      },
+    ],
+  },
+];

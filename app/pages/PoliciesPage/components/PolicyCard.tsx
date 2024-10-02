@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from "moment";
 import { Line } from "react-chartjs-2";
 import { Policy } from "../../../types";
 import { Link } from "react-router-dom";
@@ -20,8 +20,12 @@ export default function PolicyCard(props: {
 }) {
   const { policy } = props;
   const { data: user } = useApiResponse(api.user.get, policy.creator);
-  const minimumDurationInDays = moment.duration(policy.minimumDuration, 'milliseconds').asDays();
-  const maximumDurationInDays = moment.duration(policy.maximumDuration, 'milliseconds').asDays();
+  const minimumDurationInDays = moment
+    .duration(policy.minimumDuration, "milliseconds")
+    .asDays();
+  const maximumDurationInDays = moment
+    .duration(policy.maximumDuration, "milliseconds")
+    .asDays();
 
   if (!policy.address) return null;
 
@@ -55,7 +59,6 @@ export default function PolicyCard(props: {
       />
 
       <div className="flex flex-col items-start relative">
-
         {/* Title Section */}
         <div className="flex justify-between w-full">
           <div className="flex gap-4 items-center">
@@ -104,7 +107,6 @@ export default function PolicyCard(props: {
             </div>
           </span>
         </div>
-
       </div>
       <div className="relative flex flex-col">
         {/* <div className="flex mobile:flex-col flex-row gap-2 mt-4">

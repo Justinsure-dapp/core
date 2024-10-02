@@ -31,10 +31,7 @@ type PolicyOptions = {
 
 const policy = {
   async createNewPolicy(options: any) {
-    const response = await client.post(
-      "/policy/new",
-      options
-    );
+    const response = await client.post("/policy/new", options);
 
     const data = response.data;
     return data;
@@ -62,14 +59,11 @@ const policy = {
   },
 
   async registerStake(address: string, amount: number) {
-    const response = await client.post(
-      "policy/stake/register",
-      {
-        address,
-        amount,
-      }
-    );
-    
+    const response = await client.post("policy/stake/register", {
+      address,
+      amount,
+    });
+
     return response.data;
   },
 
@@ -89,7 +83,7 @@ const policy = {
 
     const data = response.data;
     return data.policies;
-  }
+  },
 };
 
 export default policy;

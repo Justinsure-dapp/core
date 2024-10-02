@@ -36,7 +36,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
       <textarea
         required
         className="bg-transparent border rounded-md p-2 resize-none h-[50vh] border-border"
-        defaultValue={'def function_name(arg1, arg2):\n    return arg1 + arg2'}
+        defaultValue={"def function_name(arg1, arg2):\n    return arg1 + arg2"}
         ref={editorRef}
       />
       <div className="flex gap-x-[4vw] px-[2vw]">
@@ -45,7 +45,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
           className="flex-1 bg-background border border-border hover:bg-hoverbg text-back rounded-md py-2 font-medium transition-all"
           onClick={() => {
             if (!editorRef.current.checkValidity()) {
-              alert("Please add a function")
+              alert("Please add a function");
               return;
             }
             const f = extractPythonFunction(editorRef.current.value);
