@@ -1,5 +1,10 @@
 import hre from "hardhat";
-import { Address, defineChain, WriteContractReturnType } from "viem";
+import {
+  Address,
+  defineChain,
+  WriteContractReturnType,
+  zeroAddress,
+} from "viem";
 import fs from "fs";
 
 const donau = defineChain({
@@ -66,6 +71,11 @@ async function main() {
   const vault = await hre.viem.getContractAt("Vault", vaultAddress);
   const surecoin = await hre.viem.getContractAt("SureCoin", surecoinAddress);
 
+  const fakeController = await hre.viem.getContractAt(
+    "InsuranceController",
+    zeroAddress,
+  );
+
   console.log(`USDJ : ${usdj.address}`);
   console.log(`Surity Interface : ${periphery.address}`);
   console.log(`Vault : ${vault.address}`);
@@ -87,8 +97,9 @@ const surityInterface = {adddress : "${periphery.address}" as const, abi : ${JSO
 const surecoin = {adddress : "${surecoin.address}" as const, abi : ${JSON.stringify(surecoin.abi)} as const}
 const vault = {adddress : "${vault.address}" as const, abi : ${JSON.stringify(vault.abi)} as const}
 const usdj = {adddress : "${usdj.address}" as const, abi : ${JSON.stringify(usdj.abi)} as const}
+const insuranceController = {abi : ${JSON.stringify(fakeController.abi)} as const}
 
-export default {primaryChain, surityInterface, surecoin, vault, usdj}
+export default {primaryChain, surityInterface, surecoin, vault, usdj, insuranceController}
 `;
 
   fs.writeFileSync("./evmConfig.ts", file);
