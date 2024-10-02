@@ -171,8 +171,6 @@ router.get("/get/:address", async (req, res) => {
   const { address } = req.params;
   const policy = await Policy.findOne({ address: address });
 
-  console.log(policy);
-
   return res.status(200).send({ policy });
 });
 
@@ -248,6 +246,46 @@ print(${funcName}(${args.map((a) => a.value).join(",")}))
   } catch (error: any) {
     console.error(error);
     return res.status(500).json({ message: error?.message });
+  }
+});
+
+router.post("/update/stakers/:address", async (req, res) => {
+  const { staker, amount } = req.body;
+  const address = req.params.address;
+
+  try {
+    const policy = await Policy.findOne({
+      address
+    });
+
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    }
+
+    // if already staked, update the amount
+    const stakerIndex = policy.stakers.findIndex((s) => s.address === staker);
+
+    if (stakerIndex !== -1) {
+      policy.stakers[stakerIndex].amount += amount;
+    } else {
+      policy.stakers.push({ address: staker, amount });
+    }
+
+    console.log(policy.stakers);
+    policy.markModified("stakers");
+    await policy.save();
+
+    res.status(200).json({ message: "Stakers updated successfully.." });
+    return;
+  } catch (error: any) {
+    console.error(error);
+    if (error?.message) {
+      res.status(500).json({ message: error?.message });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
+    return;
   }
 });
 

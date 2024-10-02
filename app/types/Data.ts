@@ -35,8 +35,12 @@ export interface Policy {
   maximumDuration: number;
   creator: string;
   stakeToken: string;
-  policyHolders?: string[];
-  policyStakers?: string[];
+  holders?: string[];
+  stakers?: {
+    address: string;
+    amount: number;
+    _id: string;
+  }[];
   createdAt: string;
   updatedAt: string;
   premiumFuncArgs: Args;

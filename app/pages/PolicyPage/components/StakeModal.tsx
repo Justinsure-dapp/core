@@ -2,12 +2,14 @@ import { twMerge } from "tailwind-merge";
 import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
 import { isAddress, zeroAddress } from "viem";
 import useUsdjHook from "../../../hooks/useUsdj";
+import api from "../../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 export default function StakeModal({ policy }: {
   policy: Policy;
@@ -15,9 +17,15 @@ export default function StakeModal({ policy }: {
 }) {
   const modal = useModal();
   const [stake, setStake] = useState<bigint>(0n);
-  const { allowance, approve } = useUsdjHook();
   const [loading, setLoading] = useState(false);
   const { data: hash, writeContractAsync } = useWriteContract()
+  const navigate = useNavigate();
+  const { allowance, approve, format } = useUsdjHook();
+
+  const stakeReciept = useWaitForTransactionReceipt({
+    confirmations: 2,
+    hash,
+  });
 
   async function handleSubmit() {
     if (stake === 0n) {
@@ -27,33 +35,44 @@ export default function StakeModal({ policy }: {
 
     setLoading(true);
     try {
-      if (allowance === BigInt(0) || Number(allowance) > Number(stake)) {
-        const approved = await approve();
-        alert ("Approved successfully. Proceed with staking!");
-        console.log({ approved });
+      if (allowance === BigInt(0) || Number(allowance) < Number(stake)) {
+        await approve();
       }
 
-      const staked = await writeContractAsync({
+      await writeContractAsync({
         ...contractDefinitions.insuranceController,
         address: isAddress(policy.address) ? policy.address : zeroAddress,
         functionName: "stakeToPolicy",
         args: [stake],
       });
-
-      console.log({ staked });
-
-      if (staked) {
-        const reciept = useWaitForTransactionReceipt({
-          hash: staked,
-        })
-
-        console.log({ reciept });
-      }
-
     } catch (error) {
       console.error(error);
+      alert("Error while staking!");
     }
   }
+  
+  console.log({stake})
+
+  useEffect(() => {
+    async function saveStakeToDB() {
+      const result = await api.policy.updateStakers(policy.address, policy.creator, Number(stake));
+
+      if (result) {
+        alert("Staked successfully");
+        modal.hide();
+        navigate(0);
+      } else {
+        console.error("Error while updating stakers in mongoDB");
+      }
+    }
+
+    if (stakeReciept.isSuccess) saveStakeToDB();
+
+    if (stakeReciept.isError) {
+      alert("Error while staking!");
+      console.error(stakeReciept.error);
+    }
+  }, [stakeReciept]);
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
@@ -98,102 +117,3 @@ export default function StakeModal({ policy }: {
     </div>
   );
 }
-
-// const [decimal, setDecimal] = useState(0);
-// const policyAddress = isAddress(policy.address)
-//   ? policy.address
-//   : zeroAddress;
-
-// // Set USDJ Decimals
-// const { data: usdjDecimals } = useReadContract({
-//   abi: contractDefinitions.usdj.abi,
-//   address: contractDefinitions.usdj.address,
-//   functionName: "decimals",
-// });
-
-// const { data } = useReadContract({
-//   ...contractDefinitions.surecoin,
-//   functionName: "totalStake",
-// });
-
-// console.log(data);
-
-// useEffect(() => {
-//   if (usdjDecimals) {
-//     setDecimal(Number(usdjDecimals));
-//   }
-// }, [usdjDecimals]);
-
-// // Approve USDJ
-// useEffect(() => {
-//   if (usdjHook?.isSuccess) {
-//     alert("Approved successfully. Proceed with staking!");
-//     modal.hide();
-//     window.location.reload();
-//   } else if (usdjHook?.error) {
-//     alert("Error approving, Check console for more details!");
-//   }
-// }, [usdjHook?.isSuccess, usdjHook?.error]);
-
-// // Register Stake
-// const {
-//   write: registerStakeWrite,
-//   isSuccess: registerStakeSuccess,
-//   error: registerStakeError,
-// } = useWriteContract({
-//   abi: contractDefinitions.insuranceController.abi,
-//   address: policyAddress,
-//   functionName: "stakeToPolicy",
-//   args: [BigInt(stake) * BigInt(decimal)],
-// });
-
-// const registerStake = async () => {
-//   if (usdjHook?.isAllowed) {
-//     registerStakeWrite();
-//   } else {
-//     usdjHook?.approve();
-//   }
-// };
-
-// useEffect(() => {
-//   if (registerStakeSuccess) {
-//     alert("Staked successfully");
-//   } else if (registerStakeError) {
-//     alert("Error staking, Check console for more details!");
-//   }
-// }, [registerStakeSuccess, registerStakeError]);
-
-// // Initial Staking
-// const amount = BigInt(stake * 10 ** decimal);
-// console.log(amount);
-// const {
-//   write: initialStakeWrite,
-//   isSuccess: initialStakeSuccess,
-//   error: initialStakeError,
-// } = useContractWrite({
-//   abi: contractDefinitions.insuranceController.abi,
-//   address: policyAddress,
-//   functionName: "initialStake",
-//   args: [amount],
-// });
-
-// const setInitialStake = async () => {
-//   if (usdjHook?.isAllowed) {
-//     initialStakeWrite();
-//   } else {
-//     usdjHook?.approve();
-//   }
-// };
-
-// useEffect(() => {
-//   if (initialStakeSuccess) {
-//     alert("Staked successfully");
-//     modal.hide();
-//     window.location.reload();
-//   } else if (initialStakeError) {
-//     alert("Error staking, Check console for more details!");
-//   }
-// }, [initialStakeSuccess, initialStakeError]);
-
-// // Modal UI
-// if (policyAddress === zeroAddress) return null;
