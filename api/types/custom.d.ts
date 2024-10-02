@@ -46,17 +46,8 @@ interface PolicyData {
   creator: string;
   stakeToken: string;
   stakeTokenSymbol: string;
-  holders: {
-    address: string;
-    status: number;
-    timeleft: number;
-  }[];
-  stakers: [
-    {
-      address: string;
-      amount: number;
-    },
-  ];
+  holders: string[];
+  stakers: string[];
   createdAt: string;
   updatedAt: string;
 }

@@ -17,8 +17,8 @@ function safeCheckAndExecute() {
       semaphore = true;
       const nxt = executionQueue.shift();
       if (!nxt) throw "Failed to execute";
-      fs.writeFile("./src/focus_func.py", outputStore[nxt].pycode, () => {
-        const pythonProcess = spawn("python3", ["src/focus_func.py"]);
+      fs.writeFile("./api/focus_func.py", outputStore[nxt].pycode, () => {
+        const pythonProcess = spawn("python3", ["api/focus_func.py"]);
 
         pythonProcess.stdout.on("data", (data) => {
           outputStore[nxt].output = data.toString().trim();

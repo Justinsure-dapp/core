@@ -100,7 +100,7 @@ export default function StakeModal({ policy }: {
         <input
           type="number"
           className="rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
-          placeholder="Enter Amount in FUSDT"
+          placeholder="Enter Amount in USDJ"
           onChange={(e) => setStake(BigInt(e.target.value))}
         />
       </div>

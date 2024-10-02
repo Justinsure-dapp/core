@@ -41,6 +41,11 @@ export default function NewPolicyPage() {
   const [formData, setFormData] = useState<any>();
   const navigate = useNavigate();
 
+  console.log({
+    premiumFuncArgs,
+    premiumFuncArgsSetter
+  })
+
   useEffect(() => {
     const submitForm = async () => {
       try {

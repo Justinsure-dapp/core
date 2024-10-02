@@ -33,10 +33,16 @@ router.post("/create", async (req, res) => {
     const { address } = req.body;
     const user = await User.create({ address });
     await user.save();
-    return res.status(200).json({ user: user });
+    res.status(200).json({ user: user });
+    return;
   } catch (error: any) {
-    console.log(error.message);
-    return res.status(500).json({ message: error.message });
+    console.error(error);
+    if (error.message) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+    return;
   }
 });
 
@@ -52,7 +58,8 @@ router.post("/become-marketer", async (req, res) => {
     });
 
     if (!verified) {
-      return res.status(401).json({ message: "Signature verification failed" });
+      res.status(401).json({ message: "Signature verification failed" });
+      return;
     }
 
     const existingUser = await User.findOne({ address });
@@ -67,10 +74,11 @@ router.post("/become-marketer", async (req, res) => {
       });
       await newUser.save();
 
-      return res.status(200).json({
+      res.status(200).json({
         message: "Marketer created successfully",
         marketerID: newUser._id,
       });
+      return;
     } else if (!existingUser.marketer) {
       existingUser.marketer = {
         name,
@@ -78,16 +86,19 @@ router.post("/become-marketer", async (req, res) => {
       };
       await existingUser.save();
 
-      return res.status(200).json({
+      res.status(200).json({
         message: "Marketer updated successfully",
         marketerID: existingUser._id,
       });
+      return;
     } else {
-      return res.status(400).json({ message: "User is already a marketer" });
+      res.status(400).json({ message: "User is already a marketer" });
+      return;
     }
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500);
+    res.sendStatus(500);
+    return;
   }
 });
 

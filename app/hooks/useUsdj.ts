@@ -13,6 +13,7 @@ type UsdjHook = {
   approve: () => Promise<boolean>;
   getUserBalance: () => number;
   format: (value: bigint) => number;
+  decimals: number | undefined;
 };
 
 function useUsdjHook(): UsdjHook {
@@ -67,6 +68,7 @@ function useUsdjHook(): UsdjHook {
 
   return {
     allowance,
+    decimals,
     getUserBalance,
     approve,
     format,

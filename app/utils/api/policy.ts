@@ -1,6 +1,7 @@
 import { Address } from "abitype";
 import { client } from ".";
 import { Policy } from "../../types";
+import { Args } from "../../pages/NewPolicyPage/components/ArgsTypeDefine";
 
 type PolicyOptions = {
   insuranceContractAddress: Address;
@@ -39,7 +40,7 @@ const policy = {
 
   async requestNonce(address: string) {
     const response = await client.post<{ nonce: string }>(
-      "/policy/new/request-nonce",
+      "/policy/request-nonce",
       {
         address,
       },
@@ -94,17 +95,35 @@ const policy = {
     return response.data;
   },
 
-  async fetchPoliciesStakedIn(user: string) {
-    const response = await client.get<{ policies: Policy[] }>(
-      `/policy/fetch/staked`, {
-        params: {
-          user,
-        },
-      }
-    );
+  async calculatePremium(address: string, args: {
+    arg: string;
+    value: string;
+  }[]) {
+    const response = await client.get(`policy/premium/${address}`, {
+      params: {
+        args: JSON.stringify(args),
+      },
+    });
 
     return response.data;
   },
+
+  async getExecutedKey(key: string) {
+    const response = await client.get(`/functions/result/${key}`);
+    return response.data;
+  },
+
+  async buyPolicy(address: string, user: string, data: any, sign: string, premium: number) {
+    const response = await client.post(`policy/buy/${address}`, {
+      user,
+      data,
+      sign,
+      premium
+    });
+
+    return response.data;
+  }
+  
 };
 
 export default policy;

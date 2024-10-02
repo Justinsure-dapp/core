@@ -75,18 +75,11 @@ const policySchema = new Schema<PolicyData>(
       required: true,
     },
     holders: {
-      type: [{
-        address: String,
-        status: Number,
-        timeleft: Number,
-      }],
+      type: [String],
       default: [],
     },
     stakers: {
-      type: [{
-        address: String,
-        amount: Number,
-      }],
+      type: [String],
       default: [],
     },
     premiumFuncArgs: {

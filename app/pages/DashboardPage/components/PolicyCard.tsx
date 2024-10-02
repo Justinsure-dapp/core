@@ -91,12 +91,8 @@ export default function PolicyCard(props: { policy: Policy }) {
       </button>
 
       {expanded && (
-        <div className="flex flex-col">
-          {/* <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
-              Recent Activity
-            </button> */}
+        <div className="flex flex-col gap-5">
           <PolicyHolders holders={props.policy.holders} />
-          {/* <StakeDistribution data={props.policy.data} /> */}
           <AutomatedInvestment />
         </div>
       )}
