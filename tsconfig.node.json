@@ -5,6 +5,5 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true
   },
-  "exclude": ["contracts"],
   "include": ["vite.config.ts"]
 }

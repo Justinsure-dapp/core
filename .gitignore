@@ -7,9 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules/*
-!node_modules/@rainbow-me
-
+node_modules
 dist
 dist-ssr
 *.local
@@ -38,3 +36,5 @@ typechain-types
 # solidity-coverage files
 coverage
 coverage.json
+
+api/focus_func.py
