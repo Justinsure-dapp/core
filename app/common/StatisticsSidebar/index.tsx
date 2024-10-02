@@ -11,12 +11,13 @@ export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
   const { address } = useAccount();
 
-  const { data: earned } = useReadContract({
+  const { data: balance } = useReadContract({
     ...contractDefinitions.surecoin,
-    functionName: "totalSupply",
+    functionName: "balanceOf",
+    args: [address || zeroAddress],
   });
 
-  const fetchedEarned = useReadContract({
+  const { data: earned } = useReadContract({
     ...contractDefinitions.surecoin,
     functionName: "earned",
     args: [address || zeroAddress],
@@ -41,13 +42,13 @@ export default function StatisticsSidebar() {
               <div className="flex gap-2 items-center">
                 <h2 className="text-xs">Wallet:</h2>
                 <p className="font-mono text-secondary text-2xl font-medium">
-                  {/* {balance ? balance.toString() : "0"} */}
+                  {balance ? balance.toString() : "0"}
                 </p>
               </div>
               <div className="flex gap-2 items-center">
                 <h2 className="text-xs">Pending:</h2>
                 <p className="font-mono text-secondary text-2xl font-medium">
-                  {fetchedEarned.data ? fetchedEarned.data.toString() : "0"}
+                  {earned ? earned.toString() : "0"}
                 </p>
               </div>
             </div>

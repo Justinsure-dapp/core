@@ -17,7 +17,7 @@ export default function YourStakes() {
         <PieChart data={data} className="w-[20vw] mobile:w-[50vw]" />
         <div className="basis-1/2 flex flex-col gap-y-3 mobile:w-full">
           {data.labels.map((label, i) => (
-            <div className="flex w-full items-center gap-x-4">
+            <div key={i} className="flex w-full items-center gap-x-4">
               <span className="">{i + 1}</span>
               <div
                 className={twMerge(

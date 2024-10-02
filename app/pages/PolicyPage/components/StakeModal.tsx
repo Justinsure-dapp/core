@@ -24,11 +24,6 @@ export default function StakeModal({ policy }: {
       alert("Please enter a valid amount to stake");
       return;
     }
-    
-    console.log({
-      stake,
-      allowance,
-    });
 
     setLoading(true);
     try {
@@ -47,9 +42,9 @@ export default function StakeModal({ policy }: {
 
       console.log({ staked });
 
-      if (hash) {
+      if (staked) {
         const reciept = useWaitForTransactionReceipt({
-          hash,
+          hash: staked,
         })
 
         console.log({ reciept });

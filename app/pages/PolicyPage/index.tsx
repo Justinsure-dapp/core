@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Header from "./components/Header";
 import TotalStakes from "./components/TotalStakes";
 import PoolDistribution from "./components/PoolDistribution";

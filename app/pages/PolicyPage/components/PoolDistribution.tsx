@@ -4,6 +4,7 @@ import { Policy } from "../../../types";
 import useIdleScrollbar from "../../../hooks/useIdleScrollbar";
 import React, { useRef } from "react";
 import { generateShades } from "../../../utils";
+import useUsdjHook from "../../../hooks/useUsdj";
 
 export default function PoolDistribution({ policy }: { policy: Policy }) {
   const accountRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -26,7 +27,7 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
           className="basis-1/2 flex flex-col gap-y-3 border border-border p-4 rounded-xl max-h-[240px] overflow-y-scroll scrollbar-primary"
           ref={accountRef}
         >
-          {data.labels.map((label, i) => (
+          {policy.policyStakers?.map((label, i) => (
             <div key={i} className="flex w-full items-center gap-x-4">
               <span className="">{i + 1}</span>
               <div

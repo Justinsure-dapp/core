@@ -9,29 +9,53 @@ type UsdjHook = {
 };
 
 const useUsdjHook = () => {
-  const { address: stakerAddress } = useAccount();
-  const { data: hash, writeContractAsync } = useWriteContract();
+  const { address: userAddress } = useAccount();
+  const { data, writeContractAsync, isSuccess } = useWriteContract();
+
+  const { data: decimals } = useReadContract({
+    abi: contractDefinitions.usdj.abi,
+    address: contractDefinitions.usdj.address,
+    functionName: "decimals",
+  });
 
   const { data: allowance } = useReadContract({
     abi: contractDefinitions.usdj.abi,
     address: contractDefinitions.usdj.address,
     functionName: "allowance",
-    args: [stakerAddress || zeroAddress, contractDefinitions.surityInterface.address],
+    args: [userAddress || zeroAddress, contractDefinitions.surityInterface.address],
+  });
+
+  const { data: balance } = useReadContract({
+    abi: contractDefinitions.usdj.abi,
+    address: contractDefinitions.usdj.address,
+    functionName: "balanceOf",
+    args: [userAddress || zeroAddress],
   });
   
   async function approve() {
-    const result = await writeContractAsync({
+    const txhash = await writeContractAsync({
       ...contractDefinitions.usdj,
       functionName: "approve",
       args: [contractDefinitions.surityInterface.address, UINT256_MAX],
     });
 
-    console.log(result);
+    if(txhash) return isSuccess;
+  }
+
+  function format( value: bigint | undefined ) {
+    if (!value || !decimals) return undefined;
+    return Number(value) / 10 ** Number(decimals);
+  }
+
+  function getUserBalance() {
+    return format(balance);
   }
 
   return {
     allowance,
+    getUserBalance,
     approve,
+    format,
   }
 };
 

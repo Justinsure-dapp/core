@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
 import Icon from "../../common/Icon";
-import StarRating from "../../common/StarRating";
-import { Link } from "react-router-dom";
 import DocTitle from "../../common/DocTitle";
 import useApiResponse from "../../hooks/useApiResponse";
 import api from "../../utils/api";
