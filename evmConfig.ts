@@ -1,13 +1,13 @@
 import { defineChain } from "viem";
 
-export const primaryChain = defineChain({
+const primaryChain = defineChain({
   id: 31337,
   name: "Hardhat",
   nativeCurrency: { decimals: 18, name: "Ether", symbol: "ETH" },
   rpcUrls: { default: { http: ["http://127.0.0.1:8545"] } },
 });
 
-export const periphery = {
+const surityInterface = {
   adddress: "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
   abi: [
     {
@@ -309,7 +309,7 @@ export const periphery = {
     },
   ],
 };
-export const surecoin = {
+const surecoin = {
   adddress: "0x75537828f2ce51be7289709686A69CbFDbB714F1",
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -811,7 +811,7 @@ export const surecoin = {
     },
   ],
 };
-export const vault = {
+const vault = {
   adddress: "0xE451980132E65465d0a498c53f0b5227326Dd73F",
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -897,7 +897,7 @@ export const vault = {
     },
   ],
 };
-export const usdj = {
+const usdj = {
   adddress: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -1133,3 +1133,5 @@ export const usdj = {
     },
   ],
 };
+
+export default { primaryChain, surityInterface, surecoin, vault, usdj };

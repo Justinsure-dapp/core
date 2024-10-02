@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "../../lib/utils";
+import { twMerge as cn } from "tailwind-merge";
 import React, { ReactNode } from "react";
 
 interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {

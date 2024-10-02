@@ -7,27 +7,10 @@ import {
   getDefaultWallets,
   connectorsForWallets,
 } from "@rainbow-me/rainbowkit";
-
-const donau: Chain = {
-  id: 1029,
-  name: "BitTorrent Chain Donau",
-  nativeCurrency: {
-    symbol: "BTT",
-    decimals: 18,
-    name: "BitTorrent Token (BTT)",
-  },
-  network: "bittorrent-chain-donau",
-  rpcUrls: {
-    default: { http: ["https://pre-rpc.bt.io/"] },
-    public: { http: ["https://pre-rpc.bt.io/"] },
-  },
-  blockExplorers: {
-    default: { name: "BTTscan donau", url: "https://testscan.bt.io" },
-  },
-};
+import evmConfig from "../../evmConfig"
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [donau],
+  [evmConfig.primaryChain],
   [publicProvider()]
 );
 

@@ -49,12 +49,14 @@ async function main() {
   // update evmConfig
   const file = `import {defineChain} from "viem"
 
-export const primaryChain = defineChain(${JSON.stringify(deployer.chain)})
+const primaryChain = defineChain(${JSON.stringify(deployer.chain)})
 
-export const periphery = {adddress : "${periphery.address}", abi : ${JSON.stringify(periphery.abi)}}
-export const surecoin = {adddress : "${surecoin.address}", abi : ${JSON.stringify(surecoin.abi)}}
-export const vault = {adddress : "${vault.address}", abi : ${JSON.stringify(vault.abi)}}
-export const usdj = {adddress : "${usdj.address}", abi : ${JSON.stringify(usdj.abi)}}
+const surityInterface = {adddress : "${periphery.address}", abi : ${JSON.stringify(periphery.abi)}}
+const surecoin = {adddress : "${surecoin.address}", abi : ${JSON.stringify(surecoin.abi)}}
+const vault = {adddress : "${vault.address}", abi : ${JSON.stringify(vault.abi)}}
+const usdj = {adddress : "${usdj.address}", abi : ${JSON.stringify(usdj.abi)}}
+
+export default {primaryChain, surityInterface, surecoin, vault, usdj}
 `;
 
   fs.writeFileSync("./evmConfig.ts", file);

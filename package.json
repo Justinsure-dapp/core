@@ -1,7 +1,8 @@
 {
   "name": "client",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -9,7 +10,7 @@
     "format": "prettier --write .",
     "contracts-compile": "hardhat compile",
     "contracts-test": "hardhat test",
-    "contracts-deploy": "hardhat run contracts/scripts/deploy.ts && prettier --write evmConfig.ts"
+    "contracts-deploy": "TS_NODE_PROJECT=tsconfig.hardhat.json hardhat run contracts/scripts/deploy.ts && prettier --write evmConfig.ts"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
