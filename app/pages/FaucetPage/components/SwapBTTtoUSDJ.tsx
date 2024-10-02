@@ -1,14 +1,39 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from '../../../common/Icon'
+import { useAccount, useBalance, useContractRead } from 'wagmi'
+import contractDefinitions from '../../../contracts'
 
 export default function SwapBTTtoUSDJ() {
 
     const [loading, setLoading] = useState(false)
+    const [decimal, setDecimal] = useState(0);
+
+    const { address = "0x" } = useAccount()
+
+    const { data: usdjDecimals } = useContractRead({
+        address: contractDefinitions.usdj.adddress,
+        abi: contractDefinitions.usdj.abi,
+        functionName: "decimals",
+    });
+
+    useEffect(() => {
+        if (usdjDecimals) {
+            setDecimal(Number(usdjDecimals));
+        }
+    }, [usdjDecimals]);
+
+    const { data: balanceUsdj } = useContractRead({
+        address: contractDefinitions.usdj.adddress,
+        abi: contractDefinitions.usdj.abi,
+        functionName: 'balanceOf',
+        args: [address],
+    })
+
+    // const balance = useBalance()
+
 
     return (
         <div className="flex flex-col items-center gap-y-4">
-            <h2 className="font-medium text-lg">Swap BTTC with USDJ</h2>
-
             <div className="bg-foreground p-8 rounded-[2rem] flex flex-col items-center gap-y-2">
                 <h3>Enter amount to be Swapped</h3>
                 <div className="flex flex-col items-center my-4 gap-y-2">
@@ -34,7 +59,7 @@ export default function SwapBTTtoUSDJ() {
                     <Icon icon="arrow_forward" className="rotate-90 bg-foreground text-[1.3rem] text-mute" />
                     <div className="flex flex-col">
                         <div className="text-sm self-end text-slate-400">
-                            Balance : {0} USDJ
+                            Balance : {Number(balanceUsdj) / Math.pow(10, Number(usdjDecimals))} USDJ
                         </div>
                         <div className="relative">
                             {/* {displayInvalidMessage && (
