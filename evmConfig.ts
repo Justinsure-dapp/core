@@ -1,14 +1,21 @@
 import { defineChain } from "viem";
 
 const primaryChain = defineChain({
-  id: 31337,
-  name: "Hardhat",
-  nativeCurrency: { decimals: 18, name: "Ether", symbol: "ETH" },
-  rpcUrls: { default: { http: ["http://127.0.0.1:8545"] } },
+  id: 11155420,
+  name: "OP Sepolia",
+  nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: { default: { http: ["https://sepolia.optimism.io"] } },
+  blockExplorers: {
+    default: {
+      name: "Blockscout",
+      url: "https://optimism-sepolia.blockscout.com",
+      apiUrl: "https://optimism-sepolia.blockscout.com/api",
+    },
+  },
 });
 
 const surityInterface = {
-  adddress: "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0" as const,
+  adddress: "0x37e43798e19271f476fdb231d3c0ab8e09314046" as const,
   abi: [
     {
       inputs: [{ internalType: "address", name: "usdToken_", type: "address" }],
@@ -310,7 +317,7 @@ const surityInterface = {
   ] as const,
 };
 const surecoin = {
-  adddress: "0x75537828f2ce51be7289709686A69CbFDbB714F1" as const,
+  adddress: "0x6981F0E7caB36016A08B07D4E2Ad865A33E35A5C" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -812,7 +819,7 @@ const surecoin = {
   ] as const,
 };
 const vault = {
-  adddress: "0xE451980132E65465d0a498c53f0b5227326Dd73F" as const,
+  adddress: "0xE50df33f1202667B6E8C967b09818408e5347C00" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -898,7 +905,7 @@ const vault = {
   ] as const,
 };
 const usdj = {
-  adddress: "0x5fbdb2315678afecb367f032d93f642f64180aa3" as const,
+  adddress: "0x3984ebfa94245b06cd125bb35dd2d58624e9d50f" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {

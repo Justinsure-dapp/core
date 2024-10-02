@@ -1,65 +1,64 @@
 import hre from "hardhat";
-import { Address, zeroAddress } from "viem";
+import { Address, defineChain, WriteContractReturnType } from "viem";
 import fs from "fs";
 
-// const donau = defineChain({
-//   id: 1029,
-//   rpcUrls: {
-//     default: {
-//       http: ["https://pre-rpc.bt.io"],
-//       webSocket: ["wss://pre-rpc.bt.io:8546"],
-//     },
-//   },
-//   name: "BitTorrent Chain Donau",
-//   nativeCurrency: { symbol: "BTT", decimals: 18, name: "BitTorrent (BTT)" },
-// });
+const donau = defineChain({
+  id: 1029,
+  rpcUrls: {
+    default: {
+      http: ["https://pre-rpc.bt.io"],
+      webSocket: ["wss://pre-rpc.bt.io:8546"],
+    },
+  },
+  name: "BitTorrent Chain Donau",
+  nativeCurrency: { symbol: "BTT", decimals: 18, name: "BitTorrent (BTT)" },
+});
 
 async function main() {
-  const [deployer] = await hre.viem.getWalletClients();
-  const publicClient = await hre.viem.getPublicClient();
-  let tx: Address = zeroAddress;
+  const [deployer] = await hre.viem.getWalletClients({});
+  const publicClient = await hre.viem.getPublicClient({});
 
-  async function latestNonce() {
-    return (
-      (await publicClient.getTransactionCount({
-        address: deployer.account.address,
-      })) - 1
-    );
+  async function tx(txn: Promise<WriteContractReturnType>) {
+    await publicClient.waitForTransactionReceipt({ hash: await txn });
   }
 
-  const usdj = await hre.viem.deployContract("USDJ");
+  const usdj = await hre.viem.deployContract("USDJ", [], {
+    client: { wallet: deployer },
+  });
 
   const usdjDecimals = BigInt(Math.pow(10, await usdj.read.decimals()));
 
-  tx = await usdj.write.transfer(
-    ["0x5dE36d74D5A8497a18Ed5B495A870e583b83B7da", 100_000_000_000n], // Riya
-    {
-      nonce: await latestNonce(),
-    },
+  await tx(
+    usdj.write.transfer(
+      ["0x5dE36d74D5A8497a18Ed5B495A870e583b83B7da", 100_000_000_000n], // Riya
+      { account: deployer.account },
+    ),
   );
-  await publicClient.waitForTransactionReceipt({ hash: tx });
 
-  tx = await usdj.write.transfer(
-    ["0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0", 100_000_000_000n], // Kartik
-    {
-      nonce: await latestNonce(),
-    },
+  await tx(
+    usdj.write.transfer(
+      ["0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0", 100_000_000_000n], // Kartik
+      { account: deployer.account },
+    ),
   );
-  await publicClient.waitForTransactionReceipt({ hash: tx });
 
-  const periphery = await hre.viem.deployContract("SurityInterface", [
-    usdj.address,
-  ]);
+  const periphery = await hre.viem.deployContract(
+    "SurityInterface",
+    [usdj.address],
+    { client: { wallet: deployer } },
+  );
 
-  tx = await periphery.write.updateStakingRewardRate([10_000n * usdjDecimals], {
-    nonce: await latestNonce(),
-  });
-  await publicClient.waitForTransactionReceipt({ hash: tx });
+  await tx(
+    periphery.write.updateStakingRewardRate([10_000n * usdjDecimals], {
+      account: deployer.account,
+    }),
+  );
 
-  tx = await periphery.write.setMinimumInitialStake([10n * usdjDecimals], {
-    nonce: await latestNonce(),
-  });
-  await publicClient.waitForTransactionReceipt({ hash: tx });
+  await tx(
+    periphery.write.setMinimumInitialStake([10n * usdjDecimals], {
+      account: deployer.account,
+    }),
+  );
 
   const vaultAddress = (await periphery.read.vault()) as Address;
   const surecoinAddress = (await periphery.read.surecoin()) as Address;
@@ -73,9 +72,16 @@ async function main() {
   console.log(`SureCoin : ${surecoin.address}`);
 
   // update evmConfig
+  const chain = {
+    id: deployer.chain.id,
+    name: deployer.chain.name,
+    nativeCurrency: deployer.chain.nativeCurrency,
+    rpcUrls: deployer.chain.rpcUrls,
+    blockExplorers: deployer.chain.blockExplorers,
+  };
   const file = `import {defineChain} from "viem"
 
-const primaryChain = defineChain(${JSON.stringify(deployer.chain)})
+const primaryChain = defineChain(${JSON.stringify(chain)})
 
 const surityInterface = {adddress : "${periphery.address}" as const, abi : ${JSON.stringify(periphery.abi)} as const}
 const surecoin = {adddress : "${surecoin.address}" as const, abi : ${JSON.stringify(surecoin.abi)} as const}
