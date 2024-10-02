@@ -42,7 +42,6 @@ const router = createBrowserRouter(
         <Route path="*" element={<ErrorPage />} />
         <Route path="/faucet" element={<FaucetPage />} />
       </Route>
-
     </>,
   ),
 );

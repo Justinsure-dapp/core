@@ -10,7 +10,7 @@ export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
   const [logo, setLogo] = useState("");
   const { address } = useAccount();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { signMessage, data: sign } = useSignMessage();
   const [data, setData] = useState<{

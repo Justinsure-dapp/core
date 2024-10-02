@@ -64,7 +64,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
   console.log({
     page: "web3context",
     user,
-  })
+  });
 
   const value = { user };
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;

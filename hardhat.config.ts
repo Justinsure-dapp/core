@@ -1,11 +1,11 @@
 import type { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox-viem";
 import "@nomicfoundation/hardhat-viem";
-import crypto from "crypto"
+import crypto from "crypto";
 import "dotenv/config";
 
-function getRandomKeys () {
-  return Array(10).map(_ => "0x"+crypto.randomBytes(32).toString());
+function getRandomKeys() {
+  return Array(10).map((_) => "0x" + crypto.randomBytes(32).toString());
 }
 
 const config: HardhatUserConfig = {
