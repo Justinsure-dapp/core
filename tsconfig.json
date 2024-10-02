@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["app"],
+  "include": ["app", "evmConfig.ts"],
   "references": [
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.prod.json" },

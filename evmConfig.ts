@@ -15,7 +15,7 @@ const primaryChain = defineChain({
 });
 
 const surityInterface = {
-  adddress: "0x37e43798e19271f476fdb231d3c0ab8e09314046" as const,
+  adddress: "0x795d40643b3dd96f4b2415a07ee6c3a483d32c52" as const,
   abi: [
     {
       inputs: [{ internalType: "address", name: "usdToken_", type: "address" }],
@@ -317,7 +317,7 @@ const surityInterface = {
   ] as const,
 };
 const surecoin = {
-  adddress: "0x6981F0E7caB36016A08B07D4E2Ad865A33E35A5C" as const,
+  adddress: "0x355d7d28ECb19080F0109991c0D8c5D89103B639" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -819,7 +819,7 @@ const surecoin = {
   ] as const,
 };
 const vault = {
-  adddress: "0xE50df33f1202667B6E8C967b09818408e5347C00" as const,
+  adddress: "0xD61de1d56Eb934D2939C1f49Fb02AA2235386090" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -905,7 +905,7 @@ const vault = {
   ] as const,
 };
 const usdj = {
-  adddress: "0x3984ebfa94245b06cd125bb35dd2d58624e9d50f" as const,
+  adddress: "0x198d01a6fea6b78f8bfb20cb661831c20b0f2b60" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -1140,5 +1140,361 @@ const usdj = {
     },
   ] as const,
 };
+const insuranceController = {
+  abi: [
+    {
+      inputs: [
+        { internalType: "address", name: "creator_", type: "address" },
+        { internalType: "string", name: "name_", type: "string" },
+        { internalType: "string", name: "uri_", type: "string" },
+        { internalType: "uint256", name: "minimumDuration_", type: "uint256" },
+        { internalType: "uint256", name: "maximumDuration_", type: "uint256" },
+        {
+          internalType: "uint256",
+          name: "minimumClaimAmount_",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "maximumClaimAmount_",
+          type: "uint256",
+        },
+        { internalType: "string", name: "tokenSymbol_", type: "string" },
+      ],
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
+    { inputs: [], name: "EnforcedPause", type: "error" },
+    { inputs: [], name: "ExpectedPause", type: "error" },
+    {
+      inputs: [{ internalType: "address", name: "owner", type: "address" }],
+      name: "OwnableInvalidOwner",
+      type: "error",
+    },
+    {
+      inputs: [{ internalType: "address", name: "account", type: "address" }],
+      name: "OwnableUnauthorizedAccount",
+      type: "error",
+    },
+    { inputs: [], name: "ReentrancyGuardReentrantCall", type: "error" },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "account",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "duration",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "premium",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "claim",
+          type: "uint256",
+        },
+      ],
+      name: "Bought",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "account",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "claim",
+          type: "uint256",
+        },
+      ],
+      name: "Claimed",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "amount",
+          type: "uint256",
+        },
+      ],
+      name: "CreatorProfitWithdrawn",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "previousOwner",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "newOwner",
+          type: "address",
+        },
+      ],
+      name: "OwnershipTransferred",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "address",
+          name: "account",
+          type: "address",
+        },
+      ],
+      name: "Paused",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "address",
+          name: "account",
+          type: "address",
+        },
+      ],
+      name: "Unpaused",
+      type: "event",
+    },
+    {
+      inputs: [],
+      name: "FEE_FRACTION_ON_CREATOR_PROFITS",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "PROFIT_FRACTION_SHARED_AMONG_STAKERS",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "_interface",
+      outputs: [
+        { internalType: "contract SurityInterface", name: "", type: "address" },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "creator",
+      outputs: [{ internalType: "address", name: "", type: "address" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "account_", type: "address" }],
+      name: "isPolicyOwner",
+      outputs: [{ internalType: "bool", name: "", type: "bool" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "address", name: "issueClaimTo_", type: "address" },
+      ],
+      name: "issueClaim",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "address", name: "issueTo_", type: "address" },
+        { internalType: "uint256", name: "premium_", type: "uint256" },
+        { internalType: "uint256", name: "claim_", type: "uint256" },
+        { internalType: "uint256", name: "duration_", type: "uint256" },
+      ],
+      name: "issuePolicy",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "liquidity",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "maximumClaimAmount",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "maximumDuration",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "minimumClaimAmount",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "minimumDuration",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "name",
+      outputs: [{ internalType: "string", name: "", type: "string" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "owner",
+      outputs: [{ internalType: "address", name: "", type: "address" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "pause",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "paused",
+      outputs: [{ internalType: "bool", name: "", type: "bool" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "account_", type: "address" }],
+      name: "profitShare",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "renounceOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "uint256", name: "amount_", type: "uint256" }],
+      name: "revokeStakeFromPolicy",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "stakeAmount_", type: "uint256" },
+      ],
+      name: "stakeToPolicy",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "stakeToken",
+      outputs: [
+        { internalType: "contract StakeToken", name: "", type: "address" },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "account_", type: "address" }],
+      name: "stakedAmountOfAddress",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "totalStake",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
+      name: "transferOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "unpause",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "uri",
+      outputs: [{ internalType: "string", name: "", type: "string" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "uint256", name: "amount_", type: "uint256" }],
+      name: "withdrawProfits",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+  ] as const,
+};
 
-export default { primaryChain, surityInterface, surecoin, vault, usdj };
+export default {
+  primaryChain,
+  surityInterface,
+  surecoin,
+  vault,
+  usdj,
+  insuranceController,
+};

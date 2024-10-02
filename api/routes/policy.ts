@@ -1,16 +1,15 @@
 import express from "express";
-import fs from "fs";
 import crypto from "crypto";
 import Policy from "../models/Policy";
 import { getContract, isAddress, verifyMessage } from "viem";
 import { generateRandomHex, generateTokenSymbol } from "../utils";
 import { PinataSDK } from "pinata";
-import contractDefinitions from "../contracts";
-import { publicClient, walletClient } from "../../evm";
 import { PolicyData } from "../types/custom";
-import { spawn } from "child_process";
 import User from "../models/User";
 import executor from "../executor";
+import surityInterface from "../contracts/surityInterface";
+import evm from "../evm";
+import evmConfig from "../../evmConfig";
 
 const router = express.Router();
 
@@ -76,12 +75,7 @@ router.post("/new", async (req, res) => {
     const cid = upload.cid;
 
     // Save the cid to blockchain
-    const surityInterface = getContract({
-      ...contractDefinitions.surityInterface,
-      client: walletClient,
-    });
-
-    const blockNumberBeforeTx = await walletClient.getBlockNumber();
+    const blockNumberBeforeTx = await evm.client.getBlockNumber();
 
     const txHash = await surityInterface.write.createInsurancePolicy([
       address,
@@ -94,7 +88,7 @@ router.post("/new", async (req, res) => {
       BigInt(data.maximumClaim),
     ]);
 
-    const receipt = await walletClient.waitForTransactionReceipt({
+    const receipt = await evm.client.waitForTransactionReceipt({
       hash: txHash,
     });
 
@@ -102,9 +96,9 @@ router.post("/new", async (req, res) => {
       return res.status(400).json({ message: "Staking failed" });
     }
 
-    const logs = await publicClient.getContractEvents({
-      abi: contractDefinitions.surityInterface.abi,
-      address: contractDefinitions.surityInterface.address,
+    const logs = await evm.client.getContractEvents({
+      abi: surityInterface.abi,
+      address: surityInterface.address,
       eventName: "policyCreated",
       fromBlock: blockNumberBeforeTx,
       toBlock: "latest",
@@ -121,9 +115,9 @@ router.post("/new", async (req, res) => {
       return res.status(500).json({ message: "Invalid Controller address" });
     }
 
-    const stakeTokenAddress = await publicClient.readContract({
+    const stakeTokenAddress = await evm.client.readContract({
       address: controllerAddress,
-      abi: contractDefinitions.insuranceController.abi,
+      abi: evmConfig.insuranceController.abi,
       functionName: "stakeToken",
     });
 

@@ -50,11 +50,16 @@ export default function Header() {
           <ConnectWallet />
         </div>
 
-        <Link to="/faucet" className="border border-mute py-1 px-2 rounded-lg hover:border-front hover:text-front group duration-150 ease-in">
-          <Icon icon="money" className="text-2xl text-mute group-hover:text-front duration-150 ease-in" />
+        <Link
+          to="/faucet"
+          className="border border-mute py-1 px-2 rounded-lg hover:border-front hover:text-front group duration-150 ease-in"
+        >
+          <Icon
+            icon="money"
+            className="text-2xl text-mute group-hover:text-front duration-150 ease-in"
+          />
         </Link>
       </div>
-
     </header>
   );
 }

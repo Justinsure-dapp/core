@@ -5,7 +5,7 @@ import TestnetBTT from "./TestnetBTT";
 import { twMerge } from "tailwind-merge";
 
 export default function Hero() {
-    //   const config = useApiResponse(api.getConfiguration);
+  //   const config = useApiResponse(api.getConfiguration);
 
     const [displayInvalidMessage, setDisplayInvalidMessage] = useState(false);
     const [loading, setLoading] = useState(false);
