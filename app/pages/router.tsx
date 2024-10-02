@@ -16,6 +16,7 @@ import NewMarketerPage from "./NewMarketerPage";
 import BuyPolicyPage from "./BuyPolicyPage";
 import DashboardPage from "./DashboardPage";
 import ProtectedRoute, { ProtectedTypes } from "../common/ProtectedRoute";
+import FaucetPage from "./FaucetPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,6 +41,8 @@ const router = createBrowserRouter(
 
         <Route path="*" element={<ErrorPage />} />
       </Route>
+
+      <Route path="/faucet" element={<FaucetPage />} />
     </>,
   ),
 );
