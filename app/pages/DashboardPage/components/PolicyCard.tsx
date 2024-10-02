@@ -2,7 +2,7 @@ import { useState } from "react";
 import AutomatedInvestment from "./AutomatedInvestment";
 import PolicyHolders from "./PolicyHolders";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { isAddress, zeroAddress } from "viem";
 import { Policy, User } from "../../../types";
@@ -20,27 +20,37 @@ export default function PolicyCard(props: { policy: Policy }) {
     ? props.policy.creator
     : zeroAddress;
 
-  const { data: isPaused } = useContractRead({
+  const { data: isPaused } = useReadContract({
     abi: contractDefinitions.insuranceController.abi,
     address: policyAddress,
-    functionName: "paused",
+    functionName: "paused"
   });
 
-  const { data: totalStake } = useContractRead({
-    ...contractDefinitions.insuranceController,
-    address: isAddress(props.policy.address) ? props.policy.address : undefined,
-    functionName: "totalStake",
+  const { data: totalStake } = useReadContract({
+    abi: contractDefinitions.insuranceController.abi,
+    address: policyAddress,
+    functionName: "totalStake"
   });
 
-  const { data } = useContractRead({
-    ...contractDefinitions.stakeToken,
-    address: isAddress(props.policy.stakeToken)
-      ? props.policy.stakeToken
-      : undefined,
-    functionName: "totalSupply",
-  });
+  // const { data: isPaused } = useContractRead({
+  //   abi: contractDefinitions.insuranceController.abi,
+  //   address: policyAddress,
+  //   functionName: "paused",
+  // });
 
-  console.log(data);
+  // const { data: totalStake } = useContractRead({
+  //   ...contractDefinitions.insuranceController,
+  //   address: isAddress(props.policy.address) ? props.policy.address : undefined,
+  //   functionName: "totalStake",
+  // });
+
+  // const { data } = useContractRead({
+  //   ...contractDefinitions.stakeToken,
+  //   address: isAddress(props.policy.stakeToken)
+  //     ? props.policy.stakeToken
+  //     : undefined,
+  //   functionName: "totalSupply",
+  // });
 
   // const { data: creator } = useApiResponse(api.user.get, props.policy.creator);
 

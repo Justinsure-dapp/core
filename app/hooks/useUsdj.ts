@@ -1,37 +1,38 @@
-import { useAccount, useContractRead, useContractWrite } from "wagmi";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import contractDefinitions from "../contracts";
 import { UINT256_MAX } from "../config";
+import { zeroAddress } from "viem";
 
-const useUsdj = (props: { amount: number }) => {
+type UsdjHook = {
+  allowance: bigint | undefined;
+  approve: () => Promise<void>;
+};
+
+const useUsdjHook = () => {
   const { address: stakerAddress } = useAccount();
-  if (!stakerAddress) return null;
+  const { data: hash, writeContractAsync } = useWriteContract();
 
-  const { data: allowance } = useContractRead({
+  const { data: allowance } = useReadContract({
     abi: contractDefinitions.usdj.abi,
     address: contractDefinitions.usdj.address,
     functionName: "allowance",
-    args: [stakerAddress, contractDefinitions.surityInterface.address],
+    args: [stakerAddress || zeroAddress, contractDefinitions.surityInterface.address],
   });
+  
+  async function approve() {
+    const result = await writeContractAsync({
+      ...contractDefinitions.usdj,
+      functionName: "approve",
+      args: [contractDefinitions.surityInterface.address, UINT256_MAX],
+    });
 
-  const { write, isSuccess, error } = useContractWrite({
-    ...contractDefinitions.usdj,
-    functionName: "approve",
-    args: [contractDefinitions.surityInterface.address, UINT256_MAX],
-  });
-
-  let isAllowed = false;
-
-  if (allowance && Number(allowance) >= props.amount) {
-    isAllowed = true;
+    console.log(result);
   }
 
   return {
     allowance,
-    isAllowed,
-    approve: write,
-    isSuccess: isSuccess,
-    error,
-  };
+    approve,
+  }
 };
 
-export default useUsdj;
+export default useUsdjHook;

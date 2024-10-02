@@ -3,24 +3,23 @@ import StakingStats from "./components/StakingStats";
 import SurityInfo from "./components/SurityInfo";
 import { twMerge } from "tailwind-merge";
 import SurityBranding from "./components/SurityBranding";
-import { useAccount, useContractRead } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import contractDefinitions from "../../contracts";
-import { isAddress } from "viem";
+import { isAddress, zeroAddress } from "viem";
 
 export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
   const { address } = useAccount();
 
-  const fetchedBalance = useContractRead({
-    ...contractDefinitions.sureCoin,
-    functionName: "balanceOf",
-    args: [address || "0x5071437be4b13e62522D2b48E9514FF36f68641d"],
+  const { data: earned } = useReadContract({
+    ...contractDefinitions.surecoin,
+    functionName: "totalSupply",
   });
 
-  const fetchedEarned = useContractRead({
-    ...contractDefinitions.sureCoin,
+  const fetchedEarned = useReadContract({
+    ...contractDefinitions.surecoin,
     functionName: "earned",
-    args: [address || "0x5071437be4b13e62522D2b48E9514FF36f68641d"],
+    args: [address || zeroAddress],
   });
 
   return (
@@ -42,7 +41,7 @@ export default function StatisticsSidebar() {
               <div className="flex gap-2 items-center">
                 <h2 className="text-xs">Wallet:</h2>
                 <p className="font-mono text-secondary text-2xl font-medium">
-                  {fetchedBalance.data ? fetchedBalance.data.toString() : "0"}
+                  {/* {balance ? balance.toString() : "0"} */}
                 </p>
               </div>
               <div className="flex gap-2 items-center">

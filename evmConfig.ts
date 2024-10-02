@@ -15,7 +15,7 @@ const primaryChain = defineChain({
 });
 
 const surityInterface = {
-  address: "0x275b9c2748529e1e07320f0b3c76f7c904633a80" as const,
+  address: "0x795d40643b3dd96f4b2415a07ee6c3a483d32c52" as const,
   abi: [
     {
       inputs: [{ internalType: "address", name: "usdToken_", type: "address" }],
@@ -905,7 +905,7 @@ const vault = {
   ] as const,
 };
 const usdj = {
-  address: "0xc87f65cf7ffd3e213c542c3a261d9abd9154937d" as const,
+  address: "0x198d01a6fea6b78f8bfb20cb661831c20b0f2b60" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
