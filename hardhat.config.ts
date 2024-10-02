@@ -11,9 +11,10 @@ const config: HardhatUserConfig = {
       chainId: 1029,
       accounts: [`${process.env.OWNER_PVT_KEY}`],
     },
-    fxt: {
-      url: "https://rpc.testnet.frax.com",
-      chainId: 2522,
+    opt: {
+      url: "https://sepolia.optimism.io",
+      chainId: 11155420,
+      mining: { interval: 60_000 },
       accounts: [`${process.env.OWNER_PVT_KEY}`],
     },
   },

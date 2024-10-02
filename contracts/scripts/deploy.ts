@@ -1,5 +1,5 @@
 import hre from "hardhat";
-import { Address } from "viem";
+import { Address, zeroAddress } from "viem";
 import fs from "fs";
 
 // const donau = defineChain({
@@ -17,40 +17,49 @@ import fs from "fs";
 async function main() {
   const [deployer] = await hre.viem.getWalletClients();
   const publicClient = await hre.viem.getPublicClient();
+  let tx: Address = zeroAddress;
 
   async function latestNonce() {
-    return await publicClient.getTransactionCount({
-      address: deployer.account.address,
-    });
+    return (
+      (await publicClient.getTransactionCount({
+        address: deployer.account.address,
+      })) - 1
+    );
   }
 
   const usdj = await hre.viem.deployContract("USDJ");
 
   const usdjDecimals = BigInt(Math.pow(10, await usdj.read.decimals()));
-  
-  await usdj.write.transfer(
+
+  tx = await usdj.write.transfer(
     ["0x5dE36d74D5A8497a18Ed5B495A870e583b83B7da", 100_000_000_000n], // Riya
     {
       nonce: await latestNonce(),
     },
   );
-  await usdj.write.transfer(
+  await publicClient.waitForTransactionReceipt({ hash: tx });
+
+  tx = await usdj.write.transfer(
     ["0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0", 100_000_000_000n], // Kartik
     {
       nonce: await latestNonce(),
     },
   );
+  await publicClient.waitForTransactionReceipt({ hash: tx });
 
   const periphery = await hre.viem.deployContract("SurityInterface", [
     usdj.address,
   ]);
 
-  await periphery.write.updateStakingRewardRate([10_000n * usdjDecimals], {
+  tx = await periphery.write.updateStakingRewardRate([10_000n * usdjDecimals], {
     nonce: await latestNonce(),
   });
-  await periphery.write.setMinimumInitialStake([10n * usdjDecimals], {
+  await publicClient.waitForTransactionReceipt({ hash: tx });
+
+  tx = await periphery.write.setMinimumInitialStake([10n * usdjDecimals], {
     nonce: await latestNonce(),
   });
+  await publicClient.waitForTransactionReceipt({ hash: tx });
 
   const vaultAddress = (await periphery.read.vault()) as Address;
   const surecoinAddress = (await periphery.read.surecoin()) as Address;
