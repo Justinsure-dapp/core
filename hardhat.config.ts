@@ -8,13 +8,19 @@ const config: HardhatUserConfig = {
   networks: {
     testnet: {
       url: "https://pre-rpc.bt.io",
-      chainId: 1029,
+      chainId: 1028,
       accounts: [`${process.env.OWNER_PVT_KEY}`],
     },
-  },paths:{
+    opt: {
+      url: "https://sepolia.optimism.io",
+      chainId: 11155420,
+      accounts: [`${process.env.OWNER_PVT_KEY}`],
+    },
+  },
+  paths: {
     root: "./contracts",
-    sources: "."
-  }
+    sources: ".",
+  },
 };
 
 export default config;

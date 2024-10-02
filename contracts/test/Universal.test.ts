@@ -11,6 +11,7 @@ describe("Universal", function () {
 
     const usdj = await hre.viem.deployContract("USDJ");
     const usdjDecimals = BigInt(Math.pow(10, await usdj.read.decimals()));
+
     usdj.write.transfer([acc1.account.address, 100_000n * usdjDecimals]);
     usdj.write.transfer([acc2.account.address, 100_000n * usdjDecimals]);
 
