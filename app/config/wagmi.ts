@@ -1,5 +1,4 @@
-import { createConfig } from "wagmi";
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import evmConfig from "../../evmConfig";
 
 const wagmiConfig = getDefaultConfig({
