@@ -60,11 +60,11 @@ export default function NewPolicyPage() {
           navigate("/dashboard");
         }
       } catch (error: any) {
+        setLoading(false);
         console.error(error);
         if (error.response.data.message) {
           alert(error.response.data.message);
         }
-        setLoading(false);
       }
     };
 

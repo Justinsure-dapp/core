@@ -40,9 +40,9 @@ const router = createBrowserRouter(
         </Route>
 
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/faucet" element={<FaucetPage />} />
       </Route>
 
-      <Route path="/faucet" element={<FaucetPage />} />
     </>,
   ),
 );

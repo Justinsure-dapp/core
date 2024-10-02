@@ -14,7 +14,7 @@ export default function SettingsPage() {
             <p>Do you wish to become a marketer on JustInsure?</p>
             <Link
               to="/new-marketer"
-              className="text-primary underline hover:no-underline"
+              className="text-secondary underline hover:no-underline"
             >
               Click here
             </Link>

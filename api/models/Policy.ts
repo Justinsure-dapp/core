@@ -71,6 +71,10 @@ const policySchema = new Schema<PolicyData>(
       type: String,
       required: true,
     },
+    stakeTokenSymbol: {
+      type: String,
+      required: true,
+    },
     policyHolders: {
       type: [String],
       default: [],
