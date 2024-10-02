@@ -4,7 +4,6 @@ export default function TestnetBTT() {
     const [loading, setLoading] = useState(false)
     return (
         <div className="flex flex-col items-center gap-y-4">
-            <h2 className="font-medium text-lg">Testnet BTTC</h2>
             <div className="bg-foreground p-8 rounded-[2rem] flex flex-col items-center gap-y-2">
                 <h3>Enter you wallet address</h3>
                 <p className="text-sm text-slate-400">
