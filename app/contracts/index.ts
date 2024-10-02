@@ -1,19 +1,7 @@
-import surity from "./surityInterface";
-import usdj from "./usdj";
-import sureCoin from "./sureCoin";
-import stakeToken from "./stakeToken";
-import vault from "./vault";
-import surityInterface from "./surityInterface";
-import insuranceController from "./insuranceController";
+import evmConfig from "../../evmConfig";
 
-const contractDefinitions = {
-  surity,
-  usdj,
-  sureCoin,
-  stakeToken,
-  vault,
-  surityInterface,
-  insuranceController,
-} as const;
+const { primaryChain, ...contracts } = evmConfig;
+
+const contractDefinitions = contracts ;
 
 export default contractDefinitions;

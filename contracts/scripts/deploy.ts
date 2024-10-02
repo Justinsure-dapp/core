@@ -51,10 +51,10 @@ async function main() {
 
 const primaryChain = defineChain(${JSON.stringify(deployer.chain)})
 
-const surityInterface = {adddress : "${periphery.address}", abi : ${JSON.stringify(periphery.abi)}}
-const surecoin = {adddress : "${surecoin.address}", abi : ${JSON.stringify(surecoin.abi)}}
-const vault = {adddress : "${vault.address}", abi : ${JSON.stringify(vault.abi)}}
-const usdj = {adddress : "${usdj.address}", abi : ${JSON.stringify(usdj.abi)}}
+const surityInterface = {adddress : "${periphery.address}" as const, abi : ${JSON.stringify(periphery.abi)} as const}
+const surecoin = {adddress : "${surecoin.address}" as const, abi : ${JSON.stringify(surecoin.abi)} as const}
+const vault = {adddress : "${vault.address}" as const, abi : ${JSON.stringify(vault.abi)} as const}
+const usdj = {adddress : "${usdj.address}" as const, abi : ${JSON.stringify(usdj.abi)} as const}
 
 export default {primaryChain, surityInterface, surecoin, vault, usdj}
 `;
