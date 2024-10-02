@@ -51,7 +51,7 @@ export default function ArgsTypeDefine(props: {
               type="button"
               onClick={() =>
                 modal.show(
-                  <DescriptionModal args={res} setter={setRes} arg={arg} />
+                  <DescriptionModal args={res} setter={setRes} arg={arg} />,
                 )
               }
             >
@@ -64,7 +64,7 @@ export default function ArgsTypeDefine(props: {
               onChange={(e) => {
                 const newValue = e.currentTarget.value;
                 const newName = possibleTypes.find(
-                  (a) => a.value === newValue
+                  (a) => a.value === newValue,
                 )?.name;
                 const newRes = [...res];
                 const prev = newRes.find((a) => a.name === arg);

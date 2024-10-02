@@ -44,7 +44,7 @@ describe("Universal", function () {
 
     const controller = await hre.viem.getContractAt(
       "InsuranceController",
-      logs[0].args.controller
+      logs[0].args.controller,
     );
 
     return {

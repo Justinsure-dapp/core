@@ -5,7 +5,7 @@ import { serverUrl } from "../config";
 
 export default function useApiCall<T extends ApiEndpoint>(
   uri: T,
-  config?: ApiCallConfig<T>
+  config?: ApiCallConfig<T>,
 ) {
   const [data, setData] = useState<ApiResponse<T>>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,7 +26,8 @@ export default function useApiCall<T extends ApiEndpoint>(
       setData(response.data);
     } catch (err: any) {
       setError(
-        err.message || "There was a proplem while communicating with the server"
+        err.message ||
+          "There was a proplem while communicating with the server",
       );
     } finally {
       setLoading(false);

@@ -95,7 +95,7 @@ export default function NewMarketerPage() {
           <div
             className={twMerge(
               "bg-secondary/20 rounded-xl basis-1/4 flex items-center justify-center aspect-square mobile:basis-1/2",
-              !logo && "animate-pulse"
+              !logo && "animate-pulse",
             )}
           >
             <img

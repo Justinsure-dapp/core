@@ -17,5 +17,9 @@
     "jsx": "react-jsx"
   },
   "include": ["app"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["contracts"],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.hardhat.json" }
+  ]
 }

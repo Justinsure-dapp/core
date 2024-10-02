@@ -207,7 +207,7 @@ export default function NewPolicyPage() {
                             defaultValue={premiumFunc}
                             setter={setPremiumFunc}
                             argsSetter={setPremiumFuncArgs}
-                          />
+                          />,
                         );
                       }}
                     />
@@ -226,7 +226,7 @@ export default function NewPolicyPage() {
                       required
                       className={twMerge(
                         twInputStyle,
-                        "h-[25vh] w-full resize-none scrollbar-primary text-sm"
+                        "h-[25vh] w-full resize-none scrollbar-primary text-sm",
                       )}
                       placeholder="Description"
                       name="premiumFuncDescription"
@@ -271,7 +271,7 @@ export default function NewPolicyPage() {
                             defaultValue={claimFunc}
                             setter={setClaimFunc}
                             argsSetter={setClaimFuncArgs}
-                          />
+                          />,
                         );
                       }}
                     />
@@ -290,7 +290,7 @@ export default function NewPolicyPage() {
                       required
                       className={twMerge(
                         twInputStyle,
-                        "h-[25vh] w-full resize-none scrollbar-primary text-sm"
+                        "h-[25vh] w-full resize-none scrollbar-primary text-sm",
                       )}
                       placeholder="Description"
                       name="claimFuncDescription"

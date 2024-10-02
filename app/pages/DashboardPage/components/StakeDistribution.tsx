@@ -21,7 +21,7 @@ export default function StakeDistribution(props: {
               <div
                 className={twMerge(
                   "bg-front/5 border border-front/10 w-full py-2 px-4 rounded-xl flex justify-between items-center",
-                  `hover:cursor-pointer hover:scale-[102%] duration-150 ease-in`
+                  `hover:cursor-pointer hover:scale-[102%] duration-150 ease-in`,
                 )}
               >
                 <h1 className="">{label}</h1>

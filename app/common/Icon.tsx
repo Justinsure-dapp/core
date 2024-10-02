@@ -19,7 +19,7 @@ export default function Icon(props: IconProps) {
         className={twMerge(
           "fill-current w-[1em] h-[1em]",
           props.className,
-          props.stroke && "stroke-[0.83em] stroke-front text-transparent"
+          props.stroke && "stroke-[0.83em] stroke-front text-transparent",
         )}
         style={{
           ...props.style,

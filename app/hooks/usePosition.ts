@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getCoords } from "../utils";
 
 export default function usePosition(
-  element: React.MutableRefObject<HTMLElement>
+  element: React.MutableRefObject<HTMLElement>,
 ) {
   const [pos, setPos] = useState<{ top: number; left: number }>({
     top: 0,

@@ -59,7 +59,7 @@ export default function PolicyCard(props: { policy: Policy }) {
                 <button
                   onClick={() =>
                     modal.show(
-                      <StakeModal policy={props.policy} initialStake={true} />
+                      <StakeModal policy={props.policy} initialStake={true} />,
                     )
                   }
                   className="transition-all border hover:bg-zinc-900 border-zinc-600 p-2 text-back rounded-lg font-medium"

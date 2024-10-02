@@ -42,7 +42,7 @@ export default function Header(props: { policy: Policy }) {
               <button
                 onClick={() =>
                   modal.show(
-                    <StakeModal policy={policy} initialStake={false} />
+                    <StakeModal policy={policy} initialStake={false} />,
                   )
                 }
                 className="border-border hover:bg-hoverbg border h-max px-6 py-2 rounded-lg font-semibold ease-out transition-all"

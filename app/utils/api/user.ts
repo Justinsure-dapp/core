@@ -4,7 +4,7 @@ import { User } from "../../types";
 const user = {
   async check(address: string) {
     const response = await client.get<{ exists: boolean }>(
-      `/user/check/${address}`
+      `/user/check/${address}`,
     );
     return response.data;
   },
@@ -21,7 +21,7 @@ const user = {
       "/user/request-nonce",
       {
         address,
-      }
+      },
     );
 
     const data = response.data;
@@ -47,7 +47,7 @@ const user = {
   async becomeMarketer(
     data: { name: string; imageUrl: string },
     sign: string,
-    address: string
+    address: string,
   ) {
     const response = await client.post("/user/become-marketer", {
       data,

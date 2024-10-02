@@ -65,7 +65,7 @@ export default function StatisticsSidebar() {
       <div
         className={twMerge(
           "flex flex-col overflow-y-clip",
-          hidden ? "h-full" : ""
+          hidden ? "h-full" : "",
         )}
       >
         <button

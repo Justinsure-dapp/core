@@ -176,7 +176,8 @@ function MappedOptions(props: { options: Array<Option> }) {
           onChange={(e) => {
             options.forEach(
               (o, i) =>
-                (o.value || o.title) === e.currentTarget.value && setSelected(i)
+                (o.value || o.title) === e.currentTarget.value &&
+                setSelected(i),
             );
           }}
         >

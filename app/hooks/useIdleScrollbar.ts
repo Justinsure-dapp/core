@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 export default function useIdleScrollbar(
   ref: React.MutableRefObject<HTMLElement>,
-  options?: { timeout?: number; idleType?: "hidden" | "muted" }
+  options?: { timeout?: number; idleType?: "hidden" | "muted" },
 ) {
   const timeout = useRef<NodeJS.Timeout>();
 

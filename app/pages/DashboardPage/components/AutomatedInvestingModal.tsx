@@ -35,7 +35,7 @@ export default function AutomatedInvestingModal() {
 
   const removeTriggerEvent = (indexToRemove: number) => {
     const filteredOptions = mappedOptions.filter(
-      (option, index) => index + 1 !== indexToRemove
+      (option, index) => index + 1 !== indexToRemove,
     );
     setMappedOptions(filteredOptions);
   };
@@ -98,7 +98,7 @@ export function MappedOptions(props: {
               options.forEach(
                 (o, i) =>
                   (o.value || o.title) === e.currentTarget.value &&
-                  setSelected(i)
+                  setSelected(i),
               );
             }}
           >

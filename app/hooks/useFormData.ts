@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 export default function useFormData(
   ref: React.MutableRefObject<HTMLFormElement>,
-  callback?: (data: Record<string, string>) => void
+  callback?: (data: Record<string, string>) => void,
 ) {
   const flag = useRef(false);
 

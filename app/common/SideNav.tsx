@@ -85,7 +85,7 @@ export default function Navbar() {
                   isActive && "bg-primary text-zinc-100 pointer-events-none",
                   !isActive && "hover:outline hover:outline-[1.5px]",
                   isPending && "animate-pulse pointer-events-none",
-                  item.marketersOnly && (user?.marketer ? "" : "hidden")
+                  item.marketersOnly && (user?.marketer ? "" : "hidden"),
                 )
               }
             >
@@ -152,7 +152,7 @@ export default function Navbar() {
                     !isActive &&
                       "hover:outline hover:outline-[1px] outline-zinc-500",
                     isPending && "animate-pulse pointer-events-none",
-                    item.marketersOnly && (user?.marketer ? "" : "hidden")
+                    item.marketersOnly && (user?.marketer ? "" : "hidden"),
                   )
                 }
               >

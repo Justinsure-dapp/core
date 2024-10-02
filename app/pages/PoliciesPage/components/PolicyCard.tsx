@@ -42,7 +42,7 @@ export default function PolicyCard(props: {
       to={`/policies/${props.policy.address}`}
       className={twMerge(
         "py-6 p-4 bg-mute/5 rounded-md relative group border border-border",
-        props.className
+        props.className,
       )}
     >
       <figure

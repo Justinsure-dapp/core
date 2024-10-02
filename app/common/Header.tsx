@@ -3,12 +3,10 @@ import ConnectWallet from "./ConnectWallet";
 import Icon from "./Icon";
 import { useNavigate, useLocation } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [parent] = useAutoAnimate();
 
   const [title, setTitle] = useState("");
 
@@ -31,7 +29,7 @@ export default function Header() {
         <button
           className={twMerge(
             "group duration-300 pr-2",
-            history.current.length == 0 && "w-0 scale-0 pr-0"
+            history.current.length == 0 && "w-0 scale-0 pr-0",
           )}
           onClick={() => {
             history.current.pop();
@@ -50,7 +48,6 @@ export default function Header() {
       <div className="flex items-center gap-x-4 mobile:-translate-x-12">
         <ConnectWallet />
       </div>
-      {/*className="text-sm max-h-10 py-2 px-6 w-max h-max" />*/}
     </header>
   );
 }

@@ -15,7 +15,7 @@ export default function PolicyPage() {
   if (!policyAddress) return <Navigate to="/policies" />;
   const { data: policy } = useApiResponse(
     api.policy.getByAddress,
-    policyAddress
+    policyAddress,
   );
 
   return (

@@ -14,7 +14,7 @@ export function generateRandomString(length: number, seed?: string) {
 
 export function clampValue(
   value: number,
-  { min, max }: { min?: number; max?: number }
+  { min, max }: { min?: number; max?: number },
 ) {
   let ans = value;
   if (max && min && max < min) {
@@ -33,7 +33,7 @@ export function linearMap(
   value: number,
   mapFrom: { from: number; to: number },
   mapTo: { from: number; to: number },
-  clamp = true
+  clamp = true,
 ) {
   const slope = (mapTo.to - mapTo.from) / (mapFrom.to - mapFrom.from);
   const ans = slope * (value - mapFrom.from) + mapTo.from;
@@ -96,7 +96,7 @@ export function getCoords(elem: HTMLElement) {
 export function mapValueToColor(
   value: number,
   ranges: number[],
-  colors: number[][]
+  colors: number[][],
 ) {
   value = Math.min(Math.max(value, ranges[0]), ranges[ranges.length - 1]);
   let index = 0;
@@ -145,7 +145,7 @@ export function getRandomFromArray<T>(array: Array<T>): T {
 export function linearMapColor(
   x: number,
   from: { from: number; to: number },
-  to: { from: RGBColor; to: RGBColor }
+  to: { from: RGBColor; to: RGBColor },
 ): RGBColor {
   const percent = (x - from.from) / (from.to - from.from);
   const result: RGBColor = [0, 0, 0];
@@ -214,7 +214,7 @@ export function formatEvmAddress(address: string) {
 // generate shades for chart
 export function generateShades(
   primaryColor: string,
-  numberOfShades: number
+  numberOfShades: number,
 ): string[] {
   // check if primaryColor is in rgb format
   if (!primaryColor.startsWith("rgb(")) {
@@ -231,7 +231,7 @@ export function generateShades(
   for (let i = 0; i < numberOfShades; i++) {
     const alpha = (1 - i / numberOfShades).toFixed(2);
     shades.push(
-      `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha})`
+      `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha})`,
     );
   }
 

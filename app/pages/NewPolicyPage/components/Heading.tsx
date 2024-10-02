@@ -12,7 +12,7 @@ export default function Heading(props: {
       <div
         className={twMerge(
           "relative font-bold w-max pb-1 flex gap-x-2",
-          props.className
+          props.className,
         )}
       >
         {props.children}

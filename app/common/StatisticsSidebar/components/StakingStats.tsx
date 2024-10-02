@@ -46,8 +46,8 @@ export default function StakingStats() {
                   linearMapColor(
                     stake.rate,
                     { from: 0, to: 1 },
-                    { from: [255, 0, 0], to: [0, 255, 0] }
-                  )
+                    { from: [255, 0, 0], to: [0, 255, 0] },
+                  ),
                 ),
               }}
             >

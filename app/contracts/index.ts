@@ -2,6 +2,6 @@ import evmConfig from "../../evmConfig";
 
 const { primaryChain, ...contracts } = evmConfig;
 
-const contractDefinitions = contracts ;
+const contractDefinitions = contracts;
 
 export default contractDefinitions;

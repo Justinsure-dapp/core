@@ -8,12 +8,12 @@ const config: HardhatUserConfig = {
   networks: {
     testnet: {
       url: "https://pre-rpc.bt.io",
-      chainId: 1028,
+      chainId: 1029,
       accounts: [`${process.env.OWNER_PVT_KEY}`],
     },
-    opt: {
-      url: "https://sepolia.optimism.io",
-      chainId: 11155420,
+    fxt: {
+      url: "https://rpc.testnet.frax.com",
+      chainId: 2522,
       accounts: [`${process.env.OWNER_PVT_KEY}`],
     },
   },

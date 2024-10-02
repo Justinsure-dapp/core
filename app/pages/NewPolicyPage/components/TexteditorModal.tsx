@@ -13,7 +13,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
   const editorRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
   function extractPythonFunction(
-    text: string
+    text: string,
   ): { functionName: string; argumens: string[]; returnType: string } | null {
     const pythonFunctionRegex =
       /def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)\s*:/;

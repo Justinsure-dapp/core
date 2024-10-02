@@ -27,7 +27,7 @@ function createApi() {
     function (err) {
       // If Request error
       return Promise.reject(err);
-    }
+    },
   );
 
   // Response Middleware
@@ -39,7 +39,7 @@ function createApi() {
     function (error) {
       throw error;
       //   return Promise.reject(errMsg.slice(1, -1));
-    }
+    },
   );
 
   return client;

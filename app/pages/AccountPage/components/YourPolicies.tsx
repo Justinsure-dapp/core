@@ -60,7 +60,7 @@ export default function YourPolicies() {
                             Policy expired{" "}
                             <span className="text-red-500">
                               {closestTimeUnit(
-                                Date.now() - policy.duration - policy.boughtAt
+                                Date.now() - policy.duration - policy.boughtAt,
                               )}{" "}
                             </span>
                             ago{" "}
@@ -82,7 +82,7 @@ export default function YourPolicies() {
                             <p className="text-sm mt-1">
                               Time Left:{" "}
                               {closestTimeUnit(
-                                policy.boughtAt + policy.duration - Date.now()
+                                policy.boughtAt + policy.duration - Date.now(),
                               )}{" "}
                             </p>
                           </div>
@@ -92,7 +92,7 @@ export default function YourPolicies() {
                   </div>
                 </div>
               </div>
-            )
+            ),
         )}
         {policies.length > 2 && (
           <button

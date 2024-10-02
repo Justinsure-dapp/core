@@ -156,7 +156,7 @@ export default function StakeModal(props: {
       <button
         className={twMerge(
           "mt-6 text-primary border-primary font-bold border duration-300 ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
-          loading ? "animate-pulse" : ""
+          loading ? "animate-pulse" : "",
         )}
         onClick={!props.initialStake ? registerStake : setInitialStake}
         disabled={loading}

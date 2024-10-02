@@ -28,7 +28,7 @@ export default function BuyPolicyPage() {
 
   const { data: policyData } = useApiResponse(
     api.policy.getByAddress,
-    policyAddress ? policyAddress : ""
+    policyAddress ? policyAddress : "",
   );
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function BuyPolicyPage() {
       checkRange(
         policyData?.minimumDuration,
         policyData?.maximumDuration,
-        duration
+        duration,
       )
     ) {
       setIsDurationInRange(true);
@@ -46,7 +46,7 @@ export default function BuyPolicyPage() {
       checkRange(
         policyData?.minimumDuration,
         policyData?.maximumDuration,
-        duration
+        duration,
       );
       setIsDurationInRange(false);
     }
@@ -81,7 +81,7 @@ export default function BuyPolicyPage() {
               className={twMerge(
                 twInputStyle,
                 "w-full",
-                isClaimInRange ? "" : "border-red-500 "
+                isClaimInRange ? "" : "border-red-500 ",
               )}
               placeholder="Claim value"
               name="Claim Value"
@@ -91,7 +91,7 @@ export default function BuyPolicyPage() {
                   const isClaimInRange = checkRange(
                     policyData?.minimumClaim,
                     policyData?.maximumClaim,
-                    parseFloat(e.currentTarget.value)
+                    parseFloat(e.currentTarget.value),
                   );
                   setClaimValue(e.target.value);
                   setIsClaimInRange(isClaimInRange);
@@ -116,7 +116,7 @@ export default function BuyPolicyPage() {
               className={twMerge(
                 "w-1/2",
                 twInputStyle,
-                isDurationInRange ? "" : "border-red-500"
+                isDurationInRange ? "" : "border-red-500",
               )}
               name="Duration"
               defaultValue={1000 * 60 * 60 * 24}
@@ -126,7 +126,7 @@ export default function BuyPolicyPage() {
               {!isDurationInRange &&
                 policyData &&
                 `Duration value must be between ${closestTimeUnit(
-                  policyData?.minimumDuration
+                  policyData?.minimumDuration,
                 )} and ${closestTimeUnit(policyData?.maximumDuration)}`}
             </p>
           </div>

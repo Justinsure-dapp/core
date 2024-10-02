@@ -22,7 +22,7 @@ export default function PolicyHolders() {
       }
     })
     .filter((policyHolder) =>
-      policyHolder.address.toLowerCase().includes(searchText.toLowerCase())
+      policyHolder.address.toLowerCase().includes(searchText.toLowerCase()),
     );
 
   const handleFilterChange = (e: any) => {

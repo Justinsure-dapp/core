@@ -11,7 +11,7 @@ export default function DashboardPage() {
 
   const { data: policies, loading } = useApiResponse(
     api.policy.fetchAllPoliciesByCreator,
-    address?.toString() || ""
+    address?.toString() || "",
   );
 
   return (
@@ -46,7 +46,7 @@ export default function DashboardPage() {
               ?.sort(
                 (a, b) =>
                   new Date(b.createdAt).getTime() -
-                  new Date(a.createdAt).getTime()
+                  new Date(a.createdAt).getTime(),
               )
               .map((policy, i) => <PolicyCard key={i} policy={policy} />)}
           </div>

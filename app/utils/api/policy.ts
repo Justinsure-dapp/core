@@ -42,7 +42,7 @@ const policy = {
       "/policy/new/request-nonce",
       {
         address,
-      }
+      },
     );
 
     const data = response.data;
@@ -51,7 +51,7 @@ const policy = {
 
   async getByAddress(address: string) {
     const response = await client.get<{ policy: Policy }>(
-      `/policy/get/${address}`
+      `/policy/get/${address}`,
     );
 
     const data = response.data;
@@ -69,7 +69,7 @@ const policy = {
 
   async fetchAllPolicies() {
     const response = await client.get<{ policies: Policy[] }>(
-      `/policy/fetch/all`
+      `/policy/fetch/all`,
     );
 
     const data = response.data;
@@ -78,7 +78,7 @@ const policy = {
 
   async fetchAllPoliciesByCreator(address: string) {
     const response = await client.get<{ policies: Policy[] }>(
-      `/policy/fetch/${address}`
+      `/policy/fetch/${address}`,
     );
 
     const data = response.data;
