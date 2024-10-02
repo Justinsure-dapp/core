@@ -82,16 +82,24 @@ router.post("/new", async (req, res) => {
     const tokenSymbol = generateTokenSymbol(data.name);
     const blockNumberBeforeTx = await evm.client.getBlockNumber();
 
-    const txHash = await surityInterface.write.createInsurancePolicy([
-      creatorAddress,
-      cid,
-      data.name,
-      tokenSymbol,
-      BigInt(data.minimumDuration),
-      BigInt(data.maximumDuration),
-      BigInt(data.minimumClaim),
-      BigInt(data.maximumClaim),
-    ]);
+    const txHash = await surityInterface.write.createInsurancePolicy(
+      [
+        creatorAddress,
+        cid,
+        data.name,
+        tokenSymbol,
+        BigInt(data.minimumDuration),
+        BigInt(data.maximumDuration),
+        BigInt(data.minimumClaim),
+        BigInt(data.maximumClaim),
+      ],
+      {
+        nonce:
+          (await evm.client.getTransactionCount({
+            address: evm.client.account.address,
+          })) + 1,
+      },
+    );
 
     const receipt = await evm.client.waitForTransactionReceipt({
       hash: txHash,
@@ -171,31 +179,34 @@ router.get("/get/:address", async (req, res) => {
   const { address } = req.params;
   const policy = await Policy.findOne({ address: address });
 
-  return res.status(200).send({ policy });
+  res.status(200).send({ policy });
+  return;
 });
+
+router.get("/fetch/staked", async (req, res) => {
+  const user = req.query.user;
+
+  try {
+    const policies = await Policy.find({ 'stakers': { $elemMatch: { address: user } } });
+
+    res.status(200).send({ policies });
+    return;
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ message: error?.message });
+    return;
+  }
+})
 
 router.get("/fetch/all", async (req, res) => {
   try {
     const policies = await Policy.find();
-
-    // const policyData = [];
-    // fetch files for each CID from pinata
-    // for (const policy of policies) {
-    //   const cid = policy.cid;
-    //   const file = await pinata.gateways.get(cid);
-    //   const IPFSJSON = await blobToJSON(file.data as Blob);
-    //   policyData.push({
-    //     ...IPFSJSON,
-    //     address: policy.address,
-    //     tags: policy.tags,
-    //     rating: policy.rating,
-    //   });
-    // }
-
-    return res.status(200).send({ policies });
+    res.status(200).send({ policies });
+    return;
   } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: error?.message });
+    res.status(500).json({ message: error?.message });
+    return;
   }
 });
 
@@ -204,10 +215,12 @@ router.get("/fetch/:address", async (req, res) => {
 
   try {
     const policies = await Policy.find({ creator });
-    return res.status(200).send({ policies });
+    res.status(200).send({ policies });
+    return;
   } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: error?.message });
+    res.status(500).json({ message: error?.message });
+    return;
   }
 });
 
@@ -242,10 +255,12 @@ print(${funcName}(${args.map((a) => a.value).join(",")}))
 
     executor.executionQueue.push(key);
 
-    return res.send({ key: key });
+    res.send({ key: key });
+    return;
   } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: error?.message });
+    res.status(500).json({ message: error?.message });
+    return;
   }
 });
 
@@ -255,7 +270,7 @@ router.post("/update/stakers/:address", async (req, res) => {
 
   try {
     const policy = await Policy.findOne({
-      address
+      address,
     });
 
     if (!policy) {

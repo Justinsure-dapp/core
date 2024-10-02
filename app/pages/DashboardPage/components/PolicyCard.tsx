@@ -32,28 +32,6 @@ export default function PolicyCard(props: { policy: Policy }) {
     functionName: "totalStake"
   });
 
-  // const { data: isPaused } = useContractRead({
-  //   abi: contractDefinitions.insuranceController.abi,
-  //   address: policyAddress,
-  //   functionName: "paused",
-  // });
-
-  // const { data: totalStake } = useContractRead({
-  //   ...contractDefinitions.insuranceController,
-  //   address: isAddress(props.policy.address) ? props.policy.address : undefined,
-  //   functionName: "totalStake",
-  // });
-
-  // const { data } = useContractRead({
-  //   ...contractDefinitions.stakeToken,
-  //   address: isAddress(props.policy.stakeToken)
-  //     ? props.policy.stakeToken
-  //     : undefined,
-  //   functionName: "totalSupply",
-  // });
-
-  // const { data: creator } = useApiResponse(api.user.get, props.policy.creator);
-
   return (
     <div
       ref={parent}
@@ -78,12 +56,7 @@ export default function PolicyCard(props: { policy: Policy }) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-4">
-                <div className="text-green-500">POLICY ACTIVE:</div>
-                <div className="transition-all border border-zinc-600 p-2 text-back rounded-lg font-medium">
-                  Total Stake: {totalStake?.toString()} FUSDT
-                </div>
-              </div>
+              <div className="text-green-500">POLICY ACTIVE</div>
             )}
           </div>
         </div>
@@ -93,7 +66,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
             <p className="text-front/80 flex items-center text-sm">
-              Stake Holders &#160;{" "}
+              {props.policy.holders?.length} Policy Holders
             </p>
           </div>
           <div className="p-2 bg-green-500/20 rounded-xl">
@@ -102,7 +75,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
         <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
-            <p className="text-front/80 text-sm">Money in Pool &#160; </p>
+            <p className="text-front/80 text-sm">{totalStake?.toString()} USDJ Staked</p>
           </div>
           <div className="p-2 bg-front/20 rounded-xl">
             <img src="https://img.icons8.com/pulsar-color/32/money-bag.png" />
@@ -122,7 +95,7 @@ export default function PolicyCard(props: { policy: Policy }) {
           {/* <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
               Recent Activity
             </button> */}
-          <PolicyHolders />
+          <PolicyHolders holders={props.policy.holders} />
           {/* <StakeDistribution data={props.policy.data} /> */}
           <AutomatedInvestment />
         </div>

@@ -93,6 +93,18 @@ const policy = {
 
     return response.data;
   },
+
+  async fetchPoliciesStakedIn(user: string) {
+    const response = await client.get<{ policies: Policy[] }>(
+      `/policy/fetch/staked`, {
+        params: {
+          user,
+        },
+      }
+    );
+
+    return response.data;
+  },
 };
 
 export default policy;

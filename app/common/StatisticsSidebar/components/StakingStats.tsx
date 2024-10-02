@@ -1,12 +1,21 @@
 import React, { useRef } from "react";
 import { linearMapColor, rgbToHex } from "../../../utils";
 import useIdleScrollbar from "../../../hooks/useIdleScrollbar";
+import api from "../../../utils/api";
+import { useAccount } from "wagmi";
+import useApiResponse from "../../../hooks/useApiResponse";
+import useWeb3 from "../../../contexts/web3context";
 
 export default function StakingStats() {
   const containerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const { address } = useAccount();
+  const { policies } = useWeb3();
+
+  const policiesStakedIn = policies?.filter((policy) => {
+    return policy.stakers?.some((s) => s.address === address);
+  });
 
   useIdleScrollbar(containerRef);
-
   const totalStake = 500.45;
 
   return (
@@ -21,39 +30,40 @@ export default function StakingStats() {
         </p>
       </div>
 
-      {stakes.map((stake, key) => (
-        <div key={key} className="border border-border p-1 rounded-lg">
+      {policiesStakedIn?.map((policy, key) => (
+        <div key={key} className="border border-border p-2 rounded-lg">
           <div className="flex gap-x-3 items-center">
             <img
-              src={stake.img}
+              src="/logo.png"
               alt="bf"
               className="aspect-square rounded-lg h-12 bg-foreground"
             />
-
             <div className="flex flex-col gap-y-1">
               <h1 className="font-semibold text-sm max-w-[12vw] truncate">
-                {stake.name}
+                {policy.name}
               </h1>
-              <p className="text-xs">Staked : {stake.amount}</p>
+              <p className="text-xs">Staked : {policy.stakers?.filter(
+                (s) => s.address === address,
+              )[0]?.amount.toFixed(2)}</p>
             </div>
           </div>
 
-          <div className="flex flex-col gap-y-1 pt-2 text-xs">
+          {/* <div className="flex flex-col gap-y-1 pt-2 text-xs">
             <p
               className="font-medium"
               style={{
                 color: rgbToHex(
                   linearMapColor(
-                    stake.rate,
+                    policy.maximumClaim,
                     { from: 0, to: 1 },
                     { from: [255, 0, 0], to: [0, 255, 0] },
                   ),
                 ),
               }}
             >
-              Exchange : {stake.rate}
+              Rating : {policy.rating}
             </p>
-          </div>
+          </div> */}
         </div>
       ))}
     </div>

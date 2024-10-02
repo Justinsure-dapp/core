@@ -1,11 +1,10 @@
 import Icon from "../../common/Icon";
 import DocTitle from "../../common/DocTitle";
-import useApiResponse from "../../hooks/useApiResponse";
-import api from "../../utils/api";
 import PolicyCard from "./components/PolicyCard";
+import useWeb3 from "../../contexts/web3context";
 
 export default function PoliciesPage() {
-  const policies = useApiResponse(api.policy.fetchAllPolicies);
+  const { policies } = useWeb3();
 
   return (
     <>
@@ -22,11 +21,7 @@ export default function PoliciesPage() {
           </div>
         </div>
         <div className="grid gap-6 mb-8 w-full widescreen:grid-cols-2">
-          {!policies.loading &&
-            policies.data &&
-            policies.data.map((policy, key) => (
-              <PolicyCard key={key} policy={policy} />
-            ))}
+          {policies && policies.map((policy: any) => <PolicyCard key={policy.address} policy={policy} />)}
         </div>
       </article>
     </>

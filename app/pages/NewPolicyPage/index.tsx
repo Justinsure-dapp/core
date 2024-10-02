@@ -116,9 +116,9 @@ export default function NewPolicyPage() {
 
         <section className="py-8">
           <DataForm className="flex flex-col" callback={handleSubmit}>
-            <h1 className="font-semibold text-xl">Policy Settings</h1>
+            <h1 className="font-semibold text-xl">Create New Policy</h1>
             <h2 className=" text-mute font-semibold">
-              Configure your new policy
+              Fill in the details to create a new policy
             </h2>
 
             <Heading className="mt-7">Name of insurance</Heading>

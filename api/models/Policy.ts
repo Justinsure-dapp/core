@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { PolicyData } from "../types/custom";
-import { Arg } from "../types/custom";
 
 const policySchema = new Schema<PolicyData>(
   {
@@ -76,7 +75,11 @@ const policySchema = new Schema<PolicyData>(
       required: true,
     },
     holders: {
-      type: [String],
+      type: [{
+        address: String,
+        status: Number,
+        timeleft: Number,
+      }],
       default: [],
     },
     stakers: {
