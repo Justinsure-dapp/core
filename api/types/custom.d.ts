@@ -45,6 +45,7 @@ interface PolicyData {
   claimFuncArgs: Arg[];
   creator: string;
   stakeToken: string;
+  stakeTokenSymbol: string;
   policyHolders?: string[];
   policyStakers?: string[];
   createdAt: string;

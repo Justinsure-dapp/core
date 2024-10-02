@@ -1,7 +1,7 @@
 import express from "express";
 import crypto from "crypto";
 import Policy from "../models/Policy";
-import { getContract, isAddress, verifyMessage } from "viem";
+import { isAddress, verifyMessage } from "viem";
 import { generateRandomHex, generateTokenSymbol } from "../utils";
 import { PinataSDK } from "pinata";
 import { PolicyData } from "../types/custom";
@@ -25,63 +25,68 @@ router.post("/new/request-nonce", async (req, res) => {
 });
 
 router.post("/new", async (req, res) => {
-  try {
-    // verify signature
-    const { data, sign }: { data: PolicyData; sign: any } = req.body;
+  const { data, sign }: { data: PolicyData; sign: any } = req.body;
 
-    const address = data.creator;
-    const user = await User.findOne({ address });
+  try {
+    // check if creator address is valid
+    const creatorAddress = data.creator;
+
+    if (!isAddress(creatorAddress)) {
+      res.status(400).json({ message: "Invalid Creator Address / Signature" });
+      return;
+    }
+
+    // check if user exists and is a marketer
+    const user = await User.findOne({ address: creatorAddress });
 
     if (!user || !user.marketer) {
-      return res.status(401).json({
+      res.status(401).json({
         message: "No Marketer Account Found",
       });
+      return;
     }
 
-    if (!isAddress(address)) {
-      return res
-        .status(400)
-        .json({ message: "Invalid Creator Address / Signature" });
-    }
-
+    // check if policy with same form data already exists
     const policyExists = await Policy.findOne({
       ...data,
     });
 
     if (policyExists) {
-      return res.status(400).json({ message: "Policy already exists" });
+      res.status(400).json({ message: "Policy already exists" });
+      return;
     }
 
+    // check if signature is valid
     const verified = await verifyMessage({
-      address,
-      message: `${JSON.stringify(data)}${newPolicyNonceStore[address]}`,
+      address: creatorAddress,
+      message: `${JSON.stringify(data)}${newPolicyNonceStore[creatorAddress]}`,
       signature: sign,
     });
 
     if (!verified) {
-      return res.status(401).json({ message: "Signature verification failed" });
+      res.status(401).json({ message: "Signature verification failed" });
+      return;
     }
 
-    // Extract tags from data
+    // Save data in IPFS without tags
     const tags = data.tags;
     delete data.tags;
 
-    // Save to IPFS using pinata
-    const file = new File([JSON.stringify(data)], `${address}.json`, {
-      type: "application/json",
-    });
+    const newBlob = new Blob([JSON.stringify(data)]);
+    const newFile = new File([newBlob], `policy_${new Date().getTime()}.json`);
 
-    const upload = await pinata.upload.file(file);
+    const upload = await pinata.upload.file(newFile);
     const cid = upload.cid;
 
     // Save the cid to blockchain
+    const tokenSymbol = generateTokenSymbol(data.name);
     const blockNumberBeforeTx = await evm.client.getBlockNumber();
 
     const txHash = await surityInterface.write.createInsurancePolicy([
-      address,
+      creatorAddress,
       cid,
       data.name,
-      generateTokenSymbol(data.name),
+      tokenSymbol,
       BigInt(data.minimumDuration),
       BigInt(data.maximumDuration),
       BigInt(data.minimumClaim),
@@ -93,9 +98,11 @@ router.post("/new", async (req, res) => {
     });
 
     if (receipt.status !== "success") {
-      return res.status(400).json({ message: "Staking failed" });
+      res.status(400).json({ message: "Staking failed" });
+      return;
     }
 
+    // Get the controller address from the logs
     const logs = await evm.client.getContractEvents({
       abi: surityInterface.abi,
       address: surityInterface.address,
@@ -104,15 +111,17 @@ router.post("/new", async (req, res) => {
       toBlock: "latest",
     });
 
-    logs.filter((log) => log.args.creator === address);
+    logs.filter((log) => log.args.creator === creatorAddress);
     const controllerAddress = logs[0].args.controller;
 
     if (!controllerAddress) {
-      return res.status(500).json({ message: "Controller address not found" });
+      res.status(500).json({ message: "Controller address not found" });
+      return;
     }
 
     if (!isAddress(controllerAddress)) {
-      return res.status(500).json({ message: "Invalid Controller address" });
+      res.status(500).json({ message: "Invalid Controller address" });
+      return;
     }
 
     const stakeTokenAddress = await evm.client.readContract({
@@ -122,13 +131,15 @@ router.post("/new", async (req, res) => {
     });
 
     if (!stakeTokenAddress) {
-      return res.status(500).json({ message: "Stake Token address not found" });
+      res.status(500).json({ message: "Stake Token address not found" });
+      return;
     }
 
     const policy = new Policy({
       ...data,
       address: controllerAddress,
       stakeToken: stakeTokenAddress,
+      stakeTokenSymbol: tokenSymbol,
       cid: cid,
       tags: tags,
     });
@@ -139,13 +150,20 @@ router.post("/new", async (req, res) => {
     user.markModified("marketer");
     await user.save();
 
-    return res.status(200).json({
+    res.status(200).json({
       message: "Policy created successfully",
       policy,
     });
+
+    return;
   } catch (error: any) {
-    console.log(error);
-    return res.status(500).json({ message: error.message });
+    console.error(error);
+    if (error?.message) {
+      res.status(500).json({ message: error?.message });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
+    return;
   }
 });
 

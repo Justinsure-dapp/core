@@ -4,11 +4,13 @@ import { twMerge } from "tailwind-merge";
 import api from "../../utils/api";
 import DataForm from "../../common/DataForm";
 import { useAccount, useSignMessage } from "wagmi";
+import { useNavigate } from "react-router-dom";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
   const [logo, setLogo] = useState("");
   const { address } = useAccount();
+  const navigate = useNavigate()
 
   const { signMessage, data: sign } = useSignMessage();
   const [data, setData] = useState<{
@@ -24,6 +26,7 @@ export default function NewMarketerPage() {
         .then((result) => {
           console.log(result);
           alert("You are now a marketer");
+          navigate(0);
         })
         .catch((error) => {
           console.error(error);
@@ -33,6 +36,8 @@ export default function NewMarketerPage() {
           } else {
             alert("An error occured, please try again");
           }
+
+          navigate("/dashboard");
         })
         .finally(() => {
           setLoading(false);
