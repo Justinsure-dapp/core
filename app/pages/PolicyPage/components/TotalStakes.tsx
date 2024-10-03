@@ -22,7 +22,7 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
   });
 
   const ownerStakePercentage =
-    ownerStake && totalStake ? (ownerStake / totalStake) * BigInt(100) : 0;
+    (ownerStake && totalStake) ? (Number(ownerStake) / Number(totalStake)) * 100 : 0;
 
   if((creatorAddress === zeroAddress) || (policyAddress === zeroAddress)) return null;
   return (
@@ -35,11 +35,11 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
       </div>
       <div className="w-full bg-primary/20 h-[1vh] rounded-xl relative mt-3">
         <div
-          className="bg-primary h-[1vh] rounded-xl flex items-center justify-end"
+          className="bg-secondary h-[1vh] rounded-xl flex items-center justify-end"
           style={{ width: `${ownerStakePercentage}%` }}
         >
-          <div className="p-1 bg-background rounded-full border border-primary">
-            <Icon icon="shield_person" className="text-[1.5rem] text-primary" />
+          <div className="p-1 bg-background rounded-full border border-secondary">
+            <Icon icon="shield_person" className="text-[1.5rem] text-secondary" />
           </div>
         </div>
 
