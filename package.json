@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "server": "tsx api/index.ts",
-    "dev-server": "TS_NODE_PROJECT=tsconfig.server.json nodemon api/index.ts",
+    "dev-server": "TS_NODE_PROJECT=tsconfig.server.json nodemon --exec 'yarn server' --watch api -e js,ts",
     "contracts-compile": "TS_NODE_PROJECT=tsconfig.prod.json hardhat compile",
     "contracts-test": "TS_NODE_PROJECT=tsconfig.prod.json hardhat test",
     "contracts-deploy": "TS_NODE_PROJECT=tsconfig.prod.json hardhat run contracts/scripts/deploy.ts"
