@@ -23,6 +23,9 @@ describe("Universal", function () {
       account: acc1.account,
     });
 
+    await periphery.write.setMinimumInitialStake([10n * usdjDecimals]);
+    await periphery.write.updateStakingRewardRate([100_000_000n]);
+
     await periphery.write.createInsurancePolicy([
       acc1.account.address,
       "",
@@ -44,7 +47,12 @@ describe("Universal", function () {
 
     const controller = await hre.viem.getContractAt(
       "InsuranceController",
-      logs[0].args.controller,
+      logs[0].args.controller
+    );
+
+    const surecoin = await hre.viem.getContractAt(
+      "SureCoin",
+      await periphery.read.surecoin()
     );
 
     return {
@@ -56,6 +64,7 @@ describe("Universal", function () {
       usdjDecimals,
       periphery,
       controller,
+      surecoin,
     };
   }
 
@@ -107,6 +116,32 @@ describe("Universal", function () {
         acc1.account.address,
       ]);
       expect(acc1Share).to.equal(stakedAmount);
+    });
+  });
+
+  describe("SureCoin", () => {
+    it("registers any stake", async () => {
+      const { controller, acc1, surecoin } = await loadFixture(deployFixture);
+      const stakedAmount = 100_000_000n;
+
+      await controller.write.stakeToPolicy([stakedAmount], {
+        account: acc1.account,
+      });
+
+      const totalStake = await surecoin.read.totalStake();
+      expect(totalStake).to.equal(stakedAmount);
+    });
+
+    it("registers earnings for stakers", async () => {
+      const { controller, acc1, surecoin } = await loadFixture(deployFixture);
+      const stakedAmount = 100_000_000n;
+
+      await controller.write.stakeToPolicy([stakedAmount], {
+        account: acc1.account,
+      });
+
+      const earned = await surecoin.read.earned([acc1.account.address]);
+      expect(earned > 0n).to.be.true;
     });
   });
 });

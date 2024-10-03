@@ -5,7 +5,10 @@ import crypto from "crypto";
 import "dotenv/config";
 
 function getRandomKeys() {
-  return Array(10).map((_) => "0x" + crypto.randomBytes(32).toString());
+  return Array.from(
+    { length: 10 },
+    () => "0x" + crypto.randomBytes(32).toString("hex"),
+  );
 }
 
 const config: HardhatUserConfig = {

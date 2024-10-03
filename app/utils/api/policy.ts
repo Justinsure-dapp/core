@@ -69,7 +69,7 @@ const policy = {
   },
 
   async fetchAllPolicies() {
-    const response = await client.get<{ policies: Policy[] }>(
+    const response = await client.get<{ policies?: Policy[] }>(
       `/policy/fetch/all`,
     );
 
@@ -78,7 +78,7 @@ const policy = {
   },
 
   async fetchAllPoliciesByCreator(address: string) {
-    const response = await client.get<{ policies: Policy[] }>(
+    const response = await client.get<{ policies?: Policy[] }>(
       `/policy/fetch/${address}`,
     );
 
