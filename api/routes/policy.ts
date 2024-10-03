@@ -95,10 +95,9 @@ router.post("/new", async (req, res) => {
         BigInt(data.maximumClaim),
       ],
       {
-        // nonce:
-        //   (await evm.client.getTransactionCount({
-        //     address: evm.client.account.address,
-        //   })) ,
+        nonce: await evm.client.getTransactionCount({
+          address: evm.client.account.address,
+        }) + 2,
       },
     );
 

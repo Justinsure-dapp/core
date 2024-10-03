@@ -76,6 +76,19 @@ async function main() {
     zeroAddress,
   );
 
+  await tx(
+    periphery.write.createInsurancePolicy([
+      deployer.account.address,
+      "",
+      "Policy",
+      "PLC",
+      10n * usdjDecimals,
+      100n * usdjDecimals,
+      1_000n * usdjDecimals,
+      10_000n * usdjDecimals,
+    ]),
+  );
+
   console.log(`USDJ : ${usdj.address}`);
   console.log(`Surity Interface : ${periphery.address}`);
   console.log(`Vault : ${vault.address}`);
