@@ -1,34 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Icon from "../../../common/Icon";
-import { useAccount, useBalance, useContractRead } from "wagmi";
+import { useAccount, useBalance, useReadContract, useWriteContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
+import { zeroAddress } from "viem";
 
 export default function SwapBTTtoUSDJ() {
   const [loading, setLoading] = useState(false);
-  const [decimal, setDecimal] = useState(0);
+  const { address } = useAccount();
 
-  const { address = "0x" } = useAccount();
-
-  const { data: usdjDecimals } = useContractRead({
-    address: contractDefinitions.usdj.adddress,
+  const { data: usdjDecimals } = useReadContract({
     abi: contractDefinitions.usdj.abi,
+    address: contractDefinitions.usdj.address,
     functionName: "decimals",
   });
 
-  useEffect(() => {
-    if (usdjDecimals) {
-      setDecimal(Number(usdjDecimals));
-    }
-  }, [usdjDecimals]);
-
-  const { data: balanceUsdj } = useContractRead({
-    address: contractDefinitions.usdj.adddress,
+  const { data: balanceUsdj } = useReadContract({
+    address: contractDefinitions.usdj.address,
     abi: contractDefinitions.usdj.abi,
     functionName: "balanceOf",
-    args: [address],
+    args: [address || zeroAddress],
   });
 
-  // const balance = useBalance()
+  
+
+  const balanceBTT = useBalance({ address: address })
 
   return (
     <div className="flex flex-col items-center gap-y-4">
@@ -37,19 +32,12 @@ export default function SwapBTTtoUSDJ() {
         <div className="flex flex-col items-center my-4 gap-y-2">
           <div className="flex flex-col">
             <div className="text-sm self-end text-slate-400">
-              Balance : {0} BTT
+              Balance : {(Number(balanceBTT.data?.value) / Math.pow(10, Number(balanceBTT.data?.decimals))).toString()} BTT
             </div>
             <div className="relative">
-              {/* {displayInvalidMessage && (
-                                <span className="absolute bottom-full right-2 text-red-500 text-xs">
-                                    Invalid Address
-                                </span>
-                            )} */}
               <input
-                type="text"
-                name="address"
+                type="number"
                 placeholder="BTT Amount"
-                id="address"
                 className="py-1 px-3 rounded-lg bg-front/20 w-[42.8ch] text-front"
               />
             </div>
@@ -61,7 +49,7 @@ export default function SwapBTTtoUSDJ() {
           <div className="flex flex-col">
             <div className="text-sm self-end text-slate-400">
               Balance :{" "}
-              {Number(balanceUsdj) / Math.pow(10, Number(usdjDecimals))} USDJ
+              {usdjDecimals ? Number(balanceUsdj) / Math.pow(10, Number(usdjDecimals)) : "0"} USDJ
             </div>
             <div className="relative">
               {/* {displayInvalidMessage && (
@@ -70,7 +58,7 @@ export default function SwapBTTtoUSDJ() {
                                 </span>
                             )} */}
               <input
-                type="text"
+                type="number"
                 name="address"
                 disabled={true}
                 placeholder="Recieving UDSJ amount"
