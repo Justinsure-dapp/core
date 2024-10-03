@@ -1,9 +1,6 @@
 import React, { useRef } from "react";
-import { linearMapColor, rgbToHex } from "../../../utils";
 import useIdleScrollbar from "../../../hooks/useIdleScrollbar";
-import api from "../../../utils/api";
 import { useAccount } from "wagmi";
-import useApiResponse from "../../../hooks/useApiResponse";
 import useWeb3 from "../../../contexts/web3context";
 
 export default function StakingStats() {

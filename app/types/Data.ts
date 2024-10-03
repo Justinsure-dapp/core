@@ -35,16 +35,8 @@ export interface Policy {
   maximumDuration: number;
   creator: string;
   stakeToken: string;
-  holders?: {
-    address: string;
-    status: number;
-    timeleft: number;
-  }[];
-  stakers?: {
-    address: string;
-    amount: number;
-    _id: string;
-  }[];
+  holders: string[];
+  stakers: string[];
   createdAt: string;
   updatedAt: string;
   premiumFuncArgs: Args;

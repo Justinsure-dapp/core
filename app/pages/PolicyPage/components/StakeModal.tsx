@@ -55,7 +55,7 @@ export default function StakeModal({ policy }: {
 
   useEffect(() => {
     async function saveStakeToDB() {
-      const result = await api.policy.updateStakers(policy.address, policy.creator, Number(stake));
+      const result = await api.policy.updateStakers(policy.address, policy.creator);
 
       if (result) {
         alert("Staked successfully");

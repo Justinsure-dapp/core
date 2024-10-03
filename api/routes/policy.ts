@@ -184,23 +184,6 @@ router.get("/get/:address", async (req, res) => {
   return;
 });
 
-router.get("/fetch/staked", async (req, res) => {
-  const user = req.query.user;
-
-  try {
-    const policies = await Policy.find({
-      stakers: { $elemMatch: { address: user } },
-    });
-
-    res.status(200).send({ policies });
-    return;
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).json({ message: error?.message });
-    return;
-  }
-});
-
 router.get("/fetch/all", async (req, res) => {
   try {
     const policies = await Policy.find();
@@ -336,44 +319,36 @@ router.post("/buy/:address", async (req, res) => {
   }
 });
 
-// router.post("/update/stakers/:address", async (req, res) => {
-//   const { staker, amount } = req.body;
-//   const address = req.params.address;
+router.post("/update/stakers/:address", async (req, res) => {
+  const { staker } = req.body;
+  const address = req.params.address;
 
-//   try {
-//     const policy = await Policy.findOne({
-//       address,
-//     });
+  try {
+    const policy = await Policy.findOne({
+      address,
+    });
 
-//     if (!policy) {
-//       res.status(400).json({ message: "Policy not found.." });
-//       return;
-//     }
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    }
 
-//     // if already staked, update the amount
-//     const stakerIndex = policy.stakers.findIndex((s) => s.address === staker);
+    if (!policy.stakers.includes(staker)) {
+      policy.stakers.push(staker);
+      await policy.save();
+    }
 
-//     if (stakerIndex !== -1) {
-//       policy.stakers[stakerIndex].amount += amount;
-//     } else {
-//       policy.stakers.push({ address: staker, amount });
-//     }
-
-//     console.log(policy.stakers);
-//     policy.markModified("stakers");
-//     await policy.save();
-
-//     res.status(200).json({ message: "Stakers updated successfully.." });
-//     return;
-//   } catch (error: any) {
-//     console.error(error);
-//     if (error?.message) {
-//       res.status(500).json({ message: error?.message });
-//     } else {
-//       res.status(500).json({ message: "Internal server error" });
-//     }
-//     return;
-//   }
-// });
+    res.status(200).json({ message: "Stakers updated successfully.." });
+    return;
+  } catch (error: any) {
+    console.error(error);
+    if (error?.message) {
+      res.status(500).json({ message: error?.message });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
+    return;
+  }
+});
 
 export default router;

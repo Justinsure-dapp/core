@@ -20,9 +20,27 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
     functionName: "totalStake",
   });
 
+  const stakerArray = [];
+
+  for (const staker of policy.stakers) {
+    if(!isAddress(staker)) continue;
+
+    const result = useReadContract({
+      ...contractDefinitions.insuranceController,
+      address: policyAddress,
+      functionName: "stakedAmountOfAddress",
+      args: [staker],
+    })
+
+    stakerArray.push({
+      address: staker,
+      amount: (result.data)?.toString(),
+    })
+  }
+
   const data = {
-    labels: policy.stakers?.map((staker) => staker.address) || [],
-    values: policy.stakers?.map((staker) => staker.amount) || [],
+    labels: stakerArray?.map((staker) => staker.amount) || [],
+    values: stakerArray?.map((staker) => staker.amount) || [],
     bgColor: generateShades("rgb(26, 201, 255)", policy.stakers?.length || 1),
   };
 
@@ -44,7 +62,7 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
           className="flex flex-col gap-y-3 border border-border p-4 rounded-xl max-h-[240px] scrollbar-primary text-sm w-full"
           ref={accountRef}
         >
-          {policy.stakers?.map((staker, i) => (
+          {stakerArray?.map((staker, i) => (
             <div key={i} className="flex w-full items-center gap-x-4">
               <span className="">{i + 1}</span>
               <div

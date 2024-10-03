@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import SurityBranding from "./components/SurityBranding";
 import { useAccount, useReadContract } from "wagmi";
 import contractDefinitions from "../../contracts";
-import { isAddress, zeroAddress } from "viem";
+import { zeroAddress } from "viem";
 
 export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);

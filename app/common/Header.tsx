@@ -45,18 +45,18 @@ export default function Header() {
         <h1 className="text-xl font-black text-mute">{title}</h1>
       </div>
 
-      <div className="flex items-center gap-x-4">
-        <div className="flex items-center gap-x-4 mobile:-translate-x-12">
+      <div className="flex items-center gap-x-4 mobile:mr-14">
+        <div className="flex items-center gap-x-4">
           <ConnectWallet />
         </div>
 
         <Link
           to="/faucet"
-          className="border border-mute py-1 px-2 rounded-lg hover:border-front hover:text-front group duration-150 ease-in"
+          className="border border-mute py-1 px-2 rounded-lg hover:border-zinc-300 hover:text-zinc-300 group duration-150 ease-in"
         >
           <Icon
             icon="money"
-            className="text-2xl text-mute group-hover:text-front duration-150 ease-in"
+            className="text-2xl text-mute group-hover:text-zinc-300 duration-150 ease-in"
           />
         </Link>
       </div>

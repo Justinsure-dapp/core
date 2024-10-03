@@ -29,7 +29,7 @@ export default function PolicyPage() {
           <Functions policy={policy} />
           <TotalStakes policy={policy} />
           <PoolDistribution policy={policy} />
-          <InvestmentPolicy />
+          {/* <InvestmentPolicy /> */}
         </>
       )}
     </article>

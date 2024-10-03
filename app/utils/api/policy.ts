@@ -86,10 +86,9 @@ const policy = {
     return data.policies;
   },
 
-  async updateStakers(address: string, staker: string, amount: number) {
+  async updateStakers(address: string, staker: string) {
     const response = await client.post(`policy/update/stakers/${address}`, {
       staker,
-      amount,
     });
 
     return response.data;
