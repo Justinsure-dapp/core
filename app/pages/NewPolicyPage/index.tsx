@@ -43,11 +43,11 @@ export default function NewPolicyPage() {
 
   console.log({
     premiumFuncArgs,
-    premiumFuncArgsSetter
-  })
+    premiumFuncArgsSetter,
+  });
 
   useEffect(() => {
-    const submitForm = async () => {
+    async function submitForm() {
       try {
         if (nonceData && nonceSuccess) {
           console.log({
@@ -71,7 +71,7 @@ export default function NewPolicyPage() {
           alert(error.response.data.message);
         }
       }
-    };
+    }
 
     if (nonceData && nonceSuccess) {
       submitForm();
