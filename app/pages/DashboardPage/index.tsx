@@ -5,11 +5,9 @@ import PolicyCard from "./components/PolicyCard";
 import useApiResponse from "../../hooks/useApiResponse";
 import api from "../../utils/api";
 import { useAccount } from "wagmi";
-import useWeb3 from "../../contexts/web3context";
 
 export default function DashboardPage() {
   const { address } = useAccount();
-  const { user } = useWeb3();
 
   const { data: policies, loading } = useApiResponse(
     api.policy.fetchAllPoliciesByCreator,

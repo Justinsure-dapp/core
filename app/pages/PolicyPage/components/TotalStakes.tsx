@@ -3,23 +3,29 @@ import Icon from "../../../common/Icon";
 import { Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
 import { isAddress, zeroAddress } from "viem";
+import useUsdjHook from "../../../hooks/useUsdj";
 
 export default function TotalStakes({ policy }: { policy: Policy }) {
   const creatorAddress = isAddress(policy.creator) ? policy.creator : zeroAddress;
   const policyAddress = isAddress(policy.address) ? policy.address : zeroAddress;
+  const { divideByDecimals } = useUsdjHook();
 
-  const { data: totalStake } = useReadContract({
+  const { data } = useReadContract({
     ...contractDefinitions.insuranceController,
     address: policyAddress,
     functionName: "totalStake",
   });
 
-  const { data: ownerStake } = useReadContract({
+  const totalStake = data ? divideByDecimals(data) : 0;
+
+  const { data: data2 } = useReadContract({
     ...contractDefinitions.insuranceController,
     address: policyAddress,
     functionName: "stakedAmountOfAddress",
     args: [creatorAddress],
   });
+
+  const ownerStake = data2 ? divideByDecimals(data2) : 0;
 
   const ownerStakePercentage =
     (ownerStake && totalStake) ? (Number(ownerStake) / Number(totalStake)) * 100 : 0;

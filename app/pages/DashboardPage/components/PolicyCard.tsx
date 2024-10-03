@@ -9,11 +9,12 @@ import { Policy, User } from "../../../types";
 import useModal from "../../../hooks/useModal";
 import StakeModal from "../../PolicyPage/components/StakeModal";
 import useWeb3 from "../../../contexts/web3context";
+import useUsdjHook from "../../../hooks/useUsdj";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
-  const [expanded, setExpanded] = useState(false);
   const modal = useModal();
+  const usdj = useUsdjHook();
   const policyAddress = isAddress(props.policy.address)
     ? props.policy.address
     : zeroAddress;
@@ -73,7 +74,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
         <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
-            <p className="text-front/80 text-sm">{totalStake?.toString()} USDJ Staked</p>
+            <p className="text-front/80 text-sm">{usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked</p>
           </div>
           <div className="p-2 bg-front/20 rounded-xl">
             <img src="https://img.icons8.com/pulsar-color/32/money-bag.png" />

@@ -16,11 +16,11 @@ export default function StakeModal({ policy }: {
   initialStake: boolean;
 }) {
   const modal = useModal();
-  const [stake, setStake] = useState<bigint>(0n);
+  const [stake, setStake] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const { data: hash, writeContractAsync } = useWriteContract()
   const navigate = useNavigate();
-  const { allowance, approve, format } = useUsdjHook();
+  const { allowance, approve, multiplyWithDecimals } = useUsdjHook();
 
   const stakeReciept = useWaitForTransactionReceipt({
     confirmations: 2,
@@ -28,14 +28,14 @@ export default function StakeModal({ policy }: {
   });
 
   async function handleSubmit() {
-    if (stake === 0n) {
+    if (stake === 0) {
       alert("Please enter a valid amount to stake");
       return;
     }
 
     setLoading(true);
     try {
-      if (allowance === BigInt(0) || Number(allowance) < Number(stake)) {
+      if (allowance === BigInt(0) || Number(allowance) < stake) {
         await approve();
       }
 
@@ -43,15 +43,13 @@ export default function StakeModal({ policy }: {
         ...contractDefinitions.insuranceController,
         address: isAddress(policy.address) ? policy.address : zeroAddress,
         functionName: "stakeToPolicy",
-        args: [stake],
+        args: [multiplyWithDecimals(stake)],
       });
     } catch (error) {
       console.error(error);
       alert("Error while staking!");
     }
   }
-  
-  console.log({stake})
 
   useEffect(() => {
     async function saveStakeToDB() {
@@ -101,7 +99,7 @@ export default function StakeModal({ policy }: {
           type="number"
           className="rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
           placeholder="Enter Amount in USDJ"
-          onChange={(e) => setStake(BigInt(e.target.value))}
+          onChange={(e) => setStake(Number(e.target.value))}
         />
       </div>
       <button

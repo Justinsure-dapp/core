@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import StakingStats from "./components/StakingStats";
 import SurityInfo from "./components/SurityInfo";
 import { twMerge } from "tailwind-merge";
@@ -6,28 +6,15 @@ import SurityBranding from "./components/SurityBranding";
 import { useAccount, useReadContract } from "wagmi";
 import contractDefinitions from "../../contracts";
 import { zeroAddress } from "viem";
+import useSureCoinHook from "../../hooks/useSurecoin";
 
 export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
   const { address } = useAccount();
+  const surecoin = useSureCoinHook();
 
-  const { data: balance } = useReadContract({
-    ...contractDefinitions.surecoin,
-    functionName: "balanceOf",
-    args: [address || zeroAddress],
-  });
-
-  const { data: earned } = useReadContract({
-    ...contractDefinitions.surecoin,
-    functionName: "earned",
-    args: [address || zeroAddress],
-  });
-  const { data: surecoinDecimals } = useReadContract({
-    ...contractDefinitions.surecoin,
-    functionName: "decimals"
-  });
-
-  const pending = Number(earned || 0) / (Math.pow(10, Number(surecoinDecimals || 0)));
+  const pending = surecoin.getUserEarned();
+  const balance = surecoin.getUserBalance();
 
   return (
     <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen mobile:hidden">
@@ -52,7 +39,7 @@ export default function StatisticsSidebar() {
                 </p>
               </div>
               <div className="flex gap-2 items-center">
-                <h2 className="text-xs">Pending:</h2>
+                <h2 className="text-xs">Earned:</h2>
                 <p className="font-mono text-secondary text-2xl font-medium">
                   {pending ? pending.toFixed(2) : "0"}
                 </p>

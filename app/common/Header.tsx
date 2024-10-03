@@ -9,8 +9,8 @@ import { useAccount } from "wagmi";
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const usdj = useUsdjHook();
   const { address } = useAccount();
+  const usdj = useUsdjHook();
 
   const [title, setTitle] = useState("");
 
@@ -26,8 +26,6 @@ export default function Header() {
       setTitle(titleArr.at(titleArr.length - 1) || "Home");
     }, 10);
   }, [location]);
-
-  // read usdj bal
 
   return (
     <header className="border-border border-b p-page py-3 flex justify-between items-center sticky top-0 bg-background z-[101]">
@@ -59,7 +57,7 @@ export default function Header() {
         </div>
 
         <div className="border border-mute py-1 px-2 rounded-lg hover:border-zinc-300 hover:text-zinc-300 group duration-150 ease-in">
-          <p>USDJ: {parseFloat(usdj.getUserBalance().toString()).toFixed(2)}</p>
+          <p>USDJ: {usdj.getUserBalance().toFixed(2)}</p>
         </div>
 
         <Link

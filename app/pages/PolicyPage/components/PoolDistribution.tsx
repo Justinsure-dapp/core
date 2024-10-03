@@ -4,7 +4,6 @@ import { Policy } from "../../../types";
 import useIdleScrollbar from "../../../hooks/useIdleScrollbar";
 import React, { useRef } from "react";
 import { generateShades } from "../../../utils";
-import useUsdjHook from "../../../hooks/useUsdj";
 import { useReadContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { isAddress, zeroAddress } from "viem";

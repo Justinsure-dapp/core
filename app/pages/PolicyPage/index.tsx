@@ -28,7 +28,7 @@ export default function PolicyPage() {
           <ClaimInfo policy={policy} />
           <Functions policy={policy} />
           <TotalStakes policy={policy} />
-          <PoolDistribution policy={policy} />
+          {/* <PoolDistribution policy={policy} /> */}
           {/* <InvestmentPolicy /> */}
         </>
       )}
