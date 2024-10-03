@@ -22,6 +22,12 @@ export default function StatisticsSidebar() {
     functionName: "earned",
     args: [address || zeroAddress],
   });
+  const { data: surecoinDecimals } = useReadContract({
+    ...contractDefinitions.surecoin,
+    functionName: "decimals"
+  });
+
+  const pending = Number(earned || 0) / (Math.pow(10, Number(surecoinDecimals || 0)))
 
   const { data: decimals } = useReadContract({
     ...contractDefinitions.surecoin,
@@ -55,7 +61,7 @@ export default function StatisticsSidebar() {
               <div className="flex gap-2 items-center">
                 <h2 className="text-xs">Pending:</h2>
                 <p className="font-mono text-secondary text-2xl font-medium">
-                  {earned ? (earnedProper).toString() : "0"}
+                  {pending ? pending.toFixed(2) : "0"}
                 </p>
               </div>
             </div>
