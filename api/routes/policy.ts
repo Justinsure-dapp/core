@@ -85,7 +85,7 @@ router.post("/new", async (req, res) => {
     const txHash = await surityInterface.write.createInsurancePolicy(
       [
         creatorAddress,
-        cid,
+        `ipfs://${cid}`,
         data.name,
         tokenSymbol,
         BigInt(data.minimumDuration),
