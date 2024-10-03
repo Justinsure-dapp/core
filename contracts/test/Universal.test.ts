@@ -47,12 +47,12 @@ describe("Universal", function () {
 
     const controller = await hre.viem.getContractAt(
       "InsuranceController",
-      logs[0].args.controller
+      logs[0].args.controller,
     );
 
     const surecoin = await hre.viem.getContractAt(
       "SureCoin",
-      await periphery.read.surecoin()
+      await periphery.read.surecoin(),
     );
 
     return {

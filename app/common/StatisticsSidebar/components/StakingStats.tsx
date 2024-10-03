@@ -10,7 +10,8 @@ export default function StakingStats() {
   const { address } = useAccount();
   const { policies } = useWeb3();
 
-  const policiesStakedIn = policies?.filter((p) => p.stakers?.includes(address as string)) || [];
+  const policiesStakedIn =
+    policies?.filter((p) => p.stakers?.includes(address as string)) || [];
 
   useIdleScrollbar(containerRef);
   const totalStake = 500;

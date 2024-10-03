@@ -11,14 +11,16 @@ import useUsdjHook from "../../../hooks/useUsdj";
 import api from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
 
-export default function StakeModal({ policy }: {
+export default function StakeModal({
+  policy,
+}: {
   policy: Policy;
   initialStake: boolean;
 }) {
   const modal = useModal();
   const [stake, setStake] = useState<bigint>(0n);
   const [loading, setLoading] = useState(false);
-  const { data: hash, writeContractAsync } = useWriteContract()
+  const { data: hash, writeContractAsync } = useWriteContract();
   const navigate = useNavigate();
   const { allowance, approve, format } = useUsdjHook();
 
@@ -50,12 +52,15 @@ export default function StakeModal({ policy }: {
       alert("Error while staking!");
     }
   }
-  
-  console.log({stake})
+
+  console.log({ stake });
 
   useEffect(() => {
     async function saveStakeToDB() {
-      const result = await api.policy.updateStakers(policy.address, policy.creator);
+      const result = await api.policy.updateStakers(
+        policy.address,
+        policy.creator,
+      );
 
       if (result) {
         alert("Staked successfully");
@@ -83,8 +88,7 @@ export default function StakeModal({ policy }: {
         <Icon icon="close" className="text-[1.5rem] mobile:text-[1rem]" />
       </button>
       <h1 className="text-2xl font-bold">
-        Stake in <span className="text-secondary">{policy.name}</span>{" "}
-        policy
+        Stake in <span className="text-secondary">{policy.name}</span> policy
       </h1>
       {policy.description && (
         <p className="text-front/80 text-sm">{policy.description}</p>

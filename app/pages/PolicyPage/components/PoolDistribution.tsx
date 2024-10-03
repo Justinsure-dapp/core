@@ -12,7 +12,9 @@ import { isAddress, zeroAddress } from "viem";
 export default function PoolDistribution({ policy }: { policy: Policy }) {
   const accountRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   useIdleScrollbar(accountRef);
-  const policyAddress = isAddress(policy.address) ? policy.address : zeroAddress;
+  const policyAddress = isAddress(policy.address)
+    ? policy.address
+    : zeroAddress;
 
   const { data: totalStake } = useReadContract({
     ...contractDefinitions.insuranceController,
@@ -23,19 +25,19 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
   const stakerArray = [];
 
   for (const staker of policy.stakers) {
-    if(!isAddress(staker)) continue;
+    if (!isAddress(staker)) continue;
 
     const result = useReadContract({
       ...contractDefinitions.insuranceController,
       address: policyAddress,
       functionName: "stakedAmountOfAddress",
       args: [staker],
-    })
+    });
 
     stakerArray.push({
       address: staker,
-      amount: (result.data)?.toString(),
-    })
+      amount: result.data?.toString(),
+    });
   }
 
   const data = {
@@ -49,15 +51,13 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
       <div className="flex justify-between">
         <h1 className="text-xl">Total Stakes</h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end">
-          Surecoins : <span className="font-mono">{totalStake?.toString()}</span>
+          Surecoins :{" "}
+          <span className="font-mono">{totalStake?.toString()}</span>
         </p>
       </div>
 
       <div className="flex flex-col widescreen:flex-row widescreen:justify-between items-center mt-10 mobile:gap-5 widescreen:gap-10">
-        <PieChart
-          data={data}
-          className=""
-        />
+        <PieChart data={data} className="" />
         <div
           className="flex flex-col gap-y-3 border border-border p-4 rounded-xl max-h-[240px] scrollbar-primary text-sm w-full"
           ref={accountRef}
@@ -69,11 +69,15 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
                 className={twMerge(
                   "w-full flex-wrap border border-front/10 py-2 px-4 rounded-xl flex justify-between items-center gap-4",
                   `hover:cursor-pointer hover:scale-[102%] duration-150 ease-in`,
-                  staker.address === policy.creator ? "bg-secondary/50" : "bg-primary/5",
+                  staker.address === policy.creator
+                    ? "bg-secondary/50"
+                    : "bg-primary/5",
                 )}
               >
                 <h1 className="">{staker.address}</h1>
-                <p className="font-mono text-cyan-400 font-bold">{staker.amount}</p>
+                <p className="font-mono text-cyan-400 font-bold">
+                  {staker.amount}
+                </p>
               </div>
             </div>
           ))}

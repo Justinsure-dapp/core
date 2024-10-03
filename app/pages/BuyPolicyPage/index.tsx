@@ -70,7 +70,10 @@ export default function BuyPolicyPage() {
           return;
         }
 
-        const { key } = await api.policy.calculatePremium(policyData.address, argsArray);
+        const { key } = await api.policy.calculatePremium(
+          policyData.address,
+          argsArray,
+        );
 
         const intervalId = setInterval(async () => {
           const newData = await api.policy.getExecutedKey(key);
@@ -78,8 +81,17 @@ export default function BuyPolicyPage() {
           if (newData.completed && newData.output) {
             setLoading(false);
 
-            if (!isNaN(parseFloat(newData.output)) && isFinite(Number(newData.output))) {
-              modal.show(<RequestQuoteModal policy={policyData} formData={data} premium={parseFloat(newData.output)} />);
+            if (
+              !isNaN(parseFloat(newData.output)) &&
+              isFinite(Number(newData.output))
+            ) {
+              modal.show(
+                <RequestQuoteModal
+                  policy={policyData}
+                  formData={data}
+                  premium={parseFloat(newData.output)}
+                />,
+              );
             } else {
               alert("Invalid output type received from the policy");
             }
@@ -102,12 +114,13 @@ export default function BuyPolicyPage() {
     <>
       <DocTitle title="Buy Policy" />
       <div className="flex gap-x-6 p-page py-8 relative">
-
         {loading && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
             <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
               <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
-              <p className="text-primary mt-2 font-semibold">Calculating Premium</p>
+              <p className="text-primary mt-2 font-semibold">
+                Calculating Premium
+              </p>
               <p className="text-mute">Please wait...</p>
             </div>
           </div>

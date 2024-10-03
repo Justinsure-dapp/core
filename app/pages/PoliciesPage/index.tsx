@@ -21,7 +21,10 @@ export default function PoliciesPage() {
           </div>
         </div>
         <div className="grid gap-6 mb-8 w-full widescreen:grid-cols-2">
-          {policies && policies.map((policy: any) => <PolicyCard key={policy.address} policy={policy} />)}
+          {policies &&
+            policies.map((policy: any) => (
+              <PolicyCard key={policy.address} policy={policy} />
+            ))}
         </div>
       </article>
     </>
