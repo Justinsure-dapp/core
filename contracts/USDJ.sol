@@ -20,7 +20,7 @@ contract USDJ is ERC20, Ownable {
   }
 
   function amountOut(uint256 value_) public pure returns (uint256) {
-    return (value_ / (10 ** 18)) / 100;
+    return ((value_ / (10 ** 18)) / 100) * (10 ** decimals());
   }
 
   function mint(uint256 amount_) external onlyOwner {

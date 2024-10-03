@@ -22,12 +22,13 @@ export default function SwapBTTtoUSDJ() {
     args: [address || zeroAddress],
   });
 
-  const ratioConsideration = 100_000_000n
+  const ratioConsideration = BigInt(100_000_000 * Math.pow(10, 18));
   const { data: amountOut } = useReadContract({
     ...contractDefinitions.usdj,
     functionName: "amountOut",
     args: [ratioConsideration]
   })
+
   const ratio = Number(amountOut || 0n) / Number(ratioConsideration);
 
   const balanceBTT = useBalance({ address: address })
@@ -73,7 +74,7 @@ export default function SwapBTTtoUSDJ() {
                 disabled={true}
                 placeholder="Recieving UDSJ amount"
                 id="address"
-                value = {(amountIn || 0) * ratio}
+                value={(amountIn || 0) * ratio}
                 className="py-1 px-3 rounded-lg bg-front/20 w-[42.8ch] text-black"
               />
             </div>
