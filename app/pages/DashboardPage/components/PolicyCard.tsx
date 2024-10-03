@@ -8,6 +8,7 @@ import { isAddress, zeroAddress } from "viem";
 import { Policy, User } from "../../../types";
 import useModal from "../../../hooks/useModal";
 import StakeModal from "../../PolicyPage/components/StakeModal";
+import useWeb3 from "../../../contexts/web3context";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
@@ -15,9 +16,6 @@ export default function PolicyCard(props: { policy: Policy }) {
   const modal = useModal();
   const policyAddress = isAddress(props.policy.address)
     ? props.policy.address
-    : zeroAddress;
-  const creatorAddress = isAddress(props.policy.creator)
-    ? props.policy.creator
     : zeroAddress;
 
   const { data: isPaused } = useReadContract({
@@ -83,19 +81,19 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
       </div>
 
-      <button
+      {/* <button
         className="absolute bottom-2 right-4 underline underline-offset-2 text-zinc-100"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "View Less" : "View More"}
-      </button>
+      </button> */}
 
-      {expanded && (
+      {/* {expanded && (
         <div className="flex flex-col gap-5">
           <PolicyHolders holders={props.policy.holders} />
           <AutomatedInvestment />
         </div>
-      )}
+      )} */}
     </div>
   );
 }

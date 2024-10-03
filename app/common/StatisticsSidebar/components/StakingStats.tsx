@@ -1,19 +1,19 @@
 import React, { useRef } from "react";
 import useIdleScrollbar from "../../../hooks/useIdleScrollbar";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import useWeb3 from "../../../contexts/web3context";
+import { isAddress, zeroAddress } from "viem";
+import contractDefinitions from "../../../contracts";
 
 export default function StakingStats() {
   const containerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const { address } = useAccount();
   const { policies } = useWeb3();
 
-  const policiesStakedIn = policies?.filter((policy) => {
-    return policy.stakers?.some((s) => s.address === address);
-  });
+  const policiesStakedIn = policies?.filter((p) => p.stakers.includes(address as string)) || [];
 
   useIdleScrollbar(containerRef);
-  const totalStake = 500.45;
+  const totalStake = 500;
 
   return (
     <div
@@ -39,63 +39,11 @@ export default function StakingStats() {
               <h1 className="font-semibold text-sm max-w-[12vw] truncate">
                 {policy.name}
               </h1>
-              <p className="text-xs">Staked : {policy.stakers?.filter(
-                (s) => s.address === address,
-              )[0]?.amount.toFixed(2)}</p>
+              <p className="text-xs">Category : {policy.category}</p>
             </div>
           </div>
-
-          {/* <div className="flex flex-col gap-y-1 pt-2 text-xs">
-            <p
-              className="font-medium"
-              style={{
-                color: rgbToHex(
-                  linearMapColor(
-                    policy.maximumClaim,
-                    { from: 0, to: 1 },
-                    { from: [255, 0, 0], to: [0, 255, 0] },
-                  ),
-                ),
-              }}
-            >
-              Rating : {policy.rating}
-            </p>
-          </div> */}
         </div>
       ))}
     </div>
   );
 }
-
-const stakes = [
-  {
-    img: "https://play-lh.googleusercontent.com/DbepofsHLK7fTQmiQi9KurqbL1VvVJEAJ0AOX8CejdsgygCTH_0K4kG9JLmcKl3MkN0K",
-    name: "Asaj Life Sure",
-    amount: 100.34,
-    rate: 0.94,
-  },
-  {
-    img: "https://m.economictimes.com/thumb/msid-102577743,width-1200,height-900,resizemode-4,imgsize-9920/max-life.jpg",
-    name: "XAM life policies",
-    amount: 84.24,
-    rate: 0.51,
-  },
-  {
-    img: "https://static.vecteezy.com/system/resources/previews/020/335/989/original/sbi-logo-sbi-icon-free-free-vector.jpg",
-    name: "Normie Car Insurnace",
-    amount: 12.32,
-    rate: 0.26,
-  },
-  {
-    img: "https://avatars.githubusercontent.com/u/134763039?s=200&v=4",
-    name: "Agrosurance",
-    amount: 350.04,
-    rate: 1,
-  },
-  {
-    img: "https://cdn.logojoy.com/wp-content/uploads/2018/07/30125031/insurance8.png",
-    name: "Cocksford Theft Insurnace",
-    amount: 0.13,
-    rate: 0.03,
-  },
-];

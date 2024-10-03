@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { closestTimeUnit } from "../../../utils";
 import Icon from "../../../common/Icon";
 
-export default function PolicyHolders({ holders }: { holders: {
-  address: string;
-  status: number;
-  timeleft: number;
-}[] | undefined }) {
+export default function PolicyHolders({ holders }: { holders: string[] | undefined }) {
   const [showList, setShowFullList] = useState(5);
   const [searchText, setSearchText] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("Filter");

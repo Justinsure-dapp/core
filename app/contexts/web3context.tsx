@@ -10,7 +10,7 @@ import policy from "../utils/api/policy";
 
 interface Web3ContextType {
   user: User | null;
-  policies: Policy[] | null;
+  policies: Policy[] | undefined;
 }
 
 const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);
@@ -39,7 +39,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
 function Wrapper({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [policies, setPolicies] = useState<any>(null);
+  const [policies, setPolicies] = useState<Policy[]>();
   const { address } = useAccount();
 
   async function fetchUser() {
