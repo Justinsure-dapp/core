@@ -144,4 +144,20 @@ describe("Universal", function () {
       expect(earned > 0n).to.be.true;
     });
   });
+
+  describe("USDJ", () => {
+    it("can be minted using native token (1 every 100 nt)", async () => {
+      const { owner, usdj, usdjDecimals } = await loadFixture(deployFixture)
+
+      const balanceBefore = await usdj.read.balanceOf([owner.account.address])
+
+      await usdj.write.mint({ value: 100n * BigInt(Math.pow(10, 18)) })
+
+      const balanceAfter = await usdj.read.balanceOf([owner.account.address])
+
+      const usdjReceived = Number(balanceAfter - balanceBefore) / Number(usdjDecimals)
+
+      expect(usdjReceived).to.equal(1)
+    })
+  })
 });

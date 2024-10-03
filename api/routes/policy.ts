@@ -92,10 +92,7 @@ router.post("/new", async (req, res) => {
         BigInt(data.maximumDuration),
         BigInt(data.minimumClaim),
         BigInt(data.maximumClaim),
-      ],
-      {
-        gas: BigInt(0.001 * Math.pow(10, 18)),
-      },
+      ]
     );
 
     const receipt = await evm.client.waitForTransactionReceipt({
