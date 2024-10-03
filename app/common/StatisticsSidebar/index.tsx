@@ -27,14 +27,7 @@ export default function StatisticsSidebar() {
     functionName: "decimals"
   });
 
-  const pending = Number(earned || 0) / (Math.pow(10, Number(surecoinDecimals || 0)))
-
-  const { data: decimals } = useReadContract({
-    ...contractDefinitions.surecoin,
-    functionName: "decimals",
-  });
-
-  const earnedProper = earned ? Number(earned) / 10 ** (decimals || 18) : 0;
+  const pending = Number(earned || 0) / (Math.pow(10, Number(surecoinDecimals || 0)));
 
   return (
     <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen mobile:hidden">
