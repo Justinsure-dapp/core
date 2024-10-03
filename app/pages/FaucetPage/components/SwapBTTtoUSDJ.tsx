@@ -7,6 +7,7 @@ import { zeroAddress } from "viem";
 export default function SwapBTTtoUSDJ() {
   const [loading, setLoading] = useState(false);
   const { address } = useAccount();
+  const [amountIn, setAmountIn] = useState(0)
 
   const { data: usdjDecimals } = useReadContract({
     abi: contractDefinitions.usdj.abi,
@@ -21,7 +22,13 @@ export default function SwapBTTtoUSDJ() {
     args: [address || zeroAddress],
   });
 
-  
+  const ratioConsideration = 100_000_000n
+  const { data: amountOut } = useReadContract({
+    ...contractDefinitions.usdj,
+    functionName: "amountOut",
+    args: [ratioConsideration]
+  })
+  const ratio = Number(amountOut || 0n) / Number(ratioConsideration);
 
   const balanceBTT = useBalance({ address: address })
 
@@ -38,6 +45,9 @@ export default function SwapBTTtoUSDJ() {
               <input
                 type="number"
                 placeholder="BTT Amount"
+                onChange={(e) => setAmountIn(Number(e.target.value))}
+                defaultValue={0}
+                min={0}
                 className="py-1 px-3 rounded-lg bg-front/20 w-[42.8ch] text-front"
               />
             </div>
@@ -63,6 +73,7 @@ export default function SwapBTTtoUSDJ() {
                 disabled={true}
                 placeholder="Recieving UDSJ amount"
                 id="address"
+                value = {(amountIn || 0) * ratio}
                 className="py-1 px-3 rounded-lg bg-front/20 w-[42.8ch] text-black"
               />
             </div>
