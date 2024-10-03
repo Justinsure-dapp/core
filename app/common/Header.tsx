@@ -3,10 +3,14 @@ import ConnectWallet from "./ConnectWallet";
 import Icon from "./Icon";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+import useUsdjHook from "../hooks/useUsdj";
+import { useAccount } from "wagmi";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const usdj = useUsdjHook();
+  const { address } = useAccount();
 
   const [title, setTitle] = useState("");
 
@@ -22,6 +26,8 @@ export default function Header() {
       setTitle(titleArr.at(titleArr.length - 1) || "Home");
     }, 10);
   }, [location]);
+
+  // read usdj bal
 
   return (
     <header className="border-border border-b p-page py-3 flex justify-between items-center sticky top-0 bg-background z-[101]">
@@ -46,8 +52,14 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-x-4 mobile:mr-14">
+
+
         <div className="flex items-center gap-x-4">
           <ConnectWallet />
+        </div>
+
+        <div className="border border-mute py-1 px-2 rounded-lg hover:border-zinc-300 hover:text-zinc-300 group duration-150 ease-in">
+          <p>USDJ: {parseFloat(usdj.getUserBalance().toString()).toFixed(2)}</p>
         </div>
 
         <Link

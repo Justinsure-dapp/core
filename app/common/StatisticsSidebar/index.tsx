@@ -23,6 +23,13 @@ export default function StatisticsSidebar() {
     args: [address || zeroAddress],
   });
 
+  const { data: decimals } = useReadContract({
+    ...contractDefinitions.surecoin,
+    functionName: "decimals",
+  });
+
+  const earnedProper = earned ? Number(earned) / 10 ** (decimals || 18) : 0;
+
   return (
     <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen mobile:hidden">
       {!hidden && (
@@ -48,7 +55,7 @@ export default function StatisticsSidebar() {
               <div className="flex gap-2 items-center">
                 <h2 className="text-xs">Pending:</h2>
                 <p className="font-mono text-secondary text-2xl font-medium">
-                  {earned ? earned.toString() : "0"}
+                  {earned ? (earnedProper).toString() : "0"}
                 </p>
               </div>
             </div>
