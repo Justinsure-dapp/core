@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConnectWallet from "./ConnectWallet";
 import Icon from "./Icon";
 import { useNavigate, useLocation, Link } from "react-router-dom";

@@ -251,6 +251,11 @@ router.post("/buy/:address", async (req, res) => {
   const { address } = req.params;
   const { user, data, sign, premium } = req.body;
 
+  if(!user || !data || !sign || !premium || !address) {
+    res.status(400).json({ message: "Invalid Request" });
+    return;
+  }
+
   try {
     // verify the signature
     const nonce = nonceStore[user];
@@ -275,8 +280,8 @@ router.post("/buy/:address", async (req, res) => {
       address,
       user,
       premium,
-      data.claim,
-      data.duration,
+      data.claimValue,
+      data.claimDuration,
     ]);
 
     const receipt = await evm.client.waitForTransactionReceipt({

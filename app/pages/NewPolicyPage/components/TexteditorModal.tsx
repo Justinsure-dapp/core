@@ -5,12 +5,14 @@ interface TexteditorModalProps {
   defaultValue?: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
   argsSetter: React.Dispatch<React.SetStateAction<string[]>>;
+  extraParams?: string[];
 }
 
 export default function TexteditorModal(props: TexteditorModalProps) {
   const modal = useModal();
-
   const editorRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+
+  console.log(props.defaultValue)
 
   function extractPythonFunction(
     text: string,
@@ -31,12 +33,34 @@ export default function TexteditorModal(props: TexteditorModalProps) {
     }
   }
 
+  function appendDefaultParameters(text: string, extraParams: string[]): string {
+    const functionDetails = extractPythonFunction(text);
+    if (!functionDetails) {
+      return text;
+    }
+  
+    const { functionName, argumens: args } = functionDetails;
+    const newArgs = [...args];
+  
+    // Append extra parameters only if they are not already present
+    extraParams.forEach(param => {
+      if (!newArgs.includes(param)) {
+        newArgs.push(param);
+      }
+    });
+  
+    const newFunctionString = `def ${functionName}(${newArgs.join(", ")}):`;
+  
+    // Replace the old function definition with the new one
+    return text.replace(/def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\([^)]*\)\s*:/, newFunctionString);
+  }
+
   return (
     <div className="bg-background p-5 rounded-md w-[50vw] flex flex-col gap-y-4 border border-mute/40">
       <textarea
         required
         className="bg-transparent border rounded-md p-2 resize-none h-[50vh] border-border"
-        defaultValue={"def function_name(arg1, arg2):\n    return arg1 + arg2"}
+        defaultValue={props.defaultValue || "def function_name(arg1, arg2):\n    return arg1 + arg2"}
         ref={editorRef}
       />
       <div className="flex gap-x-[4vw] px-[2vw]">
@@ -48,18 +72,20 @@ export default function TexteditorModal(props: TexteditorModalProps) {
               alert("Please add a function");
               return;
             }
-            const f = extractPythonFunction(editorRef.current.value);
+            let updatedFunction = editorRef.current.value;
+            if (props.extraParams) {
+              updatedFunction = appendDefaultParameters(updatedFunction, props.extraParams);
+            }
+            const f = extractPythonFunction(updatedFunction);
             if (!f) {
               alert("Invalid Function");
               return;
             }
 
             console.log(f.argumens)
-            props.setter(editorRef.current.value);
+            props.setter(updatedFunction);
             props.argsSetter([
               ...f.argumens,
-              'claimAmount',
-              'claimDuration',
             ]);
             modal.hide();
           }}
