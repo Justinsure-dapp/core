@@ -10,7 +10,7 @@ import { twMerge } from "tailwind-merge";
 import ClipboardWrapper from "../../../common/ClipboardWrapper";
 import { formatEvmAddress } from "../../../utils";
 import Icon from "../../../common/Icon";
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { isAddress } from "viem";
 
@@ -20,6 +20,7 @@ export default function PolicyCard(props: {
 }) {
   const { policy } = props;
   const { data: user } = useApiResponse(api.user.get, policy.creator);
+  
   const minimumDurationInDays = moment
     .duration(policy.minimumDuration, "milliseconds")
     .asDays();
@@ -29,7 +30,7 @@ export default function PolicyCard(props: {
 
   if (!policy.address) return null;
 
-  const { data: isPaused } = useContractRead({
+  const { data: isPaused } = useReadContract({
     ...contractDefinitions.insuranceController,
     address: isAddress(policy.address) ? policy.address : undefined,
     functionName: "paused",
@@ -39,7 +40,7 @@ export default function PolicyCard(props: {
 
   return (
     <Link
-      to={`/policies/${props.policy.address}`}
+      to={`/policies/${policy.address}`}
       className={twMerge(
         "py-6 p-4 bg-mute/5 rounded-md relative group border border-border",
         props.className,

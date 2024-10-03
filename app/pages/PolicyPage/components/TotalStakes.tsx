@@ -1,30 +1,30 @@
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 import Icon from "../../../common/Icon";
 import { Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
-import { isAddress } from "viem";
+import { isAddress, zeroAddress } from "viem";
 
 export default function TotalStakes({ policy }: { policy: Policy }) {
-  if (!policy.address || !policy.creator) return null;
-  if (!isAddress(policy.creator)) return null;
-  if (!isAddress(policy.address)) return null;
+  const creatorAddress = isAddress(policy.creator) ? policy.creator : zeroAddress;
+  const policyAddress = isAddress(policy.address) ? policy.address : zeroAddress;
 
-  const { data: totalStake } = useContractRead({
+  const { data: totalStake } = useReadContract({
     ...contractDefinitions.insuranceController,
-    address: isAddress(policy.address) ? policy.address : undefined,
+    address: policyAddress,
     functionName: "totalStake",
   });
 
-  const { data: ownerStake } = useContractRead({
-    ...contractDefinitions.stakeToken,
-    address: isAddress(policy.stakeToken) ? policy.stakeToken : undefined,
-    functionName: "balanceOf",
-    args: [policy.address],
+  const { data: ownerStake } = useReadContract({
+    ...contractDefinitions.insuranceController,
+    address: policyAddress,
+    functionName: "stakedAmountOfAddress",
+    args: [creatorAddress],
   });
 
   const ownerStakePercentage =
-    ownerStake && totalStake ? (ownerStake / totalStake) * BigInt(100) : 0;
+    (ownerStake && totalStake) ? (Number(ownerStake) / Number(totalStake)) * 100 : 0;
 
+  if((creatorAddress === zeroAddress) || (policyAddress === zeroAddress)) return null;
   return (
     <div className="w-full flex-col flex gap-y-2 pt-4 pb-16 p-page">
       <div className="flex justify-between mobile:gap-y-2">
@@ -35,11 +35,11 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
       </div>
       <div className="w-full bg-primary/20 h-[1vh] rounded-xl relative mt-3">
         <div
-          className="bg-primary h-[1vh] rounded-xl flex items-center justify-end"
+          className="bg-secondary h-[1vh] rounded-xl flex items-center justify-end"
           style={{ width: `${ownerStakePercentage}%` }}
         >
-          <div className="p-1 bg-background rounded-full border border-primary">
-            <Icon icon="shield_person" className="text-[1.5rem] text-primary" />
+          <div className="p-1 bg-background rounded-full border border-secondary">
+            <Icon icon="shield_person" className="text-[1.5rem] text-secondary" />
           </div>
         </div>
 

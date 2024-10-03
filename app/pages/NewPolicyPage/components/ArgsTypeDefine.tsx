@@ -19,7 +19,9 @@ export default function ArgsTypeDefine(props: {
   const [res, setRes] = useState<Args>([]);
 
   useEffect(() => {
-    props.setter && props.setter(res);
+    props.setter && props.setter([
+    ...res,
+    ]);
   }, [res]);
 
   useEffect(() => {

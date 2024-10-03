@@ -51,6 +51,7 @@
     "@openzeppelin/contracts": "^5.0.2",
     "@types/axios": "^0.14.0",
     "@types/chai": "^4.2.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/mocha": ">=9.1.0",
     "@types/node": ">=18.0.0",

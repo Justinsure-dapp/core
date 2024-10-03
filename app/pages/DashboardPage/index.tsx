@@ -1,13 +1,15 @@
 import DocTitle from "../../common/DocTitle";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Icon from "../../common/Icon";
 import PolicyCard from "./components/PolicyCard";
 import useApiResponse from "../../hooks/useApiResponse";
 import api from "../../utils/api";
 import { useAccount } from "wagmi";
+import useWeb3 from "../../contexts/web3context";
 
 export default function DashboardPage() {
   const { address } = useAccount();
+  const { user } = useWeb3();
 
   const { data: policies, loading } = useApiResponse(
     api.policy.fetchAllPoliciesByCreator,
@@ -16,8 +18,11 @@ export default function DashboardPage() {
 
   return (
     <section className="p-page py-4">
-      <DocTitle title="Dashboard" />
-      <h1 className="text-2xl font-semibold">Your Policies</h1>
+      <DocTitle title="Marketer Dashboard" />
+      <h1 className="text-2xl font-semibold">Policies Created</h1>
+      <h2 className=" text-mute font-semibold">
+        Here are the policies created by you..
+      </h2>
       <div className="mt-4 w-full flex gap-x-4">
         <input
           type="text"

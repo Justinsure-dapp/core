@@ -2,12 +2,13 @@ import { useState } from "react";
 import AutomatedInvestment from "./AutomatedInvestment";
 import PolicyHolders from "./PolicyHolders";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { isAddress, zeroAddress } from "viem";
 import { Policy, User } from "../../../types";
 import useModal from "../../../hooks/useModal";
 import StakeModal from "../../PolicyPage/components/StakeModal";
+import useWeb3 from "../../../contexts/web3context";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
@@ -16,33 +17,18 @@ export default function PolicyCard(props: { policy: Policy }) {
   const policyAddress = isAddress(props.policy.address)
     ? props.policy.address
     : zeroAddress;
-  const creatorAddress = isAddress(props.policy.creator)
-    ? props.policy.creator
-    : zeroAddress;
 
-  const { data: isPaused } = useContractRead({
+  const { data: isPaused } = useReadContract({
     abi: contractDefinitions.insuranceController.abi,
     address: policyAddress,
-    functionName: "paused",
+    functionName: "paused"
   });
 
-  const { data: totalStake } = useContractRead({
-    ...contractDefinitions.insuranceController,
-    address: isAddress(props.policy.address) ? props.policy.address : undefined,
-    functionName: "totalStake",
+  const { data: totalStake } = useReadContract({
+    abi: contractDefinitions.insuranceController.abi,
+    address: policyAddress,
+    functionName: "totalStake"
   });
-
-  const { data } = useContractRead({
-    ...contractDefinitions.stakeToken,
-    address: isAddress(props.policy.stakeToken)
-      ? props.policy.stakeToken
-      : undefined,
-    functionName: "totalSupply",
-  });
-
-  console.log(data);
-
-  // const { data: creator } = useApiResponse(api.user.get, props.policy.creator);
 
   return (
     <div
@@ -68,12 +54,7 @@ export default function PolicyCard(props: { policy: Policy }) {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-4">
-                <div className="text-green-500">POLICY ACTIVE:</div>
-                <div className="transition-all border border-zinc-600 p-2 text-back rounded-lg font-medium">
-                  Total Stake: {totalStake?.toString()} FUSDT
-                </div>
-              </div>
+              <div className="text-green-500">POLICY ACTIVE</div>
             )}
           </div>
         </div>
@@ -83,7 +64,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
             <p className="text-front/80 flex items-center text-sm">
-              Stake Holders &#160;{" "}
+              {props.policy.holders?.length} Policy Holders
             </p>
           </div>
           <div className="p-2 bg-green-500/20 rounded-xl">
@@ -92,7 +73,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
         <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
-            <p className="text-front/80 text-sm">Money in Pool &#160; </p>
+            <p className="text-front/80 text-sm">{totalStake?.toString()} USDJ Staked</p>
           </div>
           <div className="p-2 bg-front/20 rounded-xl">
             <img src="https://img.icons8.com/pulsar-color/32/money-bag.png" />
@@ -100,23 +81,19 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
       </div>
 
-      <button
+      {/* <button
         className="absolute bottom-2 right-4 underline underline-offset-2 text-zinc-100"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "View Less" : "View More"}
-      </button>
+      </button> */}
 
-      {expanded && (
-        <div className="flex flex-col">
-          {/* <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
-              Recent Activity
-            </button> */}
-          <PolicyHolders />
-          {/* <StakeDistribution data={props.policy.data} /> */}
+      {/* {expanded && (
+        <div className="flex flex-col gap-5">
+          <PolicyHolders holders={props.policy.holders} />
           <AutomatedInvestment />
         </div>
-      )}
+      )} */}
     </div>
   );
 }

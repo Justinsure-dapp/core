@@ -53,8 +53,14 @@ export default function TexteditorModal(props: TexteditorModalProps) {
               alert("Invalid Function");
               return;
             }
+
+            console.log(f.argumens)
             props.setter(editorRef.current.value);
-            props.argsSetter(f.argumens);
+            props.argsSetter([
+              ...f.argumens,
+              'claimAmount',
+              'claimDuration',
+            ]);
             modal.hide();
           }}
         >

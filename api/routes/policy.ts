@@ -10,6 +10,7 @@ import executor from "../executor";
 import surityInterface from "../contracts/surityInterface";
 import evm from "../evm";
 import evmConfig from "../../evmConfig";
+import { writeContract } from "viem/_types/actions/wallet/writeContract";
 
 const router = express.Router();
 
@@ -18,10 +19,10 @@ const pinata = new PinataSDK({
   pinataGateway: process.env.PINATA_GATEWAY_URL,
 });
 
-const newPolicyNonceStore: Record<string, string> = {};
-router.post("/new/request-nonce", async (req, res) => {
-  newPolicyNonceStore[req.body.address] = generateRandomHex(32);
-  res.status(200).send({ nonce: newPolicyNonceStore[req.body.address] });
+const nonceStore: Record<string, string> = {};
+router.post("/request-nonce", async (req, res) => {
+  nonceStore[req.body.address] = generateRandomHex(32);
+  res.status(200).send({ nonce: nonceStore[req.body.address] });
 });
 
 router.post("/new", async (req, res) => {
@@ -59,7 +60,7 @@ router.post("/new", async (req, res) => {
     // check if signature is valid
     const verified = await verifyMessage({
       address: creatorAddress,
-      message: `${JSON.stringify(data)}${newPolicyNonceStore[creatorAddress]}`,
+      message: `${JSON.stringify(data)}${nonceStore[creatorAddress]}`,
       signature: sign,
     });
 
@@ -82,16 +83,24 @@ router.post("/new", async (req, res) => {
     const tokenSymbol = generateTokenSymbol(data.name);
     const blockNumberBeforeTx = await evm.client.getBlockNumber();
 
-    const txHash = await surityInterface.write.createInsurancePolicy([
-      creatorAddress,
-      cid,
-      data.name,
-      tokenSymbol,
-      BigInt(data.minimumDuration),
-      BigInt(data.maximumDuration),
-      BigInt(data.minimumClaim),
-      BigInt(data.maximumClaim),
-    ]);
+    const txHash = await surityInterface.write.createInsurancePolicy(
+      [
+        creatorAddress,
+        cid,
+        data.name,
+        tokenSymbol,
+        BigInt(data.minimumDuration),
+        BigInt(data.maximumDuration),
+        BigInt(data.minimumClaim),
+        BigInt(data.maximumClaim),
+      ],
+      {
+        nonce:
+          (await evm.client.getTransactionCount({
+            address: evm.client.account.address,
+          })) - 1,
+      },
+    );
 
     const receipt = await evm.client.waitForTransactionReceipt({
       hash: txHash,
@@ -171,33 +180,19 @@ router.get("/get/:address", async (req, res) => {
   const { address } = req.params;
   const policy = await Policy.findOne({ address: address });
 
-  console.log(policy);
-
-  return res.status(200).send({ policy });
+  res.status(200).send({ policy });
+  return;
 });
 
 router.get("/fetch/all", async (req, res) => {
   try {
     const policies = await Policy.find();
-
-    // const policyData = [];
-    // fetch files for each CID from pinata
-    // for (const policy of policies) {
-    //   const cid = policy.cid;
-    //   const file = await pinata.gateways.get(cid);
-    //   const IPFSJSON = await blobToJSON(file.data as Blob);
-    //   policyData.push({
-    //     ...IPFSJSON,
-    //     address: policy.address,
-    //     tags: policy.tags,
-    //     rating: policy.rating,
-    //   });
-    // }
-
-    return res.status(200).send({ policies });
+    res.status(200).send({ policies });
+    return;
   } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: error?.message });
+    res.status(500).json({ message: error?.message });
+    return;
   }
 });
 
@@ -206,10 +201,12 @@ router.get("/fetch/:address", async (req, res) => {
 
   try {
     const policies = await Policy.find({ creator });
-    return res.status(200).send({ policies });
+    res.status(200).send({ policies });
+    return;
   } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: error?.message });
+    res.status(500).json({ message: error?.message });
+    return;
   }
 });
 
@@ -235,7 +232,7 @@ ${policy.premiumFunc}
 print(${funcName}(${args.map((a) => a.value).join(",")}))
     `;
 
-    const key = crypto.hash("SHA256", pyFile).toString();
+    const key = crypto.createHash("sha256").update(pyFile).digest("hex");
 
     executor.outputStore[key] = {
       pycode: pyFile,
@@ -244,10 +241,113 @@ print(${funcName}(${args.map((a) => a.value).join(",")}))
 
     executor.executionQueue.push(key);
 
-    return res.send({ key: key });
+    res.send({ key: key });
+    return;
   } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: error?.message });
+    if (error?.message) {
+      res.status(500).json({ message: error?.message });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
+    return;
+  }
+});
+
+router.post("/buy/:address", async (req, res) => {
+  const { address } = req.params;
+  const { user, data, sign, premium } = req.body;
+
+  try {
+    // verify the signature
+    const nonce = nonceStore[user];
+
+    const verified = await verifyMessage({
+      address: user,
+      message: JSON.stringify(data) + nonce,
+      signature: sign,
+    });
+
+    if (!verified) {
+      res.status(401).json({ message: "Signature verification failed" });
+      return;
+    }
+
+    if (!isAddress(address) || !isAddress(user)) {
+      res.status(400).json({ message: "Invalid Policy Address" });
+      return;
+    }
+
+    const txHash = await surityInterface.write.issuePolicyInstance([
+      address,
+      user,
+      premium,
+      data.claim,
+      data.duration,
+    ]);
+
+    const receipt = await evm.client.waitForTransactionReceipt({
+      hash: txHash,
+    });
+
+    if (receipt.status !== "success") {
+      res.status(400).json({ message: "Staking failed" });
+      return;
+    }
+
+    // update policy doc
+    const policy = await Policy.findOne({ address });
+
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    }
+
+    policy.holders.push(user);
+    await policy.save();
+
+    res.status(200).json({ message: "Policy bought successfully", receipt });
+    return;
+  } catch (error: any) {
+    console.error(error);
+    if (error?.message) {
+      res.status(500).json({ message: error?.message });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
+    return;
+  }
+});
+
+router.post("/update/stakers/:address", async (req, res) => {
+  const { staker } = req.body;
+  const address = req.params.address;
+
+  try {
+    const policy = await Policy.findOne({
+      address,
+    });
+
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    }
+
+    if (!policy.stakers.includes(staker)) {
+      policy.stakers.push(staker);
+      await policy.save();
+    }
+
+    res.status(200).json({ message: "Stakers updated successfully.." });
+    return;
+  } catch (error: any) {
+    console.error(error);
+    if (error?.message) {
+      res.status(500).json({ message: error?.message });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
+    return;
   }
 });
 

@@ -3,32 +3,52 @@ import { closestTimeUnit } from "../../../utils";
 import useModal from "../../../hooks/useModal";
 import RequestClaimModal from "./RequestClaimModal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useAccount, useReadContract } from "wagmi";
+import contractDefinitions from "../../../contracts";
+import { zeroAddress } from "viem";
+import useWeb3 from "../../../contexts/web3context";
 
 export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
   const modal = useModal();
   const [parent] = useAutoAnimate();
+  const { address } = useAccount();
+  // const { policies } = useWeb3();
+
+  const { data: balance } = useReadContract({
+    ...contractDefinitions.surecoin,
+    functionName: "balanceOf",
+    args: [address || zeroAddress],
+  });
+
+  
 
   return (
     <div className="flex flex-col p-page">
-      <div className="flex justify-between mt-4 items-center">
-        <h1 className="text-xl font-bold tracking-wide">Your Policies</h1>
-        <div className="flex items-center gap-4">
-          <p className="font-mono font-semibold">SureCoin: 103.00</p>
-          <button className="bg-primary text-back text-sm opacity-100 hover:opacity-90 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
-            Withdraw
-          </button>
-        </div>
-      </div>
       <div
         ref={parent}
         className="flex mt-4 gap-y-2 flex-col p-6 rounded-lg bg-secondary/10 border border-border/20 mobile:p-2"
       >
+        <div className="flex justify-between m-4 items-center">
+          <div>
+            <h1 className="text-2xl font-semibold">Policies Owned</h1>
+            <h2 className=" text-mute font-semibold">
+              Here are the policies owned by you..
+            </h2>
+          </div>
+          <div className="flex items-center gap-4">
+            <p className="font-mono font-semibold">SureCoin: {balance?.toString()}</p>
+            <button className="bg-primary text-back text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
+              Withdraw
+            </button>
+          </div>
+        </div>
+
         {policies.map(
           (policy, key) =>
             (viewMore || key < 2) && (
               <div
-                className="bg-background m-2 rounded-lg flex flex-col p-4 border border-border/50 "
+                className="bg-background m-2 rounded-lg flex flex-col p-8 border border-border/50 "
                 key={key}
               >
                 <div className="flex gap-x-4">

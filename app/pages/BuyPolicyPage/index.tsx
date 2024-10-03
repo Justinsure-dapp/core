@@ -21,6 +21,7 @@ export default function BuyPolicyPage() {
   const [isDurationInRange, setIsDurationInRange] = useState<boolean>(true);
   const { address: policyAddress } = useParams<{ address: string }>();
   const modal = useModal();
+  const [loading, setLoading] = useState(false);
 
   function checkRange(min: number, max: number, inputValue: number) {
     return inputValue >= min && inputValue <= max;
@@ -52,9 +53,44 @@ export default function BuyPolicyPage() {
     }
   }, [duration]);
 
-  const handleFormSubmit = (data: Record<string, string>) => {
-    if (policyData) {
-      modal.show(<RequestQuoteModal policy={policyData} initialStake={true} />);
+  const handleFormSubmit = async (data: Record<string, string>) => {
+    setLoading(true);
+    try {
+      if (policyData) {
+        const argsArray = policyData.premiumFuncArgs.map((arg: any) => {
+          return {
+            arg: arg.name,
+            value: data[arg.name],
+          };
+        });
+
+        if (!argsArray.every((arg: any) => arg.value)) {
+          alert("Please fill all the fields");
+          setLoading(false);
+          return;
+        }
+
+        const { key } = await api.policy.calculatePremium(policyData.address, argsArray);
+
+        const intervalId = setInterval(async () => {
+          const newData = await api.policy.getExecutedKey(key);
+
+          if (newData.completed && newData.output) {
+            setLoading(false);
+
+            if (!isNaN(parseFloat(newData.output)) && isFinite(Number(newData.output))) {
+              modal.show(<RequestQuoteModal policy={policyData} formData={data} premium={parseFloat(newData.output)} />);
+            } else {
+              alert("Invalid output type received from the policy");
+            }
+
+            clearInterval(intervalId);
+          }
+        }, 1000);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error while calculating premium!");
     }
   };
 
@@ -65,7 +101,18 @@ export default function BuyPolicyPage() {
   return (
     <>
       <DocTitle title="Buy Policy" />
-      <div className="flex gap-x-6 p-page py-8">
+      <div className="flex gap-x-6 p-page py-8 relative">
+
+        {loading && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+            <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
+              <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
+              <p className="text-primary mt-2 font-semibold">Calculating Premium</p>
+              <p className="text-mute">Please wait...</p>
+            </div>
+          </div>
+        )}
+
         <DataForm
           callback={handleFormSubmit}
           className="flex flex-col gap-y-7 flex-1 mobile:p-page"
@@ -84,7 +131,7 @@ export default function BuyPolicyPage() {
                 isClaimInRange ? "" : "border-red-500 ",
               )}
               placeholder="Claim value"
-              name="Claim Value"
+              name="claim"
               value={claimValue}
               onChange={(e) => {
                 if (policyData) {
@@ -118,7 +165,7 @@ export default function BuyPolicyPage() {
                 twInputStyle,
                 isDurationInRange ? "" : "border-red-500",
               )}
-              name="Duration"
+              name="duration"
               defaultValue={1000 * 60 * 60 * 24}
               setter={setDuration}
             />
@@ -147,32 +194,12 @@ export default function BuyPolicyPage() {
                       className={twMerge(twInputStyle, "w-full")}
                       placeholder={arg.htmlType}
                       name={arg.name}
+                      required
                     />
                   </div>
                 ))}
             </div>
           </div>
-
-          {/* <div className="w-full">
-            <h1>Claim calculation function arguments</h1>
-            <div className="mt-2 bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
-              {insuranceData.claimCalculationFunction.arguments.map(
-                (arg, key) => (
-                  <div key={key} className="w-full flex flex-col gap-y-2">
-                    <div className="flex gap-x-2">
-                      <Heading className="capitalize">{arg.name}:</Heading>
-                      <p className="text-front/80">{arg.description}</p>
-                    </div>
-                    <input
-                      type={arg.htmlType}
-                      className={twMerge(twInputStyle, "w-full")}
-                      placeholder={arg.htmlType}
-                    />
-                  </div>
-                )
-              )}
-            </div>
-          </div> */}
           <button
             type="submit"
             className="bg-primary py-2 px-6 rounded-md text-back font-medium w-max"
@@ -186,79 +213,3 @@ export default function BuyPolicyPage() {
     </>
   );
 }
-
-// const insuranceData = {
-//   claimLimits: { minimum: 1000, maximum: 50000 },
-//   durationLimits: { minimum: 864000000, maximum: 2592000000 },
-//   premiumCalculationFunction: {
-//     function: "calculateAutoPremium",
-//     arguments: [
-//       { name: "carValue", description: "Value of the car", htmlType: "number" },
-//       { name: "age", description: "Age of the driver", htmlType: "number" },
-//       {
-//         name: "drivingHistory",
-//         description: "Driving history of the insured",
-//         htmlType: "text",
-//       },
-//     ],
-//     description: "Function to calculate premium for auto insurance",
-//   },
-//   intialStake: 1500,
-//   tags: ["auto", "insurance", "vehicle"],
-// };
-
-const newObj = {
-  claimLimits: {
-    minimum: 1,
-    maximum: 100,
-  },
-  durationLimits: {
-    minimum: 172800000,
-    maximum: 518400000,
-  },
-  claimValidationFunction: {
-    function: "def sex(ok, no):\n   return",
-    description: "no",
-    arguments: [
-      {
-        name: "ok",
-        description: "",
-        htmlType: "text",
-        _id: "66e8acf27ec72a0ac134741d",
-      },
-      {
-        name: "no",
-        description: "",
-        htmlType: "text",
-        _id: "66e8acf27ec72a0ac134741e",
-      },
-    ],
-  },
-  premiumCalculationFunction: {
-    function: "def sex(ok, no):\n   return",
-    description: "ok",
-    arguments: [
-      {
-        name: "ok",
-        description: "",
-        htmlType: "text",
-        _id: "66e8acf27ec72a0ac134741f",
-      },
-      {
-        name: "no",
-        description: "",
-        htmlType: "text",
-        _id: "66e8acf27ec72a0ac1347420",
-      },
-    ],
-  },
-  _id: "66e8acf27ec72a0ac134741c",
-  address: "0x1AB121856693bD8Cab8Ce88AB47BC5d1c9dD2260",
-  owner: "0xAA1bfB4D4eCDbc78A6f929D829fded3710D070D0",
-  name: "iiitm",
-  description: "marr gye toh / suicide. college ki mkc",
-  category: "Terrorism",
-  intialStake: 500000000,
-  tags: [],
-  __v: 0,
-};
