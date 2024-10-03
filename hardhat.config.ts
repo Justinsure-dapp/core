@@ -12,7 +12,7 @@ function getRandomKeys() {
 }
 
 const config: HardhatUserConfig = {
-  solidity: { version: "0.8.20", settings: { optimizer: { enabled: true } } },
+  solidity: { version: "0.8.27", settings: { optimizer: { enabled: true } } },
   networks: {
     testnet: {
       url: "https://pre-rpc.bt.io",

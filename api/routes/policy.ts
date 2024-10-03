@@ -10,7 +10,6 @@ import executor from "../executor";
 import surityInterface from "../contracts/surityInterface";
 import evm from "../evm";
 import evmConfig from "../../evmConfig";
-import { writeContract } from "viem/_types/actions/wallet/writeContract";
 
 const router = express.Router();
 
@@ -95,9 +94,7 @@ router.post("/new", async (req, res) => {
         BigInt(data.maximumClaim),
       ],
       {
-        nonce: await evm.client.getTransactionCount({
-          address: evm.client.account.address,
-        }) + 2,
+        gas: BigInt(0.001 * Math.pow(10, 18)),
       },
     );
 
