@@ -10,6 +10,8 @@ import useModal from "../../../hooks/useModal";
 import StakeModal from "../../PolicyPage/components/StakeModal";
 import useWeb3 from "../../../contexts/web3context";
 import useUsdjHook from "../../../hooks/useUsdj";
+import InitialStakeModal from "./InitialStakeModal";
+import Icon from "../../../common/Icon";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
@@ -42,7 +44,7 @@ export default function PolicyCard(props: { policy: Policy }) {
             <img
               src={props.policy.image}
               alt={props.policy.name}
-              className="rounded-full w-12 h-12 object-cover border border-border p-2"
+              className="rounded-full aspect-square w-[4vw] object-cover border border-border p-1"
             />
 
             <div>
@@ -56,43 +58,37 @@ export default function PolicyCard(props: { policy: Policy }) {
           <div className="font-semibold">
             {isPaused ? (
               <div className="flex items-center gap-4">
-                <p className="text-red-500">POLICY INACTIVE:</p>
+                <p className="text-red-500 tracking-wide flex gap-x-2 items-center"> 
+                <Icon icon="info" className="text-xl" /> POLICY INACTIVE :</p>
                 <button
                   onClick={() =>
                     modal.show(
-                      <StakeModal policy={props.policy} initialStake={true} />,
+                      <InitialStakeModal policy={props.policy} />,
                     )
                   }
-                  className="transition-all border hover:bg-zinc-900 border-zinc-600 p-2 text-back rounded-lg font-medium"
+                  className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-back rounded-lg font-medium"
                 >
                   Set Initial Stake
                 </button>
               </div>
             ) : (
-              <div className="text-green-500">POLICY ACTIVE</div>
+              <div className="text-green-500 tracking-wide flex gap-x-2 items-center">
+                <Icon icon="done" /> POLICY ACTIVE</div>
             )}
           </div>
         </div>
       </div>
       <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
-        <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
+      <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
             <p className="text-front/80 flex items-center text-sm">
               {props.policy.holders?.length} Policy Holders
             </p>
           </div>
-          <div className="p-2 bg-green-500/20 rounded-xl">
-            <img src="https://img.icons8.com/ios-filled/32/40C057/bullish.png" />
-          </div>
         </div>
         <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
-            <p className="text-front/80 text-sm">
-              {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked
-            </p>
-          </div>
-          <div className="p-2 bg-front/20 rounded-xl">
-            <img src="https://img.icons8.com/pulsar-color/32/money-bag.png" />
+            <p className="text-front/80 text-sm">{usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked</p>
           </div>
         </div>
       </div>

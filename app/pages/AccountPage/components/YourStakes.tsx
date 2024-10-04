@@ -1,10 +1,38 @@
 import { twMerge } from "tailwind-merge";
 import PieChart from "../../../common/PieChart";
 import { generateShades } from "../../../utils";
+import { StakedInCard } from "../../../common/StatisticsSidebar/components/StakingStats";
+import useWeb3 from "../../../contexts/web3context";
+import { useState } from "react";
+import { useAccount } from "wagmi";
 
 export default function YourStakes() {
+  const { policies } = useWeb3();
+  const [totalStake, setTotalStake] = useState(0);
+  const [stakes, setStakes] = useState<{
+    name: string;
+    address: string;
+    value: number;
+  }[]>([]);
+  const { address } = useAccount();
+
+  console.log({
+    stakes
+  })
+
+  const policiesStakedIn =
+    policies?.filter((p) => p.stakers?.includes(address as string)) || [];
+
+  const chartData = {
+    labels: stakes.map((s) => s.name),
+    values: stakes.map((s) => s.value),
+    bgColor: generateShades("rgb(26, 201, 255)", stakes.length),
+  }
+
+  if(policiesStakedIn.length < 0) return null;
+
   return (
-    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl py-12 px-8 my-12 mobile:mx-2 widescreen:mx-8 mobile:py-4">
+    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl px-8 my-12 mobile:mx-2 widescreen:mx-8 py-4">
       <div className="flex justify-between mobile:items-center widescreen:items-start">
         <div>
           <h1 className="text-2xl font-semibold">Policies Staked</h1>
@@ -13,43 +41,17 @@ export default function YourStakes() {
           </h2>
         </div>
         <p className="bg-primary/20 border h-fit border-primary/30 px-4 rounded-xl mobile:w-max">
-          Total Staked : <span className="font-mono">890.32</span>
+          Total Staked : <span className="font-mono">{totalStake}</span>
         </p>
       </div>
-      <div className="flex pt-6 items-center justify-around mobile:flex-col mobile:items-center mobile:gap-y-6">
-        <PieChart data={data} className="w-[20vw] mobile:w-[50vw]" />
-        <div className="basis-1/2 flex flex-col gap-y-3 mobile:w-full">
-          {data.labels.map((label, i) => (
-            <div key={i} className="flex w-full items-center gap-x-4">
-              <span className="">{i + 1}</span>
-              <div
-                className={twMerge(
-                  "bg-foreground border border-front/10 w-full py-2 px-4 rounded-xl flex justify-between items-center",
-                  `hover:cursor-pointer hover:scale-[102%] duration-150 ease-in`,
-                )}
-              >
-                <h1 className="">{label}</h1>
-                <p className="font-mono">{data.values[i]}</p>
-              </div>
-            </div>
+      <div className="flex pt-6 justify-between mobile:flex-col items-center gap-10 mobile:gap-6 h-full">
+        <PieChart data={chartData} className="w-[20vw] mobile:w-[50vw]" />
+        <div className="w-full flex border p-4 border-border rounded-xl flex-col gap-y-3 mobile:w-full h-full max-h-[50vh] widescreen:h-[35vh] overflow-auto scrollbar-primary">
+          {policiesStakedIn.map((policy, i) => (
+            <StakedInCard key={i} setStakes={setStakes} setTotalStake={setTotalStake} policy={policy} />
           ))}
         </div>
       </div>
     </div>
   );
 }
-
-const data = {
-  labels: [
-    "Car Insurance - CarSure",
-    "HouseSure - Housing",
-    "LifeSue - LifeSurity",
-    "HealthIn - Healthify",
-    "Car Insurance - CarSure",
-    "HouseSure - Housing",
-    "LifeSue - LifeSurity",
-    "HealthIn - Healthify",
-  ],
-  values: [23, 19, 15, 3, 23, 19, 15, 12],
-  bgColor: generateShades("rgb(26, 201, 255)", 8),
-};

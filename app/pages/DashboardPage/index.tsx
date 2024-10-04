@@ -16,7 +16,9 @@ export default function DashboardPage() {
 
   return (
     <section className="p-page py-4">
+
       <DocTitle title="Marketer Dashboard" />
+
       <h1 className="text-2xl font-semibold">Policies Created</h1>
       <h2 className=" text-mute font-semibold">
         Here are the policies created by you..

@@ -8,7 +8,6 @@ interface Policy {
 interface Marketer {
   name?: string;
   image?: string;
-  policiesCreated?: [string];
 }
 
 export type Arg = {
@@ -23,6 +22,13 @@ interface User {
   name?: string;
   image?: string;
   marketer?: Marketer;
+  policiesOwned: {
+    address: string;
+    premium: number;
+    claimValue: number;
+    claimExpiry: number;
+    isClaimed: boolean;
+  }[];
 }
 
 interface PolicyData {

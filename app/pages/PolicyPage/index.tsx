@@ -8,6 +8,7 @@ import Functions from "./components/Functions";
 import api from "../../utils/api";
 import useApiResponse from "../../hooks/useApiResponse";
 import DocTitle from "../../common/DocTitle";
+import Header1 from "./components/Header1";
 
 export default function PolicyPage() {
   const { address: policyAddress } = useParams();
@@ -24,6 +25,7 @@ export default function PolicyPage() {
 
       {policy && (
         <>
+          <Header1 />
           <Header policy={policy} />
           <ClaimInfo policy={policy} />
           <Functions policy={policy} />
