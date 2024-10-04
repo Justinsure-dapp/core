@@ -61,11 +61,11 @@ export default function PolicyCard(props: {
       <div className="flex flex-col items-start relative">
         {/* Title Section */}
         <div className="flex justify-between w-full">
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-3 items-center">
             <img
               src={policy.image}
               alt={policy.name}
-              className="rounded-full w-10 h-10"
+              className="rounded-full w-12 h-12 border border-border p-2"
             />
 
             <div className="flex flex-col justify-evenly">

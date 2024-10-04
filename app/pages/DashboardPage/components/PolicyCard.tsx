@@ -76,19 +76,17 @@ export default function PolicyCard(props: { policy: Policy }) {
           </div>
         </div>
       </div>
-      <div className="flex gap-x-2 flex-wrap gap-y-4 mobile:gap-y-2">
-        <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-3 py-1 rounded-2xl gap-x-8 justify-between items-center">
+      <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
+      <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
             <p className="text-front/80 flex items-center text-sm">
               {props.policy.holders?.length} Policy Holders
             </p>
           </div>
         </div>
-        <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-3 py-1 rounded-2xl gap-x-8 justify-between items-center">
+        <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
-            <p className="text-front/80 text-sm">
-              {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked
-            </p>
+            <p className="text-front/80 text-sm">{usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked</p>
           </div>
         </div>
       </div>
