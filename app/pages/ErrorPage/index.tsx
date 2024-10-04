@@ -4,9 +4,9 @@ import DocTitle from "../../common/DocTitle";
 export default function ErrorPage() {
   return (
     <article className="h-screen flex justify-center items-center">
-      <DocTitle title="404! You are lost, You lil' adventurer" />
+      <DocTitle title="404 Not Found.." />
 
-      <div className="bg-background rounded-2xl shadow-lg border border-front border-opacity-20 p-6 flex flex-col items-center gap-y-2 w-[30vw] relative">
+      <div className="bg-background rounded-2xl shadow-lg border border-front border-opacity-20 p-6 flex flex-col items-center gap-y-2 w-[30vw] mobile:w-[80vw] relative">
         <div
           className="-z-10 absolute-cover scale-90 bg-primary blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
@@ -24,7 +24,7 @@ export default function ErrorPage() {
           Soparu thinks you are lost. This magical button can help you get back
           though
         </p>
-        <Link to="/" className="bg-secondary p-2 rounded-md">
+        <Link to="/" className="bg-secondary/50 hover:bg-secondary/60 transition-all p-2 rounded-md">
           Back to Safety
         </Link>
       </div>
