@@ -14,6 +14,13 @@ export interface User {
   name?: string;
   image?: string;
   marketer?: Marketer;
+  policiesOwned: {
+    address: string;
+    premium: number;
+    claimValue: number;
+    claimExpiry: number;
+    isClaimed: boolean;
+  }[];
 }
 
 export interface Policy {

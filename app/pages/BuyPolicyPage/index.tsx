@@ -64,8 +64,6 @@ export default function BuyPolicyPage() {
           };
         });
 
-        console.log(argsArray);
-
         if (!argsArray.every((arg: any) => arg.value)) {
           alert("Please fill all the fields");
           setLoading(false);

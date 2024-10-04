@@ -149,10 +149,6 @@ router.post("/new", async (req, res) => {
 
     await policy.save();
 
-    user.marketer.policiesCreated?.push(controllerAddress as string);
-    user.markModified("marketer");
-    await user.save();
-
     res.status(200).json({
       message: "Policy created successfully",
       policy,
@@ -264,14 +260,6 @@ router.post("/buy/:address", async (req, res) => {
     return;
   }
 
-  console.log({
-    address,
-    user,
-    premium: BigInt(premium),
-    claimValue: BigInt(data.claimValue),
-    claimDuration: BigInt(data.claimDuration),
-  });
-
   try {
     // verify the signature
     const nonce = nonceStore[user];
@@ -320,7 +308,40 @@ router.post("/buy/:address", async (req, res) => {
     policy.holders.push(user);
     await policy.save();
 
-    res.status(200).json({ message: "Policy bought successfully", receipt });
+    // update user doc
+    const userDoc = await User.findOne({ address: user });
+    const claimExpiry = Date.now() + data.claimDuration;
+
+    if (!userDoc) {
+      // create new Doc
+      const newUser = new User({
+        address: user,
+        policiesOwned: [
+          {
+            address,
+            premium,
+            claimValue: data.claimValue,
+            claimExpiry,
+            isClaimed: false,
+          },
+        ],
+      });
+
+      await newUser.save();
+    } else {
+      // update existing doc
+      userDoc.policiesOwned.push({
+        address,
+        premium,
+        claimValue: data.claimValue,
+        claimExpiry,
+        isClaimed: false,
+      });
+
+      await userDoc.save();
+    }
+
+    res.status(200).json({ message: "Policy bought successfully" });
     return;
   } catch (error: any) {
     console.error(error);

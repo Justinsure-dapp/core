@@ -3,14 +3,10 @@ import { useEffect, useState } from "react";
 import {
   useAccount,
   useSignMessage,
-  useWaitForTransactionReceipt,
-  useWriteContract,
 } from "wagmi";
-import { isAddress, zeroAddress } from "viem";
 import { useNavigate } from "react-router-dom";
 import useModal from "../../hooks/useModal";
 import useUsdjHook from "../../hooks/useUsdj";
-import contractDefinitions from "../../contracts";
 import { Policy } from "../../types";
 import api from "../../utils/api";
 import Icon from "../../common/Icon";
@@ -28,9 +24,11 @@ export default function StakeModal({
   const modal = useModal();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { allowance, approve, decimals } = useUsdjHook();
+  const { allowance, approve, decimals, multiplyWithDecimals } = useUsdjHook();
   const { address: userAddress } = useAccount();
-  const { signMessage, data: sign } = useSignMessage();
+  const { signMessage, data: sign, error: signError } = useSignMessage();
+
+  const formattedPremium = multiplyWithDecimals(premium);
 
   async function signNonce() {
     if (!decimals || !userAddress) {
@@ -40,7 +38,7 @@ export default function StakeModal({
 
     setLoading(true);
     try {
-      if (allowance === BigInt(0) || Number(allowance) < premium) {
+      if (allowance === BigInt(0) || Number(allowance) < Number(formattedPremium)) {
         await approve();
       }
 
@@ -59,7 +57,7 @@ export default function StakeModal({
     async function buyPolicy() {
       try {
         if (!userAddress || !sign) {
-          return alert("No user address or signature found");
+          return alert("Error while signing the message!");
         }
 
         const result = await api.policy.buyPolicy(
@@ -67,27 +65,44 @@ export default function StakeModal({
           userAddress,
           formData,
           sign,
-          premium,
+          formattedPremium.toString(),
         );
         console.log(result);
         alert("Purchased successfully!");
         setLoading(false);
-        // modal.hide();
-        // navigate('/account');
+        modal.hide();
+        navigate('/account');
       } catch (error) {
         console.error(error);
         alert("Error while buying policy!");
+        setLoading(false);
       }
     }
 
     if (sign) {
       buyPolicy();
+    }
+
+    if(signError) {
+      alert("Error while signing the message!");
       setLoading(false);
     }
-  }, [sign]);
+  }, [sign, signError]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
+    <div className="relative flex flex-col gap-y-1 bg-background max-w-[50vw] mobile:max-w-[70vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
+      {loading && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
+            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
+            <p className="text-primary mt-2 font-semibold">
+              Processing Request..
+            </p>
+            <p className="text-mute">Please wait...</p>
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-between gap-10">
         <h1 className="text-2xl font-bold">
           Buy <span className="text-secondary">{policy.name}</span>{" "}

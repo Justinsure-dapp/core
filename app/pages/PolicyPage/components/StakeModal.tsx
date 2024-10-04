@@ -37,7 +37,7 @@ export default function StakeModal({
 
     setLoading(true);
     try {
-      if (allowance === BigInt(0) || Number(allowance) < stake) {
+      if (allowance === BigInt(0) || Number(allowance) < Number(multiplyWithDecimals(stake))) {
         await approve();
       }
 

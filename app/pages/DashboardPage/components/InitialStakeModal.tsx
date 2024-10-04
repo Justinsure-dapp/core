@@ -100,7 +100,7 @@ export default function InitialStakeModal({
   }, [stakeReciept]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:max-w-[90vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
+    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
       <button
         className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
         onClick={() => modal.hide()}
@@ -111,7 +111,7 @@ export default function InitialStakeModal({
         Initial Stake Required
       </h1>
       {policy.description && (
-        <div className="text-front/50 flex flex-col gap-y-1 text-sm ">To create this policy, you must provide an initial stake. This stake serves two important purposes:
+        <div className="text-front/50 flex flex-col gap-y-1 text-sm ">To activate this policy, you must provide an initial stake. This stake serves two important purposes:
           <p>
             <span className="text-front">
               1. Liquidity Provision:{" "}
@@ -133,14 +133,14 @@ export default function InitialStakeModal({
         <Heading>Enter amount to be Staked in policy</Heading>
         <input
           type="number"
-          className="rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
+          className="mt-1 rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
           placeholder="Enter Amount in USDJ"
           onChange={(e) => setStake(Number(e.target.value))}
         />
       </div>
       <button
         className={twMerge(
-          "mt-6 text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
+          "mt-3 text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
           loading ? "animate-pulse" : "",
         )}
         onClick={handleSubmit}

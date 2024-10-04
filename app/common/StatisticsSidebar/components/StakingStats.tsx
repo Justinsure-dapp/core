@@ -20,7 +20,7 @@ export default function StakingStats() {
 
   return (
     <div
-      className="border-y border-border px-6 py-4 flex flex-col gap-y-5 max-h-[80vh] overflow-y-scroll scrollbar-primary"
+      className="border-y border-border px-6 py-4 flex flex-col max-h-[80vh] overflow-y-scroll scrollbar-primary gap-3"
       ref={containerRef}
     >
       <div className="flex items-center justify-between gap-x-3">
@@ -31,8 +31,8 @@ export default function StakingStats() {
       </div>
 
       {policiesStakedIn.map((policy, index) => (
-        <PolicyCard key={index} setTotalStake={setTotalStake} policy={policy} />
-      ))}
+          <PolicyCard key={index} setTotalStake={setTotalStake} policy={policy} />
+        ))}
     </div>
   );
 }
@@ -68,12 +68,15 @@ function PolicyCard({
   }, [stakeAmount, setTotalStake]);
 
   return (
-    <div className="border hover:bg-secondary/10 transition-all border-border p-2 rounded-lg">
+    <div 
+    className={`border  transition-all border-border p-2 rounded-lg ${policy.creator === address ? "bg-secondary/20 hover:bg-secondary/30" : "hover:bg-secondary/10"}`}
+    title={policy.creator === address ? "Created by you" : "Staked by you"}
+    >
       <div className="flex gap-x-3 items-center">
         <img
-          src="/logo.png"
+          src={policy.image}
           alt="bf"
-          className="aspect-square rounded-lg h-12 bg-foreground"
+          className="aspect-square rounded-full p-2 border border-border h-14 bg-foreground"
         />
         <div className="flex flex-col gap-y-1">
           <h1 className="font-semibold text-sm max-w-[12vw] truncate">

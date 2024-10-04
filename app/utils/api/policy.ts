@@ -120,7 +120,7 @@ const policy = {
     user: string,
     data: any,
     sign: string,
-    premium: number,
+    premium: string,
   ) {
     const response = await client.post(`policy/buy/${address}`, {
       user,
