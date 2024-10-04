@@ -82,21 +82,16 @@ router.post("/new", async (req, res) => {
     const tokenSymbol = generateTokenSymbol(data.name);
     const blockNumberBeforeTx = await evm.client.getBlockNumber();
 
-    const txHash = await surityInterface.write.createInsurancePolicy(
-      [
-        creatorAddress,
-        `ipfs://${cid}`,
-        data.name,
-        tokenSymbol,
-        BigInt(data.minimumDuration),
-        BigInt(data.maximumDuration),
-        BigInt(data.minimumClaim),
-        BigInt(data.maximumClaim),
-      ],
-      {
-        gas: BigInt(0.001 * Math.pow(10, 18)),
-      },
-    );
+    const txHash = await surityInterface.write.createInsurancePolicy([
+      creatorAddress,
+      `ipfs://${cid}`,
+      data.name,
+      tokenSymbol,
+      BigInt(data.minimumDuration),
+      BigInt(data.maximumDuration),
+      BigInt(data.minimumClaim),
+      BigInt(data.maximumClaim),
+    ]);
 
     const receipt = await evm.client.waitForTransactionReceipt({
       hash: txHash,
@@ -254,6 +249,26 @@ router.post("/buy/:address", async (req, res) => {
   const { address } = req.params;
   const { user, data, sign, premium } = req.body;
 
+  if (
+    !user ||
+    !data.claimValue ||
+    !data.claimDuration ||
+    !sign ||
+    !premium ||
+    !address
+  ) {
+    res.status(400).json({ message: "Invalid Request" });
+    return;
+  }
+
+  console.log({
+    address,
+    user,
+    premium: BigInt(premium),
+    claimValue: BigInt(data.claimValue),
+    claimDuration: BigInt(data.claimDuration),
+  });
+
   try {
     // verify the signature
     const nonce = nonceStore[user];
@@ -277,9 +292,9 @@ router.post("/buy/:address", async (req, res) => {
     const txHash = await surityInterface.write.issuePolicyInstance([
       address,
       user,
-      premium,
-      data.claim,
-      data.duration,
+      BigInt(premium),
+      BigInt(data.claimValue),
+      BigInt(data.claimDuration),
     ]);
 
     const receipt = await evm.client.waitForTransactionReceipt({

@@ -1,10 +1,4 @@
-import {
-  createWalletClient,
-  getContract,
-  http,
-  publicActions,
-  zeroAddress,
-} from "viem";
+import { createWalletClient, http, publicActions } from "viem";
 import evmConfig from "../evmConfig";
 import { privateKeyToAccount } from "viem/accounts";
 

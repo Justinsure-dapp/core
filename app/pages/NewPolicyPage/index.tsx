@@ -35,35 +35,28 @@ export default function NewPolicyPage() {
     signMessage,
     data: nonceData,
     isSuccess: nonceSuccess,
+    isError: nonceError,
   } = useSignMessage();
+
+  console.log({
+    nonceError,
+  });
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<any>();
   const navigate = useNavigate();
 
-  console.log({
-    premiumFuncArgs,
-    premiumFuncArgsSetter,
-  });
-
   useEffect(() => {
     async function submitForm() {
       try {
-        if (nonceData && nonceSuccess) {
-          console.log({
-            data: formData,
-            sign: nonceData,
-          });
-
-          const reqBody = {
-            data: formData,
-            sign: nonceData,
-          };
-          const result = await api.policy.createNewPolicy(reqBody);
-          setLoading(false);
-          alert(result?.message);
-          navigate("/dashboard");
-        }
+        const reqBody = {
+          data: formData,
+          sign: nonceData,
+        };
+        const result = await api.policy.createNewPolicy(reqBody);
+        setLoading(false);
+        alert(result?.message);
+        navigate("/dashboard");
       } catch (error: any) {
         setLoading(false);
         console.error(error);
@@ -76,10 +69,16 @@ export default function NewPolicyPage() {
     if (nonceData && nonceSuccess) {
       submitForm();
     }
-  }, [nonceData, nonceSuccess]);
+
+    if (nonceError) {
+      setLoading(false);
+      alert("Failed to sign the message.. Please try again");
+    }
+  }, [nonceData, nonceSuccess, nonceError]);
 
   const handleSubmit = async (data: Record<string, string>) => {
     setLoading(true);
+
     try {
       setFormData({
         ...data,
@@ -195,47 +194,62 @@ export default function NewPolicyPage() {
             </div>
             <div className="flex gap-x-7 mt-7 flex-col gap-y-7">
               {!manualPremiumCheck && (
-                <div className="flex gap-x-7">
-                  <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
-                    <Heading className="p-2">
-                      Premium Calculation Function
-                    </Heading>
-                    <textarea
-                      required
-                      className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
-                      readOnly
-                      value={premiumFunc}
-                      name="premiumFunc"
-                      onClick={() => {
-                        modal.show(
-                          <TexteditorModal
-                            defaultValue={premiumFunc}
-                            setter={setPremiumFunc}
-                            argsSetter={setPremiumFuncArgs}
-                          />,
-                        );
-                      }}
-                    />
-                    <ArgsTypeDefine
-                      className="p-2"
-                      args={premiumFuncArgs}
-                      setter={setPremiumFuncArgsSetter}
-                      key={premiumFunc}
-                    />
+                <div className="flex flex-col gap-4">
+                  <div className="flex gap-2 bg-primary/20 py-2 px-4 rounded-lg hover:bg-primary/10 duration-300 ease-in">
+                    <div className="font-bold text-red-500  animate-pulse items-center flex duration-300 ease-in gap-x-1">
+                      <Icon icon="warning" />
+                    </div>
+                    <p className="text-sm group-hover:opacity-40 ease-in duration-300">
+                      You will have access to "claimAmount" in USDJ(Number) and
+                      "claimDuration" in Milliseconds(Number) variables in your
+                      function by default. You do not need to redeclare them in
+                      the body. You can directly use them in the calculation
+                      logic.
+                    </p>
                   </div>
-                  <div className="flex flex-col gap-y-2 basis-1/2">
-                    <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
-                      Describe this function
-                    </Heading>
-                    <textarea
-                      required
-                      className={twMerge(
-                        twInputStyle,
-                        "h-[25vh] w-full resize-none scrollbar-primary text-sm",
-                      )}
-                      placeholder="Description"
-                      name="premiumFuncDescription"
-                    />
+                  <div className="flex gap-x-7">
+                    <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
+                      <Heading className="p-2">
+                        Premium Calculation Function
+                      </Heading>
+                      <textarea
+                        required
+                        className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
+                        readOnly
+                        value={premiumFunc}
+                        name="premiumFunc"
+                        onClick={() => {
+                          modal.show(
+                            <TexteditorModal
+                              defaultValue={premiumFunc}
+                              setter={setPremiumFunc}
+                              argsSetter={setPremiumFuncArgs}
+                              extraParams={["claimValue", "claimDuration"]}
+                            />,
+                          );
+                        }}
+                      />
+                      <ArgsTypeDefine
+                        className="p-2"
+                        args={premiumFuncArgs}
+                        setter={setPremiumFuncArgsSetter}
+                        key={premiumFunc}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-2 basis-1/2">
+                      <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
+                        Describe this function
+                      </Heading>
+                      <textarea
+                        required
+                        className={twMerge(
+                          twInputStyle,
+                          "h-[25vh] w-full resize-none scrollbar-primary text-sm",
+                        )}
+                        placeholder="Description"
+                        name="premiumFuncDescription"
+                      />
+                    </div>
                   </div>
                 </div>
               )}

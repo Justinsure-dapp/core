@@ -57,12 +57,14 @@ export default function BuyPolicyPage() {
     setLoading(true);
     try {
       if (policyData) {
-        const argsArray = policyData.premiumFuncArgs.map((arg: any) => {
+        let argsArray = policyData.premiumFuncArgs.map((arg: any) => {
           return {
             arg: arg.name,
             value: data[arg.name],
           };
         });
+
+        console.log(argsArray);
 
         if (!argsArray.every((arg: any) => arg.value)) {
           alert("Please fill all the fields");
@@ -130,6 +132,15 @@ export default function BuyPolicyPage() {
           callback={handleFormSubmit}
           className="flex flex-col gap-y-7 flex-1 mobile:p-page"
         >
+          <div className="flex flex-col basis-1/2">
+            <h1 className="text-xl border-b border-front/20 pb-1">
+              Premium Function
+            </h1>
+            <div className="flex flex-col border border-front/40 p-4 hover:bg-foreground/30 duration-300 text-secondary rounded-xl w-full max-h-[30vh] overflow-y-scroll scrollbar-primary mt-4">
+              <pre className="text-xs font-mono">{policyData?.premiumFunc}</pre>
+            </div>
+          </div>
+
           <div>
             <Heading
               className=""
@@ -144,7 +155,7 @@ export default function BuyPolicyPage() {
                 isClaimInRange ? "" : "border-red-500 ",
               )}
               placeholder="Claim value"
-              name="claim"
+              name="claimValue"
               value={claimValue}
               onChange={(e) => {
                 if (policyData) {
@@ -178,7 +189,7 @@ export default function BuyPolicyPage() {
                 twInputStyle,
                 isDurationInRange ? "" : "border-red-500",
               )}
-              name="duration"
+              name="claimDuration"
               defaultValue={1000 * 60 * 60 * 24}
               setter={setDuration}
             />
@@ -196,21 +207,26 @@ export default function BuyPolicyPage() {
             <div className="mt-2 bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
               {policyData?.premiumFuncArgs &&
                 policyData?.premiumFuncArgs.length > 0 &&
-                policyData?.premiumFuncArgs.map((arg: any, key: number) => (
-                  <div key={key} className="w-full flex flex-col gap-y-2">
-                    <div className="flex gap-x-2">
-                      <Heading className="capitalize">{arg.name}:</Heading>
-                      <p className="text-front/80">{arg.description}</p>
+                policyData?.premiumFuncArgs.map((arg: any, key: number) => {
+                  if (arg.name === "claimValue" || arg.name === "claimDuration")
+                    return null;
+
+                  return (
+                    <div key={key} className="w-full flex flex-col gap-y-2">
+                      <div className="flex gap-x-2">
+                        <Heading className="capitalize">{arg.name}:</Heading>
+                        <p className="text-front/80">{arg.description}</p>
+                      </div>
+                      <input
+                        type={arg.htmlType}
+                        className={twMerge(twInputStyle, "w-full")}
+                        placeholder={arg.htmlType}
+                        name={arg.name}
+                        required
+                      />
                     </div>
-                    <input
-                      type={arg.htmlType}
-                      className={twMerge(twInputStyle, "w-full")}
-                      placeholder={arg.htmlType}
-                      name={arg.name}
-                      required
-                    />
-                  </div>
-                ))}
+                  );
+                })}
             </div>
           </div>
           <button

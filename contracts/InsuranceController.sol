@@ -172,7 +172,6 @@ contract InsuranceController is Context, Ownable, Pausable, ReentrancyGuard {
     }
 
     function stakeToPolicy(uint256 stakeAmount_) external nonReentrant {
-
         if (_initialStakeDone && _msgSender() == creator) {
             uint256 fee = stakeAmount_ /
                 _interface.FEE_FRACTION_ON_CREATOR_STAKE();
@@ -184,7 +183,7 @@ contract InsuranceController is Context, Ownable, Pausable, ReentrancyGuard {
                 "Only creator can add initial stake"
             );
             require(
-                stakeAmount_ > _interface.minimumInitialStake(),
+                stakeAmount_ >= _interface.minimumInitialStake(),
                 "Amount must be greater than minimumInitalStake"
             );
             _initialStakeDone = true;

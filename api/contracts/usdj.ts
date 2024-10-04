@@ -5,7 +5,7 @@ import evm from "../evm";
 const usdj = getContract({
   client: evm.client,
   abi: evmConfig.usdj.abi,
-  address: evmConfig.usdj.adddress,
+  address: evmConfig.usdj.address,
 });
 
 export default usdj;

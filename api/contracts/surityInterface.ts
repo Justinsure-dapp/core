@@ -5,7 +5,7 @@ import evm from "../evm";
 const surityInterface = getContract({
   client: evm.client,
   abi: evmConfig.surityInterface.abi,
-  address: evmConfig.surityInterface.adddress,
+  address: evmConfig.surityInterface.address,
 });
 
 export default surityInterface;

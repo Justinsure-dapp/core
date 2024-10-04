@@ -7,34 +7,31 @@ import {
 import contractDefinitions from "../contracts";
 import { UINT256_MAX } from "../config";
 import { zeroAddress } from "viem";
+import { useState } from "react";
 
-type UsdjHook = {
+type SureCoinHook = {
   allowance: bigint | undefined;
   approve: () => Promise<boolean>;
   getUserBalance: () => number;
   decimals: number | undefined;
-  multiplyWithDecimals: (value: number) => bigint;
+  multiplyWithDecimals: (value: bigint) => bigint;
   divideByDecimals: (value: bigint) => number;
+  getUserEarned: () => number;
 };
 
-function useUsdjHook(): UsdjHook {
+function useSureCoinHook(): SureCoinHook {
   const { address: userAddress } = useAccount();
   const { data: txHash, writeContractAsync } = useWriteContract();
 
-  const approvalReciept = useWaitForTransactionReceipt({
-    confirmations: 2,
-    hash: txHash,
-  });
-
   const { data: decimals } = useReadContract({
-    abi: contractDefinitions.usdj.abi,
-    address: contractDefinitions.usdj.address,
+    abi: contractDefinitions.surecoin.abi,
+    address: contractDefinitions.surecoin.address,
     functionName: "decimals",
   });
 
   const { data: allowance } = useReadContract({
-    abi: contractDefinitions.usdj.abi,
-    address: contractDefinitions.usdj.address,
+    abi: contractDefinitions.surecoin.abi,
+    address: contractDefinitions.surecoin.address,
     functionName: "allowance",
     args: [
       userAddress || zeroAddress,
@@ -43,15 +40,26 @@ function useUsdjHook(): UsdjHook {
   });
 
   const { data: balance } = useReadContract({
-    abi: contractDefinitions.usdj.abi,
-    address: contractDefinitions.usdj.address,
+    abi: contractDefinitions.surecoin.abi,
+    address: contractDefinitions.surecoin.address,
     functionName: "balanceOf",
     args: [userAddress || zeroAddress],
   });
 
+  const { data: earned } = useReadContract({
+    ...contractDefinitions.surecoin,
+    functionName: "earned",
+    args: [userAddress || zeroAddress],
+  });
+
+  const approvalReciept = useWaitForTransactionReceipt({
+    confirmations: 2,
+    hash: txHash,
+  });
+
   async function approve() {
     await writeContractAsync({
-      ...contractDefinitions.usdj,
+      ...contractDefinitions.surecoin,
       functionName: "approve",
       args: [contractDefinitions.surityInterface.address, UINT256_MAX],
     });
@@ -64,9 +72,14 @@ function useUsdjHook(): UsdjHook {
     return divideByDecimals(balance);
   }
 
-  function multiplyWithDecimals(value: number) {
+  function getUserEarned() {
+    if (!earned) return 0;
+    return divideByDecimals(earned);
+  }
+
+  function multiplyWithDecimals(value: bigint) {
     if (!decimals) return 0n;
-    return BigInt(value * 10 ** decimals);
+    return BigInt(Number(value) * 10 ** decimals);
   }
 
   function divideByDecimals(value: bigint) {
@@ -78,10 +91,11 @@ function useUsdjHook(): UsdjHook {
     allowance,
     decimals,
     getUserBalance,
+    getUserEarned,
     approve,
     multiplyWithDecimals,
     divideByDecimals,
   };
 }
 
-export default useUsdjHook;
+export default useSureCoinHook;

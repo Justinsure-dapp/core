@@ -54,7 +54,7 @@ async function main() {
   );
 
   await tx(
-    periphery.write.updateStakingRewardRate([10_000n * usdjDecimals], {
+    periphery.write.updateStakingRewardRate([100_000_000n], {
       account: deployer.account,
     }),
   );
