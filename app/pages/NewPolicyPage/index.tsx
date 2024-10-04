@@ -31,7 +31,9 @@ export default function NewPolicyPage() {
   const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Args>([]);
   const [manualPremiumCheck, setManualPremiumCheck] = useState(false);
   const [manualClaimCheck, setManualClaimCheck] = useState(false);
-  const [logo, setLogo] = useState("https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png");
+  const [logo, setLogo] = useState(
+    "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png",
+  );
 
   const {
     signMessage,
@@ -133,7 +135,7 @@ export default function NewPolicyPage() {
                     name="image"
                     className="bg-background focus-within:outline-none px-3 py-3 border border-front/20 rounded-lg"
                     placeholder="Provide logo url"
-                    defaultValue = {logo}
+                    defaultValue={logo}
                     onChange={(e) => setLogo(e.target.value)}
                   />
                 </div>

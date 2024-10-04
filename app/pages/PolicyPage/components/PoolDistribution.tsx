@@ -71,7 +71,9 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
                 className={twMerge(
                   "w-full flex-wrap border border-front/10 py-2 px-4 rounded-xl flex justify-between items-center gap-4",
                   `hover:cursor-pointer hover:scale-[102%] duration-150 ease-in`,
-                  staker === policy.creator ? "bg-secondary/50" : "bg-primary/5",
+                  staker === policy.creator
+                    ? "bg-secondary/50"
+                    : "bg-primary/5",
                 )}
               >
                 <h1 className="">{staker}</h1>

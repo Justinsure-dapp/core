@@ -41,6 +41,7 @@ contract InsuranceController is Context, Ownable, Pausable, ReentrancyGuard {
     );
     event Claimed(address indexed account, uint256 claim);
     event CreatorProfitWithdrawn(uint256 amount);
+    event TotalStakeChanged(uint256 amount);
 
     modifier onlyPolicyOwner(address account_) {
         require(
@@ -202,6 +203,8 @@ contract InsuranceController is Context, Ownable, Pausable, ReentrancyGuard {
         //     address(stakeToken),
         //     stakeAmount_
         // );
+
+        emit TotalStakeChanged(totalStake());
     }
 
     function revokeStakeFromPolicy(uint256 amount_) external nonReentrant {
@@ -220,6 +223,8 @@ contract InsuranceController is Context, Ownable, Pausable, ReentrancyGuard {
         _interface.unregisterStake(_msgSender(), amount_);
 
         stakeToken.burn(_msgSender(), amount_);
+     
+        emit TotalStakeChanged(totalStake());
     }
 
     function withdrawProfits(

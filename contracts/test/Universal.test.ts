@@ -95,8 +95,10 @@ describe("Universal", function () {
 
       await controller.completeInitialStake();
 
-      const ownerBefore = await controller.read.isPolicyOwner([acc2.account.address])
-      expect(ownerBefore).to.be.false
+      const ownerBefore = await controller.read.isPolicyOwner([
+        acc2.account.address,
+      ]);
+      expect(ownerBefore).to.be.false;
 
       await periphery.write.issuePolicyInstance([
         controller.address,
@@ -106,8 +108,10 @@ describe("Universal", function () {
         100n,
       ]);
 
-      const ownerAfter = await controller.read.isPolicyOwner([acc2.account.address])
-      expect(ownerAfter).to.be.true
+      const ownerAfter = await controller.read.isPolicyOwner([
+        acc2.account.address,
+      ]);
+      expect(ownerAfter).to.be.true;
     });
   });
 
@@ -139,7 +143,7 @@ describe("Universal", function () {
       const { controller, acc1 } = await loadFixture(deployFixture);
       const stakedAmount = minimumInitialStake;
 
-      await controller.completeInitialStake()
+      await controller.completeInitialStake();
 
       const totalStake = await controller.read.totalStake();
       expect(totalStake).to.equal(stakedAmount);
@@ -155,7 +159,7 @@ describe("Universal", function () {
     it("registers any stake", async () => {
       const { controller, acc1, surecoin } = await loadFixture(deployFixture);
 
-      await controller.completeInitialStake()
+      await controller.completeInitialStake();
 
       const totalStake = await surecoin.read.totalStake();
       expect(totalStake).to.equal(minimumInitialStake);
@@ -164,7 +168,7 @@ describe("Universal", function () {
     it("registers earnings for stakers", async () => {
       const { controller, acc1, surecoin } = await loadFixture(deployFixture);
 
-      await controller.completeInitialStake()
+      await controller.completeInitialStake();
 
       const earned = await surecoin.read.earned([acc1.account.address]);
       expect(earned > 0n).to.be.true;

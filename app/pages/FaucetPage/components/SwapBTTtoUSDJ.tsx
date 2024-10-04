@@ -1,13 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import Icon from "../../../common/Icon";
-import { useAccount, useBalance, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useReadContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { zeroAddress } from "viem";
 import { twMerge } from "tailwind-merge";
 
 export default function SwapBTTtoUSDJ() {
   const [loading, setLoading] = useState(false);
-  const [sufficient, setSufficient] = useState(false)
+  const [sufficient, setSufficient] = useState(false);
   const { address } = useAccount();
   const [amountIn, setAmountIn] = useState(0);
 
@@ -24,7 +30,7 @@ export default function SwapBTTtoUSDJ() {
     args: [address || zeroAddress],
   });
 
-  const balanceBTT = useBalance({ address: address })
+  const balanceBTT = useBalance({ address: address });
 
   const ratioConsideration = BigInt(100_000_000 * Math.pow(10, 18));
   const { data: amountOut } = useReadContract({
@@ -36,34 +42,36 @@ export default function SwapBTTtoUSDJ() {
   const ratio = Number(amountOut || 0n) / Number(ratioConsideration);
 
   useEffect(() => {
-    if (amountIn > (Number(balanceBTT.data?.value) / Math.pow(10, Number(balanceBTT.data?.decimals)))) {
-      setSufficient(false)
+    if (
+      amountIn >
+      Number(balanceBTT.data?.value) /
+        Math.pow(10, Number(balanceBTT.data?.decimals))
+    ) {
+      setSufficient(false);
+    } else {
+      setSufficient(true);
     }
-    else {
-      setSufficient(true)
-    }
-  }, [amountIn])
+  }, [amountIn]);
 
-  
   const { data: txHash, writeContractAsync } = useWriteContract();
-  
+
   async function handleSwap() {
     if (amountIn === 0) {
       alert("Please enter a valid amount to swap");
       return;
     }
-  
+
     setLoading(true);
-  
+
     if (sufficient) {
       try {
         const txHash = await writeContractAsync({
           ...contractDefinitions.usdj,
           functionName: "mint",
-          value: BigInt(amountIn * Math.pow(10, 18))
+          value: BigInt(amountIn * Math.pow(10, 18)),
         });
 
-          alert("Swap Successful!");
+        alert("Swap Successful!");
       } catch (error) {
         console.error(error);
         alert("Error while swapping!");
@@ -75,8 +83,6 @@ export default function SwapBTTtoUSDJ() {
       setLoading(false);
     }
   }
-  
-
 
   return (
     <div className="flex flex-col items-center gap-y-4">
@@ -134,15 +140,22 @@ export default function SwapBTTtoUSDJ() {
           </div>
         </div>
         <button
-          onClick={() => (handleSwap())}
+          onClick={() => handleSwap()}
           disabled={!sufficient || loading}
-          className={twMerge("px-5 py-2 text-black rounded-md active:translate-y-1 disabled:cursor-not-allowed active:scale-90 duration-300 disabled:pointer-events-none w-[15vw]", sufficient ? 'hover:scale-[102%] hover:-translate-y-1 hover:shadow-lg bg-front/80' : 'bg-front/60 ', loading ? "animate-pulse" : "")}
+          className={twMerge(
+            "px-5 py-2 text-black rounded-md active:translate-y-1 disabled:cursor-not-allowed active:scale-90 duration-300 disabled:pointer-events-none w-[15vw]",
+            sufficient
+              ? "hover:scale-[102%] hover:-translate-y-1 hover:shadow-lg bg-front/80"
+              : "bg-front/60 ",
+            loading ? "animate-pulse" : "",
+          )}
         >
           {loading ? (
             <figure className="w-5 h-5 animate-spin border-2 border-dashed border-white rounded-full" />
+          ) : sufficient ? (
+            "Swap"
           ) : (
-            sufficient ?
-              "Swap" : "Insufficient Balance"
+            "Insufficient Balance"
           )}
         </button>
       </div>

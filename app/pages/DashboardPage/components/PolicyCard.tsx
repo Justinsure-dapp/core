@@ -47,7 +47,9 @@ export default function PolicyCard(props: { policy: Policy }) {
 
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
-              <div className="text-front/80 text-sm">{props.policy.description}</div>
+              <div className="text-front/80 text-sm">
+                {props.policy.description}
+              </div>
             </div>
           </div>
 
