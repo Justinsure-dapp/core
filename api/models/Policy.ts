@@ -7,6 +7,11 @@ const policySchema = new Schema<PolicyData>(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      required: true,
+      default: "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png",
+    },
     cid: {
       type: String,
       required: true,

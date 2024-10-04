@@ -19,6 +19,7 @@ export interface User {
 export interface Policy {
   _id: string;
   address: string;
+  image: string;
   cid: string;
   rating?: number;
   tags?: string[];

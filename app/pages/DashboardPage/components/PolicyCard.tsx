@@ -36,9 +36,21 @@ export default function PolicyCard(props: { policy: Policy }) {
       ref={parent}
       className="flex flex-col gap-y-4 p-6 rounded-lg border border-secondary/30 relative"
     >
-      <div className="flex flex-col  gap-4">
+      <div className="flex flex-col gap-4">
         <div className="flex gap-y-1 justify-between ">
-          <h1 className="text-xl font-semibold">{props.policy.name}</h1>
+          <div className="flex gap-2 items-center">
+            <img
+              src={props.policy.image}
+              alt={props.policy.name}
+              className="rounded-full w-12 h-12 object-cover border border-border p-2"
+            />
+
+            <div>
+              <h1 className="text-xl font-semibold">{props.policy.name}</h1>
+              <div className="text-front/80 text-sm">{props.policy.description}</div>
+            </div>
+          </div>
+
           <div className="font-semibold">
             {isPaused ? (
               <div className="flex items-center gap-4">
@@ -59,7 +71,6 @@ export default function PolicyCard(props: { policy: Policy }) {
             )}
           </div>
         </div>
-        <div className="text-front/80 text-sm">{props.policy.description}</div>
       </div>
       <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
         <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">

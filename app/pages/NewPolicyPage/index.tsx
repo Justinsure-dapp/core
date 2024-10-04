@@ -31,16 +31,14 @@ export default function NewPolicyPage() {
   const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Args>([]);
   const [manualPremiumCheck, setManualPremiumCheck] = useState(false);
   const [manualClaimCheck, setManualClaimCheck] = useState(false);
+  const [logo, setLogo] = useState("https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png");
+
   const {
     signMessage,
     data: nonceData,
     isSuccess: nonceSuccess,
     isError: nonceError,
   } = useSignMessage();
-
-  console.log({
-    nonceError
-  })
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<any>();
@@ -125,14 +123,50 @@ export default function NewPolicyPage() {
               Fill in the details to create a new policy
             </h2>
 
-            <Heading className="mt-7">Name of insurance</Heading>
-            <input
-              required
-              type="text"
-              name="name"
-              className={twInputStyle}
-              placeholder="Enter Policy Name"
-            />
+            <Heading className="mt-4">Basic Details</Heading>
+            <div className="flex justify-between mt-2 gap-10 border border-border p-4 rounded-xl">
+              <div className="flex flex-col w-full">
+                <div className="flex flex-col gap-2">
+                  <Heading className="">Policy Logo</Heading>
+                  <input
+                    type="url"
+                    name="image"
+                    className="bg-background focus-within:outline-none px-3 py-3 border border-front/20 rounded-lg"
+                    placeholder="Provide logo url"
+                    defaultValue = {logo}
+                    onChange={(e) => setLogo(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <Heading className="mt-4">Name of insurance</Heading>
+                  <input
+                    required
+                    type="text"
+                    name="name"
+                    className={twInputStyle}
+                    placeholder="Enter Policy Name"
+                  />
+                </div>
+              </div>
+
+              <div
+                className={twMerge(
+                  "bg-secondary/20 rounded-xl flex items-center justify-center aspect-square w-[240px] mt-2 border border-border",
+                  !logo && "animate-pulse",
+                )}
+              >
+                <img
+                  src={logo}
+                  onError={(e) => {
+                    e.currentTarget.src = "";
+                    setLogo(e.currentTarget.src);
+                  }}
+                  draggable={false}
+                  className="rounded-xl object-cover"
+                />
+              </div>
+            </div>
 
             <Heading className="mt-7">Insurance Description</Heading>
             <textarea
