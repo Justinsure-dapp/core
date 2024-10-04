@@ -27,6 +27,7 @@ interface User {
 
 interface PolicyData {
   address: string;
+  image?: string;
   cid: string;
   rating?: number;
   tags?: string[];

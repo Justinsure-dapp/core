@@ -9,7 +9,7 @@ export default function (props: {
   return (
     <div
       className={twMerge("cursor-pointer relative group/tiny", props.className)}
-      onClick={() => {
+      onClick={(e) => {
         props.textToBeCopied &&
           navigator.clipboard.writeText(props.textToBeCopied);
       }}

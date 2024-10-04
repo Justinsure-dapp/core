@@ -19,7 +19,6 @@ export default function PolicyCard(props: {
   className?: string;
 }) {
   const { policy } = props;
-  const { data: user } = useApiResponse(api.user.get, policy.creator);
 
   const minimumDurationInDays = moment
     .duration(policy.minimumDuration, "milliseconds")
@@ -64,7 +63,7 @@ export default function PolicyCard(props: {
         <div className="flex justify-between w-full">
           <div className="flex gap-4 items-center">
             <img
-              src={user?.marketer?.image}
+              src={policy.image}
               alt={policy.name}
               className="rounded-full w-10 h-10"
             />
@@ -76,6 +75,7 @@ export default function PolicyCard(props: {
                   {policy.category}
                 </span>
               </h2>
+
               <ClipboardWrapper
                 textToBeCopied={policy.address}
                 className="text-xs text-mute"
@@ -86,10 +86,18 @@ export default function PolicyCard(props: {
                 </p>
               </ClipboardWrapper>
 
-              <div className="flex  text-xs  text-front/80">
-                Marketer :
-                <div className="ml-1 text-secondary/80">
-                  {user?.marketer?.name}
+              <div className="flex  text-xs text-secondary/80 ">
+                Marketer:
+                <div className="ml-1 text-mute">
+                  <ClipboardWrapper
+                    textToBeCopied={policy.creator}
+                    className="text-xs"
+                  >
+                    <p className="flex items-center secondary/80 gap-x-1">
+                      {formatEvmAddress(policy.creator)}
+                      <Icon icon="contentCopy" />
+                    </p>
+                  </ClipboardWrapper>
                 </div>
               </div>
             </div>

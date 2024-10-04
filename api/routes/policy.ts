@@ -70,7 +70,9 @@ router.post("/new", async (req, res) => {
 
     // Save data in IPFS without tags
     const tags = data.tags;
+    const image = data.image;
     delete data.tags;
+    delete data.image;
 
     const newBlob = new Blob([JSON.stringify(data)]);
     const newFile = new File([newBlob], `policy_${new Date().getTime()}.json`);
@@ -140,8 +142,9 @@ router.post("/new", async (req, res) => {
       address: controllerAddress,
       stakeToken: stakeTokenAddress,
       stakeTokenSymbol: tokenSymbol,
-      cid: cid,
-      tags: tags,
+      cid,
+      image,
+      tags,
     });
 
     await policy.save();
