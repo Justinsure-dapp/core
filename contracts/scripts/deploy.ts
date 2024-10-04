@@ -6,6 +6,8 @@ import {
   zeroAddress,
 } from "viem";
 import fs from "fs";
+import mongoose from "mongoose";
+import "dotenv/config";
 
 const donau = defineChain({
   id: 1029,
@@ -119,9 +121,25 @@ export default {primaryChain, surityInterface, surecoin, vault, usdj, insuranceC
   console.log("\n\nUPDATED EVM CONFIG");
 }
 
+async function clearDB() {
+  if (!process.env.MONGODB_URI) return;
+  await mongoose.connect(process.env.MONGODB_URI);
+
+  await mongoose.connection.db?.dropDatabase();
+}
+
 main()
-  .then(() => {
+  .then(async () => {
     console.log("\nDEPLOYED SUCCESSFULLY");
+
+    clearDB()
+      .then(() => {
+        process.exit(0);
+      })
+      .catch(() => {
+        process.exit(1);
+      });
+
     process.exit(0);
   })
   .catch((error) => {

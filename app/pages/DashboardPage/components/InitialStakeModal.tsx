@@ -3,7 +3,7 @@ import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 import { useEffect, useState } from "react";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
 import { isAddress, zeroAddress } from "viem";
@@ -11,11 +11,10 @@ import useUsdjHook from "../../../hooks/useUsdj";
 import api from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
 
-export default function StakeModal({
+export default function InitialStakeModal({
   policy,
 }: {
   policy: Policy;
-  initialStake: boolean;
 }) {
   const modal = useModal();
   const [stake, setStake] = useState<number>(0);
@@ -23,11 +22,25 @@ export default function StakeModal({
   const { data: hash, writeContractAsync } = useWriteContract();
   const navigate = useNavigate();
   const { allowance, approve, multiplyWithDecimals } = useUsdjHook();
+  const [showWarning, setShowWarning] = useState(false)
 
   const stakeReciept = useWaitForTransactionReceipt({
     confirmations: 2,
     hash,
   });
+
+  const { data: minStake } = useReadContract({
+    ...contractDefinitions.surityInterface,
+    functionName: "minimumInitialStake"
+  })
+
+  const { data: usdjDecimals } = useReadContract({
+    abi: contractDefinitions.usdj.abi,
+    address: contractDefinitions.usdj.address,
+    functionName: "decimals",
+  });
+
+  const minStakewithDecimals = Number(minStake) / Math.pow(10, Number(usdjDecimals))
 
   async function handleSubmit() {
     if (stake === 0) {
@@ -54,6 +67,15 @@ export default function StakeModal({
   }
 
   useEffect(() => {
+    if (stake < minStakewithDecimals){
+      setShowWarning(true)
+    }
+    else{
+      setShowWarning(false)
+    }
+  }, [stake])
+
+  useEffect(() => {
     async function saveStakeToDB() {
       const result = await api.policy.updateStakers(
         policy.address,
@@ -78,26 +100,36 @@ export default function StakeModal({
   }, [stakeReciept]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
+    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:max-w-[90vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
       <button
-        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1"
+        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
         onClick={() => modal.hide()}
       >
-        <Icon icon="close" className="text-[1.5rem] mobile:text-[1rem]" />
+        <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
       </button>
-      <h1 className="text-2xl font-bold">
-        Stake in <span className="text-secondary">{policy.name}</span> policy
+      <h1 className="text-2xl font-bold mb-2">
+        Initial Stake Required
       </h1>
       {policy.description && (
-        <p className="text-front/80 text-sm">{policy.description}</p>
+        <div className="text-front/50 flex flex-col gap-y-1 text-sm ">To create this policy, you must provide an initial stake. This stake serves two important purposes:
+          <p>
+            <span className="text-front">
+              1. Liquidity Provision:{" "}
+            </span>
+            The initial stake ensures there is enough liquidity to support any claims or payouts from the policy, making the policy viable.
+          </p>
+          <p>
+            <span className="text-front">
+              2. Visibility:{" "}
+            </span>
+            Without the initial stake, the policy will not be visible to the public. Staking upfront demonstrates your commitment to the policy, allowing others to trust and interact with it.
+          </p>
+          <p className="mt-2 text-red-500/80 bg-red-500/10 py-1 px-2 rounded-md">
+            Please note that if no initial stake is provided, the policy will remain inactive & hidden from potential backers.</p>
+        </div>
       )}
-      {policy.tags && policy.tags.length > 0 && (
-        <p className="mt-3">
-          <span className="font-bold text-secondary">Tags:</span>{" "}
-          {policy.tags.map((tag) => `#${tag}`).join(", ")}
-        </p>
-      )}
-      <div className="flex flex-col mt-3">
+      <div className="flex flex-col mt-6 relative">
+        <p className={twMerge("text-xs absolute top-1 right-0 animate-pulse text-red-500 flex gap-x-1 items-center", showWarning ? "" : "hidden")}><Icon icon="info" /> Minimum Stake: {minStakewithDecimals}</p>
         <Heading>Enter amount to be Staked in policy</Heading>
         <input
           type="number"
@@ -108,11 +140,11 @@ export default function StakeModal({
       </div>
       <button
         className={twMerge(
-          "mt-6 text-secondary border-primary font-bold border duration-300 ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
+          "mt-6 text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
           loading ? "animate-pulse" : "",
         )}
         onClick={handleSubmit}
-        disabled={loading}
+        disabled={loading || showWarning}
       >
         {loading ? "Staking..." : "Stake"}
       </button>

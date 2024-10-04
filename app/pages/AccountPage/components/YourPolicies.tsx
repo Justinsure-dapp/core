@@ -21,8 +21,6 @@ export default function YourPolicies() {
     args: [address || zeroAddress],
   });
 
-  
-
   return (
     <div className="flex flex-col p-page">
       <div
@@ -37,7 +35,9 @@ export default function YourPolicies() {
             </h2>
           </div>
           <div className="flex items-center gap-4">
-            <p className="font-mono font-semibold">SureCoin: {balance?.toString()}</p>
+            <p className="font-mono font-semibold">
+              SureCoin: {balance?.toString()}
+            </p>
             <button className="bg-primary text-back text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
               Withdraw
             </button>

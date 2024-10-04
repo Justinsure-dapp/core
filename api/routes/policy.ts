@@ -252,7 +252,14 @@ router.post("/buy/:address", async (req, res) => {
   const { address } = req.params;
   const { user, data, sign, premium } = req.body;
 
-  if (!user || !data.claimValue || !data.claimDuration || !sign || !premium || !address) {
+  if (
+    !user ||
+    !data.claimValue ||
+    !data.claimDuration ||
+    !sign ||
+    !premium ||
+    !address
+  ) {
     res.status(400).json({ message: "Invalid Request" });
     return;
   }

@@ -11,7 +11,9 @@ import { isAddress, zeroAddress } from "viem";
 export default function PoolDistribution({ policy }: { policy: Policy }) {
   const accountRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   useIdleScrollbar(accountRef);
-  const policyAddress = isAddress(policy.address) ? policy.address : zeroAddress;
+  const policyAddress = isAddress(policy.address)
+    ? policy.address
+    : zeroAddress;
 
   const { data: totalStake } = useReadContract({
     ...contractDefinitions.insuranceController,
@@ -48,7 +50,8 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
       <div className="flex justify-between">
         <h1 className="text-xl">Total Stakes</h1>
         <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end">
-          Surecoins : <span className="font-mono">{totalStake?.toString()}</span>
+          Surecoins :{" "}
+          <span className="font-mono">{totalStake?.toString()}</span>
         </p>
       </div>
 

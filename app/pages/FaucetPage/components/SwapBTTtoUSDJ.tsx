@@ -9,7 +9,7 @@ export default function SwapBTTtoUSDJ() {
   const [loading, setLoading] = useState(false);
   const [sufficient, setSufficient] = useState(false)
   const { address } = useAccount();
-  const [amountIn, setAmountIn] = useState(0)
+  const [amountIn, setAmountIn] = useState(0);
 
   const { data: usdjDecimals } = useReadContract({
     abi: contractDefinitions.usdj.abi,
@@ -30,8 +30,8 @@ export default function SwapBTTtoUSDJ() {
   const { data: amountOut } = useReadContract({
     ...contractDefinitions.usdj,
     functionName: "amountOut",
-    args: [ratioConsideration]
-  })
+    args: [ratioConsideration],
+  });
 
   const ratio = Number(amountOut || 0n) / Number(ratioConsideration);
 
@@ -85,7 +85,12 @@ export default function SwapBTTtoUSDJ() {
         <div className="flex flex-col items-center my-4 gap-y-2">
           <div className="flex flex-col">
             <div className="text-sm self-end text-slate-400">
-              Balance : {(Number(balanceBTT.data?.value) / Math.pow(10, Number(balanceBTT.data?.decimals))).toString()} BTT
+              Balance :{" "}
+              {(
+                Number(balanceBTT.data?.value) /
+                Math.pow(10, Number(balanceBTT.data?.decimals))
+              ).toString()}{" "}
+              BTT
             </div>
             <div className="relative">
               <input
@@ -105,7 +110,10 @@ export default function SwapBTTtoUSDJ() {
           <div className="flex flex-col">
             <div className="text-sm self-end text-slate-400">
               Balance :{" "}
-              {usdjDecimals ? Number(balanceUsdj) / Math.pow(10, Number(usdjDecimals)) : "0"} USDJ
+              {usdjDecimals
+                ? Number(balanceUsdj) / Math.pow(10, Number(usdjDecimals))
+                : "0"}{" "}
+              USDJ
             </div>
             <div className="relative">
               {/* {displayInvalidMessage && (

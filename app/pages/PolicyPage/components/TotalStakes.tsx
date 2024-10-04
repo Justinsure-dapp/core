@@ -6,8 +6,12 @@ import { isAddress, zeroAddress } from "viem";
 import useUsdjHook from "../../../hooks/useUsdj";
 
 export default function TotalStakes({ policy }: { policy: Policy }) {
-  const creatorAddress = isAddress(policy.creator) ? policy.creator : zeroAddress;
-  const policyAddress = isAddress(policy.address) ? policy.address : zeroAddress;
+  const creatorAddress = isAddress(policy.creator)
+    ? policy.creator
+    : zeroAddress;
+  const policyAddress = isAddress(policy.address)
+    ? policy.address
+    : zeroAddress;
   const { divideByDecimals } = useUsdjHook();
 
   const { data } = useReadContract({
@@ -28,9 +32,12 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
   const ownerStake = data2 ? divideByDecimals(data2) : 0;
 
   const ownerStakePercentage =
-    (ownerStake && totalStake) ? (Number(ownerStake) / Number(totalStake)) * 100 : 0;
+    ownerStake && totalStake
+      ? (Number(ownerStake) / Number(totalStake)) * 100
+      : 0;
 
-  if((creatorAddress === zeroAddress) || (policyAddress === zeroAddress)) return null;
+  if (creatorAddress === zeroAddress || policyAddress === zeroAddress)
+    return null;
   return (
     <div className="w-full flex-col flex gap-y-2 pt-4 pb-16 p-page">
       <div className="flex justify-between mobile:gap-y-2">
@@ -45,7 +52,10 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
           style={{ width: `${ownerStakePercentage}%` }}
         >
           <div className="p-1 bg-background rounded-full border border-secondary">
-            <Icon icon="shield_person" className="text-[1.5rem] text-secondary" />
+            <Icon
+              icon="shield_person"
+              className="text-[1.5rem] text-secondary"
+            />
           </div>
         </div>
 

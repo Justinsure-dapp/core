@@ -234,7 +234,11 @@ export default function NewPolicyPage() {
                       <Icon icon="warning" />
                     </div>
                     <p className="text-sm group-hover:opacity-40 ease-in duration-300">
-                      You will have access to "claimAmount" in USDJ(Number) and "claimDuration" in Milliseconds(Number) variables in your function by default. You do not need to redeclare them in the body. You can directly use them in the calculation logic.
+                      You will have access to "claimAmount" in USDJ(Number) and
+                      "claimDuration" in Milliseconds(Number) variables in your
+                      function by default. You do not need to redeclare them in
+                      the body. You can directly use them in the calculation
+                      logic.
                     </p>
                   </div>
                   <div className="flex gap-x-7">

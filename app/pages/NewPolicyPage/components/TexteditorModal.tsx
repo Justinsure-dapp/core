@@ -12,7 +12,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
   const modal = useModal();
   const editorRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
-  console.log(props.defaultValue)
+  console.log(props.defaultValue);
 
   function extractPythonFunction(
     text: string,
@@ -33,26 +33,32 @@ export default function TexteditorModal(props: TexteditorModalProps) {
     }
   }
 
-  function appendDefaultParameters(text: string, extraParams: string[]): string {
+  function appendDefaultParameters(
+    text: string,
+    extraParams: string[],
+  ): string {
     const functionDetails = extractPythonFunction(text);
     if (!functionDetails) {
       return text;
     }
-  
+
     const { functionName, argumens: args } = functionDetails;
     const newArgs = [...args];
-  
+
     // Append extra parameters only if they are not already present
-    extraParams.forEach(param => {
+    extraParams.forEach((param) => {
       if (!newArgs.includes(param)) {
         newArgs.push(param);
       }
     });
-  
+
     const newFunctionString = `def ${functionName}(${newArgs.join(", ")}):`;
-  
+
     // Replace the old function definition with the new one
-    return text.replace(/def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\([^)]*\)\s*:/, newFunctionString);
+    return text.replace(
+      /def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\([^)]*\)\s*:/,
+      newFunctionString,
+    );
   }
 
   return (
@@ -60,7 +66,10 @@ export default function TexteditorModal(props: TexteditorModalProps) {
       <textarea
         required
         className="bg-transparent border rounded-md p-2 resize-none h-[50vh] border-border"
-        defaultValue={props.defaultValue || "def function_name(arg1, arg2):\n    return arg1 + arg2"}
+        defaultValue={
+          props.defaultValue ||
+          "def function_name(arg1, arg2):\n    return arg1 + arg2"
+        }
         ref={editorRef}
       />
       <div className="flex gap-x-[4vw] px-[2vw]">
@@ -74,7 +83,10 @@ export default function TexteditorModal(props: TexteditorModalProps) {
             }
             let updatedFunction = editorRef.current.value;
             if (props.extraParams) {
-              updatedFunction = appendDefaultParameters(updatedFunction, props.extraParams);
+              updatedFunction = appendDefaultParameters(
+                updatedFunction,
+                props.extraParams,
+              );
             }
             const f = extractPythonFunction(updatedFunction);
             if (!f) {
@@ -82,11 +94,9 @@ export default function TexteditorModal(props: TexteditorModalProps) {
               return;
             }
 
-            console.log(f.argumens)
+            console.log(f.argumens);
             props.setter(updatedFunction);
-            props.argsSetter([
-              ...f.argumens,
-            ]);
+            props.argsSetter([...f.argumens]);
             modal.hide();
           }}
         >

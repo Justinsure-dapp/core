@@ -1,6 +1,11 @@
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
-import { useAccount, useSignMessage, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useSignMessage,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import { isAddress, zeroAddress } from "viem";
 import { useNavigate } from "react-router-dom";
 import useModal from "../../hooks/useModal";
@@ -11,7 +16,11 @@ import api from "../../utils/api";
 import Icon from "../../common/Icon";
 import Heading from "../NewPolicyPage/components/Heading";
 
-export default function StakeModal({ policy, premium, formData }: {
+export default function StakeModal({
+  policy,
+  premium,
+  formData,
+}: {
   premium: number;
   policy: Policy;
   formData: Record<string, string>;
@@ -53,7 +62,13 @@ export default function StakeModal({ policy, premium, formData }: {
           return alert("No user address or signature found");
         }
 
-        const result = await api.policy.buyPolicy(policy.address, userAddress, formData, sign, premium);
+        const result = await api.policy.buyPolicy(
+          policy.address,
+          userAddress,
+          formData,
+          sign,
+          premium,
+        );
         console.log(result);
         alert("Purchased successfully!");
         setLoading(false);
@@ -73,7 +88,6 @@ export default function StakeModal({ policy, premium, formData }: {
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
-
       <div className="flex items-center justify-between gap-10">
         <h1 className="text-2xl font-bold">
           Buy <span className="text-secondary">{policy.name}</span>{" "}

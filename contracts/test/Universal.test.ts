@@ -4,6 +4,8 @@ import hre from "hardhat";
 import { describe } from "mocha";
 import { maxInt256 } from "viem";
 
+const minimumInitialStake = 100_000_000n;
+
 describe("Universal", function () {
   async function deployFixture() {
     const [owner, acc1, acc2] = await hre.viem.getWalletClients();
@@ -23,7 +25,7 @@ describe("Universal", function () {
       account: acc1.account,
     });
 
-    await periphery.write.setMinimumInitialStake([10n * usdjDecimals]);
+    await periphery.write.setMinimumInitialStake([minimumInitialStake]);
     await periphery.write.updateStakingRewardRate([100_000_000n]);
 
     await periphery.write.createInsurancePolicy([
@@ -45,15 +47,29 @@ describe("Universal", function () {
 
     if (!logs[0].args.controller) throw "Deploy hi nahi ho paya controller";
 
-    const controller = await hre.viem.getContractAt(
+    const controllerIntermediate = await hre.viem.getContractAt(
       "InsuranceController",
-      logs[0].args.controller
+      logs[0].args.controller,
     );
 
     const surecoin = await hre.viem.getContractAt(
       "SureCoin",
-      await periphery.read.surecoin()
+      await periphery.read.surecoin(),
     );
+
+    const controller: typeof controllerIntermediate & {
+      completeInitialStake: () => Promise<void>;
+    } = {
+      ...controllerIntermediate,
+      completeInitialStake: async () => {
+        await controllerIntermediate.write.stakeToPolicy(
+          [minimumInitialStake],
+          {
+            account: acc1.account,
+          },
+        );
+      },
+    };
 
     return {
       owner,
@@ -69,9 +85,29 @@ describe("Universal", function () {
   }
 
   describe("SurityInterface", () => {
-    it("can create new policy", async function () {
+    it("can create new policy", async () => {
       const { controller } = await loadFixture(deployFixture);
       expect(controller.address).to.contain("0x");
+    });
+
+    it("can issue policy instance", async () => {
+      const { periphery, controller, acc2 } = await loadFixture(deployFixture);
+
+      await controller.completeInitialStake();
+
+      const ownerBefore = await controller.read.isPolicyOwner([acc2.account.address])
+      expect(ownerBefore).to.be.false
+
+      await periphery.write.issuePolicyInstance([
+        controller.address,
+        acc2.account.address,
+        0n,
+        0n,
+        100n,
+      ]);
+
+      const ownerAfter = await controller.read.isPolicyOwner([acc2.account.address])
+      expect(ownerAfter).to.be.true
     });
   });
 
@@ -83,10 +119,8 @@ describe("Universal", function () {
     });
 
     it("unpauses when initial stake is received", async () => {
-      const { controller, acc1 } = await loadFixture(deployFixture);
-      await controller.write.stakeToPolicy([100_000_000n], {
-        account: acc1.account,
-      });
+      const { controller } = await loadFixture(deployFixture);
+      await controller.completeInitialStake();
 
       const paused = await controller.read.paused();
       expect(paused).to.equal(false);
@@ -94,7 +128,7 @@ describe("Universal", function () {
 
     it("only allows creator to initiate initial stake", async () => {
       const { controller, acc2 } = await loadFixture(deployFixture);
-      const result = controller.write.stakeToPolicy([100_000_000n], {
+      const result = controller.write.stakeToPolicy([minimumInitialStake], {
         account: acc2.account,
       });
 
@@ -103,11 +137,9 @@ describe("Universal", function () {
 
     it("registers the initial stake", async () => {
       const { controller, acc1 } = await loadFixture(deployFixture);
-      const stakedAmount = 100_000_000n;
+      const stakedAmount = minimumInitialStake;
 
-      await controller.write.stakeToPolicy([stakedAmount], {
-        account: acc1.account,
-      });
+      await controller.completeInitialStake()
 
       const totalStake = await controller.read.totalStake();
       expect(totalStake).to.equal(stakedAmount);
@@ -122,23 +154,17 @@ describe("Universal", function () {
   describe("SureCoin", () => {
     it("registers any stake", async () => {
       const { controller, acc1, surecoin } = await loadFixture(deployFixture);
-      const stakedAmount = 100_000_000n;
 
-      await controller.write.stakeToPolicy([stakedAmount], {
-        account: acc1.account,
-      });
+      await controller.completeInitialStake()
 
       const totalStake = await surecoin.read.totalStake();
-      expect(totalStake).to.equal(stakedAmount);
+      expect(totalStake).to.equal(minimumInitialStake);
     });
 
     it("registers earnings for stakers", async () => {
       const { controller, acc1, surecoin } = await loadFixture(deployFixture);
-      const stakedAmount = 100_000_000n;
 
-      await controller.write.stakeToPolicy([stakedAmount], {
-        account: acc1.account,
-      });
+      await controller.completeInitialStake()
 
       const earned = await surecoin.read.earned([acc1.account.address]);
       expect(earned > 0n).to.be.true;
@@ -147,17 +173,18 @@ describe("Universal", function () {
 
   describe("USDJ", () => {
     it("can be minted using native token (1 every 100 nt)", async () => {
-      const { owner, usdj, usdjDecimals } = await loadFixture(deployFixture)
+      const { owner, usdj, usdjDecimals } = await loadFixture(deployFixture);
 
-      const balanceBefore = await usdj.read.balanceOf([owner.account.address])
+      const balanceBefore = await usdj.read.balanceOf([owner.account.address]);
 
-      await usdj.write.mint({ value: 100n * BigInt(Math.pow(10, 18)) })
+      await usdj.write.mint({ value: 100n * BigInt(Math.pow(10, 18)) });
 
-      const balanceAfter = await usdj.read.balanceOf([owner.account.address])
+      const balanceAfter = await usdj.read.balanceOf([owner.account.address]);
 
-      const usdjReceived = Number(balanceAfter - balanceBefore) / Number(usdjDecimals)
+      const usdjReceived =
+        Number(balanceAfter - balanceBefore) / Number(usdjDecimals);
 
-      expect(usdjReceived).to.equal(1)
-    })
-  })
+      expect(usdjReceived).to.equal(1);
+    });
+  });
 });

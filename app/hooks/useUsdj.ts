@@ -80,7 +80,7 @@ function useUsdjHook(): UsdjHook {
     getUserBalance,
     approve,
     multiplyWithDecimals,
-    divideByDecimals
+    divideByDecimals,
   };
 }
 

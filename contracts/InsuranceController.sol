@@ -182,6 +182,10 @@ contract InsuranceController is Context, Ownable, Pausable, ReentrancyGuard {
                 _msgSender() == creator,
                 "Only creator can add initial stake"
             );
+            require(
+                stakeAmount_ >= _interface.minimumInitialStake(),
+                "Amount must be greater than minimumInitalStake"
+            );
             _initialStakeDone = true;
             _unpause();
         } else {

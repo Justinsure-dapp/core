@@ -94,10 +94,13 @@ const policy = {
     return response.data;
   },
 
-  async calculatePremium(address: string, args: {
-    arg: string;
-    value: string;
-  }[]) {
+  async calculatePremium(
+    address: string,
+    args: {
+      arg: string;
+      value: string;
+    }[],
+  ) {
     const response = await client.get(`policy/premium/${address}`, {
       params: {
         args: JSON.stringify(args),
@@ -112,17 +115,22 @@ const policy = {
     return response.data;
   },
 
-  async buyPolicy(address: string, user: string, data: any, sign: string, premium: number) {
+  async buyPolicy(
+    address: string,
+    user: string,
+    data: any,
+    sign: string,
+    premium: number,
+  ) {
     const response = await client.post(`policy/buy/${address}`, {
       user,
       data,
       sign,
-      premium
+      premium,
     });
 
     return response.data;
-  }
-  
+  },
 };
 
 export default policy;

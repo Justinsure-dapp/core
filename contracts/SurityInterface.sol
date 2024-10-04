@@ -70,7 +70,7 @@ contract SurityInterface is Context, ReentrancyGuard, Ownable {
     uint256 premium_,
     uint256 claim_,
     uint256 duration_
-  ) external onlyOwner onlyController(controllerAddress_) nonReentrant {
+  ) external onlyOwner onlyController(controllerAddress_) {
     uint256 fee = premium_ / FEE_FRACTION_ON_PREMIUM_PAID;
     _collectFee(issueTo_, fee);
 
@@ -91,7 +91,7 @@ contract SurityInterface is Context, ReentrancyGuard, Ownable {
   function issueClaimForPolicyInstance(
     address controllerAddress_,
     address issueTo_
-  ) external onlyOwner onlyController(controllerAddress_) nonReentrant {
+  ) external onlyOwner onlyController(controllerAddress_) {
     InsuranceController(controllerAddress_).issueClaim(issueTo_);
   }
 

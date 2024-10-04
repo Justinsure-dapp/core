@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import StakingStats from "./components/StakingStats";
 import SurityInfo from "./components/SurityInfo";
 import { twMerge } from "tailwind-merge";

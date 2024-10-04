@@ -15,7 +15,8 @@ export default function StakingStats() {
   const [totalStake, setTotalStake] = useState(0);
 
   useIdleScrollbar(containerRef);
-  const policiesStakedIn = policies?.filter((p) => p.stakers?.includes(address as string)) || [];
+  const policiesStakedIn =
+    policies?.filter((p) => p.stakers?.includes(address as string)) || [];
 
   return (
     <div
@@ -36,21 +37,32 @@ export default function StakingStats() {
   );
 }
 
-function PolicyCard({ policy, setTotalStake }: { policy: Policy, setTotalStake: Function }) {
+function PolicyCard({
+  policy,
+  setTotalStake,
+}: {
+  policy: Policy;
+  setTotalStake: Function;
+}) {
   const { address } = useAccount();
   const hasAddedStake = useRef(false);
   const usdj = useUsdjHook();
 
   const { data: stakeAmount } = useReadContract({
     ...contractDefinitions.insuranceController,
-    address: policy.address && isAddress(policy.address) ? policy.address : zeroAddress,
+    address:
+      policy.address && isAddress(policy.address)
+        ? policy.address
+        : zeroAddress,
     functionName: "stakedAmountOfAddress",
     args: [address ? address : zeroAddress],
   });
 
   useEffect(() => {
     if (stakeAmount && !hasAddedStake.current) {
-      setTotalStake((prev: number) => prev + usdj.divideByDecimals(stakeAmount || 0n));
+      setTotalStake(
+        (prev: number) => prev + usdj.divideByDecimals(stakeAmount || 0n),
+      );
       hasAddedStake.current = true;
     }
   }, [stakeAmount, setTotalStake]);
@@ -68,7 +80,9 @@ function PolicyCard({ policy, setTotalStake }: { policy: Policy, setTotalStake: 
             {policy.name}
           </h1>
           <p className="text-xs">Category : {policy.category}</p>
-          <p className="text-xs">Stake: {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}</p>
+          <p className="text-xs">
+            Stake: {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
+          </p>
         </div>
       </div>
     </div>
