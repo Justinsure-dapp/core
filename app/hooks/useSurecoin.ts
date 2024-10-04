@@ -7,13 +7,13 @@ import {
 import contractDefinitions from "../contracts";
 import { UINT256_MAX } from "../config";
 import { zeroAddress } from "viem";
-import { useState } from "react";
 
 type SureCoinHook = {
   allowance: bigint | undefined;
   approve: () => Promise<boolean>;
   getUserBalance: () => number;
   decimals: number | undefined;
+  earned: bigint | undefined;
   multiplyWithDecimals: (value: bigint) => bigint;
   divideByDecimals: (value: bigint) => number;
   getUserEarned: () => number;
@@ -40,8 +40,7 @@ function useSureCoinHook(): SureCoinHook {
   });
 
   const { data: balance } = useReadContract({
-    abi: contractDefinitions.surecoin.abi,
-    address: contractDefinitions.surecoin.address,
+    ...contractDefinitions.surecoin,
     functionName: "balanceOf",
     args: [userAddress || zeroAddress],
   });
@@ -90,6 +89,7 @@ function useSureCoinHook(): SureCoinHook {
   return {
     allowance,
     decimals,
+    earned,
     getUserBalance,
     getUserEarned,
     approve,

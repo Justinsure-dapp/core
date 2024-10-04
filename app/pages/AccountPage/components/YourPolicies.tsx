@@ -59,7 +59,7 @@ export default function YourPolicies() {
   );
 }
 
-function PolicyCard({ policy, key }: { policy: Policy; key: number }) {
+function PolicyCard({ policy }: { policy: Policy; }) {
   const modal = useModal();
   const { address } = useAccount();
   const { user } = useWeb3();
@@ -77,8 +77,7 @@ function PolicyCard({ policy, key }: { policy: Policy; key: number }) {
 
   return (
     <div
-      className="bg-background m-2 rounded-lg flex flex-col p-8 border border-border/50 "
-      key={key}
+      className="bg-background m-2 rounded-lg flex flex-col p-8 border border-border/50"
     >
       <div className="flex gap-x-4">
         <img
