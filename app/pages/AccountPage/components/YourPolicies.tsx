@@ -75,6 +75,8 @@ function PolicyCard({ policy }: { policy: Policy; }) {
     (p) => p.address === policy.address,
   )
 
+  if(!isPolicyOwner) return null;
+
   return (
     <div
       className="bg-background m-2 rounded-lg flex flex-col p-8 border border-border/50"
@@ -103,7 +105,7 @@ function PolicyCard({ policy }: { policy: Policy; }) {
             </button>
           </div>
 
-          {!isPolicyOwner ? (
+          {details?.claimExpiry && Date.now() > details?.claimExpiry ? (
             <div className="mt-2 text-sm">
               <p className="">
                 {" "}

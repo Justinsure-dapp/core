@@ -31,18 +31,20 @@ export default function StakingStats() {
       </div>
 
       {policiesStakedIn.map((policy, index) => (
-          <PolicyCard key={index} setTotalStake={setTotalStake} policy={policy} />
-        ))}
+        <StakedInCard key={index} setTotalStake={setTotalStake} policy={policy} />
+      ))}
     </div>
   );
 }
 
-function PolicyCard({
+export function StakedInCard({
   policy,
   setTotalStake,
+  setStakes,
 }: {
   policy: Policy;
   setTotalStake: Function;
+  setStakes?: Function;
 }) {
   const { address } = useAccount();
   const hasAddedStake = useRef(false);
@@ -60,6 +62,19 @@ function PolicyCard({
 
   useEffect(() => {
     if (stakeAmount && !hasAddedStake.current) {
+      if (setStakes) {
+        setStakes((prev: any) => {
+          return [
+            ...prev,
+            {
+              name: policy.name,
+              address: policy.address,
+              value: usdj.divideByDecimals(stakeAmount || 0n),
+            },
+          ];
+        });
+      }
+      
       setTotalStake(
         (prev: number) => prev + usdj.divideByDecimals(stakeAmount || 0n),
       );
@@ -68,9 +83,9 @@ function PolicyCard({
   }, [stakeAmount, setTotalStake]);
 
   return (
-    <div 
-    className={`border  transition-all border-border p-2 rounded-lg ${policy.creator === address ? "bg-secondary/20 hover:bg-secondary/30" : "hover:bg-secondary/10"}`}
-    title={policy.creator === address ? "Created by you" : "Staked by you"}
+    <div
+      className={`border  transition-all border-border p-2 rounded-lg ${policy.creator === address ? "bg-secondary/20 hover:bg-secondary/30" : "hover:bg-secondary/10"}`}
+      title={policy.creator === address ? "Created by you" : "Staked by you"}
     >
       <div className="flex gap-x-3 items-center">
         <img
