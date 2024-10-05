@@ -26,8 +26,8 @@ interface User {
     address: string;
     premium: number;
     claimValue: number;
-    claimExpiry: number;
-    isClaimed: boolean;
+    claimExpiry: Date;
+    status: "Ongoing" | "Claim Requested" | "Claimed" | "Expired";
   }[];
 }
 

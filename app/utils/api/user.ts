@@ -28,15 +28,10 @@ const user = {
     return data.nonce;
   },
 
-  // async verify(address: string, signedNonce: string) {
-  //   const response = await client.post<{ verified: boolean }>("/user/verify", {
-  //     address,
-  //     signedNonce,
-  //   });
-
-  //   const data = response.data;
-  //   return data.verified ? true : false;
-  // },
+  async fetchPolicyHolders(address: string) {
+    const response = await client.get(`/user/get/holders/${address}`);
+    return response.data;
+  },
 
   async get(address: string) {
     const result = await client.get<{ user: User }>(`/user/get/${address}`);

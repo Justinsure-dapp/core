@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AutomatedInvestment from "./AutomatedInvestment";
 import PolicyHolders from "./PolicyHolders";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -7,16 +7,18 @@ import contractDefinitions from "../../../contracts";
 import { isAddress, zeroAddress } from "viem";
 import { Policy, User } from "../../../types";
 import useModal from "../../../hooks/useModal";
-import StakeModal from "../../PolicyPage/components/StakeModal";
-import useWeb3 from "../../../contexts/web3context";
 import useUsdjHook from "../../../hooks/useUsdj";
 import InitialStakeModal from "./InitialStakeModal";
 import Icon from "../../../common/Icon";
+import api from "../../../utils/api";
+import useApiResponse from "../../../hooks/useApiResponse";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
+  const [holders, setHolders] = useState<User[]>();
   const modal = useModal();
   const usdj = useUsdjHook();
+  const [expanded, setExpanded] = useState(false);
   const policyAddress = isAddress(props.policy.address)
     ? props.policy.address
     : zeroAddress;
@@ -32,6 +34,15 @@ export default function PolicyCard(props: { policy: Policy }) {
     address: policyAddress,
     functionName: "totalStake",
   });
+
+  useEffect(() => {
+    const fetchPolicyHolders = async () => {
+      const response = await api.user.fetchPolicyHolders(policyAddress);
+      setHolders(response.holders);
+    }
+
+    fetchPolicyHolders();
+  }, []);
 
   return (
     <div
@@ -58,8 +69,8 @@ export default function PolicyCard(props: { policy: Policy }) {
           <div className="font-semibold">
             {isPaused ? (
               <div className="flex items-center gap-4">
-                <p className="text-red-500 tracking-wide flex gap-x-2 items-center"> 
-                <Icon icon="info" className="text-xl" /> POLICY INACTIVE :</p>
+                <p className="text-red-500 tracking-wide flex gap-x-2 items-center">
+                  <Icon icon="info" className="text-xl" /> POLICY INACTIVE :</p>
                 <button
                   onClick={() =>
                     modal.show(
@@ -79,7 +90,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
       </div>
       <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
-      <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
+        <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
             <p className="text-front/80 flex items-center text-sm">
               {props.policy.holders?.length} Policy Holders
@@ -93,19 +104,16 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
       </div>
 
-      {/* <button
+      <button
         className="absolute bottom-2 right-4 underline underline-offset-2 text-zinc-100"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "View Less" : "View More"}
-      </button> */}
+      </button>
 
-      {/* {expanded && (
-        <div className="flex flex-col gap-5">
-          <PolicyHolders holders={props.policy.holders} />
-          <AutomatedInvestment />
-        </div>
-      )} */}
+      {expanded && (
+        <PolicyHolders holders={holders} />
+      )}
     </div>
   );
 }
