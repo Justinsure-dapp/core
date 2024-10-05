@@ -26,8 +26,7 @@ export default function Header1({ policy }: { policy: Policy }) {
                     <h1 className='text-3xl font-bold tracking-wider truncate whitespace-nowrap'>{policy.name}</h1>
                     <p>Category: {policy.category}</p>
                     <p className='text-sm text-front/60'>
-                        {`${"nftcar allows you to invest in NFT Cars and the cars yield you returns and a dividend. MERN stack with typescript was used, talwindCSS was used as a CSS library and Prism was used as an ORM. Solidity was used for smart contracts and the NFTS are ERC-1155 tokens to allow multiple owners"
-                            .slice(0, 150)}${"nftcar allows you to invest in NFT Cars and the cars yield you returns and a dividend. MERN stack with typescript was used, talwindCSS was used as a CSS library and Prism was used as an ORM. Solidity was used for smart contracts and the NFTS are ERC-1155 tokens to allow multiple owners".length > 150 ? '...' : ''}`}
+                        {`${policy.description.slice(0, 150)}${policy.description.length > 150 ? '...' : ''}`}
                     </p>
 
                     <div className='flex gap-x-4 mt-4'>

@@ -45,6 +45,7 @@ export interface Policy {
   stakeToken: string;
   holders: string[];
   stakers: string[];
+  claims: string[];
   createdAt: string;
   updatedAt: string;
   premiumFuncArgs: Args;
