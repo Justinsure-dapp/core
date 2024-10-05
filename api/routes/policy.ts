@@ -217,9 +217,17 @@ router.get("/premium/:address/", async (req, res) => {
     const funcName = functionNameMatch ? functionNameMatch[1] : null;
 
     const pyFile = `
-${policy.premiumFunc}
-    
-print(${funcName}(${args.map((a) => a.value).join(",")}))
+try:
+
+  ${policy.premiumFunc}
+  
+  try:
+    print(${funcName}(${args.map((a) => a.value).join(",")}))
+  except:
+    print(-1)
+
+except:
+    print(-1)
     `;
 
     const key = crypto.createHash("sha256").update(pyFile).digest("hex");
