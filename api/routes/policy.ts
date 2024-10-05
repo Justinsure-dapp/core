@@ -331,8 +331,8 @@ router.post("/buy/:address", async (req, res) => {
           {
             address,
             premium,
-            claimValue: data.claimValue,
             claimExpiry,
+            args: data,
             status: "Ongoing",
           },
         ],
@@ -344,8 +344,8 @@ router.post("/buy/:address", async (req, res) => {
       userDoc.policiesOwned.push({
         address,
         premium,
-        claimValue: data.claimValue,
         claimExpiry,
+        args: data,
         status: "Ongoing",
       });
 

@@ -236,11 +236,10 @@ export default function NewPolicyPage() {
                       <Icon icon="warning" />
                     </div>
                     <p className="text-sm group-hover:opacity-40 ease-in duration-300">
-                      You will have access to "claimAmount" in USDJ(Number) and
-                      "claimDuration" in Milliseconds(Number) variables in your
-                      function by default. You do not need to redeclare them in
-                      the body. You can directly use them in the calculation
-                      logic.
+                      You will have access to "claimValue" in USDJ and
+                      "claimDuration" in Milliseconds variables in your
+                      function by default. You can directly use them in the calculation
+                      logic. Do not redeclare them..
                     </p>
                   </div>
                   <div className="flex gap-x-7">
@@ -290,87 +289,102 @@ export default function NewPolicyPage() {
                 </div>
               )}
 
-              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg group hover:bg-primary/10 duration-300 ease-in">
+              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg group hover:bg-primary/10 duration-300 text-sm ease-in">
                 <p className="group-hover:opacity-40 ease-in duration-300">
                   I want to manually verify the request and calculate the
-                  premium
+                  premium..
                 </p>
-                <div className="font-bold text-red-500  animate-pulse items-center hidden group-hover:flex duration-300 ease-in gap-x-1">
-                  Work in Progress{" "}
-                  <span>
-                    <Icon icon="warning" />
-                  </span>
+                <div className="flex items-center gap-2">
+                  <div className="font-bold text-red-500  animate-pulse items-center hidden group-hover:flex duration-300 ease-in gap-x-1">
+                    Work in Progress{" "}
+                    <span>
+                      <Icon icon="warning" />
+                    </span>
+                  </div>
+                  <input
+                    disabled
+                    className="w-[1.2rem] group-hover:opacity-40 ease-in duration-300"
+                    type="checkbox"
+                    checked={manualPremiumCheck}
+                    onChange={() => setManualPremiumCheck(!manualPremiumCheck)}
+                  />
                 </div>
-                <input
-                  disabled
-                  className="w-[1.2rem] group-hover:opacity-40 ease-in duration-300"
-                  type="checkbox"
-                  checked={manualPremiumCheck}
-                  onChange={() => setManualPremiumCheck(!manualPremiumCheck)}
-                />
               </div>
 
               {!manualClaimCheck && (
-                <div className="flex gap-x-7">
-                  <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
-                    <Heading className="p-2">Claim Validation Function</Heading>
-                    <textarea
-                      required
-                      className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
-                      readOnly
-                      value={claimFunc}
-                      name="claimFunc"
-                      onClick={() => {
-                        modal.show(
-                          <TexteditorModal
-                            defaultValue={claimFunc}
-                            setter={setClaimFunc}
-                            argsSetter={setClaimFuncArgs}
-                          />,
-                        );
-                      }}
-                    />
-                    <ArgsTypeDefine
-                      key={claimFunc}
-                      className="p-2"
-                      args={claimFuncArgs}
-                      setter={setclaimFuncArgsSetter}
-                    />
+
+                <div>
+                  <div className="flex gap-2 bg-primary/20 py-2 px-4 rounded-lg hover:bg-primary/10 duration-300 ease-in">
+                    <div className="font-bold text-red-500  animate-pulse items-center flex duration-300 ease-in gap-x-1">
+                      <Icon icon="warning" />
+                    </div>
+                    <p className="text-sm group-hover:opacity-40 ease-in duration-300">
+                      The Claim Validation Function will automatically inherit all the arguments along with their values entered by the buyer when they purchase a policy as global variables. You can directly use them in your function for validating the claim.
+                    </p>
                   </div>
-                  <div className="flex flex-col gap-y-2 basis-1/2">
-                    <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
-                      Describe this function
-                    </Heading>
-                    <textarea
-                      required
-                      className={twMerge(
-                        twInputStyle,
-                        "h-[25vh] w-full resize-none scrollbar-primary text-sm",
-                      )}
-                      placeholder="Description"
-                      name="claimFuncDescription"
-                    />
+                  <div className="flex mt-4 gap-x-7">
+                    <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
+                      <Heading className="p-2">Claim Validation Function</Heading>
+                      <textarea
+                        required
+                        className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
+                        readOnly
+                        value={claimFunc}
+                        name="claimFunc"
+                        onClick={() => {
+                          modal.show(
+                            <TexteditorModal
+                              defaultValue={claimFunc}
+                              setter={setClaimFunc}
+                              argsSetter={setClaimFuncArgs}
+                            />,
+                          );
+                        }}
+                      />
+                      <ArgsTypeDefine
+                        key={claimFunc}
+                        className="p-2"
+                        args={claimFuncArgs}
+                        setter={setclaimFuncArgsSetter}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-2 basis-1/2">
+                      <Heading tooltip="Provide description such that a non-technical person will be able to understand you function">
+                        Describe this function
+                      </Heading>
+                      <textarea
+                        required
+                        className={twMerge(
+                          twInputStyle,
+                          "h-[25vh] w-full resize-none scrollbar-primary text-sm",
+                        )}
+                        placeholder="Description"
+                        name="claimFuncDescription"
+                      />
+                    </div>
                   </div>
                 </div>
               )}
 
-              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg group hover:bg-primary/10 duration-300 ease-in">
+              <div className="flex justify-between bg-primary/20 py-2 px-4 rounded-lg group hover:bg-primary/10 duration-300 text-sm ease-in">
                 <p className="group-hover:opacity-40 ease-in duration-300">
-                  I want to manually verify the request of the Claim
+                  I want to manually verify the request of the Claim..
                 </p>
-                <div className="font-bold text-red-500  animate-pulse items-center hidden group-hover:flex duration-300 ease-in gap-x-1">
-                  Work in Progress{" "}
-                  <span>
-                    <Icon icon="warning" />
-                  </span>
+                <div className="flex gap-2">
+                  <div className="font-bold text-red-500  animate-pulse items-center hidden group-hover:flex duration-300 ease-in gap-x-1">
+                    Work in Progress{" "}
+                    <span>
+                      <Icon icon="warning" />
+                    </span>
+                  </div>
+                  <input
+                    disabled
+                    className=" group-hover:opacity-40 ease-in duration-300"
+                    type="checkbox"
+                    checked={manualClaimCheck}
+                    onChange={() => setManualClaimCheck(!manualClaimCheck)}
+                  />
                 </div>
-                <input
-                  disabled
-                  className="w-[1.2rem] group-hover:opacity-40 ease-in duration-300"
-                  type="checkbox"
-                  checked={manualClaimCheck}
-                  onChange={() => setManualClaimCheck(!manualClaimCheck)}
-                />
               </div>
             </div>
 
@@ -380,7 +394,7 @@ export default function NewPolicyPage() {
                   Minimum duration for the policy
                 </Heading>
                 <DurationInput
-                  className={twMerge("w-1/2", twInputStyle)}
+                  className={twMerge("w-1/2 mt-2", twInputStyle)}
                   name="minimumDuration"
                   defaultValue={1000 * 60 * 60 * 24}
                 />
@@ -390,7 +404,7 @@ export default function NewPolicyPage() {
                   Maximum duration for the policy
                 </Heading>
                 <DurationInput
-                  className={twMerge("w-1/2", twInputStyle)}
+                  className={twMerge("w-1/2 mt-2", twInputStyle)}
                   name="maximumDuration"
                   defaultValue={1000 * 60 * 60 * 24}
                 />
@@ -413,7 +427,7 @@ export default function NewPolicyPage() {
               >
                 Save
               </button>
-              <div className="bg-red-300 w-full p-2 rounded-lg text-red-950">
+              <div className="bg-red-300 w-full p-2 rounded-lg text-black">
                 <p className="text-xs leading-tight">
                   Once you create this policy, you won't be able to edit its
                   details. Therefore, it is crucial to carefully review all the

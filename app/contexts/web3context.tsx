@@ -6,7 +6,6 @@ import wagmiConfig from "../config/wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import api, { clearAddress, setAddress } from "../utils/api";
 import { Policy, User } from "../types";
-import policy from "../utils/api/policy";
 
 interface Web3ContextType {
   user: User | null;

@@ -17,8 +17,8 @@ export interface User {
   policiesOwned: {
     address: string;
     premium: number;
-    claimValue: number;
-    claimExpiry: number;
+    claimExpiry: Date;
+    args: object;
     status: string;
   }[];
 }
