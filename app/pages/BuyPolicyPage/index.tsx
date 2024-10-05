@@ -13,8 +13,6 @@ import useModal from "../../hooks/useModal";
 import RequestQuoteModal from "./RequestQuoteModal";
 
 export default function BuyPolicyPage() {
-  const twInputStyle =
-    "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
   const [claimValue, setClaimValue] = useState<string>("");
   const [isClaimInRange, setIsClaimInRange] = useState<boolean>(true);
   const [duration, setDuration] = useState<number>(0);
@@ -26,6 +24,8 @@ export default function BuyPolicyPage() {
   function checkRange(min: number, max: number, inputValue: number) {
     return inputValue >= min && inputValue <= max;
   }
+
+  const twInputStyle = "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
 
   const { data: policyData } = useApiResponse(
     api.policy.getByAddress,
@@ -220,9 +220,9 @@ export default function BuyPolicyPage() {
                       <input
                         type={arg.htmlType}
                         className={twMerge(twInputStyle, "w-full")}
-                        placeholder={arg.htmlType}
-                        name={arg.name}
-                        required
+                      placeholder={arg.htmlType}
+                      name={arg.name}
+                      required
                       />
                     </div>
                   );
@@ -242,3 +242,4 @@ export default function BuyPolicyPage() {
     </>
   );
 }
+

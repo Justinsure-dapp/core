@@ -8,6 +8,7 @@ import { Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
 import { Address } from "viem";
 import moment from "moment";
+import ClaimCalculationModal from "./ClaimCalculationModal";
 
 export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
@@ -34,9 +35,9 @@ export default function YourPolicies() {
             <p className="font-mono font-semibold">
               {/* SureCoin: {balance?.toString()} */}
             </p>
-            {/* <button className="bg-primary text-back text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
+            <button className="bg-primary text-back text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
               Withdraw
-            </button> */}
+            </button>
           </div>
         </div>
 
@@ -84,7 +85,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
   if (!isPolicyOwner) return null;
 
   async function handleSubmit() {
-    const data = {
+    const claimData = {
       premiumFunctionDetails: {
         function: policy.premiumFunc,
         desc: policy.premiumFuncDescription,
@@ -106,7 +107,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
     };
 
     try {
-      console.log(data)
+      modal.show(<ClaimCalculationModal data={claimData} />);
     } catch (error) {
       console.error(error);
     }

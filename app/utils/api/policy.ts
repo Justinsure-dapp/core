@@ -131,6 +131,9 @@ const policy = {
 
     return response.data;
   },
+
+  async validateClaim(data: object) {
+  }
 };
 
 export default policy;
