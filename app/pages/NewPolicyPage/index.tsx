@@ -244,9 +244,10 @@ export default function NewPolicyPage() {
                   </div>
                   <div className="flex gap-x-7">
                     <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
-                      <Heading className="p-2">
-                        Premium Calculation Function
-                      </Heading>
+                      <div className="flex flex-col p-2">
+                        <Heading className="">Premium Calculation Function</Heading>
+                        <p className="text-sm font-semibold text-zinc-200"> Return Type: <span className="text-red-600 ">Float</span></p>
+                      </div>
                       <textarea
                         required
                         className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
@@ -260,6 +261,9 @@ export default function NewPolicyPage() {
                               setter={setPremiumFunc}
                               argsSetter={setPremiumFuncArgs}
                               extraParams={["claimValue", "claimDuration"]}
+                              placeholder={`def premium(param1, param2):
+    return (claimValue * 0.01 * (param1 + param2)) * (claimDuration / 86400000)
+          `}
                             />,
                           );
                         }}
@@ -324,7 +328,10 @@ export default function NewPolicyPage() {
                   </div>
                   <div className="flex mt-4 gap-x-7">
                     <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
-                      <Heading className="p-2">Claim Validation Function</Heading>
+                      <div className="flex flex-col p-2">
+                        <Heading className="">Claim Validation Function</Heading>
+                        <p className="text-sm font-semibold text-zinc-200"> Return Type: <span className="text-red-600 ">Boolean</span></p>
+                      </div>
                       <textarea
                         required
                         className="w-full bg-background border-2 border-x-transparent border-mute/40 resize-none h-[20vh] outline-none text-xs scrollbar-primary p-1"
@@ -337,6 +344,14 @@ export default function NewPolicyPage() {
                               defaultValue={claimFunc}
                               setter={setClaimFunc}
                               argsSetter={setClaimFuncArgs}
+                              placeholder={
+                                `def claim():
+    if (claimDuration > 86400000 and param1*param2 < 10):
+        return True
+    else:
+        return False
+          `
+                              }
                             />,
                           );
                         }}

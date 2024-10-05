@@ -1,6 +1,5 @@
 import { useState } from "react";
 import useModal from "../../../hooks/useModal";
-import RequestClaimModal from "./RequestClaimModal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useAccount, useReadContract } from "wagmi";
 import useWeb3 from "../../../contexts/web3context";
@@ -8,7 +7,10 @@ import { Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
 import { Address } from "viem";
 import moment from "moment";
-import ClaimCalculationModal from "./ClaimCalculationModal";
+import RequestClaimModal from "./RequestClaimModal";
+import ClipboardWrapper from "../../../common/ClipboardWrapper";
+import { formatEvmAddress } from "../../../utils";
+import Icon from "../../../common/Icon";
 
 export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
@@ -82,8 +84,6 @@ function PolicyCard({ policy }: { policy: Policy }) {
     (p) => p.address === policy.address,
   )
 
-  if (!isPolicyOwner) return null;
-
   async function handleSubmit() {
     const claimData = {
       premiumFunctionDetails: {
@@ -93,6 +93,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
       },
 
       policyDetails: {
+        address: details?.address,
         premium: details?.premium,
         status: details?.status,
         claimExpiry: details?.claimExpiry,
@@ -107,7 +108,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
     };
 
     try {
-      modal.show(<ClaimCalculationModal data={claimData} />);
+      modal.show(<RequestClaimModal claimData={claimData} />);
     } catch (error) {
       console.error(error);
     }
@@ -120,7 +121,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
       <div className="flex gap-x-4">
         <img
           src={policy.image}
-          className="w-[5vw] border border-border p-2 rounded-full h-max mobile:w-[15vw]"
+          className="border border-border w-[12%] p-2 object-cover rounded-full h-max mobile:w-[15vw]"
         />
         <div className="flex flex-col w-full">
           <div className="flex justify-between gap-4 items-start w-full">
@@ -128,9 +129,15 @@ function PolicyCard({ policy }: { policy: Policy }) {
               <h1 className="text-xl font-bold tracking-wide">
                 {policy.name}
               </h1>
-              <p className="text-sm mt-1 font-light text-front/90">
-                {policy.description}
-              </p>
+              <ClipboardWrapper
+                textToBeCopied={policy.address}
+                className="text-xs text-mute"
+              >
+                <p className="flex items-center gap-x-1">
+                  {formatEvmAddress(policy.address)}
+                  <Icon icon="contentCopy" />
+                </p>
+              </ClipboardWrapper>
             </div>
 
             <button
@@ -141,43 +148,39 @@ function PolicyCard({ policy }: { policy: Policy }) {
             </button>
           </div>
 
-          {details?.status !== "Ongoing" ? (
+          {!isPolicyOwner ? (
             <div className="mt-2 text-sm">
               <p className="">
                 {" "}
                 Status:{" "}
                 {details?.status === "Claimed" ? (
-                  <span className="text-green-600">claimed</span>
+                  <span className="text-green-600 font-semibold">claimed</span>
                 ) : (
-                  <span className="text-red-600">expired</span>
+                  <span className="text-red-600 font-semibold">expired</span>
                 )}
               </p>
-
-              {details?.claimExpiry && (
-                <p className="mt-1">
-                  Expired: {" "}
-                  <span className="text-cyan-500">
-                    {moment(details?.claimExpiry).format("DD/MM/YYYY")}
-                  </span>
-                </p>
-              )}
             </div>
           ) : (
             <div className="flex flex-col mt-2 text-sm">
               <p className="">
                 Status:{" "}
-                <span className="text-green-600 font-bold">ongoing</span>
+                <span className="text-cyan-500 font-semibold">ongoing</span>
               </p>
               {details?.claimExpiry && (
                 <p className="mt-1">
                   Expires:{" "}
-                  <span className="text-cyan-500 font-bold">
+                  <span className="text-rose-500 font-semibold">
                     {moment(details?.claimExpiry).fromNow()}
                   </span>
                 </p>
               )}
             </div>
           )}
+
+          <p className="text-sm mt-1 font-light text-front/90">
+            <span>Description:</span>{" "}
+            <span className="font-semibold">{policy.description}</span>
+          </p>
         </div>
       </div>
     </div>

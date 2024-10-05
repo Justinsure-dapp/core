@@ -208,6 +208,10 @@ router.get("/premium/:address/", async (req, res) => {
       value: string;
     }>;
 
+    console.log({
+      args,
+    });
+
     const policy = await Policy.findOne({ address: req.params.address });
     if (!policy) throw "Invalid Policy Address";
 
@@ -385,6 +389,126 @@ router.post("/update/stakers/:address", async (req, res) => {
     }
 
     res.status(200).json({ message: "Stakers updated successfully.." });
+    return;
+  } catch (error: any) {
+    console.error(error);
+    if (error?.message) {
+      res.status(500).json({ message: error?.message });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
+    return;
+  }
+});
+
+router.post("/claim/validate/:address", async (req, res) => {
+  const { args, globalVars } = req.body;
+
+  try {
+    const argsFormatted = Object.entries(args).map(([key, value]) => {
+      return { arg: key, value };
+    });
+
+    const globalVarsPython = Object.entries(globalVars)
+      .map(([key, value]) => `${key} = ${value}`)
+      .join("\n  ");
+
+    const policy = await Policy.findOne({ address: req.params.address });
+    if (!policy) throw "Invalid Policy Address";
+
+    const functionNameMatch = policy.claimFunc.match(
+      /def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/,
+    );
+
+    const funcName = functionNameMatch ? functionNameMatch[1] : null;
+
+    const pyFile = `
+try:
+  ${globalVarsPython}
+
+  ${policy.claimFunc}
+  
+  try:
+    print(${funcName}(${argsFormatted.map((a) => a.value).join(",")}))
+  except:
+    print(-1)
+
+except:
+    print(-1)
+    `;
+
+    const key = crypto.createHash("sha256").update(pyFile).digest("hex");
+
+    executor.outputStore[key] = {
+      pycode: pyFile,
+      output: null,
+    };
+
+    executor.executionQueue.push(key);
+    res.send({ key: key });
+    return;
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+router.post("/claim/issue/:address", async (req, res) => {
+  const { userAddress, signedData, sign } = req.body;
+
+  try {
+    const policy = await Policy.findOne({ address: req.params.address });
+    if (!policy) throw "Invalid Policy Address";
+
+    const verified = await verifyMessage({
+      address: userAddress,
+      message: JSON.stringify(signedData) + nonceStore[userAddress],
+      signature: sign,
+    });
+
+    if (!verified) {
+      res.status(401).json({ message: "Signature verification failed" });
+      return;
+    }
+
+    if (!isAddress(userAddress) || !isAddress(policy.address)) {
+      res.status(400).json({ message: "Invalid Address" });
+      return;
+    }
+
+    const txHash = await surityInterface.write.issueClaimForPolicyInstance([
+      policy.address,
+      userAddress,
+    ]);
+
+    const receipt = await evm.client.waitForTransactionReceipt({
+      hash: txHash,
+    });
+
+    if (receipt.status !== "success") {
+      res.status(400).json({ message: "Claim failed" });
+      return;
+    }
+
+    // update policy doc
+    policy.claims.push(userAddress);
+    await policy.save();
+
+    // update user doc
+    const user = await User.findOne({ address: userAddress });
+
+    if (!user) {
+      res.status(400).json({ message: "User not found.." });
+      return;
+    }
+
+    const policyIndex = user.policiesOwned.findIndex(
+      (p) => p.address === policy.address,
+    );
+
+    user.policiesOwned[policyIndex].status = "Claimed";
+    await user.save();
+
+    res.status(200).json({ message: "Claim requested successfully.." });
     return;
   } catch (error: any) {
     console.error(error);

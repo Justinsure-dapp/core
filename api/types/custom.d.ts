@@ -55,6 +55,7 @@ interface PolicyData {
   stakeTokenSymbol: string;
   holders: string[];
   stakers: string[];
+  claims: string[];
   createdAt: string;
   updatedAt: string;
 }
