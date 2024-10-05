@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import indexRouter from "./routes/_index";
 import executor from "./executor";
-import morgan from "morgan";
+// import morgan from "morgan";
 
 const PORT = Number(process.env.PORT) || 9000;
 
@@ -14,7 +14,7 @@ const app = express();
 app.use(cors({}));
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(morgan("tiny"));
+// app.use(morgan("tiny"));
 
 app.use("/", indexRouter);
 

@@ -25,8 +25,8 @@ export default function PolicyPage() {
 
       {policy && (
         <>
-          <Header1 />
-          <Header policy={policy} />
+          <Header1 policy={policy} />
+          {/* <Header policy={policy} /> */}
           <ClaimInfo policy={policy} />
           <Functions policy={policy} />
           <TotalStakes policy={policy} />
