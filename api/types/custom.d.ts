@@ -25,8 +25,8 @@ interface User {
   policiesOwned: {
     address: string;
     premium: number;
-    claimValue: number;
-    claimExpiry: Date;
+    claimExpiry: date;
+    args: object;
     status: "Ongoing" | "Claim Requested" | "Claimed" | "Expired";
   }[];
 }
@@ -55,6 +55,7 @@ interface PolicyData {
   stakeTokenSymbol: string;
   holders: string[];
   stakers: string[];
+  claims: string[];
   createdAt: string;
   updatedAt: string;
 }

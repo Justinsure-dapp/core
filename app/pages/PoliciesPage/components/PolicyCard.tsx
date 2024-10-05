@@ -172,7 +172,7 @@ className="w-[calc(33%_-_0.82rem)] mobile:w-full border-2 border-border hover:bo
 </p>
 <figure role="separator" className="flex-1" />
 <div className="flex gap-x-2 self-end">
-  <button className="bg-primary/90 text-back font-bold py-1 px-3 rounded-md hover:-translate-y-1 duration-200 ease-in text-sm">
+  <button className="bg-primary/90 text-front font-bold py-1 px-3 rounded-md hover:-translate-y-1 duration-200 ease-in text-sm">
     Buy Now
   </button>
   <button className="bg-back/90 text-primary border-primary border font-bold py-1 px-3 rounded-md hover:-translate-y-1 duration-200 ease-in text-sm">

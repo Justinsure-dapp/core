@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { closestTimeUnit } from "../../../utils";
 import useModal from "../../../hooks/useModal";
-import RequestClaimModal from "./RequestClaimModal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useAccount, useReadContract } from "wagmi";
 import useWeb3 from "../../../contexts/web3context";
@@ -9,6 +7,10 @@ import { Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
 import { Address } from "viem";
 import moment from "moment";
+import RequestClaimModal from "./RequestClaimModal";
+import ClipboardWrapper from "../../../common/ClipboardWrapper";
+import { formatEvmAddress } from "../../../utils";
+import Icon from "../../../common/Icon";
 
 export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
@@ -22,9 +24,9 @@ export default function YourPolicies() {
     <div className="flex flex-col p-page">
       <div
         ref={parent}
-        className="flex mt-4 gap-y-2 flex-col p-6 rounded-lg bg-secondary/10 border border-border/20 mobile:p-2"
+        className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-secondary/10 border border-border/20"
       >
-        <div className="flex justify-between m-4 items-center">
+        <div className="flex justify-between m-2 mx-4 items-center">
           <div>
             <h1 className="text-2xl font-semibold">Policies Owned</h1>
             <h2 className=" text-mute font-semibold">
@@ -35,11 +37,17 @@ export default function YourPolicies() {
             <p className="font-mono font-semibold">
               {/* SureCoin: {balance?.toString()} */}
             </p>
-            <button className="bg-primary text-back text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
+            <button className="bg-primary text-front text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
               Withdraw
             </button>
           </div>
         </div>
+
+        {ownedPolicies.length === 0 && (
+          <div className="flex justify-center items-center h-[20vh]">
+            <h1 className="text-2xl font-semibold text-mute">Nothing to show..</h1>
+          </div>
+        )}
 
         {ownedPolicies.map(
           (policy, key) =>
@@ -49,7 +57,7 @@ export default function YourPolicies() {
         )}
         {ownedPolicies.length > 2 && (
           <button
-            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-back font-bold rounded-lg"
+            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-front font-bold rounded-lg"
             onClick={() => setViewMore(!viewMore)}
           >
             {viewMore ? "View Less" : "View More"}{" "}
@@ -60,7 +68,7 @@ export default function YourPolicies() {
   );
 }
 
-function PolicyCard({ policy }: { policy: Policy; }) {
+function PolicyCard({ policy }: { policy: Policy }) {
   const modal = useModal();
   const { address } = useAccount();
   const { user } = useWeb3();
@@ -76,7 +84,35 @@ function PolicyCard({ policy }: { policy: Policy; }) {
     (p) => p.address === policy.address,
   )
 
-  if (!isPolicyOwner) return null;
+  async function handleSubmit() {
+    const claimData = {
+      premiumFunctionDetails: {
+        function: policy.premiumFunc,
+        desc: policy.premiumFuncDescription,
+        args: policy.premiumFuncArgs,
+      },
+
+      policyDetails: {
+        address: details?.address,
+        premium: details?.premium,
+        status: details?.status,
+        claimExpiry: details?.claimExpiry,
+        args: details?.args,
+      },
+
+      claimFuctionDetails: {
+        function: policy.claimFunc,
+        desc: policy.claimFuncDescription,
+        args: policy.claimFuncArgs,
+      }
+    };
+
+    try {
+      modal.show(<RequestClaimModal claimData={claimData} />);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div
@@ -85,7 +121,7 @@ function PolicyCard({ policy }: { policy: Policy; }) {
       <div className="flex gap-x-4">
         <img
           src={policy.image}
-          className="w-[5vw] border border-border p-2 rounded-full h-max mobile:w-[15vw]"
+          className="border border-border w-[12%] p-2 object-cover rounded-full h-max mobile:w-[15vw]"
         />
         <div className="flex flex-col w-full">
           <div className="flex justify-between gap-4 items-start w-full">
@@ -93,56 +129,58 @@ function PolicyCard({ policy }: { policy: Policy; }) {
               <h1 className="text-xl font-bold tracking-wide">
                 {policy.name}
               </h1>
-              <p className="text-sm mt-1 font-light text-front/90">
-                {policy.description}
-              </p>
+              <ClipboardWrapper
+                textToBeCopied={policy.address}
+                className="text-xs text-mute"
+              >
+                <p className="flex items-center gap-x-1">
+                  {formatEvmAddress(policy.address)}
+                  <Icon icon="contentCopy" />
+                </p>
+              </ClipboardWrapper>
             </div>
 
             <button
-              className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-back font-bold rounded-lg text-sm"
-              onClick={() => modal.show(<RequestClaimModal />)}
+              className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
+              onClick={handleSubmit}
             >
               Request Claim
             </button>
           </div>
 
-          {details?.status !== "Ongoing" ? (
+          {!isPolicyOwner ? (
             <div className="mt-2 text-sm">
               <p className="">
                 {" "}
                 Status:{" "}
                 {details?.status === "Claimed" ? (
-                  <span className="text-green-600">claimed</span>
+                  <span className="text-green-600 font-semibold">claimed</span>
                 ) : (
-                  <span className="text-red-600">expired</span>
+                  <span className="text-red-600 font-semibold">expired</span>
                 )}
               </p>
-
-              {details?.claimExpiry && (
-                <p className="mt-1">
-                  Expired: {" "}
-                  <span className="text-cyan-500">
-                    {moment(details?.claimExpiry).format("DD/MM/YYYY")}
-                  </span>
-                </p>
-              )}
             </div>
           ) : (
             <div className="flex flex-col mt-2 text-sm">
               <p className="">
                 Status:{" "}
-                <span className="text-green-600 font-bold">ongoing</span>
+                <span className="text-cyan-500 font-semibold">ongoing</span>
               </p>
               {details?.claimExpiry && (
                 <p className="mt-1">
                   Expires:{" "}
-                  <span className="text-cyan-500 font-bold">
+                  <span className="text-red-500 font-semibold">
                     {moment(details?.claimExpiry).fromNow()}
                   </span>
                 </p>
               )}
             </div>
           )}
+
+          <p className="text-sm mt-1 font-light text-front/90">
+            <span>Description:</span>{" "}
+            <span className="font-semibold">{policy.description}</span>
+          </p>
         </div>
       </div>
     </div>

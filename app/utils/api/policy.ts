@@ -131,6 +131,23 @@ const policy = {
 
     return response.data;
   },
+
+  async claimPolicy(policyAddress: string, userAddress: string, signedData: object, sign: Address) {
+    const response = await client.post(`policy/claim/issue/${policyAddress}`, {
+      userAddress,
+      signedData,
+      sign,
+    });
+
+    return response.data;
+  },
+
+  async validateClaim(address: string, args: object , globalVars: object) {
+    const response = await client.post(`policy/claim/validate/${address}`, {
+      args, globalVars
+    });
+    return response.data;
+  }
 };
 
 export default policy;

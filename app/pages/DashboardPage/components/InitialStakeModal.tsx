@@ -140,7 +140,7 @@ export default function InitialStakeModal({
       </div>
       <button
         className={twMerge(
-          "mt-3 text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
+          "mt-3 text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
           loading ? "animate-pulse" : "",
         )}
         onClick={handleSubmit}

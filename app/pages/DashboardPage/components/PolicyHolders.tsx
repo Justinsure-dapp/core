@@ -20,8 +20,6 @@ export default function PolicyHolders({
     holderDetails.address = holder.address;
   });
 
-  console.log(holderDetails);
-
   const filteredPolicyHolders = holders
     ?.filter((holder) => {
       if (selectedFilter === "Ongoing") {
@@ -45,7 +43,7 @@ export default function PolicyHolders({
   };
 
   return (
-    <div className="bg-background p-4 rounded-lg border border-front/20">
+    <div className="bg-background p-4 mb-5 rounded-lg border border-front/20">
       <h1 className="text-lg font-bold">Policy Holders</h1>
       <div className="mt-4 w-full flex gap-x-3">
         <input

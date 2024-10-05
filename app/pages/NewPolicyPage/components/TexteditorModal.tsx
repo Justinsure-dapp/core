@@ -6,13 +6,12 @@ interface TexteditorModalProps {
   setter: React.Dispatch<React.SetStateAction<string>>;
   argsSetter: React.Dispatch<React.SetStateAction<string[]>>;
   extraParams?: string[];
+  placeholder: string;
 }
 
 export default function TexteditorModal(props: TexteditorModalProps) {
   const modal = useModal();
   const editorRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
-
-  console.log(props.defaultValue);
 
   function extractPythonFunction(
     text: string,
@@ -67,15 +66,14 @@ export default function TexteditorModal(props: TexteditorModalProps) {
         required
         className="bg-transparent border rounded-md p-2 resize-none h-[50vh] border-border"
         defaultValue={
-          props.defaultValue ||
-          "def function_name(arg1, arg2):\n    return arg1 + arg2"
+          props.defaultValue || props.placeholder
         }
         ref={editorRef}
       />
       <div className="flex gap-x-[4vw] px-[2vw]">
         <button
           type="button"
-          className="flex-1 bg-background border border-border hover:bg-hoverbg text-back rounded-md py-2 font-medium transition-all"
+          className="flex-1 bg-background border border-border hover:bg-hoverbg text-front rounded-md py-2 font-medium transition-all"
           onClick={() => {
             if (!editorRef.current.checkValidity()) {
               alert("Please add a function");

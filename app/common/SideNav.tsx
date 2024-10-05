@@ -59,7 +59,7 @@ export default function Navbar() {
                     Pro
                   </p>
 
-                  <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none">
+                  <p className="absolute left-10 whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none z-20">
                     "Pro" indicates that you are a marketer and you can list
                     <br />
                     policies on our platform
@@ -99,7 +99,7 @@ export default function Navbar() {
       </nav>
 
       <button
-        className="absolute top-[12px] right-4 z-[102] text-2xl bg-foreground border border-border text-back p-[6px] rounded-lg widescreen:hidden"
+        className="absolute top-[12px] right-4 z-[102] text-2xl bg-foreground border border-border text-front p-[6px] rounded-lg widescreen:hidden"
         onClick={() => setShowNav(!showNav)}
       >
         <Icon icon="menu" />
@@ -124,7 +124,7 @@ export default function Navbar() {
                       Pro
                     </p>
 
-                    <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none">
+                    <p className="absolute -top-2 -right-7 whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none z-20">
                       "Pro" indicates that you are a marketer and you can list
                       <br />
                       policies on our platform

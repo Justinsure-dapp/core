@@ -124,7 +124,7 @@ function DescriptionModal(props: {
       </div>
       <button
         type="button"
-        className="bg-primary w-max py-2 px-3 self-center rounded-lg text-back font-bold"
+        className="bg-primary w-max py-2 px-3 self-center rounded-lg text-front font-bold"
         onClick={() => {
           const newDesc = inpRef.current.value;
           const newRes = [...props.args];

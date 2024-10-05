@@ -29,8 +29,6 @@ export default function YourStakes() {
     bgColor: generateShades("rgb(26, 201, 255)", stakes.length),
   }
 
-  if(policiesStakedIn.length < 0) return null;
-
   return (
     <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl px-8 my-12 mobile:mx-2 widescreen:mx-8 py-4">
       <div className="flex justify-between mobile:items-center widescreen:items-start">
@@ -44,14 +42,20 @@ export default function YourStakes() {
           Total Staked : <span className="font-mono">{totalStake}</span>
         </p>
       </div>
-      <div className="flex pt-6 justify-between mobile:flex-col items-center gap-10 mobile:gap-6 h-full">
-        <PieChart data={chartData} className="w-[20vw] mobile:w-[50vw]" />
-        <div className="w-full flex border p-4 border-border rounded-xl flex-col gap-y-3 mobile:w-full h-full max-h-[50vh] widescreen:h-[35vh] overflow-auto scrollbar-primary">
-          {policiesStakedIn.map((policy, i) => (
-            <StakedInCard key={i} setStakes={setStakes} setTotalStake={setTotalStake} policy={policy} />
-          ))}
+      {policiesStakedIn.length > 0 ? (
+        <div className="flex pt-6 justify-between mobile:flex-col items-center gap-10 mobile:gap-6 h-full">
+          <PieChart data={chartData} className="w-[20vw] mobile:w-[50vw]" />
+          <div className="w-full flex border p-4 border-border rounded-xl flex-col gap-y-3 mobile:w-full h-full max-h-[50vh] widescreen:h-[35vh] overflow-auto scrollbar-primary">
+            {policiesStakedIn.map((policy, i) => (
+              <StakedInCard key={i} setStakes={setStakes} setTotalStake={setTotalStake} policy={policy} />
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex justify-center items-center h-[20vh]">
+          <h1 className="text-2xl font-semibold text-mute">Nothing to show..</h1>
+        </div>
+      )}
     </div>
   );
 }

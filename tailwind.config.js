@@ -47,7 +47,7 @@ export default {
         accent: "#ffbc42",
         accent2: "#d81159",
         front: "#FFFFFF",
-        back: "#FFFFFF",
+        back: "#0a0a0a",
         mute: "#71717a",
         border: "#2A2A30",
         hoverbg: "#18181b",
@@ -63,6 +63,7 @@ export default {
         poppins: '"Poppins", sans-serif',
         raleway: '"Raleway", sans-serif',
         spaceGrotesk: '"Space Grotesk", sans-serif',
+        monteserrat: '"Montserrat", sans-serif',
       },
       zIndex: {
         1: 1,

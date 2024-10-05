@@ -1,5 +1,4 @@
-import React, {
-  HTMLInputTypeAttribute,
+import {
   useEffect,
   useRef,
   useState,
@@ -38,11 +37,17 @@ export default function ToastsInput(props: {
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === ",") {
             e.stopPropagation();
-            if (inpRef.current && inpRef.current.value)
-              setRes((p) => [...p, inpRef.current.value]);
+            if (inpRef.current && inpRef.current.value) {
+              const value = inpRef.current.value.trim();
+              if (!res.includes(value)) {
+                setRes((p) => [...p, value]);
+              }
+            }
             setTimeout(() => {
               inpRef.current.value = "";
             }, 10);
+          } else if (e.key === "Backspace" && inpRef.current.value === "") {
+            setRes((p) => p.slice(0, -1));
           }
         }}
       />

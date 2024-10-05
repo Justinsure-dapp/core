@@ -88,6 +88,10 @@ const policySchema = new Schema<PolicyData>(
       type: [String],
       default: [],
     },
+    claims: {
+      type: [String],
+      default: [],
+    },
     premiumFuncArgs: {
       type: [
         {
