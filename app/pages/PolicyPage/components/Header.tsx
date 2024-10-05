@@ -35,7 +35,7 @@ export default function Header(props: { policy: Policy }) {
             <div className="flex gap-x-4">
               <Link
                 to={`/buy-policy/${policy.address}`}
-                className="bg-primary border border-border h-max px-4 py-2 rounded-lg text-back font-semibold hover:bg-primary/80 transition-all"
+                className="bg-primary border border-border h-max px-4 py-2 rounded-lg text-front font-semibold hover:bg-primary/80 transition-all"
               >
                 Buy Policy
               </Link>

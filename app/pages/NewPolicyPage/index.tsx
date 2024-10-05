@@ -437,7 +437,7 @@ export default function NewPolicyPage() {
             <div className="mt-2 flex items-start gap-4">
               <button
                 type="submit"
-                className="bg-primary py-2 px-6 rounded-md text-back font-medium disabled:cursor-progress disabled:opacity-60 disabled:animate-pulse"
+                className="bg-primary py-2 px-6 rounded-md text-front font-medium disabled:cursor-progress disabled:opacity-60 disabled:animate-pulse"
                 disabled={loading}
               >
                 Save

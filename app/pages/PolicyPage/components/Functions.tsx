@@ -21,7 +21,7 @@ export default function Functions(props: { policy: Policy }) {
         <p className="mt-2 text-mute">{policy.claimFuncDescription}</p>
         <div className="flex flex-col border border-front/40 p-4 hover:bg-foreground/30 duration-300 text-secondary rounded-xl w-max mt-4">
           <pre className="text-xs font-mono">{policy.claimFunc}</pre>
-          {/* <button className="text-sm self-end px-3 py-1 rounded-md font-bold mt-4 bg-primary text-back w-max">
+          {/* <button className="text-sm self-end px-3 py-1 rounded-md font-bold mt-4 bg-primary text-front w-max">
             Read More
           </button> */}
         </div>

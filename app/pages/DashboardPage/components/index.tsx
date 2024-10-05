@@ -38,7 +38,7 @@ export default function DashboardPage() {
         </button>
         <Link
           to="/new-policy"
-          className="bg-primary text-back px-6 rounded-lg py-2 font-medium"
+          className="bg-primary text-front px-6 rounded-lg py-2 font-medium"
         >
           Create New Policy
         </Link>

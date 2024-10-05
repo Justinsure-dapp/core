@@ -15,7 +15,6 @@ export default function StakeModal({
   policy,
 }: {
   policy: Policy;
-  initialStake: boolean;
 }) {
   const modal = useModal();
   const [stake, setStake] = useState<number>(0);
@@ -78,16 +77,18 @@ export default function StakeModal({
   }, [stakeReciept]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background max-w-[40vw] mobile:max-w-[90vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
-      <button
-        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1"
-        onClick={() => modal.hide()}
-      >
-        <Icon icon="close" className="text-[1.5rem] mobile:text-[1rem]" />
-      </button>
-      <h1 className="text-2xl font-bold">
-        Stake in <span className="text-secondary">{policy.name}</span> policy
-      </h1>
+    <div className="relative flex flex-col gap-y-1 bg-background widescreen:w-[50vw] max-w-[640px] mobile:w-[80vw] py-8 rounded-lg border border-primary/60 px-8">
+      <div className="flex justify-between gap-4 items-center">
+        <h1 className="text-2xl font-bold">
+          Stake in <span className="text-secondary">{policy.name}</span> policy
+        </h1>
+        <button
+          className="text-red-500 rounded-full border border-red-500 p-1"
+          onClick={() => modal.hide()}
+        >
+          <Icon icon="close" />
+        </button>
+      </div>
       {policy.description && (
         <p className="text-front/80 text-sm">{policy.description}</p>
       )}
@@ -101,14 +102,14 @@ export default function StakeModal({
         <Heading>Enter amount to be Staked in policy</Heading>
         <input
           type="number"
-          className="rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
+          className="rounded-md mt-1 p-2 bg-background border border-border shadow shadow-mute/30"
           placeholder="Enter Amount in USDJ"
           onChange={(e) => setStake(Number(e.target.value))}
         />
       </div>
       <button
         className={twMerge(
-          "mt-6 text-secondary border-primary font-bold border duration-300 ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-back",
+          "mt-4 text-secondary border-primary font-bold border duration-300 ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
           loading ? "animate-pulse" : "",
         )}
         onClick={handleSubmit}

@@ -4,43 +4,51 @@ import useApiResponse from '../../../hooks/useApiResponse';
 import api from '../../../utils/api';
 import marketer from '../../../utils/api/marketer';
 import { formatEvmAddress } from '../../../utils';
+import { Link } from "react-router-dom";
+import useModal from "../../../hooks/useModal";
+import StakeModal from "./StakeModal";
 
-export default function Header1(props: { policy: Policy }) {
-
-    const { policy } = props;
+export default function Header1({ policy }: { policy: Policy }) {
     const { data: user } = useApiResponse(api.user.get, policy.creator);
+    const modal = useModal();
 
     return (
-        <div className='w-full bg-foreground/50 rounded-md flex px-6 gap-x-8 py-4 justify-between'>
-            <div className='w-1/3 h-[20vh] flex items-center justify-center rounded-md relative'>
-                <img
-                    src={policy.image}
-                    className='h-full object-cover w-full rounded-md'
-                    alt="Policy"
-                />
-            </div>
-            <div className='w-2/3 flex flex-col'>
-                <h1 className='text-3xl font-bold tracking-wider truncate whitespace-nowrap'>Gettie Car Insure</h1>
-                <p>Category: {policy.category}</p>
-                <p className='text-sm text-front/60'>
-                    {`${"nftcar allows you to invest in NFT Cars and the cars yield you returns and a dividend. MERN stack with typescript was used, talwindCSS was used as a CSS library and Prism was used as an ORM. Solidity was used for smart contracts and the NFTS are ERC-1155 tokens to allow multiple owners"
-                        .slice(0, 150)}${"nftcar allows you to invest in NFT Cars and the cars yield you returns and a dividend. MERN stack with typescript was used, talwindCSS was used as a CSS library and Prism was used as an ORM. Solidity was used for smart contracts and the NFTS are ERC-1155 tokens to allow multiple owners".length > 150 ? '...' : ''}`}
-                </p>
+        <div className="flex flex-col gap-1">
+            <div className='w-full bg-foreground/50 rounded-md flex px-6 gap-x-8 py-4 justify-between'>
+                <div className='w-1/3 h-[20vh] flex items-center justify-center rounded-md relative'>
+                    <img
+                        src={policy.image}
+                        className='h-full object-cover w-full rounded-md'
+                        alt="Policy"
+                    />
+                </div>
+                <div className='w-2/3 flex flex-col'>
+                    <h1 className='text-3xl font-bold tracking-wider truncate whitespace-nowrap'>{policy.name}</h1>
+                    <p>Category: {policy.category}</p>
+                    <p className='text-sm text-front/60'>
+                        {`${"nftcar allows you to invest in NFT Cars and the cars yield you returns and a dividend. MERN stack with typescript was used, talwindCSS was used as a CSS library and Prism was used as an ORM. Solidity was used for smart contracts and the NFTS are ERC-1155 tokens to allow multiple owners"
+                            .slice(0, 150)}${"nftcar allows you to invest in NFT Cars and the cars yield you returns and a dividend. MERN stack with typescript was used, talwindCSS was used as a CSS library and Prism was used as an ORM. Solidity was used for smart contracts and the NFTS are ERC-1155 tokens to allow multiple owners".length > 150 ? '...' : ''}`}
+                    </p>
 
-                <div className='flex gap-x-4 mt-4'>
-                    <img src={user?.marketer?.image} className='w-[4vw] rounded-full h-[4vw] aspect-square object-cover' />
-                    <div className='text-sm flex flex-col gap-y-1'>
-                        <p>Marketer: {user?.marketer?.name}</p>
-                        <p className='text-xs'>
+                    <div className='flex gap-x-4 mt-4'>
+                        <img src={user?.marketer?.image} className='w-12 shadow-sm rounded-full aspect-square object-cover' />
+                        <div className='text-sm flex flex-col gap-y-1'>
+                            <p>Marketer: {user?.marketer?.name}</p>
+                            <p className='text-xs'>
 
-                            {user && formatEvmAddress(user?.address)}
-                        </p>
+                                {user && formatEvmAddress(user?.address)}
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div className='flex gap-x-4 self-end mt-3'>
-                    <button className='bg-front text-back px-4 rounded-2xl py-1 font-semibold'>Buy Policy</button>
-                    <button className='bg-secondary text-front px-6 rounded-2xl py-1 font-semibold'>Stake</button>
-                </div>
+            </div>
+
+
+            <div className='flex gap-x-4 self-end mt-3'>
+                <Link to={`/buy-policy/${policy.address}`} className='bg-front hover:bg-front/80 transition-all text-back px-4 rounded-2xl border border-border py-1 font-semibold'>Buy Policy</Link>
+                <button className='bg-primary border border-border hover:bg-primary/80 transition-all text-front px-6 rounded-2xl py-1 font-semibold' onClick={()=>{
+                    modal.show(<StakeModal policy={policy} />);
+                }}>Stake</button>
             </div>
         </div>
     )

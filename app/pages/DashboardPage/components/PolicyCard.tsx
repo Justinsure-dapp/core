@@ -77,7 +77,7 @@ export default function PolicyCard(props: { policy: Policy }) {
                       <InitialStakeModal policy={props.policy} />,
                     )
                   }
-                  className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-back rounded-lg font-medium"
+                  className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-front rounded-lg font-medium"
                 >
                   Set Initial Stake
                 </button>

@@ -73,7 +73,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
       <div className="flex gap-x-[4vw] px-[2vw]">
         <button
           type="button"
-          className="flex-1 bg-background border border-border hover:bg-hoverbg text-back rounded-md py-2 font-medium transition-all"
+          className="flex-1 bg-background border border-border hover:bg-hoverbg text-front rounded-md py-2 font-medium transition-all"
           onClick={() => {
             if (!editorRef.current.checkValidity()) {
               alert("Please add a function");

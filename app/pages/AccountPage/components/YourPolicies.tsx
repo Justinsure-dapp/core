@@ -37,7 +37,7 @@ export default function YourPolicies() {
             <p className="font-mono font-semibold">
               {/* SureCoin: {balance?.toString()} */}
             </p>
-            <button className="bg-primary text-back text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
+            <button className="bg-primary text-front text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
               Withdraw
             </button>
           </div>
@@ -57,7 +57,7 @@ export default function YourPolicies() {
         )}
         {ownedPolicies.length > 2 && (
           <button
-            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-back font-bold rounded-lg"
+            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-front font-bold rounded-lg"
             onClick={() => setViewMore(!viewMore)}
           >
             {viewMore ? "View Less" : "View More"}{" "}
@@ -141,7 +141,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
             </div>
 
             <button
-              className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-back font-bold rounded-lg text-sm"
+              className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
               onClick={handleSubmit}
             >
               Request Claim
@@ -169,7 +169,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
               {details?.claimExpiry && (
                 <p className="mt-1">
                   Expires:{" "}
-                  <span className="text-rose-500 font-semibold">
+                  <span className="text-red-500 font-semibold">
                     {moment(details?.claimExpiry).fromNow()}
                   </span>
                 </p>

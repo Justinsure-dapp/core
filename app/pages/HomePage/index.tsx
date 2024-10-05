@@ -118,7 +118,7 @@ export default function HomePage() {
                 BitTorrent Chain
               </div>
 
-              <p className="absolute flex gap-x-1 z-10 text-xs items-center bottom-3 right-2 text-accent2 bg-rose-100 px-3 rounded-full">
+              <p className="absolute flex gap-x-1 z-10 text-xs items-center bottom-3 right-2 text-accent2 bg-red-100 px-3 rounded-full">
                 Coming soon to the
                 <img src="/icons/tron.svg" alt="tron" className="h-[2em]" />
                 Tron Network
@@ -171,7 +171,7 @@ function MappedOptions(props: { options: Array<Option> }) {
     <div className="flex flex-col">
       <div className="flex gap-x-2">
         <select
-          className="text-back"
+          className="text-front"
           defaultValue={options[0].value || options[0].title}
           onChange={(e) => {
             options.forEach(
@@ -196,7 +196,7 @@ function MappedOptions(props: { options: Array<Option> }) {
 
         <div className="flex gap-x-2">
           {options[selected].additionalInputs?.map((inp, key) => (
-            <input key={key} {...inp} className="text-back px-2" />
+            <input key={key} {...inp} className="text-front px-2" />
           ))}
         </div>
       </div>
@@ -236,7 +236,7 @@ const options: Array<Option> = [
     ],
     additionalInputs: [{ type: "date" }],
     customElements: [
-      <select key="durationFormat" className="text-back">
+      <select key="durationFormat" className="text-front">
         <option value="">Select duration format</option>
         {["Days", "Weeks", "Months", "Years"].map((format, index) => (
           <option key={index} value={format}>
@@ -295,7 +295,7 @@ const options: Array<Option> = [
 //     <div className="flex flex-col gap-y-4 mt-4 p-page w-max">
 //       <div className="flex gap-x-2">
 //         <span>When should this be run</span>
-//         <select className="text-back ml-2" onChange={handleOption1Change}>
+//         <select className="text-front ml-2" onChange={handleOption1Change}>
 //           <option value="">Select an option</option>
 //           {Object.keys(options).map((option, i) => (
 //             <option key={i} value={option}>
@@ -308,7 +308,7 @@ const options: Array<Option> = [
 //       {selectedOption1 && (
 //         <div className="flex gap-x-2">
 //           <span>Additional Condition</span>
-//           <select className="text-back ml-2" onChange={handleOption2Change}>
+//           <select className="text-front ml-2" onChange={handleOption2Change}>
 //             <option value="">Select an option</option>
 //             {options[selectedOption1] &&
 //               Object.keys(options[selectedOption1]).map((option, i) => (
@@ -323,7 +323,7 @@ const options: Array<Option> = [
 //       {selectedOption2 && (
 //         <div className="flex gap-x-2">
 //           <span>invest in</span>
-//           <select className="text-back ml-2" onChange={handleOption3Change}>
+//           <select className="text-front ml-2" onChange={handleOption3Change}>
 //             <option value="" className="px-2">
 //               Select an option
 //             </option>

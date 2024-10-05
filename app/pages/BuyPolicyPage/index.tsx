@@ -231,7 +231,7 @@ export default function BuyPolicyPage() {
           </div>
           <button
             type="submit"
-            className="bg-primary py-2 px-6 rounded-md text-back font-medium w-max"
+            className="bg-primary py-2 px-6 rounded-md text-front font-medium w-max"
           >
             Request Quote
           </button>

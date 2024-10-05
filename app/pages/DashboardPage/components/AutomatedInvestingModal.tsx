@@ -59,7 +59,7 @@ export default function AutomatedInvestingModal() {
           <Icon icon="add" />
         </span>{" "}
       </button>
-      <button className="self-end bg-primary text-lg font-bold text-back py-1 px-3 rounded-lg">
+      <button className="self-end bg-primary text-lg font-bold text-front py-1 px-3 rounded-lg">
         Submit
       </button>
     </div>

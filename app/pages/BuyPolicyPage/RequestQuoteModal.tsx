@@ -134,7 +134,7 @@ export default function RequestQuoteModal({
       <div className="flex gap-4 self-end">
         <button
           className={twMerge(
-            "mt-6 text-secondary border-secondary font-bold border duration-300 ease-in w-max px-6 py-2 rounded-lg hover:bg-white/30 hover:text-back",
+            "mt-6 text-secondary border-secondary font-bold border duration-300 ease-in w-max px-6 py-2 rounded-lg hover:bg-white/30 hover:text-front",
             loading ? "animate-pulse" : "",
           )}
           onClick={() => {
@@ -146,7 +146,7 @@ export default function RequestQuoteModal({
         </button>
         <button
           className={twMerge(
-            "mt-6 text-white/70 border-white/70 font-bold border duration-300 ease-in w-max px-6 py-2 rounded-lg hover:bg-secondary hover:text-back",
+            "mt-6 text-white/70 border-white/70 font-bold border duration-300 ease-in w-max px-6 py-2 rounded-lg hover:bg-secondary hover:text-front",
             loading ? "animate-pulse" : "",
           )}
           onClick={signNonce}
