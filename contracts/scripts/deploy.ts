@@ -1,10 +1,14 @@
 import hre from "hardhat";
 import {
   Address,
+  createWalletClient,
   defineChain,
+  http,
+  publicActions,
   WriteContractReturnType,
   zeroAddress,
 } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
 import fs from "fs";
 import mongoose from "mongoose";
 import "dotenv/config";
@@ -22,13 +26,20 @@ const donau = defineChain({
 });
 
 async function main() {
-  const [deployer] = await hre.viem.getWalletClients({});
-  const publicClient = await hre.viem.getPublicClient({});
+  // const [deployer] = await hre.viem.getWalletClients({ chain: donau });
+  // const publicClient = await hre.viem.getPublicClient({ chain: donau });
+  const deployer = createWalletClient({
+    transport: http(donau.rpcUrls.default.http[0]),
+    // chain: donau,
+    account: privateKeyToAccount(process.env.OWNER_PVT_KEY),
+  }).extend(publicActions);
+  const publicClient = deployer;
 
+  
   async function tx(txn: Promise<WriteContractReturnType>) {
     await publicClient.waitForTransactionReceipt({ hash: await txn });
   }
-
+  
   const usdj = await hre.viem.deployContract("USDJ", [], {
     client: { wallet: deployer },
   });

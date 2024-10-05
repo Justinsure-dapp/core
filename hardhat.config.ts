@@ -14,9 +14,8 @@ function getRandomKeys() {
 const config: HardhatUserConfig = {
   solidity: { version: "0.8.27", settings: { optimizer: { enabled: true } } },
   networks: {
-    testnet: {
+    donau: {
       url: "https://pre-rpc.bt.io",
-      chainId: 1029,
       accounts: [`${process.env.OWNER_PVT_KEY}`, ...getRandomKeys()],
     },
     opt: {

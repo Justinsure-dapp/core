@@ -2,7 +2,6 @@
   "name": "client",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -36,7 +35,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.10.0",
     "tailwind-merge": "^2.1.0",
-    "viem": "^2.21.16",
+    "viem": "^2.21.18",
     "wagmi": "^2.12.16"
   },
   "devDependencies": {
