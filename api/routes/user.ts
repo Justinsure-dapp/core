@@ -1,7 +1,7 @@
 import express from "express";
 import User from "../models/User";
 import { generateRandomHex } from "../utils";
-import { recoverMessageAddress, verifyMessage } from "viem";
+import { isAddress, recoverMessageAddress, verifyMessage } from "viem";
 
 const router = express.Router();
 
@@ -25,6 +25,32 @@ router.get("/get/:address", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send(error);
+  }
+});
+
+router.get("/get/holders/:address", async (req, res) => {
+  try {
+    const policyAddress = req.params.address;
+
+    if(!policyAddress) {
+      res.status(400).json({ message: "Policy address is required" });
+      return;
+    }
+
+    const holders = await User.find({
+      "policiesOwned.address": policyAddress,
+    });
+
+    res.status(200).json(holders);
+    return;
+  } catch (error: any) {
+    console.error(error);
+    if (!error.message) {
+      res.status(500).json({ message: "Internal Server Error" });
+    } else {
+      res.status(500).json({ message: error.message });
+    }
+    return;
   }
 });
 

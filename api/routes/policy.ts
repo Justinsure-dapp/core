@@ -309,8 +309,11 @@ router.post("/buy/:address", async (req, res) => {
     await policy.save();
 
     // update user doc
+    const duration = data.claimDuration;
+    const currentDate = Date.now();
+    const claimExpiry = new Date(currentDate + duration);
+
     const userDoc = await User.findOne({ address: user });
-    const claimExpiry = Date.now() + data.claimDuration;
 
     if (!userDoc) {
       // create new Doc
@@ -322,7 +325,7 @@ router.post("/buy/:address", async (req, res) => {
             premium,
             claimValue: data.claimValue,
             claimExpiry,
-            isClaimed: false,
+            status: "Ongoing",
           },
         ],
       });
@@ -335,7 +338,7 @@ router.post("/buy/:address", async (req, res) => {
         premium,
         claimValue: data.claimValue,
         claimExpiry,
-        isClaimed: false,
+        status: "Ongoing",
       });
 
       await userDoc.save();

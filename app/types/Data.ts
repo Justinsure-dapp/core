@@ -19,7 +19,7 @@ export interface User {
     premium: number;
     claimValue: number;
     claimExpiry: number;
-    isClaimed: boolean;
+    status: string;
   }[];
 }
 
