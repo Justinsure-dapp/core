@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { closestTimeUnit } from "../../../utils";
 import useModal from "../../../hooks/useModal";
 import RequestClaimModal from "./RequestClaimModal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -22,9 +21,9 @@ export default function YourPolicies() {
     <div className="flex flex-col p-page">
       <div
         ref={parent}
-        className="flex mt-4 gap-y-2 flex-col p-6 rounded-lg bg-secondary/10 border border-border/20 mobile:p-2"
+        className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-secondary/10 border border-border/20"
       >
-        <div className="flex justify-between m-4 items-center">
+        <div className="flex justify-between m-2 mx-4 items-center">
           <div>
             <h1 className="text-2xl font-semibold">Policies Owned</h1>
             <h2 className=" text-mute font-semibold">
@@ -35,11 +34,17 @@ export default function YourPolicies() {
             <p className="font-mono font-semibold">
               {/* SureCoin: {balance?.toString()} */}
             </p>
-            <button className="bg-primary text-back text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
+            {/* <button className="bg-primary text-back text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
               Withdraw
-            </button>
+            </button> */}
           </div>
         </div>
+
+        {ownedPolicies.length === 0 && (
+          <div className="flex justify-center items-center h-[20vh]">
+            <h1 className="text-2xl font-semibold text-mute">Nothing to show..</h1>
+          </div>
+        )}
 
         {ownedPolicies.map(
           (policy, key) =>
@@ -60,7 +65,7 @@ export default function YourPolicies() {
   );
 }
 
-function PolicyCard({ policy }: { policy: Policy; }) {
+function PolicyCard({ policy }: { policy: Policy }) {
   const modal = useModal();
   const { address } = useAccount();
   const { user } = useWeb3();
@@ -77,6 +82,35 @@ function PolicyCard({ policy }: { policy: Policy; }) {
   )
 
   if (!isPolicyOwner) return null;
+
+  async function handleSubmit() {
+    const data = {
+      premiumFunctionDetails: {
+        function: policy.premiumFunc,
+        desc: policy.premiumFuncDescription,
+        args: policy.premiumFuncArgs,
+      },
+
+      policyDetails: {
+        premium: details?.premium,
+        status: details?.status,
+        claimExpiry: details?.claimExpiry,
+        args: details?.args,
+      },
+
+      claimFuctionDetails: {
+        function: policy.claimFunc,
+        desc: policy.claimFuncDescription,
+        args: policy.claimFuncArgs,
+      }
+    };
+
+    try {
+      console.log(data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div
@@ -100,7 +134,7 @@ function PolicyCard({ policy }: { policy: Policy; }) {
 
             <button
               className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-back font-bold rounded-lg text-sm"
-              onClick={() => modal.show(<RequestClaimModal />)}
+              onClick={handleSubmit}
             >
               Request Claim
             </button>

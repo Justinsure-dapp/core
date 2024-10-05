@@ -12,7 +12,7 @@ import api from "../../utils/api";
 import Icon from "../../common/Icon";
 import Heading from "../NewPolicyPage/components/Heading";
 
-export default function StakeModal({
+export default function RequestQuoteModal({
   policy,
   premium,
   formData,
@@ -83,14 +83,14 @@ export default function StakeModal({
       buyPolicy();
     }
 
-    if(signError) {
+    if (signError) {
       alert("Error while signing the message!");
       setLoading(false);
     }
   }, [sign, signError]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background max-w-[50vw] mobile:max-w-[70vw] px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
+    <div className="relative w-[80vw] max-w-[500px] flex flex-col gap-y-1 bg-background px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
       {loading && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
@@ -118,9 +118,11 @@ export default function StakeModal({
         <p className="text-front/80 text-sm">{policy.description}</p>
       )}
       {policy.tags && policy.tags.length > 0 && (
-        <p className="mt-3">
-          <span className="font-bold text-secondary">Tags:</span>{" "}
-          {policy.tags.map((tag) => `#${tag}`).join(", ")}
+        <p className="mt-3 flex gap-x-1 items-center">
+          <span className="font-bold text-secondary">Tags:</span>
+          {policy.tags?.map((tag) => (
+            <span key={tag} className="border text-zinc-200 text-sm px-2 py-1 border-border rounded-full">{tag}</span>
+          ))}
         </p>
       )}
       <div className="flex items-center mt-3 gap-2">

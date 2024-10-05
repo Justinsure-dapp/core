@@ -9,8 +9,8 @@ const userSchema = new Schema<User>({
     type: [{
       address: { type: String },
       premium: { type: Number },
-      claimValue: { type: Number },
       claimExpiry: { type: Date },
+      args: { type: Object },
       status: { type: String, enum: ["Ongoing", "Claim Requested", "Claimed", "Expired"], default: "Ongoing" },
     }],
     default: [],

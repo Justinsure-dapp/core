@@ -31,7 +31,7 @@ export default function HomePage() {
                     Pro
                   </p>
 
-                  <p className="absolute max-w-[25vw] whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-primary p-2 rounded-lg pointer-events-none">
+                  <p className="absolute -top-2 -right-7 whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none z-20">
                     "Pro" indicates that you are a marketer and you can list
                     <br />
                     policies on our platform

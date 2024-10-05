@@ -63,6 +63,7 @@ export default {
         poppins: '"Poppins", sans-serif',
         raleway: '"Raleway", sans-serif',
         spaceGrotesk: '"Space Grotesk", sans-serif',
+        monteserrat: '"Montserrat", sans-serif',
       },
       zIndex: {
         1: 1,

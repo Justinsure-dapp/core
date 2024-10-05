@@ -55,6 +55,8 @@ export default function BuyPolicyPage() {
 
   const handleFormSubmit = async (data: Record<string, string>) => {
     setLoading(true);
+
+
     try {
       if (policyData) {
         let argsArray = policyData.premiumFuncArgs.map((arg: any) => {

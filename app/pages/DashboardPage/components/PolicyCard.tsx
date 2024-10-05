@@ -55,7 +55,7 @@ export default function PolicyCard(props: { policy: Policy }) {
             <img
               src={props.policy.image}
               alt={props.policy.name}
-              className="rounded-full aspect-square w-[4vw] object-cover border border-border p-1"
+              className="rounded-full aspect-square w-16 object-cover border border-border p-1"
             />
 
             <div>
@@ -105,7 +105,7 @@ export default function PolicyCard(props: { policy: Policy }) {
       </div>
 
       <button
-        className="absolute bottom-2 right-4 underline underline-offset-2 text-zinc-100"
+        className="absolute bottom-2 right-4 underline underline-offset-2 text-zinc-400"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "View Less" : "View More"}
