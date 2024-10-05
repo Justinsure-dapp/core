@@ -28,6 +28,7 @@
     "mini-svg-data-uri": "^1.4.4",
     "moment": "^2.30.1",
     "mongoose": "^8.7.0",
+    "morgan": "^1.10.0",
     "pinata": "^1.4.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
