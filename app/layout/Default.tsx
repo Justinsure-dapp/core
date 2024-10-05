@@ -6,6 +6,7 @@ import useIdleScrollbar from "../hooks/useIdleScrollbar";
 import StatisticsSidebar from "../common/StatisticsSidebar";
 import Header from "../common/Header";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import Toasts from "../common/Toasts";
 
 export default function Default() {
   const mainSectionRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -16,6 +17,7 @@ export default function Default() {
   return (
     <>
       <Modal />
+      <Toasts />
 
       <main ref={parent} className="flex h-screen overflow-x-clip">
         <SideNav />
