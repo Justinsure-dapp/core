@@ -45,11 +45,10 @@ export default function RequestClaimModal({ claimData }: { claimData: ClaimData 
                 return;
             }
 
-            if (Object.keys(data).length === 0 || !claimData.policyDetails.args) {
-                alert("Please fill all the fields!");
+            if (!claimData.policyDetails.args) {
+                alert("Policy Arguments not found!");
                 return;
             }
-
 
             const { key } = await api.policy.validateClaim(claimData.policyDetails.address, data, claimData.policyDetails.args);
 
@@ -72,10 +71,8 @@ export default function RequestClaimModal({ claimData }: { claimData: ClaimData 
                         signNonce(data);
                     } else if (newData.output === "False") {
                         alert("Invalid claim!");
-                        return;
                     } else {
                         alert("Invalid Output: " + newData.output);
-                        return;
                     }
                     clearInterval(intervalId);
                 }
@@ -141,7 +138,6 @@ export default function RequestClaimModal({ claimData }: { claimData: ClaimData 
             alert("Error while signing the message!");
         }
     }, [sign, error]);
-
 
     return (
         <div className="relative bg-background p-10 border border-border rounded-xl w-[80vw] max-w-[720px] max-h-[90vh] overflow-auto scrollbar-primary text-zinc-200" >

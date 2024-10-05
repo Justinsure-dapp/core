@@ -5,6 +5,7 @@ import PolicyCard from "./components/PolicyCard";
 import useApiResponse from "../../hooks/useApiResponse";
 import api from "../../utils/api";
 import { useAccount } from "wagmi";
+import useSearchHook from "../../hooks/useSearchHook";
 
 export default function DashboardPage() {
   const { address } = useAccount();
@@ -13,6 +14,8 @@ export default function DashboardPage() {
     api.policy.fetchAllPoliciesByCreator,
     address?.toString() || "",
   );
+
+  const searchHook = useSearchHook(policies || [], ["name", "address", "description", "category", "tags"]);
 
   return (
     <section className="p-page py-4">
@@ -27,11 +30,10 @@ export default function DashboardPage() {
         <input
           type="text"
           placeholder="Search..."
+          value={searchHook.searchQuery}
+          onChange={(e) => searchHook.setSearchQuery(e.target.value)}
           className="w-full bg-background border border-primary/50 px-4 py-2 rounded-lg focus-within:outline-none"
         />
-        <button className="border border-primary/50 font-medium px-4 rounded-lg">
-          Search
-        </button>
       </div>
       <div className="mt-3 flex justify-between">
         <button className="border border-primary/50 rounded-lg px-4 py-2  flex items-center gap-x-6">
@@ -45,20 +47,14 @@ export default function DashboardPage() {
         </Link>
       </div>
       <div className="flex flex-col gap-y-8 mt-4">
-        {!loading && policies && policies?.length > 0 ? (
-          <div className="flex flex-col gap-4">
-            {policies
-              ?.sort(
-                (a, b) =>
-                  new Date(b.createdAt).getTime() -
-                  new Date(a.createdAt).getTime(),
-              )
-              .map((policy, i) => <PolicyCard key={i} policy={policy} />)}
-          </div>
+        {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0 ? (
+          policies && policies.map((policy: any) => (
+            <PolicyCard key={policy.address} policy={policy} />
+          ))
         ) : (
-          <div className="text-center text-front/60">
-            You have not created any policies yet..{" "}
-          </div>
+          searchHook.fuse.search(searchHook.debouncedSearchQuery).map((policy: any) => (
+            <PolicyCard key={policy.item.address} policy={policy.item} />
+          ))
         )}
       </div>
     </section>

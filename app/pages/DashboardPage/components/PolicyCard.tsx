@@ -11,7 +11,6 @@ import useUsdjHook from "../../../hooks/useUsdj";
 import InitialStakeModal from "./InitialStakeModal";
 import Icon from "../../../common/Icon";
 import api from "../../../utils/api";
-import useApiResponse from "../../../hooks/useApiResponse";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
@@ -49,7 +48,7 @@ export default function PolicyCard(props: { policy: Policy }) {
       ref={parent}
       className="flex flex-col gap-y-4 p-6 rounded-lg border border-secondary/30 relative"
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
         <div className="flex gap-y-1 justify-between ">
           <div className="flex gap-2 items-center">
             <img
@@ -60,17 +59,17 @@ export default function PolicyCard(props: { policy: Policy }) {
 
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
-              <div className="text-front/80 text-sm">
-                {props.policy.description}
+              <div className="text-front/80 text-sm max-w-md">
+                {`${props.policy.description.slice(0, 150)}${props.policy.description.length > 150 ? '...' : ''}`}
               </div>
             </div>
           </div>
 
           <div className="font-semibold">
             {isPaused ? (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
                 <p className="text-red-500 tracking-wide flex gap-x-2 items-center">
-                  <Icon icon="info" className="text-xl" /> POLICY INACTIVE :</p>
+                  <Icon icon="info" className="text-xl" />POLICY INACTIVE:</p>
                 <button
                   onClick={() =>
                     modal.show(

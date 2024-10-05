@@ -13,12 +13,15 @@ import { formatEvmAddress } from "../../../utils";
 import Icon from "../../../common/Icon";
 
 export default function YourPolicies() {
-  const [viewMore, setViewMore] = useState(false);
   const [parent] = useAutoAnimate();
   const { address } = useAccount();
   const { policies } = useWeb3();
+  const [viewMoreActive, setViewMoreActive] = useState(false);
+  const [viewMoreClaimed, setViewMoreClaimed] = useState(false);
 
   const ownedPolicies = policies?.filter((p) => p.holders.includes(address as string)) || [];
+  const claimedPolicies = policies?.filter((p) => p.claims.includes(address as string)) || [];
+  const activePolicies = policies?.filter((p) => p.holders.includes(address as string) && !p.claims.includes(address as string)) || [];
 
   return (
     <div className="flex flex-col p-page">
@@ -33,14 +36,14 @@ export default function YourPolicies() {
               Here are the policies owned by you..
             </h2>
           </div>
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <p className="font-mono font-semibold">
-              {/* SureCoin: {balance?.toString()} */}
+              SureCoin: {balance?.toString()}
             </p>
             <button className="bg-primary text-front text-sm opacity-80 hover:opacity-100 duration-100 ease-in px-4 border border-border py-2 font-bold rounded-lg">
               Withdraw
             </button>
-          </div>
+          </div> */}
         </div>
 
         {ownedPolicies.length === 0 && (
@@ -49,18 +52,46 @@ export default function YourPolicies() {
           </div>
         )}
 
-        {ownedPolicies.map(
+        {activePolicies.map(
           (policy, key) =>
-            (viewMore || key < 2) && (
+            (viewMoreActive || key < 2) && (
               <PolicyCard policy={policy} key={key} />
             ),
         )}
-        {ownedPolicies.length > 2 && (
+
+        {activePolicies.length > 2 && (
           <button
             className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-front font-bold rounded-lg"
-            onClick={() => setViewMore(!viewMore)}
+            onClick={() => setViewMoreActive(!viewMoreActive)}
           >
-            {viewMore ? "View Less" : "View More"}{" "}
+            {viewMoreActive ? "View Less" : "View More"}{" "}
+          </button>
+        )}
+
+        {claimedPolicies.length > 0 && (
+          <div className="flex justify-between m-2 mx-4 items-center">
+            <div>
+              <h1 className="text-2xl font-semibold">Claimed Policies</h1>
+              <h2 className=" text-mute font-semibold">
+                Here are the policies claimed by you..
+              </h2>
+            </div>
+          </div>
+        )}
+
+        {claimedPolicies.map(
+          (policy, key) =>
+            (viewMoreClaimed || key < 2) && (
+              <PolicyCard policy={policy} key={key} />
+            ),
+        )}
+
+        {claimedPolicies.length > 2 && (
+          <button
+            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-front font-bold rounded-lg"
+            onClick={() => setViewMoreClaimed(!viewMoreClaimed)}
+          >
+            {viewMoreClaimed ? "View Less" : "View More"}{" "}
           </button>
         )}
       </div>
@@ -140,12 +171,14 @@ function PolicyCard({ policy }: { policy: Policy }) {
               </ClipboardWrapper>
             </div>
 
-            <button
-              className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
-              onClick={handleSubmit}
-            >
-              Request Claim
-            </button>
+            {isPolicyOwner && (
+              <button
+                className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
+                onClick={handleSubmit}
+              >
+                Request Claim
+              </button>
+            )}
           </div>
 
           {!isPolicyOwner ? (
