@@ -319,7 +319,7 @@ router.post("/buy/:address", async (req, res) => {
     // update user doc
     const duration = data.claimDuration;
     const currentDate = Date.now();
-    const claimExpiry = new Date(currentDate + duration);
+    const claimExpiry = new Date(currentDate + Number(duration));
 
     const userDoc = await User.findOne({ address: user });
 
