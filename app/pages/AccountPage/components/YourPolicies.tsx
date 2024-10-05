@@ -8,6 +8,7 @@ import useWeb3 from "../../../contexts/web3context";
 import { Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
 import { Address } from "viem";
+import moment from "moment";
 
 export default function YourPolicies() {
   const [viewMore, setViewMore] = useState(false);
@@ -75,11 +76,11 @@ function PolicyCard({ policy }: { policy: Policy; }) {
     (p) => p.address === policy.address,
   )
 
-  if(!isPolicyOwner) return null;
+  if (!isPolicyOwner) return null;
 
   return (
     <div
-      className="bg-background m-2 rounded-lg flex flex-col p-8 border border-border/50"
+      className="bg-background m-2 rounded-lg flex flex-col p-4 border border-border/50"
     >
       <div className="flex gap-x-4">
         <img
@@ -87,7 +88,7 @@ function PolicyCard({ policy }: { policy: Policy; }) {
           className="w-[5vw] border border-border p-2 rounded-full h-max mobile:w-[15vw]"
         />
         <div className="flex flex-col w-full">
-          <div className="flex justify-between items-start w-full">
+          <div className="flex justify-between gap-4 items-start w-full">
             <div>
               <h1 className="text-xl font-bold tracking-wide">
                 {policy.name}
@@ -105,27 +106,24 @@ function PolicyCard({ policy }: { policy: Policy; }) {
             </button>
           </div>
 
-          {details?.claimExpiry && Date.now() > details?.claimExpiry ? (
+          {details?.status !== "Ongoing" ? (
             <div className="mt-2 text-sm">
               <p className="">
                 {" "}
                 Status:{" "}
-                {details?.isClaimed ? (
-                  <span className="text-green-600">Claimed</span>
+                {details?.status === "Claimed" ? (
+                  <span className="text-green-600">claimed</span>
                 ) : (
-                  <span className="text-red-600">Expired</span>
+                  <span className="text-red-600">expired</span>
                 )}
               </p>
 
               {details?.claimExpiry && (
                 <p className="mt-1">
-                  Policy expired: {" "}
-                  <span className="text-red-500">
-                    {closestTimeUnit(
-                      Date.now() - details?.claimExpiry,
-                    )}{" "}
+                  Expired: {" "}
+                  <span className="text-cyan-500">
+                    {moment(details?.claimExpiry).format("DD/MM/YYYY")}
                   </span>
-                  ago{" "}
                 </p>
               )}
             </div>
@@ -133,14 +131,14 @@ function PolicyCard({ policy }: { policy: Policy; }) {
             <div className="flex flex-col mt-2 text-sm">
               <p className="">
                 Status:{" "}
-                <span className="text-green-600 font-bold">Ongoing</span>
+                <span className="text-green-600 font-bold">ongoing</span>
               </p>
               {details?.claimExpiry && (
                 <p className="mt-1">
-                  Time Left:{" "}
-                  {closestTimeUnit(
-                    details?.claimExpiry - Date.now(),
-                  )}{" "}
+                  Expires:{" "}
+                  <span className="text-cyan-500 font-bold">
+                    {moment(details?.claimExpiry).fromNow()}
+                  </span>
                 </p>
               )}
             </div>
