@@ -14,15 +14,15 @@ export default function Header1({ policy }: { policy: Policy }) {
 
     return (
         <div className="flex flex-col gap-1">
-            <div className='w-full bg-foreground/50 rounded-md flex px-6 gap-x-8 py-4 justify-between'>
-                <div className='w-1/3 h-[20vh] flex items-center justify-center rounded-md relative'>
+            <div className='w-full bg-foreground/50 gap-4 rounded-md flex px-6 py-4'>
+                <div className="max-w-[10rem] w-full">
                     <img
                         src={policy.image}
-                        className='h-full border border-border object-cover w-full rounded-md'
+                        className='border border-border rounded-md'
                         alt="Policy"
                     />
                 </div>
-                <div className='w-2/3 flex flex-col'>
+                <div className='flex flex-col w-full'>
                     <h1 className='text-3xl font-bold tracking-wider truncate whitespace-nowrap'>{policy.name}</h1>
                     <p>Category: {policy.category}</p>
                     <p className='text-sm text-front/60'>
@@ -45,7 +45,7 @@ export default function Header1({ policy }: { policy: Policy }) {
 
             <div className='flex gap-x-4 self-end mt-3'>
                 <Link to={`/buy-policy/${policy.address}`} className='bg-front hover:bg-front/80 transition-all text-back px-4 rounded-2xl border border-border py-1 font-semibold'>Buy Policy</Link>
-                <button className='bg-primary border border-border hover:bg-primary/80 transition-all text-front px-6 rounded-2xl py-1 font-semibold' onClick={()=>{
+                <button className='bg-primary border border-border hover:bg-primary/80 transition-all text-front px-6 rounded-2xl py-1 font-semibold' onClick={() => {
                     modal.show(<StakeModal policy={policy} />);
                 }}>Stake</button>
             </div>
