@@ -46,7 +46,7 @@ export default function PolicyCard(props: { policy: Policy }) {
   return (
     <div
       ref={parent}
-      className="flex flex-col gap-y-4 relative bg-foreground/20 border border-foreground rounded-md p-3"
+      className="flex flex-col gap-y-4 relative bg-foreground/20 border border-front border-opacity-[15%] rounded-md p-3"
     >
       <div className="flex flex-col">
         <div className="flex gap-y-1 justify-between">
