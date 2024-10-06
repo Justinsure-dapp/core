@@ -88,8 +88,18 @@ const policySchema = new Schema<PolicyData>(
       type: [String],
       default: [],
     },
+    blockNumber: {
+      type: Number,
+      required: true,
+    },
     claims: {
-      type: [String],
+      type: [{
+        address: String,
+        status: {
+          type: String,
+          enum: ["requested", "approved"],
+        },
+      }],
       default: [],
     },
     premiumFuncArgs: {

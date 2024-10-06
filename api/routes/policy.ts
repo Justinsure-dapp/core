@@ -140,6 +140,7 @@ router.post("/new", async (req, res) => {
     const policy = new Policy({
       ...data,
       address: controllerAddress,
+      blockNumber: blockNumberBeforeTx,
       stakeToken: stakeTokenAddress,
       stakeTokenSymbol: tokenSymbol,
       cid,
@@ -490,7 +491,10 @@ router.post("/claim/issue/:address", async (req, res) => {
     }
 
     // update policy doc
-    policy.claims.push(userAddress);
+    policy.claims.push({
+      address: userAddress,
+      status: "approved",
+    });
     await policy.save();
 
     // update user doc

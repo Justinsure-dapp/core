@@ -51,6 +51,11 @@ interface PolicyData {
   claimFuncDescription: string;
   claimFuncArgs: Arg[];
   creator: string;
+  blockNumber: number;
+  claims: {
+    address: string;
+    status: "requested" | "approved";
+  }[];
   stakeToken: string;
   stakeTokenSymbol: string;
   holders: string[];
