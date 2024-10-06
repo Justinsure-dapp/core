@@ -68,7 +68,7 @@ export default function PolicyCard(props: {
             <img
               src={policy.image}
               alt={policy.name}
-              className="rounded-full w-12 h-12 border border-border p-2"
+              className="rounded-full w-12 h-12 border border-border p-[2px]"
             />
 
             <div className="flex flex-col justify-evenly">
@@ -92,15 +92,10 @@ export default function PolicyCard(props: {
               <div className="flex  text-xs text-secondary/80  mt-2">
                 Marketer:
                 <div className="ml-1 text-mute">
-                  <ClipboardWrapper
-                    textToBeCopied={user?.marketer?.name}
-                    className="text-xs"
-                  >
                     <p className="flex items-center secondary/80 gap-x-1">
                       {user?.marketer?.name}
                       <Icon icon="contentCopy" />
                     </p>
-                  </ClipboardWrapper>
                 </div>
               </div>
             </div>
