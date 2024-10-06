@@ -5,17 +5,20 @@ export default function ClaimInfo(props: { policy: Policy }) {
   const { policy } = props;
 
   return (
-    <>
-      <div className="flex flex-wrap w-full justify-around gap-y-7 mt-4 mobile:gap-x-4 p-page">
-        {claimInfoData.map((data, i) => (
-          <div
-            className="w-[28%] mobile:w-[30%] text-center justify-center duration-200 ease-in-out bg-background border-2 border-border px-4 py-8 rounded-xl flex flex-col items-center gap-y-2"
-            key={i}
-          >
-            <h1 className="text-lg tracking-wide">{data.title}</h1>
-            <p className="text-3xl font-mono">{data.value}</p>
-          </div>
-        ))}
+    <div>
+
+      <div className="flex w-full justify-around gap-y-7 mt-4 mobile:gap-x-4 p-page">
+        <div className="flex">
+          {claimInfoData.map((data, i) => (
+            <div
+              className="w-[28%] mobile:w-[30%] text-center justify-center duration-200 ease-in-out bg-background border-2 border-border px-4 py-8 rounded-xl flex flex-col items-center gap-y-2"
+              key={i}
+            >
+              <h1 className="text-lg tracking-wide">{data.title}</h1>
+              <p className="text-3xl font-mono">{data.value}</p>
+            </div>
+          ))}
+        </div>
         <div className="w-[45.3%] mobile:w-full duration-200 ease-in-out bg-background border-2 border-border px-8 py-6 justify-center rounded-xl flex flex-col text-secondary">
           {" "}
           <h1 className="text-lg tracking-wide text-white border-foreground border-b-2">
@@ -47,7 +50,7 @@ export default function ClaimInfo(props: { policy: Policy }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
