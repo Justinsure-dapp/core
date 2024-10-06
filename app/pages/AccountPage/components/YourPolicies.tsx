@@ -21,14 +21,18 @@ export default function YourPolicies() {
 
   const ownedPolicies =
     policies?.filter((p) => p.holders.includes(address as string)) || [];
-  const claimedPolicies =
-    policies?.filter((p) => p.claims.includes(address as string)) || [];
-  const activePolicies =
-    policies?.filter(
-      (p) =>
-        p.holders.includes(address as string) &&
-        !p.claims.includes(address as string),
-    ) || [];
+
+  const claimedPolicies: Policy[] = [];
+  const activePolicies: Policy[] = [];
+
+  ownedPolicies.forEach((policy) => {
+    const isClaimed = policy.claims.some((claim) => claim.address === address);
+    if (isClaimed) {
+      claimedPolicies.push(policy);
+    } else {
+      activePolicies.push(policy);
+    }
+  });
 
   return (
     <div className="flex flex-col p-page">

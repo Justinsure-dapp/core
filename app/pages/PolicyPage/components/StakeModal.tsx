@@ -3,23 +3,23 @@ import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 import { useEffect, useState } from "react";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
 import { isAddress, zeroAddress } from "viem";
 import useUsdjHook from "../../../hooks/useUsdj";
 import api from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
-import useToast from "../../../hooks/useToast";
+import { toast } from "react-toastify";
 
 export default function StakeModal({ policy }: { policy: Policy }) {
   const modal = useModal();
   const [stake, setStake] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const { data: hash, writeContractAsync } = useWriteContract();
   const navigate = useNavigate();
   const { allowance, approve, multiplyWithDecimals } = useUsdjHook();
-  const toast = useToast();
+  const { address } = useAccount();
+  const { data: hash, writeContractAsync } = useWriteContract();
 
   const stakeReciept = useWaitForTransactionReceipt({
     confirmations: 2,
@@ -28,9 +28,11 @@ export default function StakeModal({ policy }: { policy: Policy }) {
 
   async function handleSubmit() {
     if (stake === 0) {
-      toast.display({ title: "Error", description: "Please enter a valid amount to stake" });
       return;
     }
+
+     const handleSubmitToast = toast("Processing Transaction...", { type: "info", isLoading: true });
+
 
     setLoading(true);
     try {
@@ -49,23 +51,27 @@ export default function StakeModal({ policy }: { policy: Policy }) {
       });
     } catch (error) {
       console.error(error);
-      alert("Error while staking!");
+      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false });
+
+      console.log(handleSubmitToast);
     }
   }
 
   useEffect(() => {
     async function saveStakeToDB() {
+      if (!address) return;
       const result = await api.policy.updateStakers(
         policy.address,
-        policy.creator,
+        address,
       );
 
       if (result) {
-        alert("Staked successfully");
+        toast.success("Staked Successfully..", { type: "success", isLoading: false });
         modal.hide();
         navigate(0);
       } else {
         console.error("Error while updating stakers in mongoDB");
+        toast.error("Error while updating stakers..", { type: "error", isLoading: false });
       }
     }
 
@@ -76,6 +82,10 @@ export default function StakeModal({ policy }: { policy: Policy }) {
       console.error(stakeReciept.error);
     }
   }, [stakeReciept]);
+
+  console.log({
+    stakeReciept: stakeReciept.isSuccess,
+  })
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background widescreen:w-[50vw] max-w-[640px] mobile:w-[80vw] py-8 rounded-lg border border-primary/60 px-8">
