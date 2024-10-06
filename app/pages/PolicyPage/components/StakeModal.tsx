@@ -14,9 +14,9 @@ import { toast } from "react-toastify";
 
 export default function StakeModal({ policy }: { policy: Policy }) {
   const modal = useModal();
+  const navigate = useNavigate();
   const [stake, setStake] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const { allowance, approve, multiplyWithDecimals } = useUsdjHook();
   const { address } = useAccount();
   const { data: hash, writeContractAsync } = useWriteContract();
@@ -28,12 +28,11 @@ export default function StakeModal({ policy }: { policy: Policy }) {
 
   async function handleSubmit() {
     if (stake === 0) {
+      toast.error("Invalid USDJ amount..", { type: "error", isLoading: false, autoClose: 2000 });
       return;
     }
 
-     const handleSubmitToast = toast("Processing Transaction...", { type: "info", isLoading: true });
-
-
+    const handleSubmitToast = toast("Waiting for approval...", { type: "info", isLoading: true });
     setLoading(true);
     try {
       if (
@@ -49,11 +48,11 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         functionName: "stakeToPolicy",
         args: [multiplyWithDecimals(stake)],
       });
-    } catch (error) {
-      console.error(error);
-      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false });
 
-      console.log(handleSubmitToast);
+      toast.update(handleSubmitToast, { render: "Transaction queued..", type: "info", isLoading: false, autoClose: 500 });
+    } catch (error) {
+      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 1000 });
+      console.error(error);
     }
   }
 
@@ -66,29 +65,35 @@ export default function StakeModal({ policy }: { policy: Policy }) {
       );
 
       if (result) {
-        toast.success("Staked Successfully..", { type: "success", isLoading: false });
+        toast.success("Staked successfully..", { type: "success", isLoading: false, autoClose: 2000 });
         modal.hide();
-        navigate(0);
       } else {
         console.error("Error while updating stakers in mongoDB");
-        toast.error("Error while updating stakers..", { type: "error", isLoading: false });
+        toast.error("Error while updating stakers in mongoDB", { type: "error", isLoading: false, autoClose: 2000 });
       }
     }
 
-    if (stakeReciept.isSuccess) saveStakeToDB();
+    if (stakeReciept.isSuccess) {
+      saveStakeToDB();
+    }
 
     if (stakeReciept.isError) {
-      alert("Error while staking!");
-      console.error(stakeReciept.error);
+      toast.error("Transaction failed..", { type: "error", isLoading: false, autoClose: 2000 });
     }
-  }, [stakeReciept]);
-
-  console.log({
-    stakeReciept: stakeReciept.isSuccess,
-  })
+  }, [stakeReciept.isLoading]);
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background widescreen:w-[50vw] max-w-[640px] mobile:w-[80vw] py-8 rounded-lg border border-primary/60 px-8">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
+            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
+            <p className="text-primary mt-2 font-semibold">Processing Request</p>
+            <p className="text-mute">Please wait..</p>
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-between gap-4 items-center">
         <h1 className="text-2xl font-bold">
           Stake in <span className="text-secondary">{policy.name}</span> policy
@@ -110,7 +115,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         </p>
       )}
       <div className="flex flex-col mt-3">
-        <Heading>Enter amount to be Staked in policy</Heading>
+        <Heading>Enter amount to be Staked in policy ( USDJ )</Heading>
         <input
           type="number"
           className="rounded-md mt-1 p-2 bg-background border border-border shadow shadow-mute/30"
