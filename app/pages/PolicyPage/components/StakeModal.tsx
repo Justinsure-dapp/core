@@ -49,9 +49,9 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         args: [multiplyWithDecimals(stake)],
       });
 
-      toast.update(handleSubmitToast, { render: "Transaction queued..", type: "info", isLoading: false, autoClose: 500 });
+      toast.update(handleSubmitToast, { render: "Transaction submitted..", type: "info", isLoading: false, autoClose: 2000 });
     } catch (error) {
-      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 1000 });
+      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
       console.error(error);
     }
   }
@@ -67,6 +67,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
       if (result) {
         toast.success("Staked successfully..", { type: "success", isLoading: false, autoClose: 2000 });
         modal.hide();
+        navigate('/account');
       } else {
         console.error("Error while updating stakers in mongoDB");
         toast.error("Error while updating stakers in mongoDB", { type: "error", isLoading: false, autoClose: 2000 });

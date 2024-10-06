@@ -22,8 +22,8 @@ export default function Default() {
       <Toasts />
       
       <ToastContainer
-          position="top-right"
-          autoClose={false}
+          position="top-center"
+          autoClose={2000}
           hideProgressBar={false}
           newestOnTop={false}
           stacked={true}
