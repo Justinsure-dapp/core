@@ -6,7 +6,13 @@ import useSearchHook from "../../hooks/useSearchHook";
 
 export default function PoliciesPage() {
   const { policies } = useWeb3();
-  const searchHook = useSearchHook(policies || [], ["name", "address", "description", "category", "tags"]);
+  const searchHook = useSearchHook(policies || [], [
+    "name",
+    "address",
+    "description",
+    "category",
+    "tags",
+  ]);
 
   return (
     <>
@@ -25,15 +31,16 @@ export default function PoliciesPage() {
           </div>
         </div>
         <div className="grid gap-6 mb-8 w-full widescreen:grid-cols-2">
-          {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0 ? (
-            policies && policies.map((policy: any) => (
-              <PolicyCard key={policy.address} policy={policy} />
-            ))
-          ) : (
-            searchHook.fuse.search(searchHook.debouncedSearchQuery).map((policy: any) => (
-              <PolicyCard key={policy.item.address} policy={policy.item} />
-            ))
-          )}
+          {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0
+            ? policies &&
+              policies.map((policy: any) => (
+                <PolicyCard key={policy.address} policy={policy} />
+              ))
+            : searchHook.fuse
+                .search(searchHook.debouncedSearchQuery)
+                .map((policy: any) => (
+                  <PolicyCard key={policy.item.address} policy={policy.item} />
+                ))}
         </div>
       </article>
     </>

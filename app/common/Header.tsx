@@ -46,7 +46,9 @@ export default function Header() {
           />
         </button>
 
-        <h1 className="text-xl font-black text-mute mobile:text-base">{title}</h1>
+        <h1 className="text-xl font-black text-mute mobile:text-base">
+          {title}
+        </h1>
       </div>
 
       <div className="flex items-center gap-x-4 mobile:gap-x-2 mobile:mr-10 mobile:scale-90">
@@ -55,7 +57,9 @@ export default function Header() {
         </div>
 
         <div className="border mobile:hidden border-mute py-1 px-2 rounded-lg hover:border-zinc-300 hover:text-zinc-300 group duration-150 ease-in">
-          <p className="font-sans font-bold">USDJ: {usdj.getUserBalance().toFixed(2)}</p>
+          <p className="font-sans font-bold">
+            USDJ: {usdj.getUserBalance().toFixed(2)}
+          </p>
         </div>
 
         <Link

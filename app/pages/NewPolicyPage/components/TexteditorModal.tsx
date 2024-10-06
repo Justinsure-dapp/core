@@ -65,9 +65,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
       <textarea
         required
         className="bg-transparent border rounded-md p-2 resize-none h-[50vh] border-border"
-        defaultValue={
-          props.defaultValue || props.placeholder
-        }
+        defaultValue={props.defaultValue || props.placeholder}
         ref={editorRef}
       />
       <div className="flex gap-x-[4vw] px-[2vw]">

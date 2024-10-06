@@ -15,11 +15,16 @@ export default function DashboardPage() {
     address?.toString() || "",
   );
 
-  const searchHook = useSearchHook(policies || [], ["name", "address", "description", "category", "tags"]);
+  const searchHook = useSearchHook(policies || [], [
+    "name",
+    "address",
+    "description",
+    "category",
+    "tags",
+  ]);
 
   return (
     <section className="p-page py-4">
-
       <DocTitle title="Marketer Dashboard" />
 
       <h1 className="text-2xl font-semibold">Policies Created</h1>
@@ -47,15 +52,16 @@ export default function DashboardPage() {
         </Link>
       </div>
       <div className="flex flex-col gap-y-8 mt-4">
-        {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0 ? (
-          policies && policies.map((policy: any) => (
-            <PolicyCard key={policy.address} policy={policy} />
-          ))
-        ) : (
-          searchHook.fuse.search(searchHook.debouncedSearchQuery).map((policy: any) => (
-            <PolicyCard key={policy.item.address} policy={policy.item} />
-          ))
-        )}
+        {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0
+          ? policies &&
+            policies.map((policy: any) => (
+              <PolicyCard key={policy.address} policy={policy} />
+            ))
+          : searchHook.fuse
+              .search(searchHook.debouncedSearchQuery)
+              .map((policy: any) => (
+                <PolicyCard key={policy.item.address} policy={policy.item} />
+              ))}
       </div>
     </section>
   );

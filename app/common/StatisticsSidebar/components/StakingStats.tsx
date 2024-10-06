@@ -31,7 +31,11 @@ export default function StakingStats() {
       </div>
 
       {policiesStakedIn.map((policy, index) => (
-        <StakedInCard key={index} setTotalStake={setTotalStake} policy={policy} />
+        <StakedInCard
+          key={index}
+          setTotalStake={setTotalStake}
+          policy={policy}
+        />
       ))}
     </div>
   );
@@ -74,7 +78,7 @@ export function StakedInCard({
           ];
         });
       }
-      
+
       setTotalStake(
         (prev: number) => prev + usdj.divideByDecimals(stakeAmount || 0n),
       );

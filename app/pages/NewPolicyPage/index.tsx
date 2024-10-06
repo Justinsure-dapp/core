@@ -237,16 +237,22 @@ export default function NewPolicyPage() {
                     </div>
                     <p className="text-sm group-hover:opacity-40 ease-in duration-300">
                       You will have access to "claimValue" in USDJ and
-                      "claimDuration" in Milliseconds variables in your
-                      function by default. You can directly use them in the calculation
+                      "claimDuration" in Milliseconds variables in your function
+                      by default. You can directly use them in the calculation
                       logic. Do not redeclare them..
                     </p>
                   </div>
                   <div className="flex gap-x-7">
                     <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
                       <div className="flex flex-col p-2">
-                        <Heading className="">Premium Calculation Function</Heading>
-                        <p className="text-sm font-semibold text-zinc-200"> Return Type: <span className="text-red-600 ">Float</span></p>
+                        <Heading className="">
+                          Premium Calculation Function
+                        </Heading>
+                        <p className="text-sm font-semibold text-zinc-200">
+                          {" "}
+                          Return Type:{" "}
+                          <span className="text-red-600 ">Float</span>
+                        </p>
                       </div>
                       <textarea
                         required
@@ -316,21 +322,30 @@ export default function NewPolicyPage() {
               </div>
 
               {!manualClaimCheck && (
-
                 <div>
                   <div className="flex gap-2 bg-primary/20 py-2 px-4 rounded-lg hover:bg-primary/10 duration-300 ease-in">
                     <div className="font-bold text-red-500  animate-pulse items-center flex duration-300 ease-in gap-x-1">
                       <Icon icon="warning" />
                     </div>
                     <p className="text-sm group-hover:opacity-40 ease-in duration-300">
-                      The Claim Validation Function will automatically inherit all the arguments along with their values entered by the buyer when they purchase a policy as global variables. You can directly use them in your function for validating the claim.
+                      The Claim Validation Function will automatically inherit
+                      all the arguments along with their values entered by the
+                      buyer when they purchase a policy as global variables. You
+                      can directly use them in your function for validating the
+                      claim.
                     </p>
                   </div>
                   <div className="flex mt-4 gap-x-7">
                     <div className="basis-1/2 w-1/2 border-2 border-mute/40 rounded-lg">
                       <div className="flex flex-col p-2">
-                        <Heading className="">Claim Validation Function</Heading>
-                        <p className="text-sm font-semibold text-zinc-200"> Return Type: <span className="text-red-600 ">Boolean</span></p>
+                        <Heading className="">
+                          Claim Validation Function
+                        </Heading>
+                        <p className="text-sm font-semibold text-zinc-200">
+                          {" "}
+                          Return Type:{" "}
+                          <span className="text-red-600 ">Boolean</span>
+                        </p>
                       </div>
                       <textarea
                         required
@@ -344,14 +359,12 @@ export default function NewPolicyPage() {
                               defaultValue={claimFunc}
                               setter={setClaimFunc}
                               argsSetter={setClaimFuncArgs}
-                              placeholder={
-                                `def claim():
+                              placeholder={`def claim():
     if (claimDuration > 86400000 and param1*param2 < 10):
         return True
     else:
         return False
-          `
-                              }
+          `}
                             />,
                           );
                         }}

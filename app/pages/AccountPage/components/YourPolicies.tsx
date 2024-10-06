@@ -19,9 +19,16 @@ export default function YourPolicies() {
   const [viewMoreActive, setViewMoreActive] = useState(false);
   const [viewMoreClaimed, setViewMoreClaimed] = useState(false);
 
-  const ownedPolicies = policies?.filter((p) => p.holders.includes(address as string)) || [];
-  const claimedPolicies = policies?.filter((p) => p.claims.includes(address as string)) || [];
-  const activePolicies = policies?.filter((p) => p.holders.includes(address as string) && !p.claims.includes(address as string)) || [];
+  const ownedPolicies =
+    policies?.filter((p) => p.holders.includes(address as string)) || [];
+  const claimedPolicies =
+    policies?.filter((p) => p.claims.includes(address as string)) || [];
+  const activePolicies =
+    policies?.filter(
+      (p) =>
+        p.holders.includes(address as string) &&
+        !p.claims.includes(address as string),
+    ) || [];
 
   return (
     <div className="flex flex-col p-page">
@@ -48,7 +55,9 @@ export default function YourPolicies() {
 
         {ownedPolicies.length === 0 && (
           <div className="flex justify-center items-center h-[20vh]">
-            <h1 className="text-2xl font-semibold text-mute">Nothing to show..</h1>
+            <h1 className="text-2xl font-semibold text-mute">
+              Nothing to show..
+            </h1>
           </div>
         )}
 
@@ -111,9 +120,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
     args: [address as Address],
   });
 
-  const details = user?.policiesOwned.find(
-    (p) => p.address === policy.address,
-  )
+  const details = user?.policiesOwned.find((p) => p.address === policy.address);
 
   async function handleSubmit() {
     const claimData = {
@@ -135,7 +142,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
         function: policy.claimFunc,
         desc: policy.claimFuncDescription,
         args: policy.claimFuncArgs,
-      }
+      },
     };
 
     try {
@@ -146,9 +153,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
   }
 
   return (
-    <div
-      className="bg-background m-2 rounded-lg flex flex-col p-4 border border-border/50"
-    >
+    <div className="bg-background m-2 rounded-lg flex flex-col p-4 border border-border/50">
       <div className="flex gap-x-4">
         <img
           src={policy.image}
@@ -157,9 +162,7 @@ function PolicyCard({ policy }: { policy: Policy }) {
         <div className="flex flex-col w-full">
           <div className="flex justify-between gap-4 items-start w-full">
             <div>
-              <h1 className="text-xl font-bold tracking-wide">
-                {policy.name}
-              </h1>
+              <h1 className="text-xl font-bold tracking-wide">{policy.name}</h1>
               <ClipboardWrapper
                 textToBeCopied={policy.address}
                 className="text-xs text-mute"
@@ -217,5 +220,5 @@ function PolicyCard({ policy }: { policy: Policy }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

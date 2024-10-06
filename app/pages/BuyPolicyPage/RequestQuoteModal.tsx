@@ -1,9 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
-import {
-  useAccount,
-  useSignMessage,
-} from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import useModal from "../../hooks/useModal";
 import useUsdjHook from "../../hooks/useUsdj";
@@ -38,7 +35,10 @@ export default function RequestQuoteModal({
 
     setLoading(true);
     try {
-      if (allowance === BigInt(0) || Number(allowance) < Number(formattedPremium)) {
+      if (
+        allowance === BigInt(0) ||
+        Number(allowance) < Number(formattedPremium)
+      ) {
         await approve();
       }
 
@@ -71,7 +71,7 @@ export default function RequestQuoteModal({
         alert("Purchased successfully!");
         setLoading(false);
         modal.hide();
-        navigate('/account');
+        navigate("/account");
       } catch (error) {
         console.error(error);
         alert("Error while buying policy!");
@@ -121,7 +121,12 @@ export default function RequestQuoteModal({
         <p className="mt-3 flex gap-x-1 items-center">
           <span className="font-bold text-secondary">Tags:</span>
           {policy.tags?.map((tag) => (
-            <span key={tag} className="border text-zinc-200 text-sm px-2 py-1 border-border rounded-full">{tag}</span>
+            <span
+              key={tag}
+              className="border text-zinc-200 text-sm px-2 py-1 border-border rounded-full"
+            >
+              {tag}
+            </span>
           ))}
         </p>
       )}
