@@ -140,7 +140,7 @@ router.post("/new", async (req, res) => {
     const policy = new Policy({
       ...data,
       address: controllerAddress,
-      blockNumber: blockNumberBeforeTx,
+      blockNumber: Number(blockNumberBeforeTx),
       stakeToken: stakeTokenAddress,
       stakeTokenSymbol: tokenSymbol,
       cid,
