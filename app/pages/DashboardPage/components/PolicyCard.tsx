@@ -49,42 +49,39 @@ export default function PolicyCard(props: { policy: Policy }) {
       className="flex flex-col gap-y-4 p-6 rounded-lg border border-secondary/30 relative"
     >
       <div className="flex flex-col">
-        <div className="flex gap-y-1 justify-between ">
-          <div className="flex gap-2 items-center">
-            <img
-              src={props.policy.image}
-              alt={props.policy.name}
-              className="rounded-full aspect-square w-16 object-cover border border-border p-1"
-            />
-
+        <div className="flex gap-y-1 justify-between items-center">
+          <div className="flex gap-4 items-center">
+            <img src={props.policy.image} alt="logo" className="w-12 h-12 rounded-lg border border-border" />
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
-              <div className="text-front/80 text-sm max-w-md">
-                {`${props.policy.description.slice(0, 150)}${props.policy.description.length > 150 ? "..." : ""}`}
-              </div>
+              {isPaused ? (
+                <p className="text-red-500 tracking-wide flex gap-x-2 whitespace-nowrap text-sm items-center">
+                  POLICY INACTIVE<Icon icon="info" />
+                </p>
+              ) : (
+                <p className="text-green-500 tracking-wide flex gap-x-2 whitespace-nowrap text-sm items-center">
+                  POLICY ACTIVE<Icon icon="done" />
+                </p>
+              )}
             </div>
           </div>
 
           <div className="font-semibold">
-            {isPaused ? (
-              <div className="flex items-center gap-2">
-                <p className="text-red-500 tracking-wide whitespace-nowrap flex gap-x-2 items-center">
-                  <Icon icon="info" className="text-xl " />POLICY INACTIVE:</p>
-                <button
-                  onClick={() =>
-                    modal.show(<InitialStakeModal policy={props.policy} />)
-                  }
-                  className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-front rounded-lg font-medium whitespace-nowrap"
-                >
-                  Set Initial Stake
-                </button>
-              </div>
-            ) : (
-              <div className="text-green-500 tracking-wide flex gap-x-2 items-center">
-                <Icon icon="done" /> POLICY ACTIVE
-              </div>
+            {isPaused && (
+              <button
+                onClick={() =>
+                  modal.show(<InitialStakeModal policy={props.policy} />)
+                }
+                className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-front rounded-lg font-medium whitespace-nowrap"
+              >
+                Set Initial Stake
+              </button>
             )}
           </div>
+        </div>
+
+        <div className="text-front/80 mt-2 text-sm">
+          {`${props.policy.description.slice(0, 150)}${props.policy.description.length > 150 ? "..." : ""}`}
         </div>
       </div>
       <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
