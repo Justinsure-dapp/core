@@ -7,46 +7,48 @@ export default function ClaimInfo(props: { policy: Policy }) {
   return (
     <div>
 
-      <div className="flex w-full justify-around gap-y-7 mt-4 mobile:gap-x-4 p-page">
-        <div className="flex">
+      <div className="flex w-full gap-y-7 mt-4 mobile:gap-x-4 gap-x-4">
+        <div className="flex flex-col w-1/3 gap-y-2">
           {claimInfoData.map((data, i) => (
             <div
-              className="w-[28%] mobile:w-[30%] text-center justify-center duration-200 ease-in-out bg-background border-2 border-border px-4 py-8 rounded-xl flex flex-col items-center gap-y-2"
+              className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2"
               key={i}
             >
-              <h1 className="text-lg tracking-wide">{data.title}</h1>
-              <p className="text-3xl font-mono">{data.value}</p>
+              <h1 className="tracking-wide">{data.title}:</h1>
+              <p className="font-mono">{data.value}</p>
             </div>
           ))}
         </div>
-        <div className="w-[45.3%] mobile:w-full duration-200 ease-in-out bg-background border-2 border-border px-8 py-6 justify-center rounded-xl flex flex-col text-secondary">
-          {" "}
-          <h1 className="text-lg tracking-wide text-white border-foreground border-b-2">
-            Required duration for the policy
-          </h1>
-          <div className=" mt-2">
-            Minimum:{" "}
-            <span className=" font-bold">
-              {closestTimeUnit(Number(policy.minimumDuration))}
-            </span>
+        <div className="flex gap-x-4 w-2/3">
+          <div className="mobile:w-full w-1/2 duration-200  px-3 ease-in-out bg-background border border-border justify-center rounded-md flex flex-col text-secondary">
+            {" "}
+            <h1 className="text-lg tracking-wide text-white border-foreground border-b-2">
+              Duration for the policy
+            </h1>
+            <div className="mt-2">
+              Minimum:{" "}
+              <span className=" font-bold">
+                {closestTimeUnit(Number(policy.minimumDuration))}
+              </span>
+            </div>
+            <div className=" mt-1">
+              Maximum:{" "}
+              <span className="font-bold">
+                {closestTimeUnit(Number(policy.maximumDuration))}
+              </span>
+            </div>
           </div>
-          <div className=" mt-1">
-            Maximum:{" "}
-            <span className="font-bold">
-              {closestTimeUnit(Number(policy.maximumDuration))}
-            </span>
-          </div>
-        </div>
-        <div className="w-[45.3%] mobile:w-full duration-200 ease-in-out bg-background border-2 border-border px-8 py-6 justify-center rounded-xl flex flex-col text-secondary">
-          {" "}
-          <h1 className="text-lg tracking-wide text-white border-foreground border-b-2">
-            Limit of the claim
-          </h1>
-          <div className="mt-2">
-            Minimum: <span className="font-bold">${policy.minimumClaim}</span>
-          </div>
-          <div className="mt-1">
-            Maximum: <span className="font-bold">${policy.maximumClaim}</span>
+          <div className="mobile:w-full w-1/2 duration-200 ease-in-out px-3 bg-background border border-border justify-center rounded-md flex flex-col text-secondary">
+            {" "}
+            <h1 className="text-lg tracking-wide text-white border-foreground border-b-2">
+              Limit of the claim
+            </h1>
+            <div className="mt-2">
+              Minimum: <span className="font-extrabold">${policy.minimumClaim}</span>
+            </div>
+            <div className="mt-1">
+              Maximum: <span className="font-extrabold">${policy.maximumClaim}</span>
+            </div>
           </div>
         </div>
       </div>
