@@ -154,6 +154,11 @@ const policy = {
     });
     return response.data;
   },
+
+  async getStakeHistory(address: string) {
+    const response = await client.get(`policy/stake-history/${address}`)
+    return response.data
+  }
 };
 
 export default policy;

@@ -31,6 +31,7 @@ export interface Policy {
   rating?: number;
   tags?: string[];
   name: string;
+  blockNumber?: bigint;
   description: string;
   category: string;
   minimumClaim: number;

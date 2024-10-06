@@ -257,6 +257,23 @@ except:
   }
 });
 
+router.get("/stake-history/:address", async (req, res) => {
+  const { address } = req.params;
+  const policy = await Policy.findOne({ address: address });
+
+  if (!policy) return res.sendStatus(404);
+  if (!isAddress(policy.address)) return res.sendStatus(404);
+
+  const response = await evm.client.getContractEvents({ abi: evmConfig.insuranceController.abi, address: policy.address, fromBlock: BigInt(policy.blockNumber) })
+
+  return res.send({
+    feed: response.map(e => ({
+      amount: Number((e.args as any).amount), timestamp: Number(e.blockNumber)
+    }))
+  })
+
+})
+
 router.post("/buy/:address", async (req, res) => {
   const { address } = req.params;
   const { user, data, sign, premium } = req.body;

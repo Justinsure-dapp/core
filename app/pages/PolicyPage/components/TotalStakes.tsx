@@ -4,6 +4,8 @@ import { Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
 import { isAddress, zeroAddress } from "viem";
 import useUsdjHook from "../../../hooks/useUsdj";
+import useApiResponse from "../../../hooks/useApiResponse";
+import api from "../../../utils/api";
 
 export default function TotalStakes({ policy }: { policy: Policy }) {
   const creatorAddress = isAddress(policy.creator)
@@ -30,6 +32,14 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
   });
 
   const ownerStake = data2 ? divideByDecimals(data2) : 0;
+
+  
+  if (!isAddress(policy.address)) return <></>
+
+  const feed = useApiResponse(api.policy.getStakeHistory, policy.address)
+
+  console.log(feed)
+
 
   const ownerStakePercentage =
     ownerStake && totalStake
