@@ -90,7 +90,7 @@ const policySchema = new Schema<PolicyData>(
     },
     blockNumber: {
       type: Number,
-      required: true,
+      default: 0,
     },
     claims: {
       type: [{
