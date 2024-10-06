@@ -10,6 +10,7 @@ import { isAddress, zeroAddress } from "viem";
 import useUsdjHook from "../../../hooks/useUsdj";
 import api from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
+import useToast from "../../../hooks/useToast";
 
 export default function StakeModal({ policy }: { policy: Policy }) {
   const modal = useModal();
@@ -18,6 +19,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
   const { data: hash, writeContractAsync } = useWriteContract();
   const navigate = useNavigate();
   const { allowance, approve, multiplyWithDecimals } = useUsdjHook();
+  const toast = useToast();
 
   const stakeReciept = useWaitForTransactionReceipt({
     confirmations: 2,
@@ -26,7 +28,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
 
   async function handleSubmit() {
     if (stake === 0) {
-      alert("Please enter a valid amount to stake");
+      toast.display({ title: "Error", description: "Please enter a valid amount to stake" });
       return;
     }
 

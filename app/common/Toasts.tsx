@@ -26,7 +26,7 @@ function ToastView(props: { toast: Toast }) {
   return (
     <div
       className={twMerge(
-        "pointer-events-auto relative z-[999] mb-3 flex min-w-[40vw] max-w-[70vw] items-center rounded-md p-5 text-white",
+        "pointer-events-auto relative z-[1002] flex min-w-[40vw] max-w-[70vw] items-center rounded-md p-5 text-white",
         item.type == "success" && "bg-green-500",
         item.type == "info" && "bg-blue-500",
         item.type == "warning" && "bg-yellow-500",
