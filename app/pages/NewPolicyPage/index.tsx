@@ -346,7 +346,7 @@ export default function NewPolicyPage() {
                               argsSetter={setClaimFuncArgs}
                               placeholder={
                                 `def claim():
-    if (claimDuration > 86400000 and param1*param2 < 10):
+    if (claimDuration > 8640000 and param1*param2 > 10):
         return True
     else:
         return False
