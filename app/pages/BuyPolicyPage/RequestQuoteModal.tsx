@@ -8,6 +8,8 @@ import { Policy } from "../../types";
 import api from "../../utils/api";
 import Icon from "../../common/Icon";
 import Heading from "../NewPolicyPage/components/Heading";
+import { toast } from "react-toastify";
+import useWeb3 from "../../contexts/web3context";
 
 export default function RequestQuoteModal({
   policy,
@@ -24,12 +26,13 @@ export default function RequestQuoteModal({
   const { allowance, approve, decimals, multiplyWithDecimals, divideByDecimals } = useUsdjHook();
   const { address: userAddress } = useAccount();
   const { signMessage, data: sign, error: signError } = useSignMessage();
+  const { fetchUser } = useWeb3();
 
   const formattedPremium = multiplyWithDecimals(premium);
 
-  async function signNonce() {
+  async function handleSubmit() {
     if (!decimals || !userAddress) {
-      alert("Something is not right... Please try again..");
+      toast.error("Something went wrong, please try again..", { type: "error", isLoading: false, autoClose: 2000 });
       return;
     }
 
@@ -45,11 +48,11 @@ export default function RequestQuoteModal({
       const nonce = await api.policy.requestNonce(userAddress);
       signMessage({ message: JSON.stringify({ ...formData }) + nonce });
 
-      alert("Please sign the message to continue...");
+      toast.info("Sign the message to proceed..", { type: "info", isLoading: false, autoClose: 2000 });
     } catch (error) {
       setLoading(false);
       console.error(error);
-      alert("Error while staking!");
+      toast.error("Something went wrong, please try again..", { type: "error", isLoading: false, autoClose: 2000 });
     }
   }
 
@@ -67,15 +70,15 @@ export default function RequestQuoteModal({
           sign,
           formattedPremium.toString(),
         );
-        console.log(result);
-        alert("Purchased successfully!");
         setLoading(false);
+        toast.success("Policy bought successfully..", { type: "success", isLoading: false, autoClose: 2000 });
         modal.hide();
+        fetchUser();
         navigate("/account");
       } catch (error) {
         console.error(error);
-        alert("Error while buying policy!");
         setLoading(false);
+        toast.error("Error while buying policy..", { type: "error", isLoading: false, autoClose: 2000 });
       }
     }
 
@@ -84,13 +87,14 @@ export default function RequestQuoteModal({
     }
 
     if (signError) {
-      alert("Error while signing the message!");
       setLoading(false);
+      toast.error("Error while signing the message..", { type: "error", isLoading: false, autoClose: 2000 });
+      console.error(signError);
     }
   }, [sign, signError]);
 
   return (
-    <div className="relative w-[80vw] max-w-[500px] flex flex-col gap-y-1 bg-background px-16 py-8 rounded-lg border border-primary/60 mobile:px-8">
+    <div className="relative w-[80vw] max-w-[720px] flex flex-col gap-y-1 bg-background py-8 rounded-lg border border-primary/60 px-8">
       {loading && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
@@ -115,7 +119,7 @@ export default function RequestQuoteModal({
         </button>
       </div>
       {policy.description && (
-        <p className="text-front/80 text-sm">{policy.description}</p>
+        <p className="text-front/80 text-sm mt-2 text-justify">{policy.description}</p>
       )}
       {policy.tags && policy.tags.length > 0 && (
         <p className="mt-3 flex gap-x-1 items-center">
@@ -154,7 +158,7 @@ export default function RequestQuoteModal({
             "mt-6 text-white/70 border-white/70 font-bold border duration-300 ease-in w-max px-6 py-2 rounded-lg hover:bg-secondary hover:text-front",
             loading ? "animate-pulse" : "",
           )}
-          onClick={signNonce}
+          onClick={handleSubmit}
           disabled={loading}
         >
           {loading ? "Processing..." : "Buy Policy"}

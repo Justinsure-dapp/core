@@ -69,8 +69,8 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         modal.hide();
         navigate('/account');
       } else {
-        console.error("Error while updating stakers in mongoDB");
-        toast.error("Error while updating stakers in mongoDB", { type: "error", isLoading: false, autoClose: 2000 });
+        console.error("Error while updating database..");
+        toast.error("Error while updating database..", { type: "error", isLoading: false, autoClose: 2000 });
       }
     }
 

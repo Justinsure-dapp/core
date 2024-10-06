@@ -68,7 +68,7 @@ export default function PolicyCard(props: {
             <img
               src={policy.image}
               alt={policy.name}
-              className="rounded-full w-12 h-12 border border-border p-[2px]"
+              className="rounded-full object-cover w-12 h-12 border border-border p-[2px]"
             />
 
             <div className="flex flex-col justify-evenly">

@@ -51,7 +51,7 @@ export default function PolicyCard(props: { policy: Policy }) {
       <div className="flex flex-col">
         <div className="flex gap-y-1 justify-between">
           <div className="flex gap-4 items-center">
-            <img src={props.policy.image} alt="logo" className="w-12 h-12 rounded-lg border border-border" />
+            <img src={props.policy.image} alt="logo" className="w-12 h-12 rounded-lg border border-border object-cover" />
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
               {isPaused ? (

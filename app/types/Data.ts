@@ -49,6 +49,9 @@ export interface Policy {
   claims: {
     address: string;
     status: "requested" | "approved";
+    amount: number;
+    requestedAt: Date;
+    approvedAt: Date;
   }[];
   createdAt: string;
   updatedAt: string;

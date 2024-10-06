@@ -13,6 +13,7 @@ import api from "../../utils/api";
 import { useAccount, useSignMessage } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../common/Icon";
+import { toast } from "react-toastify";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -46,38 +47,9 @@ export default function NewPolicyPage() {
   const [formData, setFormData] = useState<any>();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function submitForm() {
-      try {
-        const reqBody = {
-          data: formData,
-          sign: nonceData,
-        };
-        const result = await api.policy.createNewPolicy(reqBody);
-        setLoading(false);
-        alert(result?.message);
-        navigate("/dashboard");
-      } catch (error: any) {
-        setLoading(false);
-        console.error(error);
-        if (error.response.data.message) {
-          alert(error.response.data.message);
-        }
-      }
-    }
-
-    if (nonceData && nonceSuccess) {
-      submitForm();
-    }
-
-    if (nonceError) {
-      setLoading(false);
-      alert("Failed to sign the message.. Please try again");
-    }
-  }, [nonceData, nonceSuccess, nonceError]);
-
   const handleSubmit = async (data: Record<string, string>) => {
     setLoading(true);
+    const handleSubmitToast = toast("Sign the message to proceed..", { type: "info", isLoading: false, autoClose: 2000 });
 
     try {
       setFormData({
@@ -98,10 +70,44 @@ export default function NewPolicyPage() {
         })}${nonce}`,
       });
     } catch (error) {
+      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
       console.error(error);
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    async function submitForm() {
+      try {
+        const reqBody = {
+          data: formData,
+          sign: nonceData,
+        };
+        await api.policy.createNewPolicy(reqBody);
+        setLoading(false);
+        toast.success("Policy created Successfully..", { type: "success", isLoading: false, autoClose: 2000 });
+        navigate("/dashboard");
+      } catch (error: any) {
+        setLoading(false);
+        console.error(error);
+        if (error.response.data.message) {
+          toast.error(error.response.data.message, { type: "error", isLoading: false, autoClose: 2000 });
+        } else {
+          toast.error("Failed to create policy..", { type: "error", isLoading: false, autoClose: 2000 });
+        }
+      }
+    }
+
+    if (nonceData && nonceSuccess) {
+      toast.success("Transaction Submitted..", { type: "success", isLoading: false, autoClose: 2000 });
+      submitForm();
+    }
+
+    if (nonceError) {
+      setLoading(false);
+      toast.error("Error while signing the message..", { type: "error", isLoading: false, autoClose: 2000 });
+    }
+  }, [nonceData, nonceSuccess, nonceError]);
 
   return (
     <>
