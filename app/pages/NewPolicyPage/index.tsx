@@ -165,7 +165,7 @@ export default function NewPolicyPage() {
                     setLogo(e.currentTarget.src);
                   }}
                   draggable={false}
-                  className="rounded-xl object-cover"
+                  className="rounded-xl object-cover h-full"
                 />
               </div>
             </div>
