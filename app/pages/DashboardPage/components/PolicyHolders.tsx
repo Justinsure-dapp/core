@@ -43,18 +43,18 @@ export default function PolicyHolders({
   };
 
   return (
-    <div className="bg-background p-4 mb-5 rounded-lg border border-front/20">
+    <div className="mb-5 border-t border-front/20 pt-3 mt-1">
       <h1 className="text-lg font-bold">Policy Holders</h1>
-      <div className="mt-4 w-full flex gap-x-3">
+      <div className="mt-2 w-full flex gap-x-3">
         <input
           type="text"
           placeholder="Search..."
-          className="w-full bg-background border border-primary/50 px-4 py-2 rounded-lg focus-within:outline-none"
+          className="w-full bg-background border border-primary/50 px-4 py-1 rounded-md focus-within:outline-none"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
         <select
-          className="relative border border-primary/50 rounded-lg pr-2 pl-3 py-2  flex items-center gap-x-2 bg-background"
+          className="relative border border-primary/50 rounded-lg pr-2 pl-3 py-1  flex items-center gap-x-2 bg-background"
           value={selectedFilter}
           onChange={handleFilterChange}
         >

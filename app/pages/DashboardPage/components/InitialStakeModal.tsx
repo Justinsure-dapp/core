@@ -134,7 +134,7 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
             showWarning ? "" : "hidden",
           )}
         >
-          <Icon icon="info" /> Minimum Stake: {minStakewithDecimals}
+          <Icon icon="info" /> Minimum Stake: {minStakewithDecimals} USDJ
         </p>
         <Heading>Enter amount to be Staked in policy</Heading>
         <input
