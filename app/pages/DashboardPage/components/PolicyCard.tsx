@@ -68,15 +68,15 @@ export default function PolicyCard(props: { policy: Policy }) {
           <div className="font-semibold">
             {isPaused ? (
               <div className="flex items-center gap-2">
-                <p className="text-red-500 tracking-wide flex gap-x-2 items-center">
-                  <Icon icon="info" className="text-xl" />POLICY INACTIVE:</p>
+                <p className="text-red-500 tracking-wide whitespace-nowrap flex gap-x-2 items-center">
+                  <Icon icon="info" className="text-xl " />POLICY INACTIVE:</p>
                 <button
                   onClick={() =>
                     modal.show(
                       <InitialStakeModal policy={props.policy} />,
                     )
                   }
-                  className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-front rounded-lg font-medium"
+                  className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-front rounded-lg font-medium whitespace-nowrap"
                 >
                   Set Initial Stake
                 </button>
