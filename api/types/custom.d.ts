@@ -55,6 +55,9 @@ interface PolicyData {
   claims: {
     address: string;
     status: "requested" | "approved";
+    amount: number;
+    requestedAt: date;
+    approvedAt: date;
   }[];
   stakeToken: string;
   stakeTokenSymbol: string;

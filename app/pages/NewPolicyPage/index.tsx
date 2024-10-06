@@ -109,7 +109,7 @@ export default function NewPolicyPage() {
 
       <div className="p-page overflow-x-hidden">
         {loading && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
             <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
               <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
               <p className="text-primary mt-2 font-semibold">Creating Policy</p>

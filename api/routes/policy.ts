@@ -209,10 +209,6 @@ router.get("/premium/:address/", async (req, res) => {
       value: string;
     }>;
 
-    console.log({
-      args,
-    });
-
     const policy = await Policy.findOne({ address: req.params.address });
     if (!policy) throw "Invalid Policy Address";
 
@@ -258,21 +254,39 @@ except:
 });
 
 router.get("/stake-history/:address", async (req, res) => {
-  const { address } = req.params;
-  const policy = await Policy.findOne({ address: address });
+  try {
+    const { address } = req.params;
+    const policy = await Policy.findOne({ address: address });
 
-  if (!policy) return res.sendStatus(404);
-  if (!isAddress(policy.address)) return res.sendStatus(404);
+    if (!policy) {
+      res.sendStatus(404);
+      return;
+    }
+    if (!isAddress(policy.address)) {
+      res.sendStatus(404);
+      return;
+    }
 
-  const response = await evm.client.getContractEvents({ abi: evmConfig.insuranceController.abi, address: policy.address, fromBlock: BigInt(policy.blockNumber) })
+    const response = await evm.client.getContractEvents({
+      abi: evmConfig.insuranceController.abi,
+      address: policy.address,
+      fromBlock: BigInt(policy.blockNumber),
+    });
 
-  return res.send({
-    feed: response.map(e => ({
-      amount: Number((e.args as any).amount), timestamp: Number(e.blockNumber)
-    }))
-  })
+    res.send({
+      feed: response.map((e) => ({
+        amount: Number((e.args as any).amount),
+        timestamp: Number(e.blockNumber),
+      })),
+    });
 
-})
+    return;
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+    return;
+  }
+});
 
 router.post("/buy/:address", async (req, res) => {
   const { address } = req.params;
@@ -309,6 +323,17 @@ router.post("/buy/:address", async (req, res) => {
       res.status(400).json({ message: "Invalid Policy Address" });
       return;
     }
+    
+    // fetch policy doc
+    const policy = await Policy.findOne({ address });
+
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    } else if (policy.holders.includes(user)) {
+      res.status(400).json({ message: "Already owns the policy" });
+      return;
+    }
 
     const txHash = await surityInterface.write.issuePolicyInstance([
       address,
@@ -324,14 +349,6 @@ router.post("/buy/:address", async (req, res) => {
 
     if (receipt.status !== "success") {
       res.status(400).json({ message: "Staking failed" });
-      return;
-    }
-
-    // update policy doc
-    const policy = await Policy.findOne({ address });
-
-    if (!policy) {
-      res.status(400).json({ message: "Policy not found.." });
       return;
     }
 
@@ -401,11 +418,11 @@ router.post("/update/stakers/:address", async (req, res) => {
       return;
     }
 
-    if(!policy.stakers.includes(staker)) {
+    if (!policy.stakers.includes(staker)) {
       policy.stakers.push(staker);
       await policy.save();
     }
-    
+
     res.status(200).json({ message: "Stakers updated successfully.." });
     return;
   } catch (error: any) {
@@ -511,7 +528,12 @@ router.post("/claim/issue/:address", async (req, res) => {
     policy.claims.push({
       address: userAddress,
       status: "approved",
+      amount: signedData.claimValue || 0,
+      requestedAt: new Date(),
+      approvedAt: new Date(),
     });
+
+    policy.holders = policy.holders.filter((h) => h !== userAddress);
     await policy.save();
 
     // update user doc

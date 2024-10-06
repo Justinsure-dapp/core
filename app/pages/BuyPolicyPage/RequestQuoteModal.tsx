@@ -21,7 +21,7 @@ export default function RequestQuoteModal({
   const modal = useModal();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { allowance, approve, decimals, multiplyWithDecimals } = useUsdjHook();
+  const { allowance, approve, decimals, multiplyWithDecimals, divideByDecimals } = useUsdjHook();
   const { address: userAddress } = useAccount();
   const { signMessage, data: sign, error: signError } = useSignMessage();
 
@@ -133,7 +133,7 @@ export default function RequestQuoteModal({
       <div className="flex items-center mt-3 gap-2">
         <Heading>Calculated Premium:</Heading>
         <div className="rounded-md w-fit py-1 px-2 bg-background border border-border shadow shadow-mute/30">
-          <p>{premium} USDJ</p>
+          <p>{divideByDecimals(formattedPremium)} USDJ</p>
         </div>
       </div>
       <div className="flex gap-4 self-end">

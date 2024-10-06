@@ -51,7 +51,7 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
       return;
     }
 
-    if(!address || !policy.address || address !== policy.address) {
+    if(!address || !policy.creator || address !== policy.creator) {
       alert("You have to be the policy creator to stake initially!");
       return;
     }

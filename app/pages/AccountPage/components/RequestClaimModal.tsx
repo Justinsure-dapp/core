@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import api from "../../../utils/api";
 import { useAccount, useSignMessage } from "wagmi";
 import DataForm from "../../../common/DataForm";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 type ClaimData = {
   premiumFunctionDetails: {
@@ -40,18 +42,21 @@ export default function RequestClaimModal({
   const { address: userAddress } = useAccount();
   const { signMessage, data: sign, error } = useSignMessage();
   const [signedData, setSignedData] = useState<any>();
+  const navigate = useNavigate();
 
   async function checkValidity(data: Record<string, string>) {
     try {
       if (!claimData.policyDetails.address) {
-        alert("Policy address not found!");
+        toast.warning("No Policy Addess Found..", { type: "error", isLoading: false, autoClose: 2000 });
         return;
       }
 
       if (!claimData.policyDetails.args) {
-        alert("Policy Arguments not found!");
+        toast.warning("No Premium Arguments Found..", { type: "error", isLoading: false, autoClose: 2000 });
         return;
       }
+
+      const toastID = toast("Validating Claim..", { type: "info", isLoading: true });
 
       const { key } = await api.policy.validateClaim(
         claimData.policyDetails.address,
@@ -64,29 +69,26 @@ export default function RequestClaimModal({
 
         if (newData.completed && newData.output) {
           setLoading(false);
-          console.log({
-            output: newData.output,
-          });
 
           if (newData.output === -1) {
-            alert("Validation Failed. Check Arguments..");
+            toast.update(toastID, { render: "Invalid Output, Contact Owner..", type: "error", isLoading: false, autoClose: 2000 });
             return;
           }
 
           if (newData.output === "True") {
-            alert("Claim is valid..");
+            toast.update(toastID, { render: "Claim is valid..", type: "success", isLoading: false, autoClose: 2000 });
             signNonce(data);
           } else if (newData.output === "False") {
-            alert("Invalid claim!");
+            toast.update(toastID, { render: "Claim is not valid..", type: "error", isLoading: false, autoClose: 2000 });
           } else {
-            alert("Invalid Output: " + newData.output);
+            toast.update(toastID, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
           }
           clearInterval(intervalId);
         }
       }, 1000);
     } catch (error) {
       console.error(error);
-      alert("Error while checking validity!");
+      toast("Error while checking validity!");
     }
   }
 
@@ -94,10 +96,10 @@ export default function RequestClaimModal({
     setLoading(true);
 
     if (!claimData.policyDetails.args || !data) {
-      alert("Something is not right... Please try again..");
+      toast.warning("Something is not right, please try again..");
       return;
     } else if (!userAddress) {
-      alert("Connect your wallet!");
+      toast.warning("Connect your wallet!");
       return;
     }
 
@@ -108,6 +110,8 @@ export default function RequestClaimModal({
 
     try {
       const nonce = await api.policy.requestNonce(userAddress);
+      toast.info("Please sign the message to continue...");
+
       signMessage({
         message:
           JSON.stringify({
@@ -115,9 +119,9 @@ export default function RequestClaimModal({
             premiumArgs: claimData.policyDetails.args,
           }) + nonce,
       });
-      alert("Please sign the message to continue...");
     } catch (error) {
       setLoading(false);
+      toast.error("Error while signing the message!");
       console.error(error);
     }
   }
@@ -126,21 +130,23 @@ export default function RequestClaimModal({
     async function validateClaim() {
       try {
         if (!userAddress || !claimData.policyDetails.address || !sign) {
-          return alert("Error while signing message!");
+          return toast.error("Error while signing message!");
         }
 
-        const result = await api.policy.claimPolicy(
+        await api.policy.claimPolicy(
           claimData.policyDetails.address,
           userAddress,
           signedData,
           sign,
         );
-        console.log({ result });
+
         setLoading(false);
+        toast.success("Claim approved..");
         modal.hide();
+        navigate(0);
       } catch (error) {
         setLoading(false);
-        alert("Error while validating claim!");
+        toast.error("Error while validating claim!");
       }
     }
 
@@ -148,14 +154,14 @@ export default function RequestClaimModal({
       validateClaim();
     } else if (error) {
       setLoading(false);
-      alert("Error while signing the message!");
+      toast.error("Error while signing the message!");
     }
   }, [sign, error]);
 
   return (
     <div className="relative bg-background p-10 border border-border rounded-xl w-[80vw] max-w-[720px] max-h-[90vh] overflow-auto scrollbar-primary text-zinc-200">
       {loading && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
           <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
             <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
             <p className="text-primary mt-2 font-semibold">
@@ -238,8 +244,8 @@ export default function RequestClaimModal({
           <div className="flex flex-col gap-1">
             <Heading>Claim Function Arguments:</Heading>
             <div className="mt-2 border border-border bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
-              {claimData.claimFuctionDetails.args &&
-                claimData.claimFuctionDetails.args.length > 0 &&
+              {(claimData.claimFuctionDetails.args &&
+                claimData.claimFuctionDetails.args.length > 0) ?
                 claimData.claimFuctionDetails.args.map(
                   (arg: any, key: number) => {
                     if (
@@ -267,6 +273,8 @@ export default function RequestClaimModal({
                       </div>
                     );
                   },
+                ) : (
+                <p className="text-front/80 text-mute">Nothing to show..</p>
                 )}
             </div>
           </div>

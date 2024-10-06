@@ -19,20 +19,11 @@ export default function YourPolicies() {
   const [viewMoreActive, setViewMoreActive] = useState(false);
   const [viewMoreClaimed, setViewMoreClaimed] = useState(false);
 
-  const ownedPolicies =
-    policies?.filter((p) => p.holders.includes(address as string)) || [];
+  const activePolicies: Policy[] = policies?.filter((p) => p.holders.includes(address as string)) || [];
+  const claimedPolicies: Policy[] = policies?.filter(policy =>
+    policy.claims.some(claim => claim.address === address)
+  ) || [];
 
-  const claimedPolicies: Policy[] = [];
-  const activePolicies: Policy[] = [];
-
-  ownedPolicies.forEach((policy) => {
-    const isClaimed = policy.claims.some((claim) => claim.address === address);
-    if (isClaimed) {
-      claimedPolicies.push(policy);
-    } else {
-      activePolicies.push(policy);
-    }
-  });
 
   return (
     <div className="flex flex-col p-page">
@@ -57,7 +48,7 @@ export default function YourPolicies() {
           </div> */}
         </div>
 
-        {ownedPolicies.length === 0 && (
+        {(activePolicies.length === 0 && claimedPolicies.length === 0)&& (
           <div className="flex justify-center items-center h-[20vh]">
             <h1 className="text-2xl font-semibold text-mute">
               Nothing to show..
