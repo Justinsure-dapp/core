@@ -1,11 +1,8 @@
-import React, { DetailedHTMLProps, useState } from "react";
+import React, { useState } from "react";
 import DocTitle from "../../common/DocTitle";
 import { Link } from "react-router-dom";
-import logo from "../../../public/logo.png";
 import useWeb3 from "../../contexts/web3context";
 import { AuroraBackground } from "../../components/ui/aurora-background";
-import { TextHoverEffect } from "../../components/ui/text-hover-effect";
-import { toast } from "react-toastify";
 
 export default function HomePage() {
   const { user } = useWeb3();
@@ -16,10 +13,6 @@ export default function HomePage() {
 
       {/* Mobile */}
       <div className="p-page py-8">
-        <button className="
-          bg-primary/60 hover:bg-primary/80 transition-all text-front px-6 rounded-lg py-2 font-medium my-4
-          flex items-center gap-x-6
-        " onClick={() => toast("Wow so easy !")}>Notify !</button>
         {/* Logo on Mobile */}
         <div className="hidden mobile:flex w-full items-center justify-center border p-4 mb-4 rounded-md sm:pr-12 border-border dark:bg-background bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative">
           <div className="absolute rounded-xl pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
