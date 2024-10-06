@@ -117,7 +117,6 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
         <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
       </button>
       <h1 className="text-2xl font-bold mb-2">Initial Stake Required</h1>
-      {policy.description && (
         <div className="text-mute flex flex-col gap-y-1 text-sm ">To activate this policy, you must provide an initial stake. This stake serves two important purposes:
           <p>
             <span className="text-front">1. Liquidity Provision: </span>
@@ -135,7 +134,6 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
             remain inactive & hidden from potential backers.
           </p>
         </div>
-      )}
       <div className="flex flex-col mt-6 relative">
         <p
           className={twMerge(
