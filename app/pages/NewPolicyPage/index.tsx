@@ -154,7 +154,7 @@ export default function NewPolicyPage() {
 
               <div
                 className={twMerge(
-                  "bg-secondary/20 rounded-xl flex items-center justify-center  mt-2 border border-border",
+                  "bg-secondary/20 rounded-xl flex items-center justify-center aspect-square w-[240px] mt-2 border border-border",
                   !logo && "animate-pulse",
                 )}
               >
@@ -165,7 +165,7 @@ export default function NewPolicyPage() {
                     setLogo(e.currentTarget.src);
                   }}
                   draggable={false}
-                  className="rounded-xl object-cover h-[20vh] w-[30vw]"
+                  className="rounded-xl object-cover"
                 />
               </div>
             </div>
