@@ -18,7 +18,7 @@ export default function Header1({ policy }: { policy: Policy }) {
                 <div className='w-1/3 h-[20vh] flex items-center justify-center rounded-md relative'>
                     <img
                         src={policy.image}
-                        className='h-full object-cover w-full rounded-md'
+                        className='h-full border border-border object-cover w-full rounded-md'
                         alt="Policy"
                     />
                 </div>

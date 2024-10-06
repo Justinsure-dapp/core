@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply bg-background text-front font-spaceGrotesk  scroll-smooth;
+    @apply bg-background text-front font-mulish  scroll-smooth;
   }
 
   body {
