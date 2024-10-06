@@ -12,11 +12,7 @@ import api from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
 import useToast from "../../../hooks/useToast";
 
-export default function StakeModal({
-  policy,
-}: {
-  policy: Policy;
-}) {
+export default function StakeModal({ policy }: { policy: Policy }) {
   const modal = useModal();
   const [stake, setStake] = useState<number>(0);
   const [loading, setLoading] = useState(false);
@@ -38,7 +34,10 @@ export default function StakeModal({
 
     setLoading(true);
     try {
-      if (allowance === BigInt(0) || Number(allowance) < Number(multiplyWithDecimals(stake))) {
+      if (
+        allowance === BigInt(0) ||
+        Number(allowance) < Number(multiplyWithDecimals(stake))
+      ) {
         await approve();
       }
 

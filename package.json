@@ -12,7 +12,8 @@
     "dev-server": "TS_NODE_PROJECT=tsconfig.server.json nodemon --exec 'yarn server' --watch api -e js,ts",
     "contracts-compile": "TS_NODE_PROJECT=tsconfig.prod.json hardhat compile",
     "contracts-test": "TS_NODE_PROJECT=tsconfig.prod.json hardhat test",
-    "contracts-deploy": "TS_NODE_PROJECT=tsconfig.prod.json hardhat run contracts/scripts/deploy.ts"
+    "contracts-deploy": "TS_NODE_PROJECT=tsconfig.prod.json hardhat run contracts/scripts/deploy.ts",
+    "contracts-donau": "TS_NODE_PROJECT=tsconfig.prod.json hardhat run contracts/scripts/deploy.ts && TS_NODE_PROJECT=tsconfig.prod.json hardhat run contracts/scripts/deploy-donau.ts"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",

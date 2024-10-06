@@ -38,7 +38,7 @@ export default function PolicyCard(props: { policy: Policy }) {
     const fetchPolicyHolders = async () => {
       const response = await api.user.fetchPolicyHolders(policyAddress);
       setHolders(response.holders);
-    }
+    };
 
     fetchPolicyHolders();
   }, []);
@@ -60,7 +60,7 @@ export default function PolicyCard(props: { policy: Policy }) {
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
               <div className="text-front/80 text-sm max-w-md">
-                {`${props.policy.description.slice(0, 150)}${props.policy.description.length > 150 ? '...' : ''}`}
+                {`${props.policy.description.slice(0, 150)}${props.policy.description.length > 150 ? "..." : ""}`}
               </div>
             </div>
           </div>
@@ -72,9 +72,7 @@ export default function PolicyCard(props: { policy: Policy }) {
                   <Icon icon="info" className="text-xl " />POLICY INACTIVE:</p>
                 <button
                   onClick={() =>
-                    modal.show(
-                      <InitialStakeModal policy={props.policy} />,
-                    )
+                    modal.show(<InitialStakeModal policy={props.policy} />)
                   }
                   className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-front rounded-lg font-medium whitespace-nowrap"
                 >
@@ -83,7 +81,8 @@ export default function PolicyCard(props: { policy: Policy }) {
               </div>
             ) : (
               <div className="text-green-500 tracking-wide flex gap-x-2 items-center">
-                <Icon icon="done" /> POLICY ACTIVE</div>
+                <Icon icon="done" /> POLICY ACTIVE
+              </div>
             )}
           </div>
         </div>
@@ -98,7 +97,9 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
         <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
-            <p className="text-front/80 text-sm">{usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked</p>
+            <p className="text-front/80 text-sm">
+              {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked
+            </p>
           </div>
         </div>
       </div>
@@ -110,9 +111,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         {expanded ? "View Less" : "View More"}
       </button>
 
-      {expanded && (
-        <PolicyHolders holders={holders} />
-      )}
+      {expanded && <PolicyHolders holders={holders} />}
     </div>
   );
 }

@@ -25,7 +25,8 @@ export default function BuyPolicyPage() {
     return inputValue >= min && inputValue <= max;
   }
 
-  const twInputStyle = "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
+  const twInputStyle =
+    "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
 
   const { data: policyData } = useApiResponse(
     api.policy.getByAddress,
@@ -55,7 +56,6 @@ export default function BuyPolicyPage() {
 
   const handleFormSubmit = async (data: Record<string, string>) => {
     setLoading(true);
-
 
     try {
       if (policyData) {
@@ -220,9 +220,9 @@ export default function BuyPolicyPage() {
                       <input
                         type={arg.htmlType}
                         className={twMerge(twInputStyle, "w-full")}
-                      placeholder={arg.htmlType}
-                      name={arg.name}
-                      required
+                        placeholder={arg.htmlType}
+                        name={arg.name}
+                        required
                       />
                     </div>
                   );
@@ -242,4 +242,3 @@ export default function BuyPolicyPage() {
     </>
   );
 }
-

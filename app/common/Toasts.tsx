@@ -30,7 +30,7 @@ function ToastView(props: { toast: Toast }) {
         item.type == "success" && "bg-green-500",
         item.type == "info" && "bg-blue-500",
         item.type == "warning" && "bg-yellow-500",
-        item.type == "error" && "bg-red-500 animate-[shake-x_800ms]"
+        item.type == "error" && "bg-red-500 animate-[shake-x_800ms]",
       )}
     >
       <div

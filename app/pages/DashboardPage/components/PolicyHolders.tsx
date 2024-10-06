@@ -14,7 +14,7 @@ export default function PolicyHolders({
 
   const holderDetails = {
     address: "",
-  }
+  };
 
   holders?.map((holder) => {
     holderDetails.address = holder.address;
@@ -68,9 +68,7 @@ export default function PolicyHolders({
           <option value="Expired">Expired</option>
         </select>
       </div>
-      <div className="mt-4 flex flex-col gap-y-4">
-        
-      </div>
+      <div className="mt-4 flex flex-col gap-y-4"></div>
     </div>
   );
 }

@@ -32,7 +32,7 @@ router.get("/get/holders/:address", async (req, res) => {
   try {
     const policyAddress = req.params.address;
 
-    if(!policyAddress) {
+    if (!policyAddress) {
       res.status(400).json({ message: "Policy address is required" });
       return;
     }

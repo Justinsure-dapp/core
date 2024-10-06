@@ -1,16 +1,16 @@
-import React from 'react'
-import { Policy } from '../../../types'
-import useApiResponse from '../../../hooks/useApiResponse';
-import api from '../../../utils/api';
-import marketer from '../../../utils/api/marketer';
-import { formatEvmAddress } from '../../../utils';
+import React from "react";
+import { Policy } from "../../../types";
+import useApiResponse from "../../../hooks/useApiResponse";
+import api from "../../../utils/api";
+import marketer from "../../../utils/api/marketer";
+import { formatEvmAddress } from "../../../utils";
 import { Link } from "react-router-dom";
 import useModal from "../../../hooks/useModal";
 import StakeModal from "./StakeModal";
 
 export default function Header1({ policy }: { policy: Policy }) {
-    const { data: user } = useApiResponse(api.user.get, policy.creator);
-    const modal = useModal();
+  const { data: user } = useApiResponse(api.user.get, policy.creator);
+  const modal = useModal();
 
     return (
         <div className="flex flex-col gap-1 bg-foreground/50 px-6 py-4 relative">

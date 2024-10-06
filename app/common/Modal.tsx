@@ -11,11 +11,7 @@ export default function Modal() {
         modal.element ? "opacity-100" : "opacity-0 pointer-events-none",
       )}
     >
-      <div
-        className={twMerge(
-          "duration-inherit ease-out",
-        )}
-      >
+      <div className={twMerge("duration-inherit ease-out")}>
         {modal.element}
       </div>
     </article>

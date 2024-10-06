@@ -24,7 +24,10 @@ export default function ErrorPage() {
           Soparu thinks you are lost. This magical button can help you get back
           though
         </p>
-        <Link to="/" className="bg-secondary/50 hover:bg-secondary/60 transition-all p-2 rounded-md">
+        <Link
+          to="/"
+          className="bg-secondary/50 hover:bg-secondary/60 transition-all p-2 rounded-md"
+        >
           Back to Safety
         </Link>
       </div>
