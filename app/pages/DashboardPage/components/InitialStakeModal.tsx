@@ -4,6 +4,7 @@ import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 import { useEffect, useState } from "react";
 import {
+  useAccount,
   useReadContract,
   useWaitForTransactionReceipt,
   useWriteContract,
@@ -23,6 +24,7 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
   const navigate = useNavigate();
   const { allowance, approve, multiplyWithDecimals } = useUsdjHook();
   const [showWarning, setShowWarning] = useState(false);
+  const { address } = useAccount();
 
   const stakeReciept = useWaitForTransactionReceipt({
     confirmations: 2,
@@ -46,6 +48,11 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
   async function handleSubmit() {
     if (stake === 0) {
       alert("Please enter a valid amount to stake");
+      return;
+    }
+
+    if(!address || !policy.address || address !== policy.address) {
+      alert("You have to be the policy creator to stake initially!");
       return;
     }
 
@@ -77,9 +84,11 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
 
   useEffect(() => {
     async function saveStakeToDB() {
+      if(!address) return;
+
       const result = await api.policy.updateStakers(
         policy.address,
-        policy.creator,
+        address,
       );
 
       if (result) {

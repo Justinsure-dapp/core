@@ -3,23 +3,23 @@ import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 import { useEffect, useState } from "react";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
 import { isAddress, zeroAddress } from "viem";
 import useUsdjHook from "../../../hooks/useUsdj";
 import api from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
-import useToast from "../../../hooks/useToast";
+import { toast } from "react-toastify";
 
 export default function StakeModal({ policy }: { policy: Policy }) {
   const modal = useModal();
+  const navigate = useNavigate();
   const [stake, setStake] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const { data: hash, writeContractAsync } = useWriteContract();
-  const navigate = useNavigate();
   const { allowance, approve, multiplyWithDecimals } = useUsdjHook();
-  const toast = useToast();
+  const { address } = useAccount();
+  const { data: hash, writeContractAsync } = useWriteContract();
 
   const stakeReciept = useWaitForTransactionReceipt({
     confirmations: 2,
@@ -28,10 +28,11 @@ export default function StakeModal({ policy }: { policy: Policy }) {
 
   async function handleSubmit() {
     if (stake === 0) {
-      toast.display({ title: "Error", description: "Please enter a valid amount to stake" });
+      toast.error("Invalid USDJ amount..", { type: "error", isLoading: false, autoClose: 2000 });
       return;
     }
 
+    const handleSubmitToast = toast("Waiting for approval...", { type: "info", isLoading: true });
     setLoading(true);
     try {
       if (
@@ -47,38 +48,53 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         functionName: "stakeToPolicy",
         args: [multiplyWithDecimals(stake)],
       });
+
+      toast.update(handleSubmitToast, { render: "Transaction submitted..", type: "info", isLoading: false, autoClose: 2000 });
     } catch (error) {
+      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
       console.error(error);
-      alert("Error while staking!");
     }
   }
 
   useEffect(() => {
     async function saveStakeToDB() {
+      if (!address) return;
       const result = await api.policy.updateStakers(
         policy.address,
-        policy.creator,
+        address,
       );
 
       if (result) {
-        alert("Staked successfully");
+        toast.success("Staked successfully..", { type: "success", isLoading: false, autoClose: 2000 });
         modal.hide();
-        navigate(0);
+        navigate('/account');
       } else {
         console.error("Error while updating stakers in mongoDB");
+        toast.error("Error while updating stakers in mongoDB", { type: "error", isLoading: false, autoClose: 2000 });
       }
     }
 
-    if (stakeReciept.isSuccess) saveStakeToDB();
+    if (stakeReciept.isSuccess) {
+      saveStakeToDB();
+    }
 
     if (stakeReciept.isError) {
-      alert("Error while staking!");
-      console.error(stakeReciept.error);
+      toast.error("Transaction failed..", { type: "error", isLoading: false, autoClose: 2000 });
     }
-  }, [stakeReciept]);
+  }, [stakeReciept.isLoading]);
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background widescreen:w-[50vw] max-w-[640px] mobile:w-[80vw] py-8 rounded-lg border border-primary/60 px-8">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
+            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
+            <p className="text-primary mt-2 font-semibold">Processing Request</p>
+            <p className="text-mute">Please wait..</p>
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-between gap-4 items-center">
         <h1 className="text-2xl font-bold">
           Stake in <span className="text-secondary">{policy.name}</span> policy
@@ -100,7 +116,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         </p>
       )}
       <div className="flex flex-col mt-3">
-        <Heading>Enter amount to be Staked in policy</Heading>
+        <Heading>Enter amount to be Staked in policy ( USDJ )</Heading>
         <input
           type="number"
           className="rounded-md mt-1 p-2 bg-background border border-border shadow shadow-mute/30"

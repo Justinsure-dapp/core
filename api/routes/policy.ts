@@ -401,11 +401,11 @@ router.post("/update/stakers/:address", async (req, res) => {
       return;
     }
 
-    if (!policy.stakers.includes(staker)) {
+    if(!policy.stakers.includes(staker)) {
       policy.stakers.push(staker);
       await policy.save();
     }
-
+    
     res.status(200).json({ message: "Stakers updated successfully.." });
     return;
   } catch (error: any) {
