@@ -1,7 +1,7 @@
 import express from "express";
 import User from "../models/User";
 import { generateRandomHex } from "../utils";
-import { isAddress, recoverMessageAddress, verifyMessage } from "viem";
+import { verifyMessage } from "viem";
 
 const router = express.Router();
 

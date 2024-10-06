@@ -3,6 +3,7 @@ import exampleRouter from "./example";
 import userRouter from "./user";
 import policyRouter from "./policy";
 import functionsRouter from "./functions";
+import surecoinRouter from "./surecoin";
 
 const router = express.Router();
 
@@ -10,6 +11,7 @@ router.use("/example", exampleRouter);
 router.use("/user", userRouter);
 router.use("/policy", policyRouter);
 router.use("/functions", functionsRouter);
+router.use("/surecoin", surecoinRouter);
 
 // @ts-ignore
 router.use((err, req, res, next) => {
