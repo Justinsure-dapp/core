@@ -18,10 +18,6 @@ export default function YourStakes() {
   >([]);
   const { address } = useAccount();
 
-  console.log({
-    stakes,
-  });
-
   const policiesStakedIn =
     policies?.filter((p) => p.stakers?.includes(address as string)) || [];
 

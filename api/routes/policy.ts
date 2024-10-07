@@ -359,7 +359,7 @@ router.post("/buy/:address", async (req, res) => {
     const claimExpiry = new Date(currentDate + Number(duration));
 
     policy.holders.push({
-      address,
+      address: user,
       premium,
       claimExpiry,
       args: data,

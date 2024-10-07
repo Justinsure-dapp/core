@@ -4,6 +4,7 @@ import Icon from "../../../common/Icon";
 import { Holder, User } from "../../../types";
 import useUsdjHook from "../../../hooks/useUsdj";
 import moment from "moment";
+import useSearchHook from "../../../hooks/useSearchHook";
 
 export default function PolicyHolders({
   holders,
@@ -13,6 +14,12 @@ export default function PolicyHolders({
   const [showList, setShowFullList] = useState(2);
   const [searchText, setSearchText] = useState("");
   const usdjHook = useUsdjHook();
+  const searchHook = useSearchHook(holders || [], [
+    "address",
+  ]);
+
+  const searchResults = searchHook.fuse.search(searchHook.debouncedSearchQuery);
+  const holdersToRender = searchResults.length === 0 ? holders : searchResults.map((result: any) => result.item);
 
   return (
     <div className="mb-8">
@@ -23,13 +30,13 @@ export default function PolicyHolders({
             type="text"
             placeholder="Search..."
             className="w-full bg-background border border-primary/50 px-4 py-1 rounded-md focus-within:outline-none"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            value={searchHook.searchQuery}
+            onChange={(e) => searchHook.setSearchQuery(e.target.value)}
           />
         </div>
       </div>
 
-      {holders.slice(0, showList).map((holder, key) => (
+      {holdersToRender && holdersToRender.slice(0, showList).map((holder, key) => (
         <div key={key}>
           <div className="border border-border p-4 rounded-xl text-sm">
             <p className="mb-2"><strong>Address:</strong> {holder.address}</p>
@@ -39,12 +46,12 @@ export default function PolicyHolders({
         </div>
       ))}
 
-      {showList < holders.length && (
+      {showList < holdersToRender.length && (
         <button
-          className="mt-4 px-4 py-2 bg-primary text-white rounded-md"
+          className="mt-4 hover:bg-primary/60 transition-all px-4 py-2 self-end w-full bg-primary/50 text-white rounded-md"
           onClick={() => setShowFullList((prev) => prev + 2)}
         >
-          View More
+          Load More
         </button>
       )}
     </div>

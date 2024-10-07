@@ -18,16 +18,22 @@ export default function YourPolicies() {
   const { policies } = useWeb3();
   const [viewMoreActive, setViewMoreActive] = useState(false);
   const [viewMoreClaimed, setViewMoreClaimed] = useState(false);
-  const { user } = useWeb3();
 
-  const activePolicies: Policy[] = policies?.filter((p) => p.holders.includes(address as string)) || [];
-  const claimedPolicies: Policy[] = policies?.filter(policy =>
-    policy.claims.some(claim => claim.address === address)
-  ) || [];
+  const activePolicies: object[] = [];
+  const claimedPolicies: object[] = [];
+
+  const data = []
+
+  policies?.map(p => {
+    p.holders.some(h => {
+      if (address === h.address) {
+        data.push(h);
+      }
+    })
+  })
 
   return (
     <div className="flex flex-col p-page">
-
       {/* Policies Owned */}
       <div ref={parent}
         className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-secondary/10 border border-border/20">

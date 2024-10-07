@@ -3,7 +3,7 @@ import DocTitle from "../../common/DocTitle";
 import Heading from "./components/Heading";
 import useModal from "../../hooks/useModal";
 import TexteditorModal from "./components/TexteditorModal";
-import ArgsTypeDefine, { Args } from "./components/ArgsTypeDefine";
+import ArgsTypeDefine from "./components/ArgsTypeDefine";
 import insuranceCategories from "../../assets/data/insuranceCategories";
 import { twMerge } from "tailwind-merge";
 import ToastsInput from "../../common/ToastsInput";
@@ -14,6 +14,7 @@ import { useAccount, useSignMessage } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../common/Icon";
 import { toast } from "react-toastify";
+import { Arg } from "../../types";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -28,8 +29,8 @@ export default function NewPolicyPage() {
   const [claimFuncArgs, setClaimFuncArgs] = useState<Array<string>>([]);
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [premiumFuncArgsSetter, setPremiumFuncArgsSetter] = useState<Args>([]);
-  const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Args>([]);
+  const [premiumFuncArgsSetter, setPremiumFuncArgsSetter] = useState<Arg[]>([]);
+  const [claimFuncArgsSetter, setclaimFuncArgsSetter] = useState<Arg[]>([]);
   const [manualPremiumCheck, setManualPremiumCheck] = useState(false);
   const [manualClaimCheck, setManualClaimCheck] = useState(false);
   const [logo, setLogo] = useState(

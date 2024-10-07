@@ -6,7 +6,7 @@ import useModal from "../../../hooks/useModal";
 import { Arg } from "../../../types";
 
 export default function ArgTypeDefine(props: {
-  Arg: string[];
+  args: string[];
   className?: string;
   setter?: React.Dispatch<React.SetStateAction<Arg[]>>;
 }) {
@@ -18,7 +18,7 @@ export default function ArgTypeDefine(props: {
 
   useEffect(() => {
     const newRes: Arg[] = [];
-    props.Arg.forEach((a) => {
+    props.args.forEach((a) => {
       newRes.push({
         name: a,
         typeName: possibleTypes[0].name,
@@ -33,11 +33,11 @@ export default function ArgTypeDefine(props: {
   const modal = useModal();
   return (
     <div className={twMerge("flex flex-col gap-y-2", props.className)}>
-      {props.Arg.length > 0 && (
+      {props.args.length > 0 && (
         <Heading className="-mb-2 text-mute">Function Arguments</Heading>
       )}
 
-      {props.Arg.map((arg, key) => (
+      {props.args.map((arg, key) => (
         <div key={key} className="flex gap-x-1">
           <div className="w-1/2 flex gap-x-1 items-center">
             <h1 className="truncate">{arg}</h1>
@@ -45,7 +45,7 @@ export default function ArgTypeDefine(props: {
               type="button"
               onClick={() =>
                 modal.show(
-                  <DescriptionModal Arg={res} setter={setRes} arg={arg} />,
+                  <DescriptionModal args={res} setter={setRes} arg={arg} />,
                 )
               }
             >
@@ -91,7 +91,7 @@ function DescriptionModal(props: {
 
   const inpRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
-  const res = [...props.Arg];
+  const res = [...props.args];
   const prev = res.find((e) => e.name === props.arg);
   const description = prev?.description;
 
@@ -121,7 +121,7 @@ function DescriptionModal(props: {
         className="bg-primary w-max py-2 px-3 self-center rounded-lg text-front font-bold"
         onClick={() => {
           const newDesc = inpRef.current.value;
-          const newRes = [...props.Arg];
+          const newRes = [...props.args];
           const prev = newRes.find((e) => e.name === props.arg);
           prev && (prev.description = newDesc);
           modal.hide();

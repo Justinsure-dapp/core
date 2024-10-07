@@ -10,7 +10,6 @@ import useModal from "../../../hooks/useModal";
 import useUsdjHook from "../../../hooks/useUsdj";
 import InitialStakeModal from "./InitialStakeModal";
 import Icon from "../../../common/Icon";
-import api from "../../../utils/api";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();

@@ -23,6 +23,9 @@ export default function DashboardPage() {
     "tags",
   ]);
 
+  const searchResults = searchHook.fuse.search(searchHook.debouncedSearchQuery);
+  const policiesToRender = searchResults.length === 0 ? policies : searchResults.map((result: any) => result.item);
+
   return (
     <section className="p-page py-4">
       <DocTitle title="Marketer Dashboard" />
@@ -36,7 +39,7 @@ export default function DashboardPage() {
         </div>
         <Link
           to="/new-policy"
-          className="bg-primary hover:bg-primary/80 transition-all text-front px-6 rounded-md py-2 font-medium h-max"
+          className="bg-primary/70 hover:bg-primary/100 transition-all text-front px-6 rounded-md py-2 font-medium h-max"
         >
           Create New Policy
         </Link>
@@ -52,16 +55,9 @@ export default function DashboardPage() {
       </div>
 
       <div className="flex flex-col gap-y-8 mt-4">
-        {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0
-          ? policies &&
-          policies.map((policy: any) => (
-            <PolicyCard key={policy.address} policy={policy} />
-          ))
-          : searchHook.fuse
-            .search(searchHook.debouncedSearchQuery)
-            .map((policy: any) => (
-              <PolicyCard key={policy.item.address} policy={policy.item} />
-            ))}
+        {policiesToRender && policiesToRender.map((policy: any) => (
+          <PolicyCard key={policy.address} policy={policy} />
+        ))}
       </div>
     </section >
   );
