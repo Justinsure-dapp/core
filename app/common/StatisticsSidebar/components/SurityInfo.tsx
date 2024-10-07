@@ -40,7 +40,7 @@ export default function SurityInfo() {
         </div>
       </div>
 
-      <div className="flex text-xs gap-x-2" key={seed}>
+      <div className="flex text-xs gap-x-2" key={seed} translate="no">
         <p>{new Date(Date.now()).toLocaleTimeString()}</p>
         <p>{new Date(Date.now()).toDateString()}</p>
       </div>

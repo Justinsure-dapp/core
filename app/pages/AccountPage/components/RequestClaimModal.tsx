@@ -45,6 +45,8 @@ export default function RequestClaimModal({
   const navigate = useNavigate();
 
   async function checkValidity(data: Record<string, string>) {
+    const toastID = toast("Validating Claim..", { type: "info", isLoading: true });
+
     try {
       if (!claimData.policyDetails.address) {
         toast.warning("No Policy Addess Found..", { type: "error", isLoading: false, autoClose: 2000 });
@@ -55,8 +57,6 @@ export default function RequestClaimModal({
         toast.warning("No Premium Arguments Found..", { type: "error", isLoading: false, autoClose: 2000 });
         return;
       }
-
-      const toastID = toast("Validating Claim..", { type: "info", isLoading: true });
 
       const { key } = await api.policy.validateClaim(
         claimData.policyDetails.address,
@@ -88,7 +88,7 @@ export default function RequestClaimModal({
       }, 1000);
     } catch (error) {
       console.error(error);
-      toast("Error while checking validity!");
+      toast.update(toastID, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
     }
   }
 

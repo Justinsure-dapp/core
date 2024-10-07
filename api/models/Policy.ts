@@ -103,12 +103,13 @@ const policySchema = new Schema<Policy>(
       default: 0,
     },
     claims: {
-      type: [{
-        address: String,
-        status: {
-          type: String,
-          enum: ["requested", "approved"],
-        },
+      type: [
+        {
+          address: String,
+          status: {
+            type: String,
+            enum: ["requested", "approved"],
+          },
         amount: Number,
         requestedAt: Date,
         approvedAt: Date,

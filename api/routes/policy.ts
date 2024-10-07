@@ -4,7 +4,7 @@ import Policy from "../models/Policy";
 import { isAddress, verifyMessage } from "viem";
 import { generateRandomHex, generateTokenSymbol } from "../utils";
 import { PinataSDK } from "pinata";
-import { PolicyData } from "../types/custom";
+import { Policy as PolicyType } from "../types/custom";
 import User from "../models/User";
 import executor from "../executor";
 import surityInterface from "../contracts/surityInterface";
@@ -25,7 +25,7 @@ router.post("/request-nonce", async (req, res) => {
 });
 
 router.post("/new", async (req, res) => {
-  const { data, sign }: { data: PolicyData; sign: any } = req.body;
+  const { data, sign }: { data: PolicyType; sign: any } = req.body;
 
   try {
     // check if creator address is valid
@@ -210,7 +210,10 @@ router.get("/premium/:address/", async (req, res) => {
     }>;
 
     const policy = await Policy.findOne({ address: req.params.address });
-    if (!policy) throw "Invalid Policy Address";
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    };
 
     const functionNameMatch = policy.premiumFunc.match(
       /def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/,
@@ -426,7 +429,11 @@ router.post("/claim/validate/:address", async (req, res) => {
       .join("\n  ");
 
     const policy = await Policy.findOne({ address: req.params.address });
-    if (!policy) throw "Invalid Policy Address";
+
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    };
 
     const functionNameMatch = policy.claimFunc.match(
       /def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/,
@@ -461,11 +468,17 @@ except:
     return;
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+    return;
   }
 });
 
 router.post("/claim/issue/:address", async (req, res) => {
   const { userAddress, signedData, sign } = req.body;
+
+  console.log({
+    signedData
+  })
 
   try {
     const policy = await Policy.findOne({ address: req.params.address });
@@ -505,7 +518,7 @@ router.post("/claim/issue/:address", async (req, res) => {
     policy.claims.push({
       address: userAddress,
       status: "approved",
-      amount: signedData.claimValue || 0,
+      amount: signedData.premiumArgs.claimValue || 0,
       requestedAt: new Date(),
       approvedAt: new Date(),
     });
