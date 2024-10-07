@@ -60,18 +60,14 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-y-8 mt-4">
         {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0
           ? policies &&
-            policies.map((policy: any) => (
-              <PolicyCard key={policy.address} policy={policy} />
-            ))
-          : searchHook.fuse
-              .search(searchHook.debouncedSearchQuery)
-              .map((policy: any) => (
-                <PolicyCard key={policy.item.address} policy={policy.item} />
-              ))}
-        {policiesToRender &&
-          policiesToRender.map((policy: any) => (
+          policies.map((policy: any) => (
             <PolicyCard key={policy.address} policy={policy} />
-          ))}
+          ))
+          : searchHook.fuse
+            .search(searchHook.debouncedSearchQuery)
+            .map((policy: any) => (
+              <PolicyCard key={policy.item.address} policy={policy.item} />
+            ))}
       </div>
     </section>
   );

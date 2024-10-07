@@ -43,12 +43,7 @@ export default function PolicyCard(props: { policy: Policy }) {
             <img
               src={props.policy.image}
               alt="logo"
-              className="w-12 h-12 rounded-lg border border-border"
-            />
-            <img
-              src={props.policy.image}
-              alt="logo"
-              className="w-12 h-12 rounded-lg border border-border object-cover"
+              className="w-12 h-12 p-1 rounded-lg border border-border object-cover"
             />
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
