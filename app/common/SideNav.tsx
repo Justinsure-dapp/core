@@ -20,6 +20,12 @@ export default function Navbar() {
       icon: "analytics",
       marketersOnly: true,
     },
+    {
+    title: "Swap",
+    link: "/swap",
+    icon: "swap",
+    }
+    ,
     { title: "Policies", link: "/policies", icon: "description" },
     { title: "Applications", link: "/applications", icon: "grid" },
     {

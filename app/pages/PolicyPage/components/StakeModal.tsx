@@ -3,7 +3,7 @@ import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 import { useEffect, useState } from "react";
-import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
 import { isAddress, zeroAddress } from "viem";
@@ -20,11 +20,34 @@ export default function StakeModal({ policy }: { policy: Policy }) {
   const { allowance, approve, multiplyWithDecimals } = useUsdjHook();
   const { address } = useAccount();
   const { data: hash, writeContractAsync } = useWriteContract();
+  const [showWarning, setShowWarning] = useState(false);
 
   const stakeReciept = useWaitForTransactionReceipt({
     confirmations: 2,
     hash,
   });
+
+  const { data: minStake } = useReadContract({
+    ...contractDefinitions.surityInterface,
+    functionName: "minimumInitialStake",
+  });
+
+  const { data: usdjDecimals } = useReadContract({
+    abi: contractDefinitions.usdj.abi,
+    address: contractDefinitions.usdj.address,
+    functionName: "decimals",
+  });
+
+  const minStakewithDecimals =
+    Number(minStake) / Math.pow(10, Number(usdjDecimals));
+
+  useEffect(() => {
+    if (stake < minStakewithDecimals) {
+      setShowWarning(true);
+    } else {
+      setShowWarning(false);
+    }
+  }, [stake]);
 
   async function handleSubmit() {
     if (stake === 0) {
@@ -84,53 +107,51 @@ export default function StakeModal({ policy }: { policy: Policy }) {
   }, [stakeReciept.isLoading]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background widescreen:w-[50vw] max-w-[640px] mobile:w-[80vw] py-8 rounded-lg border border-primary/60 px-8">
-      {loading && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
-          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
-            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
-            <p className="text-primary mt-2 font-semibold">Processing Request</p>
-            <p className="text-mute">Please wait..</p>
-          </div>
-        </div>
-      )}
-
-      <div className="flex justify-between gap-4 items-center">
-        <h1 className="text-2xl font-bold">
-          Stake in <span className="text-secondary">{policy.name}</span> policy
-        </h1>
-        <button
-          className="text-red-500 rounded-full border border-red-500 p-1"
-          onClick={() => modal.hide()}
-        >
-          <Icon icon="close" />
-        </button>
-      </div>
-      {policy.description && (
-        <p className="text-front/80 text-sm">{policy.description}</p>
-      )}
-      {policy.tags && policy.tags.length > 0 && (
-        <p className="mt-3">
-          <span className="font-bold text-secondary">Tags:</span>{" "}
-          {policy.tags.map((tag) => `#${tag}`).join(", ")}
+    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
+      <button
+        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
+        onClick={() => modal.hide()}
+      >
+        <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
+      </button>
+      <h1 className="text-2xl font-bold mb-2">Stake in the Policy and Earn Rewards</h1>
+      <div className="text-mute flex flex-col gap-y-1 text-sm ">By staking in this policy, you can actively participate and earn benefits. Here's how it works:
+        <p>
+          <span className="text-front">1. Profit Sharing: </span>
+          When you stake, you will receive 2% of the policy's total revenue. This includes premiums collected, allowing you to earn passive income based on the policy's performance.
         </p>
-      )}
-      <div className="flex flex-col mt-3">
-        <Heading>Enter amount to be Staked in policy ( USDJ )</Heading>
+        <p>
+          <span className="text-front">2. SureCoin Rewards: </span>
+          In addition to profit sharing, you will earn <span className="text-secondary font-bold">
+            SureCoins
+          </span>
+          — A special revenue-sharing token. SureCoin holders benefit from platform-wide activity, as 50% of all platform fees are used to support the liquidity of SureCoin. This ensures that even if no one directly invests in SureCoin, it continues to gain value over time.
+        </p>
+      </div>
+      <div className="flex flex-col mt-6 relative">
+        <p
+          className={twMerge(
+            "text-xs absolute top-1 right-0 animate-pulse text-red-500 flex gap-x-1 items-center",
+            showWarning ? "" : "hidden",
+          )}
+        >
+          <Icon icon="info" /> Minimum Stake: {minStakewithDecimals} USDJ
+        </p>
+        <Heading>Enter amount to be Staked in policy</Heading>
         <input
           type="number"
-          className="rounded-md mt-1 p-2 bg-background border border-border shadow shadow-mute/30"
+          className="mt-1 rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
           placeholder="Enter Amount in USDJ"
           onChange={(e) => setStake(Number(e.target.value))}
         />
       </div>
       <button
         className={twMerge(
-          "mt-4 text-secondary border-primary font-bold border duration-300 ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
+          "mt-3 text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
           loading ? "animate-pulse" : "",
         )}
         onClick={handleSubmit}
-        disabled={loading}
+        disabled={loading || showWarning}
       >
         {loading ? "Staking..." : "Stake"}
       </button>

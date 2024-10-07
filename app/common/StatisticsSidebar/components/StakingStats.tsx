@@ -88,14 +88,14 @@ export function StakedInCard({
 
   return (
     <div
-      className={`border transition-all border-border p-2 rounded-lg ${policy.creator === address ? " hover:bg-secondary/30" : "hover:bg-secondary/10"}`}
+      className={`border transition-all border-border p-2 rounded-lg ${policy.creator === address ? " hover:bg-front/5" : ""}`}
       title={policy.creator === address ? "Created by you" : "Staked by you"}
     >
       <div className="flex gap-x-3 ">
         <img
           src={policy.image}
           alt="bf"
-          className="aspect-square rounded-full p-1 object-cover border border-border h-14 "
+          className="aspect-square rounded-md object-cover border border-border h-14 "
         />
         <div className="flex flex-col w-full">
           <h1 className="font-semibold text-sm w-full capitalize">
