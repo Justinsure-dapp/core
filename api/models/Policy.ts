@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { PolicyData } from "../types/custom";
+import { Policy } from "../types/custom";
 
-const policySchema = new Schema<PolicyData>(
+const policySchema = new Schema<Policy>(
   {
     address: {
       type: String,
@@ -81,7 +81,17 @@ const policySchema = new Schema<PolicyData>(
       required: true,
     },
     holders: {
-      type: [String],
+      type: [{
+        address: { type: String },
+        premium: { type: Number },
+        claimExpiry: { type: Date },
+        args: { type: Object },
+        status: {
+          type: String,
+          enum: ["ongoing", "expired"],
+          default: "Ongoing",
+        },
+      }],
       default: [],
     },
     stakers: {

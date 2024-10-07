@@ -5,74 +5,28 @@ import { User } from "../../../types";
 
 export default function PolicyHolders({
   holders,
+  policyAddress,
 }: {
   holders: User[] | undefined;
+  policyAddress: string;
 }) {
   const [showList, setShowFullList] = useState(5);
   const [searchText, setSearchText] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("Filter");
-
-  console.log({
-    holders,
-  })
-
-  const holderDetails = {
-    address: "",
-  };
-
-  holders?.map((holder) => {
-    holderDetails.address = holder.address;
-  });
-
-  const filteredPolicyHolders = holders
-    ?.filter((holder) => {
-      if (selectedFilter === "Ongoing") {
-        return holder.status === 1;
-      } else if (selectedFilter === "Claim Requested") {
-        return holder.status === 2;
-      } else if (selectedFilter === "Claimed") {
-        return holder.status === 3;
-      } else if (selectedFilter === "Expired") {
-        return holder.status === 0;
-      } else {
-        return true;
-      }
-    })
-    .filter((holder) =>
-      holder.address.toLowerCase().includes(searchText.toLowerCase()),
-    );
-
-  const handleFilterChange = (e: any) => {
-    setSelectedFilter(e.target.value);
-  };
 
   return (
-    <div className="mb-5 border-t border-front/20 pt-3 mt-1">
-      <h1 className="text-lg font-bold">Policy Holders</h1>
-      <div className="mt-2 w-full flex gap-x-3">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="w-full bg-background border border-primary/50 px-4 py-1 rounded-md focus-within:outline-none"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <select
-          className="relative border border-primary/50 rounded-lg pr-2 pl-3 py-1  flex items-center gap-x-2 bg-background"
-          value={selectedFilter}
-          onChange={handleFilterChange}
-        >
-          <option value="Filter" disabled>
-            Filter
-          </option>
-          <option value="All">All</option>
-          <option value="Ongoing">Ongoing</option>
-          <option value="Claim Requested">Claim Requested</option>
-          <option value="Claimed">Claimed</option>
-          <option value="Expired">Expired</option>
-        </select>
+    <div>
+      <div className="mb-5 border-t border-front/20 pt-3 mt-1">
+        <h1 className="text-lg font-bold">Policy Holders</h1>
+        <div className="mt-2 w-full flex gap-x-3">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full bg-background border border-primary/50 px-4 py-1 rounded-md focus-within:outline-none"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
       </div>
-      <div className="mt-4 flex flex-col gap-y-4"></div>
     </div>
   );
 }

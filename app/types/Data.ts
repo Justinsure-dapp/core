@@ -14,13 +14,6 @@ export interface User {
   name?: string;
   image?: string;
   marketer?: Marketer;
-  policiesOwned: {
-    address: string;
-    premium: number;
-    claimExpiry: Date;
-    args: object;
-    status: string;
-  }[];
 }
 
 export interface Policy {
@@ -44,8 +37,14 @@ export interface Policy {
   maximumDuration: number;
   creator: string;
   stakeToken: string;
-  holders: string[];
   stakers: string[];
+  holders: {
+    address: string;
+    premium: number;
+    claimExpiry: Date;
+    args: object;
+    status: "ongoing" | "expired";
+  }[];
   claims: {
     address: string;
     status: "requested" | "approved";

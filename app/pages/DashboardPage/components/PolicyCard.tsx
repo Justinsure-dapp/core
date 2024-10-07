@@ -41,7 +41,7 @@ export default function PolicyCard(props: { policy: Policy }) {
     };
 
     fetchPolicyHolders();
-  }, []);
+  }, [props.policy.holders]);
 
   return (
     <div
@@ -102,13 +102,13 @@ export default function PolicyCard(props: { policy: Policy }) {
       </div>
 
       <button
-        className="absolute bottom-2 right-4 underline underline-offset-2 text-zinc-400"
+        className="text-sm absolute bottom-2 right-4 underline underline-offset-2 text-zinc-400"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "View Less" : "View More"}
       </button>
 
-      {expanded && <PolicyHolders holders={holders} />}
+      {expanded && <PolicyHolders holders={holders} policyAddress={policyAddress} />}
     </div>
   );
 }

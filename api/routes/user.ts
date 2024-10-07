@@ -28,31 +28,31 @@ router.get("/get/:address", async (req, res) => {
   }
 });
 
-router.get("/get/holders/:address", async (req, res) => {
-  try {
-    const policyAddress = req.params.address;
+// router.get("/holders/:address", async (req, res) => {
+//   try {
+//     const policyAddress = req.params.address;
 
-    if (!policyAddress) {
-      res.status(400).json({ message: "Policy address is required" });
-      return;
-    }
+//     if (!policyAddress) {
+//       res.status(400).json({ message: "Policy address is required" });
+//       return;
+//     }
 
-    const holders = await User.find({
-      "policiesOwned.address": policyAddress,
-    });
+//     const holders = await User.find({
+//       policiesOwned: { $elemMatch: { address: policyAddress } },
+//     });
 
-    res.status(200).json(holders);
-    return;
-  } catch (error: any) {
-    console.error(error);
-    if (!error.message) {
-      res.status(500).json({ message: "Internal Server Error" });
-    } else {
-      res.status(500).json({ message: error.message });
-    }
-    return;
-  }
-});
+//     res.status(200).json({ holders });
+//     return;
+//   } catch (error: any) {
+//     console.error(error);
+//     if (!error.message) {
+//       res.status(500).json({ message: "Internal Server Error" });
+//     } else {
+//       res.status(500).json({ message: error.message });
+//     }
+//     return;
+//   }
+// });
 
 router.post("/create", async (req, res) => {
   try {

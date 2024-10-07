@@ -326,11 +326,12 @@ router.post("/buy/:address", async (req, res) => {
     
     // fetch policy doc
     const policy = await Policy.findOne({ address });
+    const isHolder = policy?.holders.some(h => h.address === user);
 
     if (!policy) {
       res.status(400).json({ message: "Policy not found.." });
       return;
-    } else if (policy.holders.includes(user)) {
+    } else if (isHolder) {
       res.status(400).json({ message: "Already owns the policy" });
       return;
     }
@@ -352,44 +353,20 @@ router.post("/buy/:address", async (req, res) => {
       return;
     }
 
-    policy.holders.push(user);
-    await policy.save();
-
-    // update user doc
+    // update policy doc
     const duration = data.claimDuration;
     const currentDate = Date.now();
     const claimExpiry = new Date(currentDate + Number(duration));
 
-    const userDoc = await User.findOne({ address: user });
-
-    if (!userDoc) {
-      // create new Doc
-      const newUser = new User({
-        address: user,
-        policiesOwned: [
-          {
-            address,
-            premium,
-            claimExpiry,
-            args: data,
-            status: "Ongoing",
-          },
-        ],
-      });
-
-      await newUser.save();
-    } else {
-      // update existing doc
-      userDoc.policiesOwned.push({
-        address,
-        premium,
-        claimExpiry,
-        args: data,
-        status: "Ongoing",
-      });
-
-      await userDoc.save();
-    }
+    policy.holders.push({
+      address,
+      premium,
+      claimExpiry,
+      args: data,
+      status: "ongoing",
+    });
+    policy.markModified("holders");
+    await policy.save();
 
     res.status(200).json({ message: "Policy bought successfully" });
     return;
@@ -533,23 +510,13 @@ router.post("/claim/issue/:address", async (req, res) => {
       approvedAt: new Date(),
     });
 
-    policy.holders = policy.holders.filter((h) => h !== userAddress);
-    await policy.save();
-
-    // update user doc
-    const user = await User.findOne({ address: userAddress });
-
-    if (!user) {
-      res.status(400).json({ message: "User not found.." });
-      return;
-    }
-
-    const policyIndex = user.policiesOwned.findIndex(
-      (p) => p.address === policy.address,
+    // remove the holder
+    policy.holders = policy.holders.filter(
+      (holder) => holder.address !== userAddress,
     );
 
-    user.policiesOwned[policyIndex].status = "Claimed";
-    await user.save();
+    policy.markModified("holders", "claims");
+    await policy.save();
 
     res.status(200).json({ message: "Claim requested successfully.." });
     return;

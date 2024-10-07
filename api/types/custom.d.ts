@@ -1,10 +1,5 @@
 import "node";
 
-interface Policy {
-  address: string;
-  expiry: number;
-}
-
 interface Marketer {
   name?: string;
   image?: string;
@@ -22,16 +17,9 @@ interface User {
   name?: string;
   image?: string;
   marketer?: Marketer;
-  policiesOwned: {
-    address: string;
-    premium: number;
-    claimExpiry: date;
-    args: object;
-    status: "Ongoing" | "Claim Requested" | "Claimed" | "Expired";
-  }[];
 }
 
-interface PolicyData {
+interface Policy {
   address: string;
   image?: string;
   cid: string;
@@ -52,6 +40,13 @@ interface PolicyData {
   claimFuncArgs: Arg[];
   creator: string;
   blockNumber: number;
+  holders: {
+    address: string;
+    premium: number;
+    claimExpiry: Date;
+    args: object;
+    status: "ongoing" | "expired";
+  }[];
   claims: {
     address: string;
     status: "requested" | "approved";
@@ -61,9 +56,7 @@ interface PolicyData {
   }[];
   stakeToken: string;
   stakeTokenSymbol: string;
-  holders: string[];
   stakers: string[];
-  claims: string[];
   createdAt: string;
   updatedAt: string;
 }
