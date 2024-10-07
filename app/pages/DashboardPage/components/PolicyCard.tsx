@@ -14,7 +14,6 @@ import api from "../../../utils/api";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
-  const [holders, setHolders] = useState<User[]>();
   const modal = useModal();
   const usdj = useUsdjHook();
   const [expanded, setExpanded] = useState(false);
@@ -33,15 +32,6 @@ export default function PolicyCard(props: { policy: Policy }) {
     address: policyAddress,
     functionName: "totalStake",
   });
-
-  useEffect(() => {
-    const fetchPolicyHolders = async () => {
-      const response = await api.user.fetchPolicyHolders(policyAddress);
-      setHolders(response.holders);
-    };
-
-    fetchPolicyHolders();
-  }, [props.policy.holders]);
 
   return (
     <div
@@ -108,7 +98,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         {expanded ? "View Less" : "View More"}
       </button>
 
-      {expanded && <PolicyHolders holders={holders} policyAddress={policyAddress} />}
+      {expanded && <PolicyHolders holders={props.policy.holders} />}
     </div>
   );
 }
