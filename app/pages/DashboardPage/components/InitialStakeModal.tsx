@@ -46,7 +46,6 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
   const minStakewithDecimals =
     Number(minStake) / Math.pow(10, Number(usdjDecimals));
 
-
   useEffect(() => {
     if (stake < minStakewithDecimals) {
       setShowWarning(true);
@@ -57,22 +56,37 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
 
   async function handleSubmit() {
     if (stake === 0) {
-      toast.error("Invalid USDJ amount..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Invalid USDJ amount..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       return;
     }
 
     if (minStakewithDecimals > stake) {
-      toast.error("Stake amount should be greater than minimum stake..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Stake amount should be greater than minimum stake..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       return;
     }
 
     if (!address || !policy.creator || address !== policy.creator) {
-      toast.error("You are not the creator of this policy..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("You are not the creator of this policy..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       return;
     }
 
     setLoading(true);
-    const handleSubmitToast = toast("Waiting for approval...", { type: "info", isLoading: true });
+    const handleSubmitToast = toast("Waiting for approval...", {
+      type: "info",
+      isLoading: true,
+    });
     try {
       if (allowance === BigInt(0) || Number(allowance) < stake) {
         await approve();
@@ -85,29 +99,44 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
         args: [multiplyWithDecimals(stake)],
       });
 
-      toast.update(handleSubmitToast, { render: "Transaction submitted..", type: "info", isLoading: false, autoClose: 2000 });
+      toast.update(handleSubmitToast, {
+        render: "Transaction submitted..",
+        type: "info",
+        isLoading: false,
+        autoClose: 2000,
+      });
     } catch (error) {
       console.error(error);
       setLoading(false);
-      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
+      toast.update(handleSubmitToast, {
+        render: "Something went wrong..",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
   }
 
   useEffect(() => {
     async function saveStakeToDB() {
       if (!address) return;
-      const result = await api.policy.updateStakers(
-        policy.address,
-        address,
-      );
+      const result = await api.policy.updateStakers(policy.address, address);
 
       if (result) {
-        toast.success("Staked successfully..", { type: "success", isLoading: false, autoClose: 2000 });
+        toast.success("Staked successfully..", {
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
         modal.hide();
         navigate(0);
       } else {
         console.error("Error while updating database..");
-        toast.error("Error while updating database..", { type: "error", isLoading: false, autoClose: 2000 });
+        toast.error("Error while updating database..", {
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
       }
     }
 
@@ -116,7 +145,11 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
     }
 
     if (stakeReciept.isError) {
-      toast.error("Transaction failed..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Transaction failed..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
   }, [stakeReciept.isLoading]);
 
@@ -126,7 +159,9 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
           <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
             <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
-            <p className="text-primary mt-2 font-semibold">Processing Request</p>
+            <p className="text-primary mt-2 font-semibold">
+              Processing Request
+            </p>
             <p className="text-mute">Please wait..</p>
           </div>
         </div>
@@ -143,7 +178,9 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
         <div className="text-mute flex flex-col gap-y-1 text-sm ">
           To activate this policy, you must provide an initial stake. This stake
           serves two important purposes:
-          <div className="text-mute flex flex-col gap-y-1 text-sm ">To activate this policy, you must provide an initial stake. This stake serves two important purposes:
+          <div className="text-mute flex flex-col gap-y-1 text-sm ">
+            To activate this policy, you must provide an initial stake. This
+            stake serves two important purposes:
             <p>
               <span className="text-front">1. Liquidity Provision: </span>
               The initial stake ensures there is enough liquidity to support any
@@ -152,8 +189,8 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
             <p>
               <span className="text-front">2. Visibility: </span>
               Without the initial stake, the policy will not be visible to the
-              public. Staking upfront demonstrates your commitment to the policy,
-              allowing others to trust and interact with it.
+              public. Staking upfront demonstrates your commitment to the
+              policy, allowing others to trust and interact with it.
             </p>
             <p className="mt-2 text-red-500/80 bg-red-500/10 py-1 px-2 rounded-md">
               Please note that if no initial stake is provided, the policy will
@@ -187,7 +224,8 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
           >
             {loading ? "Staking..." : "Stake"}
           </button>
-        </div>)}
+        </div>
+      )}
     </div>
-  )
+  );
 }

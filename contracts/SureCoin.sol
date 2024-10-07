@@ -67,15 +67,11 @@ contract SureCoin is ERC20, Ownable, ReentrancyGuard {
             (rewardPerStake() - _userRewardsPerTokenPaid[account_]);
     }
 
-    function _updateReward(address account_) private {
+    function claimRewards() external nonReentrant {
         _rewardPerTokenStored = rewardPerStake();
         _lastUpdateTime = block.timestamp;
-        _rewards[account_] = earned(account_);
-        _userRewardsPerTokenPaid[account_] = _rewardPerTokenStored;
-    }
-
-    function claimRewards() external nonReentrant {
-        _updateReward(_msgSender());
+        _rewards[_msgSender()] = earned(_msgSender());
+        _userRewardsPerTokenPaid[_msgSender()] = _rewardPerTokenStored;
         uint256 reward = _rewards[_msgSender()];
         require(reward > 0, "No rewards to claim");
         _rewards[_msgSender()] = 0;
