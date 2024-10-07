@@ -51,6 +51,8 @@ function useSureCoinHook(): SureCoinHook {
     args: [userAddress || zeroAddress],
   });
 
+  console.log({ earned });
+
   const approvalReciept = useWaitForTransactionReceipt({
     confirmations: 2,
     hash: txHash,
