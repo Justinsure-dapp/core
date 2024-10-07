@@ -3,21 +3,27 @@ import Heading from "./Heading";
 import { twMerge } from "tailwind-merge";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
-import { Arg } from "../../../types";
 
-export default function ArgTypeDefine(props: {
+export type Args = {
+  name: string;
+  typeName: string;
+  description: string;
+  htmlType: string;
+}[];
+
+export default function ArgsTypeDefine(props: {
   args: string[];
   className?: string;
-  setter?: React.Dispatch<React.SetStateAction<Arg[]>>;
+  setter?: React.Dispatch<React.SetStateAction<Args>>;
 }) {
-  const [res, setRes] = useState<Arg[]>([]);
+  const [res, setRes] = useState<Args>([]);
 
   useEffect(() => {
     props.setter && props.setter([...res]);
   }, [res]);
 
   useEffect(() => {
-    const newRes: Arg[] = [];
+    const newRes: Args = [];
     props.args.forEach((a) => {
       newRes.push({
         name: a,
@@ -81,8 +87,8 @@ export default function ArgTypeDefine(props: {
 
 function DescriptionModal(props: {
   arg: string;
-  Arg: Arg;
-  setter: React.Dispatch<React.SetStateAction<Arg>>;
+  args: Args;
+  setter: React.Dispatch<React.SetStateAction<Args>>;
 }) {
   const twInputStyle =
     "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30";
