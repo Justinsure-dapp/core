@@ -4,5 +4,7 @@ import App from "./App";
 import "./assets/styles/index.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <App />,
+  <main>
+    <App />
+  </main>,
 );

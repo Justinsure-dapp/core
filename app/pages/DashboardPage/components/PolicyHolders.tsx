@@ -1,74 +1,59 @@
 import React, { useState } from "react";
 import { closestTimeUnit } from "../../../utils";
 import Icon from "../../../common/Icon";
-import { User } from "../../../types";
+import { Holder, User } from "../../../types";
+import useUsdjHook from "../../../hooks/useUsdj";
+import moment from "moment";
+import useSearchHook from "../../../hooks/useSearchHook";
 
 export default function PolicyHolders({
   holders,
 }: {
-  holders: User[] | undefined;
+  holders: Holder[];
 }) {
-  const [showList, setShowFullList] = useState(5);
+  const [showList, setShowFullList] = useState(2);
   const [searchText, setSearchText] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("Filter");
+  const usdjHook = useUsdjHook();
+  const searchHook = useSearchHook(holders || [], [
+    "address",
+  ]);
 
-  const holderDetails = {
-    address: "",
-  };
-
-  holders?.map((holder) => {
-    holderDetails.address = holder.address;
-  });
-
-  const filteredPolicyHolders = holders
-    ?.filter((holder) => {
-      if (selectedFilter === "Ongoing") {
-        return holder.status === 1;
-      } else if (selectedFilter === "Claim Requested") {
-        return holder.status === 2;
-      } else if (selectedFilter === "Claimed") {
-        return holder.status === 3;
-      } else if (selectedFilter === "Expired") {
-        return holder.status === 0;
-      } else {
-        return true;
-      }
-    })
-    .filter((holder) =>
-      holder.address.toLowerCase().includes(searchText.toLowerCase()),
-    );
-
-  const handleFilterChange = (e: any) => {
-    setSelectedFilter(e.target.value);
-  };
+  const searchResults = searchHook.fuse.search(searchHook.debouncedSearchQuery);
+  const holdersToRender = searchResults.length === 0 ? holders : searchResults.map((result: any) => result.item);
 
   return (
-    <div className="mb-5 border-t border-front/20 pt-3 mt-1">
-      <h1 className="text-lg font-bold">Policy Holders</h1>
-      <div className="mt-2 w-full flex gap-x-3">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="w-full bg-background border border-primary/50 px-4 py-1 rounded-md focus-within:outline-none"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <select
-          className="relative border border-primary/50 rounded-lg pr-2 pl-3 py-1  flex items-center gap-x-2 bg-background"
-          value={selectedFilter}
-          onChange={handleFilterChange}
-        >
-          <option value="Filter" disabled>
-            Filter
-          </option>
-          <option value="All">All</option>
-          <option value="Ongoing">Ongoing</option>
-          <option value="Claim Requested">Claim Requested</option>
-          <option value="Claimed">Claimed</option>
-          <option value="Expired">Expired</option>
-        </select>
+    <div className="mb-8">
+      <div className="border-t mb-4 border-front/20 pt-3 mt-1">
+        <h1 className="text-lg font-bold">Policy Holders</h1>
+        <div className="mt-2 w-full flex gap-x-3">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full bg-background border border-primary/50 px-4 py-1 rounded-md focus-within:outline-none"
+            value={searchHook.searchQuery}
+            onChange={(e) => searchHook.setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
-      <div className="mt-4 flex flex-col gap-y-4"></div>
+
+      {holdersToRender && holdersToRender.slice(0, showList).map((holder, key) => (
+        <div key={key}>
+          <div className="border border-border p-4 rounded-xl text-sm">
+            <p className="mb-2"><strong>Address:</strong> {holder.address}</p>
+            <p className="mb-2"><strong>Premium:</strong> ${usdjHook.divideByDecimals(BigInt(holder.premium))}</p>
+            <p className=""><strong>Expiry:</strong> {moment(holder.claimExpiry).format("DD/MM/YYYY")}</p>
+          </div>
+        </div>
+      ))}
+
+      {showList < holdersToRender.length && (
+        <button
+          className="mt-4 hover:bg-primary/60 transition-all px-4 py-2 self-end w-full bg-primary/50 text-white rounded-md"
+          onClick={() => setShowFullList((prev) => prev + 2)}
+        >
+          Load More
+        </button>
+      )}
     </div>
   );
 }

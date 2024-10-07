@@ -1,32 +1,43 @@
-import { Address } from "viem";
-import { Args } from "../pages/NewPolicyPage/components/ArgsTypeDefine";
-
 export type RGBColor = [number, number, number];
 
-interface Marketer {
+export type Marketer = {
   name?: string;
   image?: string;
-  policiesCreated?: [string];
-}
+};
 
-export interface User {
+export type Arg = {
+  name: string;
+  typeName: string;
+  description: string;
+  htmlType: string;
+};
+
+export type User = {
   address: string;
   name?: string;
   image?: string;
   marketer?: Marketer;
-  policiesOwned: {
-    address: string;
-    premium: number;
-    claimExpiry: Date;
-    args: object;
-    status: string;
-  }[];
-}
+};
 
-export interface Policy {
-  _id: string;
+export type Holder = {
   address: string;
-  image: string;
+  premium: number;
+  claimExpiry: Date;
+  args: object;
+  status: "ongoing" | "expired";
+};
+
+export type Claim = {
+  address: string;
+  status: "requested" | "approved";
+  amount: number;
+  requestedAt: Date;
+  approvedAt: Date;
+};
+
+export type Policy = {
+  address: string;
+  image?: string;
   cid: string;
   rating?: number;
   tags?: string[];
@@ -35,20 +46,21 @@ export interface Policy {
   category: string;
   minimumClaim: number;
   maximumClaim: number;
-  premiumFunc: string;
-  premiumFuncDescription: string;
-  claimFunc: string;
-  claimFuncDescription: string;
   minimumDuration: number;
   maximumDuration: number;
+  premiumFunc: string;
+  premiumFuncDescription: string;
+  premiumFuncArgs: Arg[];
+  claimFunc: string;
+  claimFuncDescription: string;
+  claimFuncArgs: Arg[];
   creator: string;
+  blockNumber: number;
+  holders: Holder[];
+  claims: Claim[];
   stakeToken: string;
-  holders: string[];
+  stakeTokenSymbol: string;
   stakers: string[];
-  claims: string[];
   createdAt: string;
   updatedAt: string;
-  premiumFuncArgs: Args;
-  claimFuncArgs: Args;
-  __v: number;
-}
+};

@@ -10,6 +10,8 @@ import { Policy, User } from "../types";
 interface Web3ContextType {
   user: User | null;
   policies: Policy[] | undefined;
+  fetchUser: () => void;
+  fetchPolicies: () => void;
 }
 
 const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);

@@ -1,14 +1,9 @@
 import "node";
 
-interface Policy {
-  address: string;
-  expiry: number;
-}
-
-interface Marketer {
+export type Marketer = {
   name?: string;
   image?: string;
-}
+};
 
 export type Arg = {
   name: string;
@@ -17,21 +12,30 @@ export type Arg = {
   htmlType: string;
 };
 
-interface User {
+export type User = {
   address: string;
   name?: string;
   image?: string;
   marketer?: Marketer;
-  policiesOwned: {
-    address: string;
-    premium: number;
-    claimExpiry: date;
-    args: object;
-    status: "Ongoing" | "Claim Requested" | "Claimed" | "Expired";
-  }[];
-}
+};
 
-interface PolicyData {
+export type Holder = {
+  address: string;
+  premium: number;
+  claimExpiry: Date;
+  args: object;
+  status: "ongoing" | "expired";
+};
+
+export type Claim = {
+  address: string;
+  status: "requested" | "approved";
+  amount: number;
+  requestedAt: Date;
+  approvedAt: Date;
+};
+
+export type Policy = {
   address: string;
   image?: string;
   cid: string;
@@ -52,17 +56,11 @@ interface PolicyData {
   claimFuncArgs: Arg[];
   creator: string;
   blockNumber: number;
-  claims: {
-    address: string;
-    status: "requested" | "approved";
-  }[];
+  holders: Holder[];
+  claims: Claim[];
   stakeToken: string;
   stakeTokenSymbol: string;
-  holders: string[];
   stakers: string[];
-  claims: string[];
   createdAt: string;
   updatedAt: string;
-}
-
-export { User, Marketer, Policy, PolicyData };
+};

@@ -66,7 +66,8 @@ function useUsdjHook(): UsdjHook {
 
   function multiplyWithDecimals(value: number) {
     if (!decimals) return 0n;
-    return BigInt(value * 10 ** decimals);
+    const roundedValue = Math.round(value * 10 ** decimals);
+    return BigInt(roundedValue);
   }
 
   function divideByDecimals(value: bigint) {

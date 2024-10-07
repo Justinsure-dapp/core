@@ -1,13 +1,12 @@
-import React, { DetailedHTMLProps, useState } from "react";
+import React, { useState } from "react";
 import DocTitle from "../../common/DocTitle";
 import { Link } from "react-router-dom";
-import logo from "../../../public/logo.png";
 import useWeb3 from "../../contexts/web3context";
 import { AuroraBackground } from "../../components/ui/aurora-background";
-import { TextHoverEffect } from "../../components/ui/text-hover-effect";
 
 export default function HomePage() {
   const { user } = useWeb3();
+
   return (
     <div>
       <DocTitle title="What's New" />

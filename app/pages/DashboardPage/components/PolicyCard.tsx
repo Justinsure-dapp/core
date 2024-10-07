@@ -10,11 +10,9 @@ import useModal from "../../../hooks/useModal";
 import useUsdjHook from "../../../hooks/useUsdj";
 import InitialStakeModal from "./InitialStakeModal";
 import Icon from "../../../common/Icon";
-import api from "../../../utils/api";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
-  const [holders, setHolders] = useState<User[]>();
   const modal = useModal();
   const usdj = useUsdjHook();
   const [expanded, setExpanded] = useState(false);
@@ -34,19 +32,10 @@ export default function PolicyCard(props: { policy: Policy }) {
     functionName: "totalStake",
   });
 
-  useEffect(() => {
-    const fetchPolicyHolders = async () => {
-      const response = await api.user.fetchPolicyHolders(policyAddress);
-      setHolders(response.holders);
-    };
-
-    fetchPolicyHolders();
-  }, []);
-
   return (
     <div
       ref={parent}
-      className="flex flex-col gap-y-4 relative bg-foreground/20 border border-foreground rounded-md p-3"
+      className="flex flex-col gap-y-4 relative bg-foreground/20 border border-front border-opacity-[15%] rounded-md p-3"
     >
       <div className="flex flex-col">
         <div className="flex gap-y-1 justify-between">
@@ -56,6 +45,7 @@ export default function PolicyCard(props: { policy: Policy }) {
               alt="logo"
               className="w-12 h-12 rounded-lg border border-border"
             />
+            <img src={props.policy.image} alt="logo" className="w-12 h-12 rounded-lg border border-border object-cover" />
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
               {isPaused ? (
@@ -108,13 +98,13 @@ export default function PolicyCard(props: { policy: Policy }) {
       </div>
 
       <button
-        className="absolute bottom-2 right-4 underline underline-offset-2 text-zinc-400"
+        className="text-sm absolute bottom-2 right-4 underline underline-offset-2 text-zinc-400"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "View Less" : "View More"}
       </button>
 
-      {expanded && <PolicyHolders holders={holders} />}
+      {expanded && <PolicyHolders holders={props.policy.holders} />}
     </div>
   );
 }

@@ -29,7 +29,7 @@ const user = {
   },
 
   async fetchPolicyHolders(address: string) {
-    const response = await client.get(`/user/get/holders/${address}`);
+    const response = await client.get(`/user/holders/${address}`);
     return response.data;
   },
 

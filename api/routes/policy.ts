@@ -209,10 +209,6 @@ router.get("/premium/:address/", async (req, res) => {
       value: string;
     }>;
 
-    console.log({
-      args,
-    });
-
     const policy = await Policy.findOne({ address: req.params.address });
     if (!policy) throw "Invalid Policy Address";
 
@@ -257,6 +253,41 @@ except:
   }
 });
 
+router.get("/stake-history/:address", async (req, res) => {
+  try {
+    const { address } = req.params;
+    const policy = await Policy.findOne({ address: address });
+
+    if (!policy) {
+      res.sendStatus(404);
+      return;
+    }
+    if (!isAddress(policy.address)) {
+      res.sendStatus(404);
+      return;
+    }
+
+    const response = await evm.client.getContractEvents({
+      abi: evmConfig.insuranceController.abi,
+      address: policy.address,
+      fromBlock: BigInt(policy.blockNumber),
+    });
+
+    res.send({
+      feed: response.map((e) => ({
+        amount: Number((e.args as any).amount),
+        timestamp: Number(e.blockNumber),
+      })),
+    });
+
+    return;
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+    return;
+  }
+});
+
 router.post("/buy/:address", async (req, res) => {
   const { address } = req.params;
   const { user, data, sign, premium } = req.body;
@@ -292,6 +323,18 @@ router.post("/buy/:address", async (req, res) => {
       res.status(400).json({ message: "Invalid Policy Address" });
       return;
     }
+    
+    // fetch policy doc
+    const policy = await Policy.findOne({ address });
+    const isHolder = policy?.holders.some(h => h.address === user);
+
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    } else if (isHolder) {
+      res.status(400).json({ message: "Already owns the policy" });
+      return;
+    }
 
     const txHash = await surityInterface.write.issuePolicyInstance([
       address,
@@ -311,51 +354,19 @@ router.post("/buy/:address", async (req, res) => {
     }
 
     // update policy doc
-    const policy = await Policy.findOne({ address });
-
-    if (!policy) {
-      res.status(400).json({ message: "Policy not found.." });
-      return;
-    }
-
-    policy.holders.push(user);
-    await policy.save();
-
-    // update user doc
     const duration = data.claimDuration;
     const currentDate = Date.now();
     const claimExpiry = new Date(currentDate + Number(duration));
 
-    const userDoc = await User.findOne({ address: user });
-
-    if (!userDoc) {
-      // create new Doc
-      const newUser = new User({
-        address: user,
-        policiesOwned: [
-          {
-            address,
-            premium,
-            claimExpiry,
-            args: data,
-            status: "Ongoing",
-          },
-        ],
-      });
-
-      await newUser.save();
-    } else {
-      // update existing doc
-      userDoc.policiesOwned.push({
-        address,
-        premium,
-        claimExpiry,
-        args: data,
-        status: "Ongoing",
-      });
-
-      await userDoc.save();
-    }
+    policy.holders.push({
+      address: user,
+      premium,
+      claimExpiry,
+      args: data,
+      status: "ongoing",
+    });
+    policy.markModified("holders");
+    await policy.save();
 
     res.status(200).json({ message: "Policy bought successfully" });
     return;
@@ -494,23 +505,18 @@ router.post("/claim/issue/:address", async (req, res) => {
     policy.claims.push({
       address: userAddress,
       status: "approved",
+      amount: signedData.claimValue || 0,
+      requestedAt: new Date(),
+      approvedAt: new Date(),
     });
-    await policy.save();
 
-    // update user doc
-    const user = await User.findOne({ address: userAddress });
-
-    if (!user) {
-      res.status(400).json({ message: "User not found.." });
-      return;
-    }
-
-    const policyIndex = user.policiesOwned.findIndex(
-      (p) => p.address === policy.address,
+    // remove the holder
+    policy.holders = policy.holders.filter(
+      (holder) => holder.address !== userAddress,
     );
 
-    user.policiesOwned[policyIndex].status = "Claimed";
-    await user.save();
+    policy.markModified("holders", "claims");
+    await policy.save();
 
     res.status(200).json({ message: "Claim requested successfully.." });
     return;

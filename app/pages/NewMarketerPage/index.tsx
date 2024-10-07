@@ -5,18 +5,19 @@ import api from "../../utils/api";
 import DataForm from "../../common/DataForm";
 import { useAccount, useSignMessage } from "wagmi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
-  const [logo, setLogo] = useState("");
+  const [logo, setLogo] = useState("https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png");
   const { address } = useAccount();
   const navigate = useNavigate();
 
-  const { signMessage, data: sign } = useSignMessage();
+  const { signMessage, data: sign, error } = useSignMessage();
   const [data, setData] = useState<{
     name: string;
     imageUrl: string;
-  }>({ name: "", imageUrl: "" });
+  }>({ name: "", imageUrl: "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png" });
 
   useEffect(() => {
     if (data && sign && address) {
@@ -24,26 +25,27 @@ export default function NewMarketerPage() {
       api.user
         .becomeMarketer(data, sign, address)
         .then((result) => {
-          console.log(result);
-          alert("You are now a marketer");
+          toast.success("Registered as a marketer...");
           navigate(0);
         })
         .catch((error) => {
           console.error(error);
-
           if (error.response?.data?.message) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
           } else {
-            alert("An error occured, please try again");
+            toast.error("An error occured, please try again");
           }
-
-          navigate("/dashboard");
         })
         .finally(() => {
           setLoading(false);
         });
     }
-  }, [sign]);
+
+    if (error) {
+      toast.error("Something went wrong..");
+      setLoading(false);
+    }
+  }, [sign, error]);
 
   return (
     <>
@@ -54,23 +56,25 @@ export default function NewMarketerPage() {
           setLoading(true);
 
           try {
-            if (address) {
-              const nonce = await api.user.requestNonce(address);
-              signMessage({
-                message: `${JSON.stringify({
-                  name: formData.name,
-                  imageUrl: formData?.imageUrl || "",
-                })}${nonce}`,
-              });
-              setData({
+            if (!address) return toast.error("Something went wrong..")
+
+            const nonce = await api.user.requestNonce(address);
+            signMessage({
+              message: `${JSON.stringify({
                 name: formData.name,
                 imageUrl: formData?.imageUrl || "",
-              });
-            }
+              })}${nonce}`,
+            });
+            setData({
+              name: formData.name,
+              imageUrl: formData?.imageUrl || "",
+            });
+
+            toast.info("Sign the message to continue...");
           } catch (error) {
             setLoading(false);
             console.error(error);
-            alert("An error occured, please try again");
+            toast.error("An error occured, please try again");
           }
         }}
         className="flex flex-col gap-y-4 p-page"
@@ -78,7 +82,7 @@ export default function NewMarketerPage() {
         <div className="flex mt-6 gap-x-16 mobile:gap-x-4">
           <div className="flex flex-col gap-y-6 basis-3/4">
             <div className="flex flex-col gap-y-1">
-              <h1 className="text-sm text-front/80">Marketing Name</h1>
+              <h1 className="text-sm text-front/80">Marketer Name</h1>
               <input
                 className="bg-background focus-within:outline-none px-3 py-3 border border-front/20 rounded-lg"
                 placeholder="What name would you want to be known as"
@@ -91,9 +95,19 @@ export default function NewMarketerPage() {
               <input
                 type="url"
                 name="imageUrl"
+                defaultValue={logo}
                 className="bg-background focus-within:outline-none px-3 py-3 border border-front/20 rounded-lg"
                 placeholder="Provide logo url"
                 onChange={(e) => setLogo(e.target.value)}
+              />
+            </div>
+
+            <div className="">
+              <input
+                type="submit"
+                className="bg-secondary rounded-md py-2 px-6 cursor-pointer disabled:opacity-50 disabled:animate-pulse disabled:cursor-not-allowed"
+                disabled={loading}
+                value="Confirm"
               />
             </div>
           </div>
@@ -113,15 +127,6 @@ export default function NewMarketerPage() {
               className="rounded-xl object-cover w-full h-full"
             />
           </div>
-        </div>
-
-        <div className="">
-          <input
-            type="submit"
-            className="bg-secondary rounded-md py-2 px-6 cursor-pointer disabled:opacity-50 disabled:animate-pulse disabled:cursor-not-allowed"
-            disabled={loading}
-            value="Confirm"
-          />
         </div>
       </DataForm>
     </>
