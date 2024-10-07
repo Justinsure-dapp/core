@@ -71,6 +71,13 @@ export default function TexteditorModal(props: TexteditorModalProps) {
       <div className="flex gap-x-[4vw] px-[2vw]">
         <button
           type="button"
+          className="flex-1 bg-red-600 hover:bg-red-500 transition-all text-front rounded-md py-2 font-medium"
+          onClick={modal.hide}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
           className="flex-1 bg-background border border-border hover:bg-hoverbg text-front rounded-md py-2 font-medium transition-all"
           onClick={() => {
             if (!editorRef.current.checkValidity()) {
@@ -97,13 +104,6 @@ export default function TexteditorModal(props: TexteditorModalProps) {
           }}
         >
           Save
-        </button>
-        <button
-          type="button"
-          className="flex-1 bg-red-600 hover:bg-red-500 transition-all text-front rounded-md py-2 font-medium"
-          onClick={modal.hide}
-        >
-          Cancel
         </button>
       </div>
     </div>

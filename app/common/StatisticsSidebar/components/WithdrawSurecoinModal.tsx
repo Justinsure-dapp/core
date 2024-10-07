@@ -21,12 +21,11 @@ export default function WithdrawSurecoinModal() {
 
   const receipt = useWaitForTransactionReceipt({ hash });
 
-  // Handle claim rewards function
-  const handleClaim = async () => {
-    if (!earned || earned <= 0) {
-      toast.error("No rewards to claim.", { autoClose: 2000 });
-      return;
-    }
+    const handleClaim = async () => {
+        if (!earned || earned <= 0) {
+            toast.error("No rewards to claim.", { autoClose: 2000 });
+            return;
+        }
 
     setLoading(true);
     const claimToast = toast("Processing claim...", {
@@ -59,16 +58,15 @@ export default function WithdrawSurecoinModal() {
     }
   };
 
-  // Handle receipt confirmation
-  useEffect(() => {
-    if (receipt.isSuccess) {
-      toast.success("Rewards claimed successfully!", { autoClose: 2000 });
-      modal.hide();
-    }
-    if (receipt.isError) {
-      toast.error("Transaction failed.", { autoClose: 2000 });
-    }
-  }, [receipt.isSuccess, receipt.isError]);
+    useEffect(() => {
+        if (receipt.isSuccess) {
+            toast.success("Rewards claimed successfully!", { autoClose: 2000 });
+            modal.hide();
+        }
+        if (receipt.isError) {
+            toast.error("Transaction failed.", { autoClose: 2000 });
+        }
+    }, [receipt.isSuccess, receipt.isError]);
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
