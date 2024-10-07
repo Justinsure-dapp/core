@@ -22,16 +22,16 @@ export default function ClaimInfo(props: { policy: Policy }) {
 
   return (
     <div>
-      <div className="flex w-full gap-y-7 mt-4 mobile:gap-x-4 gap-x-4 text-front/80">
+      <div className="flex w-full gap-y-7 mt-4 mobile:gap-x-4 gap-x-4 text-front/60">
         <div className="flex flex-col w-1/3 gap-y-2 text-sm">
           <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
-            <h1 className="tracking-wide">Policy Holder: </h1>
-            <p className="">{policy.holders.length}</p>
+            <h1 className="tracking-wide">Policy Holders: </h1>
+            <p className="text-front/80">{policy.holders.length}</p>
           </div>
 
           <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
             <h1 className="tracking-wide">Total Stake:</h1>
-            <p className="">
+            <p className="text-front/80">
               {" "}
               {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ
             </p>
@@ -39,7 +39,7 @@ export default function ClaimInfo(props: { policy: Policy }) {
 
           <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
             <h1 className="tracking-wide">Total Claims:</h1>
-            <p className="">{policy.claims.length} </p>
+            <p className="text-front/80">{policy.claims.length} </p>
           </div>
         </div>
         <div className="flex gap-x-4 w-2/3">
@@ -48,15 +48,15 @@ export default function ClaimInfo(props: { policy: Policy }) {
             <h1 className=" tracking-wide border-foreground border-b-2">
               Duration for the policy
             </h1>
-            <div className="mt-2 text-front/80">
+            <div className="mt-2 text-front/60">
               Minimum:{" "}
-              <span className=" font-semibold">
+              <span className=" text-front/80">
                 {closestTimeUnit(Number(policy.minimumDuration))}
               </span>
             </div>
-            <div className="mt-1 text-front/80">
+            <div className="mt-1 text-front/60">
               Maximum:{" "}
-              <span className="font-semibold">
+              <span className="text-front/80">
                 {closestTimeUnit(Number(policy.maximumDuration))}
               </span>
             </div>
@@ -66,13 +66,13 @@ export default function ClaimInfo(props: { policy: Policy }) {
             <h1 className=" tracking-wide border-foreground border-b-2">
               Limit of the claim
             </h1>
-            <div className="mt-2 text-front/80">
+            <div className="mt-2 text-front/60">
               Minimum:{" "}
-              <span className="font-semibold">${policy.minimumClaim}</span>
+              <span className="text-front/80">${policy.minimumClaim}</span>
             </div>
-            <div className="mt-1 text-front/80">
+            <div className="mt-1 text-front/60">
               Maximum:{" "}
-              <span className="font-semibold">${policy.maximumClaim}</span>
+              <span className="text-front/80">${policy.maximumClaim}</span>
             </div>
           </div>
         </div>
