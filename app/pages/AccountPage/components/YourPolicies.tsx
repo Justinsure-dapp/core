@@ -3,7 +3,7 @@ import useModal from "../../../hooks/useModal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useAccount, useReadContract } from "wagmi";
 import useWeb3 from "../../../contexts/web3context";
-import { Policy } from "../../../types";
+import { Holder, Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
 import { Address } from "viem";
 import moment from "moment";
@@ -11,6 +11,7 @@ import RequestClaimModal from "./RequestClaimModal";
 import ClipboardWrapper from "../../../common/ClipboardWrapper";
 import { formatEvmAddress } from "../../../utils";
 import Icon from "../../../common/Icon";
+import { toast } from "react-toastify";
 
 export default function YourPolicies() {
   const [parent] = useAutoAnimate();
@@ -19,17 +20,32 @@ export default function YourPolicies() {
   const [viewMoreActive, setViewMoreActive] = useState(false);
   const [viewMoreClaimed, setViewMoreClaimed] = useState(false);
 
-  const activePolicies: object[] = [];
-  const claimedPolicies: object[] = [];
-
-  const data = []
+  const activePolicies: any[] = [];
+  const claimedPolicies: any[] = [];
 
   policies?.map(p => {
     p.holders.some(h => {
       if (address === h.address) {
-        data.push(h);
+        activePolicies.push({
+          ...p,
+          holderDetails: h
+        });
       }
     })
+
+    p.claims.some(c => {
+      if (address === c.address) {
+        claimedPolicies.push({
+          ...p,
+          claimDetails: c
+        });
+      }
+    })
+  })
+
+  console.log({
+    activePolicies,
+    claimedPolicies
   })
 
   return (
@@ -54,12 +70,12 @@ export default function YourPolicies() {
           </div>
         ) : (activePolicies.map(
           (policy, key) => {
-            const details = user?.policiesOwned.find((p) =>
-              (p.address === policy.address) && (p.status !== "Claimed"));
+
+            console.log(policy);
 
             return (
               (viewMoreActive || key < 2) && (
-                <PolicyCard policy={policy} details={details} active={true} key={key} />
+                <PolicyCard policy={policy} active={true} key={key} />
               )
             )
           }
@@ -97,12 +113,9 @@ export default function YourPolicies() {
           </div>
         ) : claimedPolicies.map(
           (policy, key) => {
-            const details = user?.policiesOwned.find((p) =>
-              (p.address === policy.address) && (p.status === "Claimed"));
-
             return (
               (viewMoreClaimed || key < 2) && (
-                <PolicyCard policy={policy} key={key} details={details} active={false} />
+                <PolicyCard policy={policy} key={key} active={false} />
               )
             )
           }
@@ -121,14 +134,8 @@ export default function YourPolicies() {
   );
 }
 
-function PolicyCard({ policy, details, active }: {
-  policy: Policy, details: {
-    address: string;
-    premium: number;
-    claimExpiry: Date;
-    args: object;
-    status: string;
-  } | undefined;
+function PolicyCard({ policy, active }: {
+  policy: any,
   active: boolean;
 }) {
   const modal = useModal();
@@ -141,10 +148,8 @@ function PolicyCard({ policy, details, active }: {
     args: [address as Address],
   });
 
-  const claimData = policy.claims.find((claim) => claim.address === address);
-
-  async function handleSubmit() {
-    const claimData = {
+  async function requestClaim() {
+    const requestClaimData = {
       premiumFunctionDetails: {
         function: policy.premiumFunc,
         desc: policy.premiumFuncDescription,
@@ -152,11 +157,11 @@ function PolicyCard({ policy, details, active }: {
       },
 
       policyDetails: {
-        address: details?.address,
-        premium: details?.premium,
-        status: details?.status,
-        claimExpiry: details?.claimExpiry,
-        args: details?.args,
+        address: policy.address,
+        premium: policy.holderDetails.premium,
+        status: policy.holderDetails.status,
+        claimExpiry: policy.holderDetails.claimExpiry,
+        args: policy.holderDetails.args,
       },
 
       claimFuctionDetails: {
@@ -167,11 +172,17 @@ function PolicyCard({ policy, details, active }: {
     };
 
     try {
-      modal.show(<RequestClaimModal claimData={claimData} />);
+      modal.show(<RequestClaimModal claimData={requestClaimData} />);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to request claim..");
     }
   }
+
+  console.log({
+    holderDetails: policy.holderDetails,
+    claimDetails: policy.claimDetails
+  })
 
   return (
     <div className="bg-background m-2 rounded-lg flex flex-col p-4 border border-border/50">
@@ -195,10 +206,10 @@ function PolicyCard({ policy, details, active }: {
               </ClipboardWrapper>
             </div>
 
-            {(isPolicyOwner && details?.status !== "Claimed") && (
+            {(active && isPolicyOwner && policy.holderDetails.status === "ongoing") && (
               <button
                 className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
-                onClick={handleSubmit}
+                onClick={requestClaim}
               >
                 Request Claim
               </button>
@@ -211,33 +222,49 @@ function PolicyCard({ policy, details, active }: {
                 Status:{" "}
                 <span className="text-cyan-500 font-semibold">ongoing</span>
               </p>
-              {details?.claimExpiry && (
+              {policy.holderDetails.claimExpiry && (
                 <p className="mt-1">
                   Expires:{" "}
                   <span className="text-red-500 font-semibold">
-                    {moment(details?.claimExpiry).fromNow()}
+                    {moment(policy.holderDetails.claimExpiry).fromNow()}
                   </span>
                 </p>
               )}
             </div>
           ) : (
             <div className="mt-2 text-sm">
-              {details?.status === "Claimed" && (
+              {policy.claimDetails && policy.claimDetails?.status === "approved" && (
                 <div>
                   <p className="">
-                    Status: {" "}<span className="text-green-600 font-semibold">claimed</span>
+                    Status: {" "}<span className="text-green-600 font-bold">claimed</span>
                   </p>
-
-                  <p className="">
-                    Amount: {" "}<span className="text-green-600 font-semibold">{claimData?.amount}</span>
+                  <p className="mt-1">
+                    Claimed: {" "}
+                    <span className="font-bold">
+                      {moment(policy.claimDetails.approvedAt).fromNow()}
+                    </span>
+                  </p>
+                  <p className="mt-1">
+                    Amount: {" "}
+                    <span className="font-bold">
+                      ${policy.claimDetails.amount}
+                    </span>
                   </p>
                 </div>
               )}
 
-              {details?.status === "Expired" && (
-                <p className="">
-                  Status: {" "}<span className="text-red-600 font-semibold">expired</span>
-                </p>
+              {policy.claimDetails && policy.holderDetails?.status === "expired" && (
+                <div>
+                  <p className="">
+                    Status: {" "}<span className="text-red-600 font-semibold">expired</span>
+                  </p>
+                  <p className="mt-1">
+                    Expired: {" "}
+                    <span className="font-bold">
+                      {moment(policy.holderDetails.claimExpiry).fromNow()}
+                    </span>
+                  </p>
+                </div>
               )}
             </div>
           )}
