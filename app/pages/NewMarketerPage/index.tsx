@@ -62,7 +62,7 @@ export default function NewMarketerPage() {
           setLoading(true);
 
           try {
-            if (!address) return toast.error("Connect Wallet first")
+            if (!address) return toast.error("Connect Wallet first");
 
             const nonce = await api.user.requestNonce(address);
             signMessage({
