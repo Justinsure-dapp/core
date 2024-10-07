@@ -101,7 +101,7 @@ export function StakedInCard({
           <h1 className="font-semibold text-sm w-full capitalize">
             {policy.name}
           </h1>
-          <p className="text-xs text-front/70">{policy.category}</p>
+          <p className="text-xs text-front/70 mt-1">Category: {policy.category}</p>
           <p className="text-xs self-end mt-2">
             Stake: {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
           </p>

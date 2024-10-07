@@ -17,7 +17,6 @@ export default function WithdrawSurecoinModal() {
 
     const receipt = useWaitForTransactionReceipt({ hash });
 
-    // Handle claim rewards function
     const handleClaim = async () => {
         if (!earned || earned <= 0) {
             toast.error("No rewards to claim.", { autoClose: 2000 });
@@ -42,7 +41,6 @@ export default function WithdrawSurecoinModal() {
         }
     };
 
-    // Handle receipt confirmation
     useEffect(() => {
         if (receipt.isSuccess) {
             toast.success("Rewards claimed successfully!", { autoClose: 2000 });
