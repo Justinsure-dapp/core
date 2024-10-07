@@ -60,11 +60,11 @@ export default {
         inherit: "inherit",
       },
       fontFamily: {
-        poppins: '"Poppins", sans',
+        poppins: '"Poppins", sans-serif',
         raleway: '"Raleway", sans-serif',
         spaceGrotesk: '"Space Grotesk", sans-serif',
-        mulish: '"Mulish", sans',
-        ptSans: '"PT Sans", sans',
+        mulish: '"Mulish", sans-serif',
+        ptSans: '"PT Sans", sans-serif',
       },
       zIndex: {
         1: 1,
