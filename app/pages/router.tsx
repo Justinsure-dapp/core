@@ -17,6 +17,7 @@ import BuyPolicyPage from "./BuyPolicyPage";
 import DashboardPage from "./DashboardPage";
 import ProtectedRoute, { ProtectedTypes } from "../common/ProtectedRoute";
 import FaucetPage from "./FaucetPage";
+import AccessibilityPage from "./AccessibilityPage";
 import SwapPage from "./SwapPage";
 
 const router = createBrowserRouter(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
 
         <Route path="account" element={<AccountPage />} />
         <Route path="settings" element={<SettingsPage />} />
+        <Route path="accessibility" element={<AccessibilityPage />} />
         <Route path="buy-policy/:address" element={<BuyPolicyPage />} />
         <Route path="/swap" element={<SwapPage />} />
 
