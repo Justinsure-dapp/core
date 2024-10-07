@@ -22,7 +22,7 @@ export default function ClaimInfo(props: { policy: Policy }) {
 
   return (
     <div>
-      <div className="flex w-full gap-y-7 mt-4 mobile:gap-x-4 gap-x-4">
+      <div className="flex w-full gap-y-7 mt-4 mobile:gap-x-4 gap-x-4 text-front/80">
         <div className="flex flex-col w-1/3 gap-y-2 text-sm">
 
           <div
