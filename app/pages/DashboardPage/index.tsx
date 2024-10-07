@@ -24,7 +24,10 @@ export default function DashboardPage() {
   ]);
 
   const searchResults = searchHook.fuse.search(searchHook.debouncedSearchQuery);
-  const policiesToRender = searchResults.length === 0 ? policies : searchResults.map((result: any) => result.item);
+  const policiesToRender =
+    searchResults.length === 0
+      ? policies
+      : searchResults.map((result: any) => result.item);
 
   return (
     <section className="p-page py-4">
@@ -65,9 +68,10 @@ export default function DashboardPage() {
               .map((policy: any) => (
                 <PolicyCard key={policy.item.address} policy={policy.item} />
               ))}
-        {policiesToRender && policiesToRender.map((policy: any) => (
-          <PolicyCard key={policy.address} policy={policy} />
-        ))}
+        {policiesToRender &&
+          policiesToRender.map((policy: any) => (
+            <PolicyCard key={policy.address} policy={policy} />
+          ))}
       </div>
     </section>
   );

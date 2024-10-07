@@ -21,11 +21,10 @@ export default function Navbar() {
       marketersOnly: true,
     },
     {
-    title: "Swap",
-    link: "/swap",
-    icon: "swap",
-    }
-    ,
+      title: "Swap",
+      link: "/swap",
+      icon: "swap",
+    },
     { title: "Policies", link: "/policies", icon: "description" },
     { title: "Applications", link: "/applications", icon: "grid" },
     {

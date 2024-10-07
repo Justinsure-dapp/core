@@ -9,7 +9,9 @@ import { toast } from "react-toastify";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
-  const [logo, setLogo] = useState("https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png");
+  const [logo, setLogo] = useState(
+    "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png",
+  );
   const { address } = useAccount();
   const navigate = useNavigate();
 
@@ -17,7 +19,11 @@ export default function NewMarketerPage() {
   const [data, setData] = useState<{
     name: string;
     imageUrl: string;
-  }>({ name: "", imageUrl: "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png" });
+  }>({
+    name: "",
+    imageUrl:
+      "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png",
+  });
 
   useEffect(() => {
     if (data && sign && address) {
@@ -56,7 +62,7 @@ export default function NewMarketerPage() {
           setLoading(true);
 
           try {
-            if (!address) return toast.error("Something went wrong..")
+            if (!address) return toast.error("Something went wrong..");
 
             const nonce = await api.user.requestNonce(address);
             signMessage({

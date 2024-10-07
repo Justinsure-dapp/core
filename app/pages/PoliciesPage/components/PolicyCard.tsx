@@ -91,10 +91,10 @@ export default function PolicyCard(props: {
               <div className="flex  text-xs text-secondary/80  mt-2">
                 Marketer:
                 <div className="ml-1 text-mute">
-                    <p className="flex items-center secondary/80 gap-x-1">
-                      {user?.marketer?.name}
-                      <Icon icon="contentCopy" />
-                    </p>
+                  <p className="flex items-center secondary/80 gap-x-1">
+                    {user?.marketer?.name}
+                    <Icon icon="contentCopy" />
+                  </p>
                 </div>
               </div>
             </div>

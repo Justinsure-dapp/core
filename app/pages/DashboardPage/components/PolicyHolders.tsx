@@ -6,20 +6,17 @@ import useUsdjHook from "../../../hooks/useUsdj";
 import moment from "moment";
 import useSearchHook from "../../../hooks/useSearchHook";
 
-export default function PolicyHolders({
-  holders,
-}: {
-  holders: Holder[];
-}) {
+export default function PolicyHolders({ holders }: { holders: Holder[] }) {
   const [showList, setShowFullList] = useState(2);
   const [searchText, setSearchText] = useState("");
   const usdjHook = useUsdjHook();
-  const searchHook = useSearchHook(holders || [], [
-    "address",
-  ]);
+  const searchHook = useSearchHook(holders || [], ["address"]);
 
   const searchResults = searchHook.fuse.search(searchHook.debouncedSearchQuery);
-  const holdersToRender = searchResults.length === 0 ? holders : searchResults.map((result: any) => result.item);
+  const holdersToRender =
+    searchResults.length === 0
+      ? holders
+      : searchResults.map((result: any) => result.item);
 
   return (
     <div className="mb-8">
@@ -36,15 +33,24 @@ export default function PolicyHolders({
         </div>
       </div>
 
-      {holdersToRender && holdersToRender.slice(0, showList).map((holder, key) => (
-        <div key={key}>
-          <div className="border border-border p-4 rounded-xl text-sm">
-            <p className="mb-2"><strong>Address:</strong> {holder.address}</p>
-            <p className="mb-2"><strong>Premium:</strong> ${usdjHook.divideByDecimals(BigInt(holder.premium))}</p>
-            <p className=""><strong>Expiry:</strong> {moment(holder.claimExpiry).format("DD/MM/YYYY")}</p>
+      {holdersToRender &&
+        holdersToRender.slice(0, showList).map((holder, key) => (
+          <div key={key}>
+            <div className="border border-border p-4 rounded-xl text-sm">
+              <p className="mb-2">
+                <strong>Address:</strong> {holder.address}
+              </p>
+              <p className="mb-2">
+                <strong>Premium:</strong> $
+                {usdjHook.divideByDecimals(BigInt(holder.premium))}
+              </p>
+              <p className="">
+                <strong>Expiry:</strong>{" "}
+                {moment(holder.claimExpiry).format("DD/MM/YYYY")}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
       {showList < holdersToRender.length && (
         <button

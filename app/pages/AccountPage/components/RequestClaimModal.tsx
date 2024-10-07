@@ -45,16 +45,27 @@ export default function RequestClaimModal({
   const navigate = useNavigate();
 
   async function checkValidity(data: Record<string, string>) {
-    const toastID = toast("Validating Claim..", { type: "info", isLoading: true });
+    const toastID = toast("Validating Claim..", {
+      type: "info",
+      isLoading: true,
+    });
 
     try {
       if (!claimData.policyDetails.address) {
-        toast.warning("No Policy Addess Found..", { type: "error", isLoading: false, autoClose: 2000 });
+        toast.warning("No Policy Addess Found..", {
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
         return;
       }
 
       if (!claimData.policyDetails.args) {
-        toast.warning("No Premium Arguments Found..", { type: "error", isLoading: false, autoClose: 2000 });
+        toast.warning("No Premium Arguments Found..", {
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
         return;
       }
 
@@ -71,24 +82,49 @@ export default function RequestClaimModal({
           setLoading(false);
 
           if (newData.output === -1) {
-            toast.update(toastID, { render: "Invalid Output, Contact Owner..", type: "error", isLoading: false, autoClose: 2000 });
+            toast.update(toastID, {
+              render: "Invalid Output, Contact Owner..",
+              type: "error",
+              isLoading: false,
+              autoClose: 2000,
+            });
             return;
           }
 
           if (newData.output === "True") {
-            toast.update(toastID, { render: "Claim is valid..", type: "success", isLoading: false, autoClose: 2000 });
+            toast.update(toastID, {
+              render: "Claim is valid..",
+              type: "success",
+              isLoading: false,
+              autoClose: 2000,
+            });
             signNonce(data);
           } else if (newData.output === "False") {
-            toast.update(toastID, { render: "Claim is not valid..", type: "error", isLoading: false, autoClose: 2000 });
+            toast.update(toastID, {
+              render: "Claim is not valid..",
+              type: "error",
+              isLoading: false,
+              autoClose: 2000,
+            });
           } else {
-            toast.update(toastID, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
+            toast.update(toastID, {
+              render: "Something went wrong..",
+              type: "error",
+              isLoading: false,
+              autoClose: 2000,
+            });
           }
           clearInterval(intervalId);
         }
       }, 1000);
     } catch (error) {
       console.error(error);
-      toast.update(toastID, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
+      toast.update(toastID, {
+        render: "Something went wrong..",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
   }
 
@@ -244,8 +280,8 @@ export default function RequestClaimModal({
           <div className="flex flex-col gap-1">
             <Heading>Claim Function Arguments:</Heading>
             <div className="mt-2 border border-border bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
-              {(claimData.claimFuctionDetails.args &&
-                claimData.claimFuctionDetails.args.length > 0) ?
+              {claimData.claimFuctionDetails.args &&
+              claimData.claimFuctionDetails.args.length > 0 ? (
                 claimData.claimFuctionDetails.args.map(
                   (arg: any, key: number) => {
                     if (
@@ -273,9 +309,10 @@ export default function RequestClaimModal({
                       </div>
                     );
                   },
-                ) : (
+                )
+              ) : (
                 <p className="text-front/80 text-mute">Nothing to show..</p>
-                )}
+              )}
             </div>
           </div>
 

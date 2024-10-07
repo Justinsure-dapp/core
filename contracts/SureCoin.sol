@@ -35,14 +35,6 @@ contract SureCoin is ERC20, Ownable, ReentrancyGuard {
     event Sell(address indexed seller, uint256 amount, uint256 refund);
     event PriceChange(uint256 time, uint256 value, uint256 marketCap);
 
-    modifier updateReward(address account_) {
-        _rewardPerTokenStored = rewardPerStake();
-        _lastUpdateTime = block.timestamp;
-        _rewards[account_] = earned(account_);
-        _userRewardsPerTokenPaid[account_] = _rewardPerTokenStored;
-        _;
-    }
-
     constructor() ERC20("SureCoin", "SURE") Ownable(_msgSender()) {
         // expect deployer (owner) to be SurityInterface
         _lastUpdateTime = block.timestamp;
@@ -75,7 +67,15 @@ contract SureCoin is ERC20, Ownable, ReentrancyGuard {
             (rewardPerStake() - _userRewardsPerTokenPaid[account_]);
     }
 
-    function claimRewards() external nonReentrant updateReward(_msgSender()) {
+    function _updateReward(address account_) private {
+        _rewardPerTokenStored = rewardPerStake();
+        _lastUpdateTime = block.timestamp;
+        _rewards[account_] = earned(account_);
+        _userRewardsPerTokenPaid[account_] = _rewardPerTokenStored;
+    }
+
+    function claimRewards() external nonReentrant {
+        _updateReward(_msgSender());
         uint256 reward = _rewards[_msgSender()];
         require(reward > 0, "No rewards to claim");
         _rewards[_msgSender()] = 0;

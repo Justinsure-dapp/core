@@ -81,17 +81,19 @@ const policySchema = new Schema<Policy>(
       required: true,
     },
     holders: {
-      type: [{
-        address: { type: String },
-        premium: { type: Number },
-        claimExpiry: { type: Date },
-        args: { type: Object },
-        status: {
-          type: String,
-          enum: ["ongoing", "expired"],
-          default: "Ongoing",
+      type: [
+        {
+          address: { type: String },
+          premium: { type: Number },
+          claimExpiry: { type: Date },
+          args: { type: Object },
+          status: {
+            type: String,
+            enum: ["ongoing", "expired"],
+            default: "Ongoing",
+          },
         },
-      }],
+      ],
       default: [],
     },
     stakers: {
@@ -110,10 +112,11 @@ const policySchema = new Schema<Policy>(
             type: String,
             enum: ["requested", "approved"],
           },
-        amount: Number,
-        requestedAt: Date,
-        approvedAt: Date,
-      }],
+          amount: Number,
+          requestedAt: Date,
+          approvedAt: Date,
+        },
+      ],
       default: [],
     },
     premiumFuncArgs: {

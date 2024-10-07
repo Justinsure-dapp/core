@@ -188,5 +188,5 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
         {loading ? "Staking..." : "Stake"}
       </button>
     </div>
-  );
+  )
 }

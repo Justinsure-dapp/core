@@ -14,7 +14,7 @@ export default function Chart() {
             className={twMerge(
               "absolute z-1 bg-secondary mix-blend-difference h-full w-1/2 top-0 duration-300",
               chartType === "area" && "left-0 translate-x-0",
-              chartType === "candlesticks" && "left-full -translate-x-full"
+              chartType === "candlesticks" && "left-full -translate-x-full",
             )}
           />
 

@@ -3,7 +3,12 @@ import Heading from "../../NewPolicyPage/components/Heading";
 import Icon from "../../../common/Icon";
 import useModal from "../../../hooks/useModal";
 import { useEffect, useState } from "react";
-import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useReadContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
 import { isAddress, zeroAddress } from "viem";
@@ -51,11 +56,18 @@ export default function StakeModal({ policy }: { policy: Policy }) {
 
   async function handleSubmit() {
     if (stake === 0) {
-      toast.error("Invalid USDJ amount..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Invalid USDJ amount..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       return;
     }
 
-    const handleSubmitToast = toast("Waiting for approval...", { type: "info", isLoading: true });
+    const handleSubmitToast = toast("Waiting for approval...", {
+      type: "info",
+      isLoading: true,
+    });
     setLoading(true);
     try {
       if (
@@ -72,9 +84,19 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         args: [multiplyWithDecimals(stake)],
       });
 
-      toast.update(handleSubmitToast, { render: "Transaction submitted..", type: "info", isLoading: false, autoClose: 2000 });
+      toast.update(handleSubmitToast, {
+        render: "Transaction submitted..",
+        type: "info",
+        isLoading: false,
+        autoClose: 2000,
+      });
     } catch (error) {
-      toast.update(handleSubmitToast, { render: "Something went wrong..", type: "error", isLoading: false, autoClose: 2000 });
+      toast.update(handleSubmitToast, {
+        render: "Something went wrong..",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       console.error(error);
     }
   }
@@ -82,18 +104,23 @@ export default function StakeModal({ policy }: { policy: Policy }) {
   useEffect(() => {
     async function saveStakeToDB() {
       if (!address) return;
-      const result = await api.policy.updateStakers(
-        policy.address,
-        address,
-      );
+      const result = await api.policy.updateStakers(policy.address, address);
 
       if (result) {
-        toast.success("Staked successfully..", { type: "success", isLoading: false, autoClose: 2000 });
+        toast.success("Staked successfully..", {
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
         modal.hide();
-        navigate('/account');
+        navigate("/account");
       } else {
         console.error("Error while updating database..");
-        toast.error("Error while updating database..", { type: "error", isLoading: false, autoClose: 2000 });
+        toast.error("Error while updating database..", {
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
       }
     }
 
@@ -102,7 +129,11 @@ export default function StakeModal({ policy }: { policy: Policy }) {
     }
 
     if (stakeReciept.isError) {
-      toast.error("Transaction failed..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Transaction failed..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
   }, [stakeReciept.isLoading]);
 
@@ -114,18 +145,26 @@ export default function StakeModal({ policy }: { policy: Policy }) {
       >
         <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
       </button>
-      <h1 className="text-2xl font-bold mb-2">Stake in the Policy and Earn Rewards</h1>
-      <div className="text-mute flex flex-col gap-y-1 text-sm ">By staking in this policy, you can actively participate and earn benefits. Here's how it works:
+      <h1 className="text-2xl font-bold mb-2">
+        Stake in the Policy and Earn Rewards
+      </h1>
+      <div className="text-mute flex flex-col gap-y-1 text-sm ">
+        By staking in this policy, you can actively participate and earn
+        benefits. Here's how it works:
         <p>
           <span className="text-front">1. Profit Sharing: </span>
-          When you stake, you will receive 2% of the policy's total revenue. This includes premiums collected, allowing you to earn passive income based on the policy's performance.
+          When you stake, you will receive 2% of the policy's total revenue.
+          This includes premiums collected, allowing you to earn passive income
+          based on the policy's performance.
         </p>
         <p>
           <span className="text-front">2. SureCoin Rewards: </span>
-          In addition to profit sharing, you will earn <span className="text-secondary font-bold">
-            SureCoins
-          </span>
-          — A special revenue-sharing token. SureCoin holders benefit from platform-wide activity, as 50% of all platform fees are used to support the liquidity of SureCoin. This ensures that even if no one directly invests in SureCoin, it continues to gain value over time.
+          In addition to profit sharing, you will earn{" "}
+          <span className="text-secondary font-bold">SureCoins</span>— A special
+          revenue-sharing token. SureCoin holders benefit from platform-wide
+          activity, as 50% of all platform fees are used to support the
+          liquidity of SureCoin. This ensures that even if no one directly
+          invests in SureCoin, it continues to gain value over time.
         </p>
       </div>
       <div className="flex flex-col mt-6 relative">

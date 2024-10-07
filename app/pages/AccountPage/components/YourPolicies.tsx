@@ -23,36 +23,38 @@ export default function YourPolicies() {
   const activePolicies: any[] = [];
   const claimedPolicies: any[] = [];
 
-  policies?.map(p => {
-    p.holders.some(h => {
+  policies?.map((p) => {
+    p.holders.some((h) => {
       if (address === h.address) {
         activePolicies.push({
           ...p,
-          holderDetails: h
+          holderDetails: h,
         });
       }
-    })
+    });
 
-    p.claims.some(c => {
+    p.claims.some((c) => {
       if (address === c.address) {
         claimedPolicies.push({
           ...p,
-          claimDetails: c
+          claimDetails: c,
         });
       }
-    })
-  })
+    });
+  });
 
   console.log({
     activePolicies,
-    claimedPolicies
-  })
+    claimedPolicies,
+  });
 
   return (
     <div className="flex flex-col p-page">
       {/* Policies Owned */}
-      <div ref={parent}
-        className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-secondary/10 border border-border/20">
+      <div
+        ref={parent}
+        className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-secondary/10 border border-border/20"
+      >
         <div className="flex justify-between m-2 mx-4 items-center">
           <div>
             <h1 className="text-2xl font-semibold">Active Policies</h1>
@@ -62,24 +64,23 @@ export default function YourPolicies() {
           </div>
         </div>
 
-        {(activePolicies.length === 0) ? (
+        {activePolicies.length === 0 ? (
           <div className="flex justify-center items-center h-[20vh]">
             <h1 className="text-2xl font-semibold text-mute">
               Nothing to show..
             </h1>
           </div>
-        ) : (activePolicies.map(
-          (policy, key) => {
-
+        ) : (
+          activePolicies.map((policy, key) => {
             console.log(policy);
 
             return (
               (viewMoreActive || key < 2) && (
                 <PolicyCard policy={policy} active={true} key={key} />
               )
-            )
-          }
-        ))}
+            );
+          })
+        )}
 
         {activePolicies.length > 2 && (
           <button
@@ -105,20 +106,20 @@ export default function YourPolicies() {
           </div>
         </div>
 
-        {(claimedPolicies.length === 0) ? (
+        {claimedPolicies.length === 0 ? (
           <div className="flex justify-center items-center h-[20vh]">
             <h1 className="text-2xl font-semibold text-mute">
               Nothing to show..
             </h1>
           </div>
-        ) : claimedPolicies.map(
-          (policy, key) => {
+        ) : (
+          claimedPolicies.map((policy, key) => {
             return (
               (viewMoreClaimed || key < 2) && (
                 <PolicyCard policy={policy} key={key} active={false} />
               )
-            )
-          }
+            );
+          })
         )}
 
         {claimedPolicies.length > 2 && (
@@ -134,10 +135,7 @@ export default function YourPolicies() {
   );
 }
 
-function PolicyCard({ policy, active }: {
-  policy: any,
-  active: boolean;
-}) {
+function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
   const modal = useModal();
   const { address } = useAccount();
 
@@ -181,8 +179,8 @@ function PolicyCard({ policy, active }: {
 
   console.log({
     holderDetails: policy.holderDetails,
-    claimDetails: policy.claimDetails
-  })
+    claimDetails: policy.claimDetails,
+  });
 
   return (
     <div className="bg-background m-2 rounded-lg flex flex-col p-4 border border-border/50">
@@ -206,17 +204,19 @@ function PolicyCard({ policy, active }: {
               </ClipboardWrapper>
             </div>
 
-            {(active && isPolicyOwner && policy.holderDetails.status === "ongoing") && (
-              <button
-                className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
-                onClick={requestClaim}
-              >
-                Request Claim
-              </button>
-            )}
+            {active &&
+              isPolicyOwner &&
+              policy.holderDetails.status === "ongoing" && (
+                <button
+                  className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
+                  onClick={requestClaim}
+                >
+                  Request Claim
+                </button>
+              )}
           </div>
 
-          {(isPolicyOwner && active) ? (
+          {isPolicyOwner && active ? (
             <div className="flex flex-col mt-2 text-sm">
               <p className="">
                 Status:{" "}
@@ -233,39 +233,45 @@ function PolicyCard({ policy, active }: {
             </div>
           ) : (
             <div className="mt-2 text-sm">
-              {policy.claimDetails && policy.claimDetails?.status === "approved" && (
-                <div>
-                  <p className="">
-                    Status: {" "}<span className="text-green-600 font-bold">claimed</span>
-                  </p>
-                  <p className="mt-1">
-                    Claimed: {" "}
-                    <span className="font-bold">
-                      {moment(policy.claimDetails.approvedAt).fromNow()}
-                    </span>
-                  </p>
-                  <p className="mt-1">
-                    Amount: {" "}
-                    <span className="font-bold">
-                      ${policy.claimDetails.amount}
-                    </span>
-                  </p>
-                </div>
-              )}
+              {policy.claimDetails &&
+                policy.claimDetails?.status === "approved" && (
+                  <div>
+                    <p className="">
+                      Status:{" "}
+                      <span className="text-green-600 font-bold">claimed</span>
+                    </p>
+                    <p className="mt-1">
+                      Claimed:{" "}
+                      <span className="font-bold">
+                        {moment(policy.claimDetails.approvedAt).fromNow()}
+                      </span>
+                    </p>
+                    <p className="mt-1">
+                      Amount:{" "}
+                      <span className="font-bold">
+                        ${policy.claimDetails.amount}
+                      </span>
+                    </p>
+                  </div>
+                )}
 
-              {policy.claimDetails && policy.holderDetails?.status === "expired" && (
-                <div>
-                  <p className="">
-                    Status: {" "}<span className="text-red-600 font-semibold">expired</span>
-                  </p>
-                  <p className="mt-1">
-                    Expired: {" "}
-                    <span className="font-bold">
-                      {moment(policy.holderDetails.claimExpiry).fromNow()}
-                    </span>
-                  </p>
-                </div>
-              )}
+              {policy.claimDetails &&
+                policy.holderDetails?.status === "expired" && (
+                  <div>
+                    <p className="">
+                      Status:{" "}
+                      <span className="text-red-600 font-semibold">
+                        expired
+                      </span>
+                    </p>
+                    <p className="mt-1">
+                      Expired:{" "}
+                      <span className="font-bold">
+                        {moment(policy.holderDetails.claimExpiry).fromNow()}
+                      </span>
+                    </p>
+                  </div>
+                )}
             </div>
           )}
 

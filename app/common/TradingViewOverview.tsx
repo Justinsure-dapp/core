@@ -61,7 +61,7 @@ function TradingViewWidget(props: {
       className={twMerge(
         props.className,
         "tradingview-widget-container",
-        "relative"
+        "relative",
       )}
       ref={container}
     >

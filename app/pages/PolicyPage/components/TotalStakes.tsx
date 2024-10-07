@@ -33,13 +33,11 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
 
   const ownerStake = data2 ? divideByDecimals(data2) : 0;
 
-  
-  if (!isAddress(policy.address)) return <></>
+  if (!isAddress(policy.address)) return <></>;
 
-  const feed = useApiResponse(api.policy.getStakeHistory, policy.address)
+  const feed = useApiResponse(api.policy.getStakeHistory, policy.address);
 
-  console.log(feed)
-
+  console.log(feed);
 
   const ownerStakePercentage =
     ownerStake && totalStake

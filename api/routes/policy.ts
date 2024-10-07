@@ -213,7 +213,7 @@ router.get("/premium/:address/", async (req, res) => {
     if (!policy) {
       res.status(400).json({ message: "Policy not found.." });
       return;
-    };
+    }
 
     const functionNameMatch = policy.premiumFunc.match(
       /def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/,
@@ -326,10 +326,10 @@ router.post("/buy/:address", async (req, res) => {
       res.status(400).json({ message: "Invalid Policy Address" });
       return;
     }
-    
+
     // fetch policy doc
     const policy = await Policy.findOne({ address });
-    const isHolder = policy?.holders.some(h => h.address === user);
+    const isHolder = policy?.holders.some((h) => h.address === user);
 
     if (!policy) {
       res.status(400).json({ message: "Policy not found.." });
@@ -433,7 +433,7 @@ router.post("/claim/validate/:address", async (req, res) => {
     if (!policy) {
       res.status(400).json({ message: "Policy not found.." });
       return;
-    };
+    }
 
     const functionNameMatch = policy.claimFunc.match(
       /def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/,
@@ -477,8 +477,8 @@ router.post("/claim/issue/:address", async (req, res) => {
   const { userAddress, signedData, sign } = req.body;
 
   console.log({
-    signedData
-  })
+    signedData,
+  });
 
   try {
     const policy = await Policy.findOne({ address: req.params.address });

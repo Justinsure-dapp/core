@@ -12,7 +12,7 @@ export default function ClaimInfo(props: { policy: Policy }) {
   const usdj = useUsdjHook();
   const { divideByDecimals } = useUsdjHook();
 
-  if (!isAddress(policy.address)) return <></>
+  if (!isAddress(policy.address)) return <></>;
 
   const { data: totalStake } = useReadContract({
     abi: contractDefinitions.insuranceController.abi,
@@ -24,28 +24,22 @@ export default function ClaimInfo(props: { policy: Policy }) {
     <div>
       <div className="flex w-full gap-y-7 mt-4 mobile:gap-x-4 gap-x-4 text-front/80">
         <div className="flex flex-col w-1/3 gap-y-2 text-sm">
-
-          <div
-            className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2"
-          >
+          <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
             <h1 className="tracking-wide">Policy Holder: </h1>
             <p className="">{policy.holders.length}</p>
           </div>
 
-
-          <div
-            className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2"
-          >
+          <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
             <h1 className="tracking-wide">Total Stake:</h1>
-            <p className=""> {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ</p>
+            <p className="">
+              {" "}
+              {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ
+            </p>
           </div>
 
-
-          <div
-            className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2"
-          >
+          <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
             <h1 className="tracking-wide">Total Claims:</h1>
-            <p className="">{policy.claims.length}  </p>
+            <p className="">{policy.claims.length} </p>
           </div>
         </div>
         <div className="flex gap-x-4 w-2/3">
@@ -73,10 +67,12 @@ export default function ClaimInfo(props: { policy: Policy }) {
               Limit of the claim
             </h1>
             <div className="mt-2 text-front/80">
-              Minimum: <span className="font-semibold">${policy.minimumClaim}</span>
+              Minimum:{" "}
+              <span className="font-semibold">${policy.minimumClaim}</span>
             </div>
             <div className="mt-1 text-front/80">
-              Maximum: <span className="font-semibold">${policy.maximumClaim}</span>
+              Maximum:{" "}
+              <span className="font-semibold">${policy.maximumClaim}</span>
             </div>
           </div>
         </div>
@@ -84,4 +80,3 @@ export default function ClaimInfo(props: { policy: Policy }) {
     </div>
   );
 }
-

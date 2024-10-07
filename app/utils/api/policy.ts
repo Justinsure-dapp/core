@@ -156,9 +156,9 @@ const policy = {
   },
 
   async getStakeHistory(address: string) {
-    const response = await client.get(`policy/stake-history/${address}`)
-    return response.data
-  }
+    const response = await client.get(`policy/stake-history/${address}`);
+    return response.data;
+  },
 };
 
 export default policy;

@@ -1,19 +1,21 @@
 import { defineChain } from "viem";
 
 const primaryChain = defineChain({
-  id: 1029,
-  rpcUrls: {
+  id: 11155420,
+  name: "OP Sepolia",
+  nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: { default: { http: ["https://sepolia.optimism.io"] } },
+  blockExplorers: {
     default: {
-      http: ["https://pre-rpc.bt.io"],
-      webSocket: ["wss://pre-rpc.bt.io:8546"],
+      name: "Blockscout",
+      url: "https://optimism-sepolia.blockscout.com",
+      apiUrl: "https://optimism-sepolia.blockscout.com/api",
     },
   },
-  name: "BitTorrent Chain Donau",
-  nativeCurrency: { symbol: "BTT", decimals: 18, name: "BitTorrent (BTT)" },
 });
 
 const surityInterface = {
-  address: "0x4ef957d87b5b79ef637349f52774967482df0418" as const,
+  address: "0xbf03a0466fd178b0f6c1ddff8b8559f6f1fbe2d6" as const,
   abi: [
     {
       inputs: [{ internalType: "address", name: "usdToken_", type: "address" }],
@@ -315,7 +317,7 @@ const surityInterface = {
   ] as const,
 };
 const surecoin = {
-  address: "0x92150eE85a8c0A0ead16EBC7cf844f5B1eb943c6" as const,
+  address: "0xFf2D4b7Eb5E0568a34B527d83617A285cAba755E" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -817,7 +819,7 @@ const surecoin = {
   ] as const,
 };
 const vault = {
-  address: "0x125f1918BB31e123039Df866AD3e745Eb368EDc1" as const,
+  address: "0x0CeA0f97AcdF5426b960F37929BFf55523A4f7Fa" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -903,7 +905,7 @@ const vault = {
   ] as const,
 };
 const usdj = {
-  address: "0xe41a04331a7ac06d43c8592c5f3009a78e05c054" as const,
+  address: "0xa45077a05d27978257dab9e3bb23e7368e73a9af" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {

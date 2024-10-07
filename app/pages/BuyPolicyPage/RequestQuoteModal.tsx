@@ -23,7 +23,13 @@ export default function RequestQuoteModal({
   const modal = useModal();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { allowance, approve, decimals, multiplyWithDecimals, divideByDecimals } = useUsdjHook();
+  const {
+    allowance,
+    approve,
+    decimals,
+    multiplyWithDecimals,
+    divideByDecimals,
+  } = useUsdjHook();
   const { address: userAddress } = useAccount();
   const { signMessage, data: sign, error: signError } = useSignMessage();
   const { fetchUser } = useWeb3();
@@ -32,7 +38,11 @@ export default function RequestQuoteModal({
 
   async function handleSubmit() {
     if (!decimals || !userAddress) {
-      toast.error("Something went wrong, please try again..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Something went wrong, please try again..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       return;
     }
 
@@ -48,11 +58,19 @@ export default function RequestQuoteModal({
       const nonce = await api.policy.requestNonce(userAddress);
       signMessage({ message: JSON.stringify({ ...formData }) + nonce });
 
-      toast.info("Sign the message to proceed..", { type: "info", isLoading: false, autoClose: 2000 });
+      toast.info("Sign the message to proceed..", {
+        type: "info",
+        isLoading: false,
+        autoClose: 2000,
+      });
     } catch (error) {
       setLoading(false);
       console.error(error);
-      toast.error("Something went wrong, please try again..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Something went wrong, please try again..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
   }
 
@@ -71,14 +89,22 @@ export default function RequestQuoteModal({
           formattedPremium.toString(),
         );
         setLoading(false);
-        toast.success("Policy bought successfully..", { type: "success", isLoading: false, autoClose: 2000 });
+        toast.success("Policy bought successfully..", {
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
         modal.hide();
         fetchUser();
         navigate("/account");
       } catch (error) {
         console.error(error);
         setLoading(false);
-        toast.error("Error while buying policy..", { type: "error", isLoading: false, autoClose: 2000 });
+        toast.error("Error while buying policy..", {
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
       }
     }
 
@@ -88,7 +114,11 @@ export default function RequestQuoteModal({
 
     if (signError) {
       setLoading(false);
-      toast.error("Error while signing the message..", { type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Error while signing the message..", {
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       console.error(signError);
     }
   }, [sign, signError]);
@@ -119,7 +149,9 @@ export default function RequestQuoteModal({
         </button>
       </div>
       {policy.description && (
-        <p className="text-front/80 text-sm mt-2 text-justify">{policy.description}</p>
+        <p className="text-front/80 text-sm mt-2 text-justify">
+          {policy.description}
+        </p>
       )}
       {policy.tags && policy.tags.length > 0 && (
         <p className="mt-3 flex gap-x-1 items-center">
