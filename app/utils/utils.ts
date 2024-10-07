@@ -229,7 +229,7 @@ export function generateShades(
   }
 
   for (let i = 0; i < numberOfShades; i++) {
-    const alpha = (1 - i / numberOfShades).toFixed(2);
+    const alpha = ((i + 1) / numberOfShades).toFixed(2);
     shades.push(
       `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha})`,
     );

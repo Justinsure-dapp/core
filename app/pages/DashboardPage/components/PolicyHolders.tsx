@@ -12,6 +12,10 @@ export default function PolicyHolders({
   const [searchText, setSearchText] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("Filter");
 
+  console.log({
+    holders,
+  })
+
   const holderDetails = {
     address: "",
   };

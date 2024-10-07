@@ -24,7 +24,7 @@ export default function AutomatedInvestingModal() {
           className="absolute top-2 right-2"
           onClick={() => removeTriggerEvent(newIndex)}
         >
-          <Icon icon="close" className="text-[1.2rem]" />
+          <Icon icon="close" />
         </button>{" "}
         <Heading className="text-lg">Trigger Event {newIndex}</Heading>
         <MappedOptions options={options} disabled={false} />

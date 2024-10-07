@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
-  const [logo, setLogo] = useState("");
+  const [logo, setLogo] = useState("https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png");
   const { address } = useAccount();
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ export default function NewMarketerPage() {
   const [data, setData] = useState<{
     name: string;
     imageUrl: string;
-  }>({ name: "", imageUrl: "" });
+  }>({ name: "", imageUrl: "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png" });
 
   useEffect(() => {
     if (data && sign && address) {
@@ -91,6 +91,7 @@ export default function NewMarketerPage() {
               <input
                 type="url"
                 name="imageUrl"
+                defaultValue={logo}
                 className="bg-background focus-within:outline-none px-3 py-3 border border-front/20 rounded-lg"
                 placeholder="Provide logo url"
                 onChange={(e) => setLogo(e.target.value)}
