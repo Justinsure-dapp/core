@@ -4,10 +4,13 @@ import SurityInfo from "./components/SurityInfo";
 import { twMerge } from "tailwind-merge";
 import SurityBranding from "./components/SurityBranding";
 import useSureCoinHook from "../../hooks/useSurecoin";
+import useModal from "../../hooks/useModal";
+import WithdrawSurecoinModal from "./components/WithdrawSurecoinModal";
 
 export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
   const surecoin = useSureCoinHook();
+  const modal = useModal()
 
   const balance = surecoin.getUserBalance();
   const earned = surecoin.getUserEarned();
@@ -34,12 +37,12 @@ export default function StatisticsSidebar() {
                   {balance ? balance.toString() : "0"}
                 </p>
               </div>
-              <div className="flex gap-2 items-center">
+              <button onClick={() => modal.show(<WithdrawSurecoinModal />)} className="flex gap-2 items-center " >
                 <h2 className="text-xs">Earned:</h2>
                 <p className="font-mono text-secondary text-2xl font-medium">
                   {earned ? earned.toFixed(2) : "0"}
                 </p>
-              </div>
+              </button>
             </div>
           </div>
 

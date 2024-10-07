@@ -143,50 +143,51 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
         <div className="text-mute flex flex-col gap-y-1 text-sm ">
           To activate this policy, you must provide an initial stake. This stake
           serves two important purposes:
-        <div className="text-mute flex flex-col gap-y-1 text-sm ">To activate this policy, you must provide an initial stake. This stake serves two important purposes:
-          <p>
-            <span className="text-front">1. Liquidity Provision: </span>
-            The initial stake ensures there is enough liquidity to support any
-            claims or payouts from the policy, making the policy viable.
-          </p>
-          <p>
-            <span className="text-front">2. Visibility: </span>
-            Without the initial stake, the policy will not be visible to the
-            public. Staking upfront demonstrates your commitment to the policy,
-            allowing others to trust and interact with it.
-          </p>
-          <p className="mt-2 text-red-500/80 bg-red-500/10 py-1 px-2 rounded-md">
-            Please note that if no initial stake is provided, the policy will
-            remain inactive & hidden from potential backers.
-          </p>
-        </div>
-      <div className="flex flex-col mt-6 relative">
-        <p
-          className={twMerge(
-            "text-xs absolute top-1 right-0 animate-pulse text-red-500 flex gap-x-1 items-center",
-            showWarning ? "" : "hidden",
-          )}
-        >
-          <Icon icon="info" /> Minimum Stake: {minStakewithDecimals} USDJ
-        </p>
-        <Heading>Enter amount to be Staked in policy</Heading>
-        <input
-          type="number"
-          className="mt-1 rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
-          placeholder="Enter Amount in USDJ"
-          onChange={(e) => setStake(Number(e.target.value))}
-        />
-      </div>
-      <button
-        className={twMerge(
-          "mt-3 text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
-          loading ? "animate-pulse" : "",
-        )}
-        onClick={handleSubmit}
-        disabled={loading || showWarning}
-      >
-        {loading ? "Staking..." : "Stake"}
-      </button>
+          <div className="text-mute flex flex-col gap-y-1 text-sm ">To activate this policy, you must provide an initial stake. This stake serves two important purposes:
+            <p>
+              <span className="text-front">1. Liquidity Provision: </span>
+              The initial stake ensures there is enough liquidity to support any
+              claims or payouts from the policy, making the policy viable.
+            </p>
+            <p>
+              <span className="text-front">2. Visibility: </span>
+              Without the initial stake, the policy will not be visible to the
+              public. Staking upfront demonstrates your commitment to the policy,
+              allowing others to trust and interact with it.
+            </p>
+            <p className="mt-2 text-red-500/80 bg-red-500/10 py-1 px-2 rounded-md">
+              Please note that if no initial stake is provided, the policy will
+              remain inactive & hidden from potential backers.
+            </p>
+          </div>
+          <div className="flex flex-col mt-6 relative">
+            <p
+              className={twMerge(
+                "text-xs absolute top-1 right-0 animate-pulse text-red-500 flex gap-x-1 items-center",
+                showWarning ? "" : "hidden",
+              )}
+            >
+              <Icon icon="info" /> Minimum Stake: {minStakewithDecimals} USDJ
+            </p>
+            <Heading>Enter amount to be Staked in policy</Heading>
+            <input
+              type="number"
+              className="mt-1 rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
+              placeholder="Enter Amount in USDJ"
+              onChange={(e) => setStake(Number(e.target.value))}
+            />
+          </div>
+          <button
+            className={twMerge(
+              "mt-3 text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
+              loading ? "animate-pulse" : "",
+            )}
+            onClick={handleSubmit}
+            disabled={loading || showWarning}
+          >
+            {loading ? "Staking..." : "Stake"}
+          </button>
+        </div>)}
     </div>
   )
 }

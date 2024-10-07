@@ -62,7 +62,11 @@ export default function NewMarketerPage() {
           setLoading(true);
 
           try {
+<<<<<<< HEAD
             if (!address) return toast.error("Something went wrong..");
+=======
+            if (!address) return toast.error("Connect Wallet first")
+>>>>>>> af50f29f5d4586467eccc4b658f65d50ddfe6bfb
 
             const nonce = await api.user.requestNonce(address);
             signMessage({
