@@ -53,4 +53,8 @@
   .overflow-b-hidden {
     clip-path: polygon(0% -100%, 0% 100%, 100% 100%, 100% -100%);
   }
+
+  .saturate-500 {
+    @apply saturate-[500%];
+  }
 }

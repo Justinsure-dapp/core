@@ -20,7 +20,6 @@ export default function PolicyCard(props: {
 }) {
   const { policy } = props;
 
-
   const { data: user } = useApiResponse(api.user.get, policy.creator);
 
   const minimumDurationInDays = moment

@@ -28,7 +28,10 @@ export default function StakeModal({ policy }: { policy: Policy }) {
 
   async function handleSubmit() {
     if (stake === 0) {
-      toast.display({ title: "Error", description: "Please enter a valid amount to stake" });
+      toast.display({
+        title: "Error",
+        description: "Please enter a valid amount to stake",
+      });
       return;
     }
 

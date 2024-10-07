@@ -6,7 +6,6 @@ export default function ClaimInfo(props: { policy: Policy }) {
 
   return (
     <div>
-
       <div className="flex w-full justify-around gap-y-7 mt-4 mobile:gap-x-4 p-page">
         <div className="flex">
           {claimInfoData.map((data, i) => (

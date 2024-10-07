@@ -93,13 +93,15 @@ const policySchema = new Schema<PolicyData>(
       default: 0,
     },
     claims: {
-      type: [{
-        address: String,
-        status: {
-          type: String,
-          enum: ["requested", "approved"],
+      type: [
+        {
+          address: String,
+          status: {
+            type: String,
+            enum: ["requested", "approved"],
+          },
         },
-      }],
+      ],
       default: [],
     },
     premiumFuncArgs: {

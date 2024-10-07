@@ -17,6 +17,7 @@ import BuyPolicyPage from "./BuyPolicyPage";
 import DashboardPage from "./DashboardPage";
 import ProtectedRoute, { ProtectedTypes } from "../common/ProtectedRoute";
 import FaucetPage from "./FaucetPage";
+import AccessibilityPage from "./AccessibilityPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
 
         <Route path="account" element={<AccountPage />} />
         <Route path="settings" element={<SettingsPage />} />
+        <Route path="accessibility" element={<AccessibilityPage />} />
         <Route path="buy-policy/:address" element={<BuyPolicyPage />} />
 
         <Route element={<ProtectedRoute type={ProtectedTypes.CONSUMERONLY} />}>

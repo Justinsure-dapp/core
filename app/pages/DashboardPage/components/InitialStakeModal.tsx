@@ -109,7 +109,9 @@ export default function InitialStakeModal({ policy }: { policy: Policy }) {
       </button>
       <h1 className="text-2xl font-bold mb-2">Initial Stake Required</h1>
       {policy.description && (
-        <div className="text-mute flex flex-col gap-y-1 text-sm ">To activate this policy, you must provide an initial stake. This stake serves two important purposes:
+        <div className="text-mute flex flex-col gap-y-1 text-sm ">
+          To activate this policy, you must provide an initial stake. This stake
+          serves two important purposes:
           <p>
             <span className="text-front">1. Liquidity Provision: </span>
             The initial stake ensures there is enough liquidity to support any
