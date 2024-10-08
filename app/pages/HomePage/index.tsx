@@ -85,7 +85,7 @@ export default function HomePage() {
                     <p className="text-sm">
                       We would really appreciate if you could take out some time
                       to fill out a survey. We are bringing insurance to
-                      blockahin and we would love to hear about it from you!
+                      blockchain and we would love to hear about it from you!
                     </p>
 
                     <div className="flex">
