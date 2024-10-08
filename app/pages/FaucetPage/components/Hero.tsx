@@ -54,7 +54,7 @@ export default function Hero() {
       </div>
 
       <div className="mt-28 w-[60%] text-center text-gray-300">
-        Here is a gift from Sopparu, A Faucet for BTTC and USDJ, made just for
+        Here is a gift from Soparu, A Faucet for BTTC and USDJ, made just for
         you. So that you don't have to roam around looking for testnet tokens.
       </div>
       <img

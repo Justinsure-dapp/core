@@ -74,9 +74,7 @@ export default function PolicyCard(props: { policy: Policy }) {
               </button>
             ) : (
               <button
-                onClick={() =>
-                  toast.success("Policy Disabled Successfully..")
-                }
+                onClick={() => toast.success("Policy Disabled Successfully..")}
                 className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
               >
                 Disable Policy
