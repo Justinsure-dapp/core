@@ -49,10 +49,9 @@ export default function Swap() {
   };
 
   return (
-    <div className="w-1/3 h-max p-2 border border-border rounded-lg shadow-md relative">
-      <h2 className="font-semibold mb-2 text-front/80">{`You are ${isSurecoinToUsdj ? "buying USDJ for Surecoin" : "buying Surecoin for USDJ"}`}</h2>
+    <div className="h-max p-4 border border-border rounded-lg shadow-md relative">
       {/* Sell section */}
-      <div className="p-3 border border-border rounded-md">
+      <div className="p-3 mt-2 border border-border rounded-md">
         <div className="flex justify-between items-center mb-2">
           <p className="text-sm">Sell</p>
           <p className="text-xs">
@@ -107,8 +106,8 @@ export default function Swap() {
       </div>
 
       {/* Buy button */}
-      <button className="w-full py-2 bg-green-600/50 hover:bg-green-500/60 duration-300 ease-in rounded-md text-center font-bold mt-4">
-        Buy
+      <button className="w-full py-2 bg-primary/80 hover:bg-primary duration-100 ease-in rounded-md text-center font-bold mt-4">
+        Swap
       </button>
     </div>
   );

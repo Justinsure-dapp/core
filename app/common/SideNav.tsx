@@ -26,7 +26,7 @@ export default function Navbar() {
       icon: "swap",
     },
     { title: "Policies", link: "/policies", icon: "description" },
-    { title: "Applications", link: "/applications", icon: "grid" },
+    { title: "SureCoin", link: "/surecoin", icon: "accountBalance" },
     {
       title: "Marketing",
       link: "/new-policy",

@@ -31,17 +31,10 @@ export default function StatisticsSidebar() {
               </button>
             </div>
             <div className="flex justify-between items-center">
-              <div className="flex gap-2 items-center">
-                <h2 className="text-xs">Wallet:</h2>
-                <p className="font-mono text-secondary text-2xl font-medium">
-                  {balance ? balance.toString() : "0"}
-                </p>
-              </div>
               <button
                 onClick={() => modal.show(<WithdrawSurecoinModal />)}
                 className="flex gap-2 items-center "
               >
-                <h2 className="text-xs">Earned:</h2>
                 <p className="font-mono text-secondary text-2xl font-medium">
                   {earned ? earned.toFixed(2) : "0"}
                 </p>
