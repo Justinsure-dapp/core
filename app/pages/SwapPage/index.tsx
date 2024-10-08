@@ -4,9 +4,9 @@ import DocTitle from "../../common/DocTitle";
 
 export default function () {
   return (
-    <div className="flex flex-col gap-4 mt-4 p-page">
+    <div className="p-page mt-4 flex flex-col gap-4">
       <DocTitle title="Swap" />
-      <section className="mt-4 mb-8 flex flex-col gap-2">
+      <section className="mb-8 mt-4 flex flex-col gap-2">
         <Swap />
       </section>
       <section className="mb-8 flex flex-col gap-2">
