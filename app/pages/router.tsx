@@ -20,7 +20,7 @@ import FaucetPage from "./FaucetPage";
 import AccessibilityPage from "./AccessibilityPage";
 import SwapPage from "./SwapPage";
 import DevelopersPage from "./DevelopersPage";
-import SureCoinPage from "./SureCoin";
+import SureCoinPage from "./SureCoinPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
