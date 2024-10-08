@@ -6,7 +6,7 @@ import { Address, isAddress, zeroAddress } from "viem";
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
 import useUsdjHook from "../../../hooks/useUsdj";
-import { useWriteContract } from 'wagmi';
+import { useWriteContract } from "wagmi";
 import { toast } from "react-toastify";
 import useModal from "../../../hooks/useModal";
 import Heading from "../../../pages/NewPolicyPage/components/Heading";
@@ -115,8 +115,10 @@ export function StakedInCard({
             </div>
 
             <div className="flex flex-col gap-2 bgr items-center">
-              <button className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
-                onClick={() => modal.show(<WithdrawStakeModal policy={policy} />)
+              <button
+                className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
+                onClick={() =>
+                  modal.show(<WithdrawStakeModal policy={policy} />)
                 }
               >
                 Withdraw
@@ -134,7 +136,11 @@ export function StakedInCard({
 }
 
 function WithdrawStakeModal({ policy }: { policy: Policy }) {
-  const { writeContractAsync, error: txError, data: txHash } = useWriteContract();
+  const {
+    writeContractAsync,
+    error: txError,
+    data: txHash,
+  } = useWriteContract();
   const modal = useModal();
   const [stake, setStake] = useState<number>(0);
   const [loading, setLoading] = useState(false);
@@ -148,14 +154,14 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
     address: policy.address as Address,
     functionName: "stakedAmountOfAddress",
     args: [address || zeroAddress],
-  })
+  });
 
   const { data: profitShare } = useReadContract({
     ...contractDefinitions.insuranceController,
     address: policy.address as Address,
     functionName: "profitShare",
     args: [address || zeroAddress],
-  })
+  });
 
   useEffect(() => {
     if (stake > usdjHook.divideByDecimals(stakedAmount || 0n)) {
@@ -229,13 +235,16 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
         <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
       </button>
       <h1 className="text-2xl font-bold mb-2">
-        Withdraw Stake from <span className="text-secondary">{policy.name}</span>
+        Withdraw Stake from{" "}
+        <span className="text-secondary">{policy.name}</span>
       </h1>
       <div className="text-mute flex flex-col gap-y-1 text-sm ">
-        You can withdraw your stake from the policy at any time along with the profit.
+        You can withdraw your stake from the policy at any time along with the
+        profit.
         <p>
           <span className="text-front">Note: </span>
-          You can only withdraw the amount you have staked. You can check the amount you have staked below.
+          You can only withdraw the amount you have staked. You can check the
+          amount you have staked below.
         </p>
       </div>
       <div className="flex flex-col mt-6 relative">
@@ -245,7 +254,8 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
             showWarning ? "animate-pulse" : "",
           )}
         >
-          <Icon icon="info" /> Withdrawal Limit: ${usdjHook.divideByDecimals(stakedAmount || 0n).toFixed(2)}
+          <Icon icon="info" /> Withdrawal Limit: $
+          {usdjHook.divideByDecimals(stakedAmount || 0n).toFixed(2)}
         </p>
         <Heading>Enter amount to withdraw</Heading>
         <input
@@ -256,11 +266,7 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
         />
       </div>
       <div className="flex mt-3 w-full justify-between">
-        <p
-          className={twMerge(
-            "text-xs text-green-500 flex gap-x-1",
-          )}
-        >
+        <p className={twMerge("text-xs text-green-500 flex gap-x-1")}>
           Max Profit: ${usdjHook.divideByDecimals(profitShare || 0n)}
         </p>
 
@@ -276,5 +282,5 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
         </button>
       </div>
     </div>
-  )
+  );
 }

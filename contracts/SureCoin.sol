@@ -6,8 +6,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./SurityInterface.sol";
 
-import "hardhat/console.sol";
-
 contract SureCoin is ERC20, Ownable, ReentrancyGuard {
   uint256 public immutable MAX_SUPPLY = 1_000_000_000_1000 * (10 ** decimals());
   uint256 public constant REWARD_RATE_FRACTION_OF_AVAILABLE_SUPPLY = 5;
@@ -40,6 +38,7 @@ contract SureCoin is ERC20, Ownable, ReentrancyGuard {
   constructor() ERC20("SureCoin", "SURE") Ownable(_msgSender()) {
     // expect deployer (owner) to be SurityInterface
     _interface = SurityInterface(_msgSender());
+    _lastUpdateTime = block.timestamp;
 
     _mint(address(this), MAX_SUPPLY);
   }
@@ -49,7 +48,7 @@ contract SureCoin is ERC20, Ownable, ReentrancyGuard {
   }
 
   function _rewardRate() private view returns (uint256) {
-    return ((reserve() / 10 ** decimals()) / REWARD_RATE_FRACTION_OF_AVAILABLE_SUPPLY) / (30 days);
+    return ((reserve() / 10 ** 3) / REWARD_RATE_FRACTION_OF_AVAILABLE_SUPPLY) / (30 days);
   }
 
   function updateReward(address account) internal {

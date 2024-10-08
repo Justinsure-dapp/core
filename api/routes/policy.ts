@@ -277,10 +277,7 @@ router.get("/stake-history/:address", async (req, res) => {
     });
 
     res.send({
-      feed: response.map((e) => ({
-        amount: Number((e.args as any).amount),
-        timestamp: Number(e.blockNumber),
-      })),
+      feed: response.map((e) => ({ ...e.args })),
     });
 
     return;

@@ -12,7 +12,10 @@ import {
 import { privateKeyToAccount } from "viem/accounts";
 import SurityInterface from "../artifacts/SurityInterface.sol/SurityInterface.json";
 import InsuranceController from "../artifacts/InsuranceController.sol/InsuranceController.json";
+import SureCoin from "../artifacts/SureCoin.sol/SureCoin.json";
+import Vault from "../artifacts/Vault.sol/Vault.json";
 import USDJ from "../artifacts/USDJ.sol/USDJ.json";
+import fs from "fs";
 
 const donau = defineChain({
   id: 1029,
@@ -84,14 +87,34 @@ async function main() {
   const vaultAddress = (await periphery.read.vault()) as Address;
   const surecoinAddress = (await periphery.read.surecoin()) as Address;
 
-  console.log(
-    "\n\nMake sure you replace the above addresses with these in evmConfig.ts\n",
-  );
-
   console.log(`USDJ : ${usdj.address}`);
   console.log(`Surity Interface : ${periphery.address}`);
   console.log(`Vault : ${vaultAddress}`);
   console.log(`SureCoin : ${surecoinAddress}`);
+
+  // update evmConfig
+  const chain = {
+    id: client.chain.id,
+    name: client.chain.name,
+    nativeCurrency: client.chain.nativeCurrency,
+    rpcUrls: client.chain.rpcUrls,
+    blockExplorers: client.chain.blockExplorers,
+  };
+  const file = `import {defineChain} from "viem"
+
+const primaryChain = defineChain(${JSON.stringify(chain)})
+
+const surityInterface = {address : "${periphery.address}" as const, abi : ${JSON.stringify(periphery.abi)} as const}
+const surecoin = {address : "${surecoinAddress}" as const, abi : ${JSON.stringify(SureCoin.abi)} as const}
+const vault = {address : "${vaultAddress}" as const, abi : ${JSON.stringify(Vault.abi)} as const}
+const usdj = {address : "${usdj.address}" as const, abi : ${JSON.stringify(usdj.abi)} as const}
+const insuranceController = {abi : ${JSON.stringify(InsuranceController.abi)} as const}
+
+export default {primaryChain, surityInterface, surecoin, vault, usdj, insuranceController}
+`;
+
+  fs.writeFileSync("./evmConfig.ts", file);
+  console.log("\n\nUPDATED EVM CONFIG");
 }
 
 main()

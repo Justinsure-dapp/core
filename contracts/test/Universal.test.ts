@@ -191,7 +191,7 @@ describe("Universal", function () {
 
       const earned = await surecoin.read.earned([acc1.account.address]);
 
-      await surecoin.write.claimRewards({ account: acc1.account});
+      await surecoin.write.claimRewards({ account: acc1.account });
 
       const balanceAfter = await surecoin.read.balanceOf([
         acc1.account.address,

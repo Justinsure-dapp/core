@@ -37,7 +37,8 @@ export default function YourStakes() {
           </h2>
         </div>
         <p className="bg-primary/20 border h-fit border-primary/30 px-4 rounded-xl mobile:w-max">
-          Total Staked : <span className="font-mono">{totalStake.toFixed(1)}</span>
+          Total Staked :{" "}
+          <span className="font-mono">{totalStake.toFixed(1)}</span>
         </p>
       </div>
       {policiesStakedIn.length > 0 ? (
