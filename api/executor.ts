@@ -18,18 +18,20 @@ function safeCheckAndExecute() {
       const nxt = executionQueue.shift();
       if (!nxt) throw "Failed to execute";
       fs.writeFile("./api/focus_func.py", outputStore[nxt].pycode, () => {
-        const pythonProcess = spawn("python3", ["api/focus_func.py"]);
+        try {
+          const pythonProcess = spawn("python3", ["api/focus_func.py"]);
 
-        pythonProcess.stdout.on("data", (data) => {
-          outputStore[nxt].output = data.toString().trim();
-          outputStore[nxt].completed = true;
-          semaphore = false;
-        });
+          pythonProcess.stdout.on("data", (data) => {
+            outputStore[nxt].output = data.toString().trim();
+            outputStore[nxt].completed = true;
+            semaphore = false;
+          });
 
-        pythonProcess.stderr.on("data", (data) => {
-          console.error(`Python error: ${data}`);
-          throw data;
-        });
+          pythonProcess.stderr.on("data", (data) => {
+            console.error(`Python error: ${data}`);
+            throw data;
+          });
+        } catch (err) {}
       });
     }
   } catch (err) {
