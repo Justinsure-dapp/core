@@ -244,7 +244,9 @@ export default function Swap() {
       </div>
 
       {/* Buy button */}
-      <button className="w-full py-2 bg-primary/80 hover:bg-primary duration-100 ease-in rounded-md text-center font-bold mt-4"
+      <button className="w-full py-2 bg-primary/80 hover:bg-primary duration-100 ease-in rounded-md text-center font-bold mt-4 disabled:opacity-50"
+        disabled
+        title="Coming soon"
         onClick={ensureApproval}>
         Swap
       </button>
