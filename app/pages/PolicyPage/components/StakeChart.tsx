@@ -4,7 +4,7 @@ import useApiResponse from "../../../hooks/useApiResponse";
 import api from "../../../utils/api";
 import { Policy } from "../../../types";
 import { isAddress } from "viem";
-import { ApexOptions } from "apexcharts"; // Importing correct types
+import { ApexOptions } from "apexcharts";
 import useUsdjHook from "../../../hooks/useUsdj";
 
 export default function StakeChart({ policy }: { policy: Policy }) {
@@ -47,12 +47,12 @@ export default function StakeChart({ policy }: { policy: Policy }) {
       },
       markers: {
         size: 7,
-        colors: ["#50798c"],
-        strokeColors: "#fff", 
+        colors: ["#09090b"],
+        strokeColors: "#fefefe", 
         strokeWidth: 1, 
       },
       stroke: {
-        colors: ["22333b"],
+        colors: ["#71717a"],
         curve: 'smooth',
         width: 2,
       },
