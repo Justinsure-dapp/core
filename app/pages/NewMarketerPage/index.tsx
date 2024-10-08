@@ -6,6 +6,7 @@ import DataForm from "../../common/DataForm";
 import { useAccount, useSignMessage } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { extractErrorFromTx } from "../../utils";
 
 export default function NewMarketerPage() {
   const [loading, setLoading] = useState(false);
@@ -48,7 +49,10 @@ export default function NewMarketerPage() {
     }
 
     if (error) {
-      toast.error("Something went wrong..");
+      const errorMsg = extractErrorFromTx(error.message);
+      toast.error(errorMsg, {
+        autoClose: 2000,
+      });
       setLoading(false);
     }
   }, [sign, error]);

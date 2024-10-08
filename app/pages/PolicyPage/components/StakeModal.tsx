@@ -16,6 +16,7 @@ import useUsdjHook from "../../../hooks/useUsdj";
 import api from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { extractErrorFromTx } from "../../../utils";
 
 export default function StakeModal({ policy }: { policy: Policy }) {
   const modal = useModal();
@@ -91,13 +92,14 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         autoClose: 2000,
       });
     } catch (error) {
+      console.error(error);
+
       toast.update(handleSubmitToast, {
         render: "Something went wrong..",
         type: "error",
         isLoading: false,
         autoClose: 2000,
       });
-      console.error(error);
     }
   }
 
@@ -115,7 +117,6 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         modal.hide();
         navigate("/account");
       } else {
-        console.error("Error while updating database..");
         toast.error("Error while updating database..", {
           type: "error",
           isLoading: false,
@@ -129,7 +130,8 @@ export default function StakeModal({ policy }: { policy: Policy }) {
     }
 
     if (stakeReciept.isError) {
-      toast.error("Transaction failed..", {
+      const errormsg = extractErrorFromTx(stakeReciept.error.message);
+      toast.error(errormsg, {
         type: "error",
         isLoading: false,
         autoClose: 2000,

@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Icon from "../../common/Icon";
 import { toast } from "react-toastify";
 import { Arg } from "../../types";
+import { extractErrorFromTx } from "../../utils";
 
 export default function NewPolicyPage() {
   const twInputStyle =
@@ -42,6 +43,7 @@ export default function NewPolicyPage() {
     data: nonceData,
     isSuccess: nonceSuccess,
     isError: nonceError,
+    error: nonceErrorData,
   } = useSignMessage();
 
   const [loading, setLoading] = useState(false);
@@ -78,7 +80,6 @@ export default function NewPolicyPage() {
       toast.update(handleSubmitToast, {
         render: "Something went wrong..",
         type: "error",
-        isLoading: false,
         autoClose: 2000,
       });
       console.error(error);
@@ -97,7 +98,6 @@ export default function NewPolicyPage() {
         setLoading(false);
         toast.success("Policy created Successfully..", {
           type: "success",
-          isLoading: false,
           autoClose: 2000,
         });
         navigate("/dashboard");
@@ -107,13 +107,11 @@ export default function NewPolicyPage() {
         if (error.response.data.message) {
           toast.error(error.response.data.message, {
             type: "error",
-            isLoading: false,
             autoClose: 2000,
           });
         } else {
           toast.error("Failed to create policy..", {
             type: "error",
-            isLoading: false,
             autoClose: 2000,
           });
         }
@@ -131,13 +129,13 @@ export default function NewPolicyPage() {
 
     if (nonceError) {
       setLoading(false);
-      toast.error("Error while signing the message..", {
+      const errorMsg = extractErrorFromTx(nonceErrorData.message);
+      toast.error(errorMsg, {
         type: "error",
-        isLoading: false,
         autoClose: 2000,
       });
     }
-  }, [nonceData, nonceSuccess, nonceError]);
+  }, [nonceData, nonceSuccess, nonceError, nonceErrorData]);
 
   return (
     <>

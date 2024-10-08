@@ -237,3 +237,8 @@ export function generateShades(
 
   return shades;
 }
+
+export function extractErrorFromTx (error: string): string {
+  const match = error.match(/reason:\s*(.*?)\s*Contract Call/);
+  return match ? `${match[1]}..` : "Transaction Failed..";
+};
