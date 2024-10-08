@@ -10,6 +10,7 @@ import useModal from "../../../hooks/useModal";
 import useUsdjHook from "../../../hooks/useUsdj";
 import InitialStakeModal from "./InitialStakeModal";
 import Icon from "../../../common/Icon";
+import { toast } from "react-toastify";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
@@ -62,7 +63,7 @@ export default function PolicyCard(props: { policy: Policy }) {
           </div>
 
           <div className="font-semibold">
-            {isPaused && (
+            {isPaused ? (
               <button
                 onClick={() =>
                   modal.show(<InitialStakeModal policy={props.policy} />)
@@ -70,6 +71,15 @@ export default function PolicyCard(props: { policy: Policy }) {
                 className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
               >
                 Set Initial Stake
+              </button>
+            ) : (
+              <button
+                onClick={() =>
+                  toast.success("Policy Disabled Successfully..")
+                }
+                className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
+              >
+                Disable Policy
               </button>
             )}
           </div>
