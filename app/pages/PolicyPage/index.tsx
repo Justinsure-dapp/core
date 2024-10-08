@@ -9,6 +9,7 @@ import api from "../../utils/api";
 import useApiResponse from "../../hooks/useApiResponse";
 import DocTitle from "../../common/DocTitle";
 import Header1 from "./components/Header1";
+import StakeChart from "./components/StakeChart";
 
 export default function PolicyPage() {
   const { address: policyAddress } = useParams();
@@ -30,6 +31,7 @@ export default function PolicyPage() {
           <ClaimInfo policy={policy} />
           <Functions policy={policy} />
           <TotalStakes policy={policy} />
+          <StakeChart policy={policy} />
           {/* <PoolDistribution policy={policy} /> */}
           {/* <InvestmentPolicy /> */}
         </>
