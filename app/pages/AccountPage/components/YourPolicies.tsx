@@ -49,18 +49,17 @@ export default function YourPolicies() {
   });
 
   return (
-    <div className="flex flex-col p-page">
-      {/* Policies Owned */}
+    <div className="flex flex-col">
       <div
         ref={parent}
-        className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-secondary/10 border border-border/20"
+        className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-mute/5 border border-border/20"
       >
-        <div className="flex justify-between m-2 mx-4 items-center">
+        <div className="flex justify-between p-2 items-center">
           <div>
             <h1 className="text-2xl font-semibold">Active Policies</h1>
-            <h2 className=" text-mute font-semibold">
-              Here are the policies currently active..
-            </h2>
+            <p className=" text-mute text-sm mt-1">
+            These are your currently active policies, providing ongoing coverage based on the terms you selected. You can review their details and manage them as needed throughout the coverage period.
+            </p>
           </div>
         </div>
 
@@ -95,13 +94,13 @@ export default function YourPolicies() {
       {/* Policies Claimed */}
       <div
         ref={parent}
-        className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-secondary/10 border border-border/20"
+        className="flex mt-10  gap-y-2 flex-col p-2 bg-mute/5 border border-border/20 rounded-lg"
       >
-        <div className="flex justify-between m-2 mx-4 items-center">
+        <div className="flex justify-between p-2 items-center">
           <div>
             <h1 className="text-2xl font-semibold">Inactive Policies</h1>
-            <h2 className=" text-mute font-semibold">
-              Here are the policies from the past..
+            <h2 className=" text-mute text-sm mt-1">
+            These are your inactive policies, which are no longer providing coverage as it might have expired or you have claimed it. You can review their details here.
             </h2>
           </div>
         </div>
@@ -183,21 +182,21 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
   });
 
   return (
-    <div className="bg-background m-2 rounded-lg flex flex-col p-4 border border-border/50">
+    <div className="bg-background m-2 rounded-lg flex flex-col p-4">
       <div className="flex gap-x-4">
         <img
           src={policy.image}
-          className="border border-border w-24 h-24 p-2 object-cover rounded-full"
+          className="border border-border/60 w-24 h-24 p-1 object-cover rounded-md"
         />
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full justify-between">
           <div className="flex justify-between gap-4 items-start w-full">
             <div>
-              <h1 className="text-xl font-bold tracking-wide">{policy.name}</h1>
+              <h1 className="text-xl font-bold tracking-wide capitalize">{policy.name}</h1>
               <ClipboardWrapper
                 textToBeCopied={policy.address}
                 className="text-xs text-mute"
               >
-                <p className="flex items-center gap-x-1">
+                <p className="flex items-center gap-x-1 mt-1">
                   {formatEvmAddress(policy.address)}
                   <Icon icon="contentCopy" />
                 </p>
@@ -208,7 +207,7 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
               isPolicyOwner &&
               policy.holderDetails.status === "ongoing" && (
                 <button
-                  className="bg-background hover:bg-zinc-900 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
+                  className="bg-background hover:bg-mute/5 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
                   onClick={requestClaim}
                 >
                   Request Claim
@@ -217,13 +216,13 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
           </div>
 
           {isPolicyOwner && active ? (
-            <div className="flex flex-col mt-2 text-sm">
-              <p className="">
+            <div className="flex gap-x-2 text-sm">
+              <p className="border border-border px-3 py-1 rounded-2xl">
                 Status:{" "}
-                <span className="text-cyan-500 font-semibold">ongoing</span>
+                <span className="text-green-600 font-semibold">Ongoing</span>
               </p>
               {policy.holderDetails.claimExpiry && (
-                <p className="mt-1">
+                <p className="border border-border px-3 py-1 rounded-2xl">
                   Expires:{" "}
                   <span className="text-red-500 font-semibold">
                     {moment(policy.holderDetails.claimExpiry).fromNow()}
@@ -235,20 +234,20 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
             <div className="mt-2 text-sm">
               {policy.claimDetails &&
                 policy.claimDetails?.status === "approved" && (
-                  <div>
-                    <p className="">
+                  <div className="flex gap-x-2">
+                    <p className="border border-border px-3 py-1 rounded-2xl">
                       Status:{" "}
-                      <span className="text-green-600 font-bold">claimed</span>
+                      <span className="text-green-600 font-bold">Claimed</span>
                     </p>
-                    <p className="mt-1">
+                    <p className="border border-border px-3 py-1 rounded-2xl">
                       Claimed:{" "}
-                      <span className="font-bold">
+                      <span className="font-bold text-yellow-700">
                         {moment(policy.claimDetails.approvedAt).fromNow()}
                       </span>
                     </p>
-                    <p className="mt-1">
+                    <p className="border border-border px-3 py-1 rounded-2xl">
                       Amount:{" "}
-                      <span className="font-bold">
+                      <span className="font-bold text-secondary">
                         ${policy.claimDetails.amount}
                       </span>
                     </p>
@@ -257,28 +256,23 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
 
               {policy.claimDetails &&
                 policy.holderDetails?.status === "expired" && (
-                  <div>
-                    <p className="">
+                  <div className="flex gap-x-2">
+                    <div className="border border-border px-3 py-1 rounded-2xl">
                       Status:{" "}
                       <span className="text-red-600 font-semibold">
-                        expired
+                        Expired
                       </span>
-                    </p>
-                    <p className="mt-1">
+                    </div>
+                    <div className="border border-border px-3 py-1 rounded-2xl">
                       Expired:{" "}
-                      <span className="font-bold">
+                      <span className="font-bold text-yellow-700">
                         {moment(policy.holderDetails.claimExpiry).fromNow()}
                       </span>
-                    </p>
+                    </div>
                   </div>
                 )}
             </div>
           )}
-
-          <p className="text-sm mt-1 font-light text-front/90">
-            <span>Description:</span>{" "}
-            <span className="font-semibold">{policy.description}</span>
-          </p>
         </div>
       </div>
     </div>

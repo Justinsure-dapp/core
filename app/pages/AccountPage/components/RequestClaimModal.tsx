@@ -311,7 +311,7 @@ export default function RequestClaimModal({
                   },
                 )
               ) : (
-                <p className="text-front/80 text-mute">Nothing to show..</p>
+                <p className="text-front/80 text-mute">No Arguments required</p>
               )}
             </div>
           </div>
