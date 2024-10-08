@@ -124,7 +124,7 @@ export default function RequestQuoteModal({
   }, [sign, signError]);
 
   return (
-    <div className="relative w-[80vw] max-w-[720px] flex flex-col gap-y-1 bg-background py-8 rounded-lg border border-primary/60 px-8">
+    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
       {loading && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
@@ -137,45 +137,29 @@ export default function RequestQuoteModal({
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-10">
+      <button
+        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
+        onClick={() => modal.hide()}
+      >
+        <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
+      </button>
+
+      <div className="flex flex-col gap-y-1">
         <h1 className="text-2xl font-bold">
-          Buy <span className="text-secondary">{policy.name}</span>{" "}
+         Calculated Premium for {policy.name}
         </h1>
-        <button
-          className="text-red-500 rounded-full border border-red-500 p-1"
-          onClick={() => modal.hide()}
-        >
-          <Icon icon="close" className="text-[1.5rem] mobile:text-[1rem]" />
-        </button>
-      </div>
-      {policy.description && (
-        <p className="text-front/80 text-sm mt-2 text-justify">
-          {policy.description}
-        </p>
-      )}
-      {policy.tags && policy.tags.length > 0 && (
-        <p className="mt-3 flex gap-x-1 items-center">
-          <span className="font-bold text-secondary">Tags:</span>
-          {policy.tags?.map((tag) => (
-            <span
-              key={tag}
-              className="border text-zinc-200 text-sm px-2 py-1 border-border rounded-full"
-            >
-              {tag}
-            </span>
-          ))}
-        </p>
-      )}
+        <p className="text-sm text-mute">The premium has been calculated based on the formula provided by the marketer, using the parameters and duration you specified. If the quoted premium meets your expectations, you can proceed with purchasing the policy. However, if the quote is not satisfactory, feel free to adjust the parameters or policy duration to explore alternative pricing options.</p>
+        </div>
       <div className="flex items-center mt-3 gap-2">
         <Heading>Calculated Premium:</Heading>
-        <div className="rounded-md w-fit py-1 px-2 bg-background border border-border shadow shadow-mute/30">
+        <div className="rounded-md w-fit py-1 px-4 bg-background border border-border ">
           <p>{divideByDecimals(formattedPremium)} USDJ</p>
         </div>
       </div>
-      <div className="flex gap-4 self-end">
+      <div className="flex gap-4 self-end mt-6">
         <button
           className={twMerge(
-            "mt-6 text-secondary border-secondary font-bold border duration-300 ease-in w-max px-6 py-2 rounded-lg hover:bg-white/30 hover:text-front",
+            "duration-150 ease-in w-max px-6 py-1 rounded-sm bg-red-800/80 hover:bg-red-800",
             loading ? "animate-pulse" : "",
           )}
           onClick={() => {
@@ -187,7 +171,7 @@ export default function RequestQuoteModal({
         </button>
         <button
           className={twMerge(
-            "mt-6 text-white/70 border-white/70 font-bold border duration-300 ease-in w-max px-6 py-2 rounded-lg hover:bg-secondary hover:text-front",
+            "py-1 px-6 bg-primary/80 rounded-sm hover:bg-primary duration-150 ease-in",
             loading ? "animate-pulse" : "",
           )}
           onClick={handleSubmit}

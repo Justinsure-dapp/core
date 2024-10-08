@@ -12,7 +12,7 @@ import useModal from "../../../hooks/useModal";
 import Heading from "../../../pages/NewPolicyPage/components/Heading";
 import Icon from "../../Icon";
 import { twMerge } from "tailwind-merge";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { extractErrorFromTx } from "../../../utils";
 
 export default function StakingStats() {
@@ -99,25 +99,25 @@ export function StakedInCard({
 
   if (stakeAmount && stakeAmount > usdj.multiplyWithDecimals(0.1)) {
     return (
-      <div
-        className={`border transition-all p-2 border-border rounded-lg ${policy.creator === address ? " hover:bg-front/5" : ""}`}
+      <Link to={`/policies/${policy.address}`}
+        className={`border transition-all p-2 border-border rounded-lg ${policy.creator === address ? " hover:bg-mute/5" : ""}`}
         title={policy.creator === address ? "Created by you" : "Staked by you"}
       >
-        <div className="flex items-center gap-x-3">
+        <div className="flex gap-x-2">
           <img
             src={policy.image}
             alt="image"
-            className="aspect-square rounded-md object-cover border border-border h-14 w-14"
+            className="aspect-square rounded-md object-cover h-14 w-14"
           />
-          <div className="flex w-full items-center justify-between">
-            <div className="flex flex-col">
+          <div className="flex w-full justify-between">
+            <div className="flex flex-col w-2/3 truncate">
               <h1 className="font-semibold text-sm w-full capitalize">
                 {policy.name}
               </h1>
-              <p className="text-xs text-front/50 mt-1">{policy.category}</p>
+              <p className="text-xs text-front/50 mt-1">Category: {policy.category}</p>
             </div>
 
-            <div className="flex flex-col gap-2 bgr items-center">
+            <div className="flex flex-col gap-2 items-center justify-end">
               {withdrawable && (
                 <button
                   className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
@@ -131,17 +131,16 @@ export function StakedInCard({
 
               <p
                 className={twMerge(
-                  "text-xs text-mute flex gap-x-1",
+                  "text-xs text-mute flex gap-x-1 whitespace-nowrap",
                   withdrawable ? "" : "self-end",
                 )}
-              >
-                {withdrawable ? "Stake: " : ""}$
+              >Stake: $
                 {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
               </p>
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }
