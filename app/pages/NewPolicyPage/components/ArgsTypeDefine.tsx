@@ -38,7 +38,7 @@ export default function ArgsTypeDefine(props: {
           typeName: possibleTypes[0].name,
           htmlType: possibleTypes[0].value,
           description: "",
-        })
+        });
       }
     });
 

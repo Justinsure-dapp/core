@@ -129,13 +129,14 @@ export function StakedInCard({
                 </button>
               )}
 
-              <p className={
-                twMerge(
+              <p
+                className={twMerge(
                   "text-xs text-mute flex gap-x-1",
-                  withdrawable ? "" : "self-end"
-                )
-              }>
-                {withdrawable ? "Stake: " : ""}${usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
+                  withdrawable ? "" : "self-end",
+                )}
+              >
+                {withdrawable ? "Stake: " : ""}$
+                {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
               </p>
             </div>
           </div>

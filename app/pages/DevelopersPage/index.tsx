@@ -30,7 +30,7 @@ export default function () {
 
           <h3 className="text-xl font-semibold  mb-2">Key Features:</h3>
           <ul className="list-disc list-inside mb-4 ">
-            <li>    
+            <li>
               <strong>Smart Contracts:</strong> All insurance policies and
               claims are governed by automated smart contracts, ensuring
               transparency and reliability in operations.

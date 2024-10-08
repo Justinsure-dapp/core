@@ -6,7 +6,7 @@ import SurityBranding from "./components/SurityBranding";
 import useSureCoinHook from "../../hooks/useSurecoin";
 import useModal from "../../hooks/useModal";
 import WithdrawSurecoinModal from "./components/WithdrawSurecoinModal";
-import { useWatchAsset } from 'wagmi'
+import { useWatchAsset } from "wagmi";
 import evmConfig from "../../../evmConfig";
 import { toast } from "react-toastify";
 import { formatCompactNumber } from "../../utils";
@@ -15,20 +15,20 @@ export default function StatisticsSidebar() {
   const [hidden, setHidden] = useState(false);
   const surecoin = useSureCoinHook();
   const modal = useModal();
-  const { watchAsset } = useWatchAsset()
+  const { watchAsset } = useWatchAsset();
 
   const balance = surecoin.getUserBalance();
   const earned = surecoin.getUserEarned();
 
-  const flag = useRef(true)
+  const flag = useRef(true);
   useEffect(() => {
     if (flag.current) {
       flag.current = false;
       setInterval(() => {
-        surecoin.refreshEarned()
+        surecoin.refreshEarned();
       }, 5000);
     }
-  }, [])
+  }, []);
 
   return (
     <section className="flex relative flex-col border-l border-border max-w-[22vw] h-screen mobile:hidden">
@@ -52,13 +52,13 @@ export default function StatisticsSidebar() {
                 onClick={() => {
                   toast.info("Waiting for confirmation");
                   watchAsset({
-                    type: 'ERC20',
+                    type: "ERC20",
                     options: {
                       address: evmConfig.surecoin.address,
-                      symbol: 'SURE',
+                      symbol: "SURE",
                       decimals: surecoin.decimals || 6,
                     },
-                  })
+                  });
                 }}
               >
                 Balance:
