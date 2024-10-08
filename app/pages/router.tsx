@@ -19,6 +19,7 @@ import ProtectedRoute, { ProtectedTypes } from "../common/ProtectedRoute";
 import FaucetPage from "./FaucetPage";
 import AccessibilityPage from "./AccessibilityPage";
 import SwapPage from "./SwapPage";
+import DevelopersPage from "./DevelopersPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
         <Route element={<ProtectedRoute type={ProtectedTypes.MARKETERONLY} />}>
           <Route path="new-policy" element={<NewPolicyPage />} />
           <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="developers" element={<DevelopersPage />} />
         </Route>
 
         <Route path="*" element={<ErrorPage />} />
