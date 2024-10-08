@@ -11,7 +11,7 @@ import "./Vault.sol";
 
 import "hardhat/console.sol";
 
-contract SurityInterface is Context, ReentrancyGuard, Ownable {
+contract JustInsureInterface is Context, ReentrancyGuard, Ownable {
   mapping(address => bool) private _validControllers;
 
   uint256 public constant FEE_FRACTION_ON_PREMIUM_PAID = 1000; // fraction of premium amount taken as fee

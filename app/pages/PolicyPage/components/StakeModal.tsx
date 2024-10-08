@@ -34,7 +34,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
   });
 
   const { data: minStake } = useReadContract({
-    ...contractDefinitions.surityInterface,
+    ...contractDefinitions.justinsureInterface,
     functionName: "minimumInitialStake",
   });
 

@@ -7,9 +7,9 @@ import { PinataSDK } from "pinata";
 import { Policy as PolicyType } from "../types/custom";
 import User from "../models/User";
 import executor from "../executor";
-import surityInterface from "../contracts/surityInterface";
 import evm from "../evm";
 import evmConfig from "../../evmConfig";
+import justinsureInterface from "../contracts/justinsureInterface";
 
 const router = express.Router();
 
@@ -84,7 +84,7 @@ router.post("/new", async (req, res) => {
     const tokenSymbol = generateTokenSymbol(data.name);
     const blockNumberBeforeTx = await evm.client.getBlockNumber();
 
-    const txHash = await surityInterface.write.createInsurancePolicy([
+    const txHash = await justinsureInterface.write.createInsurancePolicy([
       creatorAddress,
       `ipfs://${cid}`,
       data.name,
@@ -106,8 +106,8 @@ router.post("/new", async (req, res) => {
 
     // Get the controller address from the logs
     const logs = await evm.client.getContractEvents({
-      abi: surityInterface.abi,
-      address: surityInterface.address,
+      abi: justinsureInterface.abi,
+      address: justinsureInterface.address,
       eventName: "policyCreated",
       fromBlock: blockNumberBeforeTx,
       toBlock: "latest",
@@ -277,12 +277,13 @@ router.get("/stake-history/:address", async (req, res) => {
       fromBlock: BigInt(policy.blockNumber),
     });
 
-    return res.send({
+    res.send({
       feed: response.map((e) => ({
         timestamp: Number(e.args.timestamp),
         amount: Number(e.args.amount),
       })),
     });
+    return;
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
@@ -338,7 +339,7 @@ router.post("/buy/:address", async (req, res) => {
       return;
     }
 
-    const txHash = await surityInterface.write.issuePolicyInstance([
+    const txHash = await justinsureInterface.write.issuePolicyInstance([
       address,
       user,
       BigInt(premium),
@@ -499,7 +500,7 @@ router.post("/claim/issue/:address", async (req, res) => {
       return;
     }
 
-    const txHash = await surityInterface.write.issueClaimForPolicyInstance([
+    const txHash = await justinsureInterface.write.issueClaimForPolicyInstance([
       policy.address,
       userAddress,
     ]);

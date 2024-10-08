@@ -7,12 +7,12 @@ import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "./SurityInterface.sol";
+import "./JustInsureInterface.sol";
 import "./StakeToken.sol";
 
 contract InsuranceController is Context, Ownable, Pausable, ReentrancyGuard {
   string private _uri;
-  SurityInterface public _interface; //make private
+  JustInsureInterface public _interface; //make private
   bool private _initialStakeDone;
 
   uint256 public constant PROFIT_FRACTION_SHARED_AMONG_STAKERS = 50;
@@ -74,9 +74,9 @@ contract InsuranceController is Context, Ownable, Pausable, ReentrancyGuard {
     uint256 maximumClaimAmount_,
     string memory tokenSymbol_
   ) Ownable(_msgSender()) {
-    // expect deployer (owner) to be SurityInterface
+    // expect deployer (owner) to be JustInsureInterface
     _uri = uri_;
-    _interface = SurityInterface(_msgSender());
+    _interface = JustInsureInterface(_msgSender());
     creator = creator_;
     name = name_;
     minimumClaimAmount = minimumClaimAmount_;

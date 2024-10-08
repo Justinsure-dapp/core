@@ -38,7 +38,7 @@ function useUsdjHook(): UsdjHook {
     functionName: "allowance",
     args: [
       userAddress || zeroAddress,
-      contractDefinitions.surityInterface.address,
+      contractDefinitions.justinsureInterface.address,
     ],
   });
 
@@ -53,7 +53,7 @@ function useUsdjHook(): UsdjHook {
     await writeContractAsync({
       ...contractDefinitions.usdj,
       functionName: "approve",
-      args: [contractDefinitions.surityInterface.address, UINT256_MAX],
+      args: [contractDefinitions.justinsureInterface.address, UINT256_MAX],
     });
 
     return approvalReciept.isSuccess;

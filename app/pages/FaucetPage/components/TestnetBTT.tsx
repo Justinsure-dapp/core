@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export default function TestnetBTT() {
   const [address, setAddress] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
 
   const handleRequest = async () => {
@@ -15,11 +15,14 @@ export default function TestnetBTT() {
     setResponseMessage("");
 
     try {
-      const response = await fetch(`https://testfaucetapi.bt.io/transferbttc?address=${address}&token=btt`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `https://testfaucetapi.bt.io/transferbttc?address=${address}&token=btt`,
+        {
+          method: "GET",
+        },
+      );
 
-      console.log(response)
+      console.log(response);
       if (response.ok) {
         const data = await response.json();
         setResponseMessage("Success! You've received 10M BTTC.");

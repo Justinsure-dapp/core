@@ -1,2 +1,2 @@
 export * from "./usdj";
-export * from "./surityInterface";
+export * from "./justinsureInterface";

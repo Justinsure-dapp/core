@@ -10,7 +10,7 @@ import {
   zeroAddress,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import SurityInterface from "../artifacts/SurityInterface.sol/SurityInterface.json";
+import JustInsureInterface from "../artifacts/JustInsureInterface.sol/JustInsureInterface.json";
 import InsuranceController from "../artifacts/InsuranceController.sol/InsuranceController.json";
 import SureCoin from "../artifacts/SureCoin.sol/SureCoin.json";
 import Vault from "../artifacts/Vault.sol/Vault.json";
@@ -71,13 +71,13 @@ async function main() {
 
   const peripheryTx = await tx(
     client.deployContract({
-      abi: SurityInterface.abi,
-      bytecode: SurityInterface.bytecode as "0x",
+      abi: JustInsureInterface.abi,
+      bytecode: JustInsureInterface.bytecode as "0x",
       args: [usdj.address],
     }),
   );
   const periphery = getContract({
-    abi: SurityInterface.abi,
+    abi: JustInsureInterface.abi,
     address: peripheryTx.contractAddress || zeroAddress,
     client: client,
   });
@@ -106,13 +106,13 @@ async function main() {
 
 const primaryChain = defineChain(${JSON.stringify(chain)})
 
-const surityInterface = {address : "${periphery.address}" as const, abi : ${JSON.stringify(periphery.abi)} as const}
+const justinsureInterface = {address : "${periphery.address}" as const, abi : ${JSON.stringify(periphery.abi)} as const}
 const surecoin = {address : "${surecoinAddress}" as const, abi : ${JSON.stringify(SureCoin.abi)} as const}
 const vault = {address : "${vaultAddress}" as const, abi : ${JSON.stringify(Vault.abi)} as const}
 const usdj = {address : "${usdj.address}" as const, abi : ${JSON.stringify(usdj.abi)} as const}
 const insuranceController = {abi : ${JSON.stringify(InsuranceController.abi)} as const}
 
-export default {primaryChain, surityInterface, surecoin, vault, usdj, insuranceController}
+export default {primaryChain, justinsureInterface, surecoin, vault, usdj, insuranceController}
 `;
 
   fs.writeFileSync("./evmConfig.ts", file);

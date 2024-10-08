@@ -19,7 +19,7 @@ describe("Universal", function () {
     usdj.write.transfer([acc1.account.address, 100_000n * usdjDecimals]);
     usdj.write.transfer([acc2.account.address, 100_000n * usdjDecimals]);
 
-    const periphery = await hre.viem.deployContract("SurityInterface", [
+    const periphery = await hre.viem.deployContract("JustInsureInterface", [
       usdj.address,
     ]);
 
@@ -86,7 +86,7 @@ describe("Universal", function () {
     };
   }
 
-  describe("SurityInterface", () => {
+  describe("JustInsureInterface", () => {
     it("can create new policy", async () => {
       const { controller } = await loadFixture(deployFixture);
       expect(controller.address).to.contain("0x");

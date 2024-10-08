@@ -131,7 +131,7 @@ export default function () {
           <BR />
           <H1>Contracts</H1>
           <div className="mt-7">
-            <H3>SurityInterface</H3>SurityInterface is the core contract
+            <H3>JustInsureInterface</H3>JustInsureInterface is the core contract
             managing insurance policies and integrating with the SureCoin token.
             It allows the creation of insurance policies, issuance of claims,
             and the collection of fees. The contract maintains a list of valid
@@ -154,8 +154,8 @@ export default function () {
               SureCoin.
               <br />
               <p className="bg-black w-max px-3 rounded-md border border-front/20 mt-4">
-                SurityInterface Contract Address:{" "}
-                {contractDefinitions.surityInterface.address}
+                JustInsureInterface Contract Address:{" "}
+                {contractDefinitions.justinsureInterface.address}
               </p>
             </div>
           </div>
