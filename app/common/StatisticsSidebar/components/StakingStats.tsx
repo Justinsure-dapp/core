@@ -114,8 +114,8 @@ export function StakedInCard({
             className="aspect-square rounded-md object-cover h-10 w-10"
           />
           <div className="flex w-full justify-between">
-            <div className="flex flex-col w-2/3 truncate">
-              <h1 className="font-semibold text-sm w-full capitalize truncate">
+            <div className="flex flex-col truncate">
+              <h1 className="font-semibold text-sm w-full capitalize">
                 {policy.name}
               </h1>
               <p
