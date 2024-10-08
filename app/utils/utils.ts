@@ -218,7 +218,7 @@ export function generateShades(
 ): string[] {
   // check if primaryColor is in rgb format
   if (!primaryColor.startsWith("rgb(")) {
-    primaryColor = "rgb(26, 201, 255)";
+    primaryColor = "rgb(34, 51, 59)";
   }
 
   const shades: string[] = [];

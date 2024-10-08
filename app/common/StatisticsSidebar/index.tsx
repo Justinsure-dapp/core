@@ -50,7 +50,7 @@ export default function StatisticsSidebar() {
                 title="Add SURE to your wallet"
                 className="flex gap-2 text-sm items-center border hover:border-border rounded-xl border-border/50 px-2"
                 onClick={() => {
-                  toast.info("Waiting for confirmation");
+                  toast.info("Adding SURE to your wallet..");
                   watchAsset({
                     type: "ERC20",
                     options: {

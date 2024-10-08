@@ -33,7 +33,7 @@ export default function StakingStats() {
       <div className="flex items-center justify-between gap-x-3">
         <h1 className="text-mute text-base font-bold">Your Stakes</h1>
         <p className="bg-foreground p-2 text-sm font-semibold rounded-lg">
-          Total : {totalStake.toFixed(1)}
+          Total : ${totalStake.toFixed(1)}
         </p>
       </div>
 
