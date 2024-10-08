@@ -21,8 +21,8 @@ export default function PieChart(props: {
       {
         data: props.data.values,
         backgroundColor: props.data.bgColor,
-        hoverOffset: 8,
-        borderColor: "rgb(200, 200, 200)",
+        hoverOffset: 2,
+        borderColor: "rgb(100, 100, 100)",
         // backgroundColor: twConf.theme.colors.primary,
       },
     ],

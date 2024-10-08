@@ -100,7 +100,7 @@ export function StakedInCard({
   if (stakeAmount && stakeAmount > usdj.multiplyWithDecimals(0.1)) {
     return (
       <Link to={`/policies/${policy.address}`}
-        className={`border transition-all p-2 border-border rounded-lg ${policy.creator === address ? " hover:bg-mute/5" : ""}`}
+        className={twMerge(`border transition-all p-2 border-border bg-background rounded-lg`, !withdrawable && "hover:bg-mute/5")}
         title={policy.creator === address ? "Created by you" : "Staked by you"}
       >
         <div className="flex gap-x-2 relative">
@@ -126,7 +126,7 @@ export function StakedInCard({
 
             {withdrawable && (
               <button
-                className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
+                className="border border-border transition-all  w-max px-3 py-2 text-front/80 bg-front/10 rounded-md self-start text-sm"
                 onClick={() =>
                   modal.show(<WithdrawStakeModal policy={policy} />)
                 }
@@ -241,29 +241,34 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
       >
         <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
       </button>
-      <h1 className="text-2xl font-bold mb-2">
+      <h1 className="text-2xl font-bold">
         Withdraw Stake from{" "}
         <span className="text-secondary">{policy.name}</span>
       </h1>
-      <div className="text-mute flex flex-col gap-y-1 text-sm ">
+      <div className="text-mute flex flex-col text-sm ">
         You can withdraw your stake from the policy at any time along with the
         profit.
         <p>
-          <span className="text-front">Note: </span>
           You can only withdraw the amount you have staked. You can check the
           amount you have staked below.
         </p>
-      </div>
-      <div className="flex flex-col mt-6 relative">
-        <p
-          className={twMerge(
-            "text-xs absolute top-1 right-0 text-red-500 flex gap-x-1 items-center",
-            showWarning ? "animate-pulse" : "",
-          )}
-        >
-          <Icon icon="info" /> Withdrawal Limit: $
+        <p className="text-front mt-2">Max Withdrawl: {' '}
           {usdjHook.divideByDecimals(stakedAmount || 0n).toFixed(2)}
         </p>
+      </div>
+      <div className="flex flex-col mt-4 relative">
+        {
+          showWarning &&
+          <p
+            className={twMerge(
+              "text-xs absolute top-1 right-0 text-red-500 flex gap-x-1 items-center",
+              showWarning ? "animate-pulse" : "",
+            )}
+          >
+            <Icon icon="info" /> Withdrawal Limit: $
+            {usdjHook.divideByDecimals(stakedAmount || 0n).toFixed(2)}
+          </p>
+        }
         <Heading>Enter amount to withdraw</Heading>
         <input
           type="number"
@@ -271,23 +276,22 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
           placeholder="Enter Amount in USDJ"
           onChange={(e) => setStake(Number(e.target.value))}
         />
-      </div>
-      <div className="flex mt-3 w-full justify-between">
-        <p className={twMerge("text-xs text-green-500 flex gap-x-1")}>
+        <p className={twMerge("text-xs text-green-500 flex gap-x-1 mt-2")}>
           Max Profit: ${usdjHook.divideByDecimals(profitShare || 0n)}
         </p>
-
-        <button
-          className={twMerge(
-            " text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
-            loading ? "animate-pulse" : "",
-          )}
-          onClick={handleSubmit}
-          disabled={loading || showWarning}
-        >
-          {loading ? "Processing..." : "Withdraw"}
-        </button>
       </div>
+
+
+      <button
+        className={twMerge(
+          " text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
+          loading ? "animate-pulse" : "",
+        )}
+        onClick={handleSubmit}
+        disabled={loading || showWarning}
+      >
+        {loading ? "Processing..." : "Withdraw"}
+      </button>
     </div>
   );
 }
