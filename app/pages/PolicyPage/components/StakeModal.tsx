@@ -116,7 +116,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
           autoClose: 2000,
         });
         modal.hide();
-        navigate("/account");
+        navigate(0);
       } else {
         toast.error("Error while updating database..", {
           type: "error",

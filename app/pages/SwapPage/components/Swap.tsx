@@ -7,6 +7,7 @@ import { isAddress, zeroAddress } from "viem";
 import { toast } from "react-toastify";
 import useUsdjHook from "../../../hooks/useUsdj";
 import { extractErrorFromTx } from "../../../utils";
+import Heading from "../../NewPolicyPage/components/Heading";
 
 export default function Swap() {
   const usdj = useUsdjHook();
@@ -82,7 +83,7 @@ export default function Swap() {
   let calculatedAmount = 0;
 
   if (isSurecoinToUsdj) {
-    calculatedAmount = (amountWithDecimals * Number(liquidity)) / (Number(reserve) + amountWithDecimals);
+    calculatedAmount = (Number(liquidity) * amountWithDecimals) / (Number(reserve) + amountWithDecimals);
   } else {
     calculatedAmount = (amountWithDecimals * Number(reserve)) / (Number(liquidity) + amountWithDecimals);
   }
@@ -160,23 +161,26 @@ export default function Swap() {
 
   return (
     <div className="h-max p-4 border border-border rounded-lg shadow-md relative">
-      <div className="flex text-sm items-center justify-end gap-1">
-        <p>Slippage:</p>
-        <input
-          type="text"
-          name="slippage"
-          value={slippage}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            if (!isNaN(Number(e.target.value))) {
-              setSlippage(Number(e.target.value));
-            }
-          }}
-          className="w-16 text-center bg-transparent text-white focus:outline-none border border-border rounded-md p-2"
-        />
+      <div className="flex items-center w-full justify-between px-1">
+        <Heading className="text-xl"> Swap </Heading>
+        <div className="flex text-sm items-center justify-end gap-1">
+          <p>Slippage:</p>
+          <input
+            type="text"
+            name="slippage"
+            value={slippage}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              if (!isNaN(Number(e.target.value))) {
+                setSlippage(Number(e.target.value));
+              }
+            }}
+            className="w-16 bg-zinc-900 text-center bg-transparent text-white focus:outline-none border border-border rounded-md p-2"
+          />
+        </div>
       </div>
 
       {/* Sell section */}
-      <div className="p-3 mt-4 border border-border rounded-md">
+      <div className="bg-zinc-900 p-3 mt-4 border border-border rounded-md">
         <div className="flex justify-between items-center mb-2">
           <p className="text-sm">Sell</p>
           <p className="text-xs">
@@ -216,7 +220,7 @@ export default function Swap() {
       </div>
 
       {/* Buy section */}
-      <div className="rounded-md border border-border p-2">
+      <div className="bg-zinc-900 rounded-md border border-border p-2">
         <div className="mb-2 flex items-center justify-between">
           <p className="text-sm">Buy</p>
           <p className="text-xs">
@@ -240,7 +244,9 @@ export default function Swap() {
       </div>
 
       {/* Buy button */}
-      <button className="w-full py-2 bg-primary/80 hover:bg-primary duration-100 ease-in rounded-md text-center font-bold mt-4"
+      <button className="w-full py-2 bg-primary/80 hover:bg-primary duration-100 ease-in rounded-md text-center font-bold mt-4 disabled:opacity-50"
+        disabled
+        title="Coming soon"
         onClick={ensureApproval}>
         Swap
       </button>
