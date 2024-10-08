@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export default function TestnetBTT() {
   const [address, setAddress] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
 
   const handleRequest = async () => {
@@ -15,11 +15,14 @@ export default function TestnetBTT() {
     setResponseMessage("");
 
     try {
-      const response = await fetch(`https://testfaucetapi.bt.io/transferbttc?address=${address}&token=btt`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `https://testfaucetapi.bt.io/transferbttc?address=${address}&token=btt`,
+        {
+          method: "GET",
+        },
+      );
 
-      console.log(response)
+      console.log(response);
       if (response.ok) {
         const data = await response.json();
         setResponseMessage("Success! You've received 10M BTTC.");
@@ -35,31 +38,30 @@ export default function TestnetBTT() {
 
   return (
     <div className="flex flex-col items-center gap-y-4">
-      <div className="bg-foreground p-8 rounded-[2rem] flex flex-col items-center gap-y-2">
+      <div className="flex flex-col items-center gap-y-2 rounded-[2rem] bg-foreground p-8">
         <h3>Enter your wallet address</h3>
         <p className="text-sm text-slate-400">
           You can claim 10 Million BTTC every 24 hours
         </p>
 
-        <div className="my-4 relative">
+        <div className="relative my-4">
           <input
             type="text"
             name="address"
             placeholder="0x..."
             id="address"
-            className="py-1 px-3 rounded-lg bg-front/20 w-[42.8ch] text-front"
+            className="w-[42.8ch] rounded-lg bg-front/20 px-3 py-1 text-front"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
         </div>
         <button
-          className="bg-front/60 px-5 py-2 text-black rounded-md hover:scale-[102%] hover:bg-front hover:-translate-y-1 hover:shadow-lg active:translate-y-1 
-          active:scale-75 duration-300 disabled:opacity-50 disabled:pointer-events-none"
+          className="rounded-md bg-front/60 px-5 py-2 text-black duration-300 hover:-translate-y-1 hover:scale-[102%] hover:bg-front hover:shadow-lg active:translate-y-1 active:scale-75 disabled:pointer-events-none disabled:opacity-50"
           onClick={handleRequest}
           disabled={loading}
         >
           {loading ? (
-            <figure className="w-5 h-5 animate-spin border-2 border-dashed border-white rounded-full" />
+            <figure className="h-5 w-5 animate-spin rounded-full border-2 border-dashed border-white" />
           ) : (
             "Request"
           )}

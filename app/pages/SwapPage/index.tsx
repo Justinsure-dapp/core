@@ -9,7 +9,7 @@ export default function () {
       <section className="mt-4 mb-8 flex flex-col gap-2 widescreen:w-1/2">
         <Swap />
       </section>
-      <section className="flex flex-col mb-8 gap-2">
+      <section className="mb-8 flex flex-col gap-2">
         <Chart />
       </section>
     </div>

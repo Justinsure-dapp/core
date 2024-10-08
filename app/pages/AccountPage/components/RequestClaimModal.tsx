@@ -195,12 +195,12 @@ export default function RequestClaimModal({
   }, [sign, error]);
 
   return (
-    <div className="relative bg-background p-10 border border-border rounded-xl w-[80vw] max-w-[720px] max-h-[90vh] overflow-auto scrollbar-primary text-zinc-200">
+    <div className="scrollbar-primary relative max-h-[90vh] w-[80vw] max-w-[720px] overflow-auto rounded-xl border border-border bg-background p-10 text-zinc-200">
       {loading && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
-          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
-            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
-            <p className="text-primary mt-2 font-semibold">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="flex animate-pulse flex-col items-center rounded-lg border border-border bg-zinc-200 p-8">
+            <div className="h-7 w-7 animate-spin rounded-full border-2 border-t-0 border-primary" />
+            <p className="mt-2 font-semibold text-primary">
               Processing Request..
             </p>
             <p className="text-mute">Please wait...</p>
@@ -209,34 +209,34 @@ export default function RequestClaimModal({
       )}
 
       <div className="flex flex-col">
-        <div className="flex justify-between mb-4 w-full items-center">
+        <div className="mb-4 flex w-full items-center justify-between">
           <Heading className="text-2xl">Claim Details</Heading>
           <button
-            className="text-red-500 rounded-full border border-red-500 p-1"
+            className="rounded-full border border-red-500 p-1 text-red-500"
             onClick={() => modal.hide()}
           >
             <Icon icon="close" />
           </button>
         </div>
-        <div className="flex mobile:flex-col widescreen:flex-row widescreen:gap-5 justify-between">
+        <div className="flex justify-between mobile:flex-col widescreen:flex-row widescreen:gap-5">
           <div className="flex items-center gap-2">
             <Heading>Status:</Heading>
-            <p className="text-secondary font-semibold uppercase">
+            <p className="font-semibold uppercase text-secondary">
               {claimData.policyDetails.status}
             </p>
           </div>
           {claimData.policyDetails.claimExpiry && (
-            <div className="flex items-center mt-1 gap-2">
+            <div className="mt-1 flex items-center gap-2">
               <Heading>Expires:</Heading>
-              <p className="text-secondary font-semibold uppercase">
+              <p className="font-semibold uppercase text-secondary">
                 {moment(claimData.policyDetails.claimExpiry).fromNow()}
               </p>
             </div>
           )}
           {claimData.policyDetails.premium && (
-            <div className="flex items-center gap-2 mt-1">
+            <div className="mt-1 flex items-center gap-2">
               <Heading>Premium Amount:</Heading>
-              <p className="text-secondary font-semibold uppercase">
+              <p className="font-semibold uppercase text-secondary">
                 {usdjHook.divideByDecimals(
                   BigInt(claimData.policyDetails.premium || 0n),
                 )}{" "}
@@ -247,14 +247,14 @@ export default function RequestClaimModal({
         </div>
 
         {claimData.policyDetails.args && (
-          <div className="flex flex-col mt-2 gap-1">
+          <div className="mt-2 flex flex-col gap-1">
             <Heading>Premium Function Arguments:</Heading>
-            <div className="border-border border p-2 rounded-xl">
+            <div className="rounded-xl border border-border p-2">
               {Object.entries(claimData.policyDetails.args).map(
                 ([key, value]) => (
                   <p
                     key={key}
-                    className="text-xs font-mono text-secondary font-semibold"
+                    className="font-mono text-xs font-semibold text-secondary"
                   >
                     {key}: {value}
                   </p>
@@ -264,22 +264,22 @@ export default function RequestClaimModal({
           </div>
         )}
 
-        <div className="flex flex-col mt-2 gap-1">
+        <div className="mt-2 flex flex-col gap-1">
           <Heading>Claim Function:</Heading>
-          <div className="border-border border p-2 rounded-xl">
-            <pre className="text-xs font-mono text-secondary font-semibold">
+          <div className="rounded-xl border border-border p-2">
+            <pre className="font-mono text-xs font-semibold text-secondary">
               {claimData.claimFuctionDetails.function}
             </pre>
           </div>
         </div>
 
         <DataForm
-          className="w-full flex flex-col mt-2"
+          className="mt-2 flex w-full flex-col"
           callback={checkValidity}
         >
           <div className="flex flex-col gap-1">
             <Heading>Claim Function Arguments:</Heading>
-            <div className="mt-2 border border-border bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
+            <div className="mt-2 flex flex-col gap-y-4 rounded-xl border border-border bg-secondary/5 p-4">
               {claimData.claimFuctionDetails.args &&
               claimData.claimFuctionDetails.args.length > 0 ? (
                 claimData.claimFuctionDetails.args.map(
@@ -291,7 +291,7 @@ export default function RequestClaimModal({
                       return null;
 
                     return (
-                      <div key={key} className="w-full flex flex-col gap-y-2">
+                      <div key={key} className="flex w-full flex-col gap-y-2">
                         <div className="flex gap-x-2">
                           <Heading className="capitalize">{arg.name}:</Heading>
                           <p className="text-front/80">{arg.description}</p>
@@ -299,7 +299,7 @@ export default function RequestClaimModal({
                         <input
                           type={arg.htmlType}
                           className={twMerge(
-                            "text-lg rounded-md p-2 bg-background border border-border shadow shadow-mute/30",
+                            "rounded-md border border-border bg-background p-2 text-lg shadow shadow-mute/30",
                             "w-full",
                           )}
                           placeholder={arg.htmlType}
@@ -319,7 +319,7 @@ export default function RequestClaimModal({
           <div className="flex gap-4 self-end">
             <button
               className={twMerge(
-                "mt-6 text-white/70 border-white/70 font-bold border ease-in w-max px-6 py-2 rounded-lg hover:bg-white/10 duration-75 transition-all hover:text-zinc-400",
+                "mt-6 w-max rounded-lg border border-white/70 px-6 py-2 font-bold text-white/70 transition-all duration-75 ease-in hover:bg-white/10 hover:text-zinc-400",
                 loading ? "animate-pulse" : "",
               )}
               onClick={() => {
@@ -331,7 +331,7 @@ export default function RequestClaimModal({
             </button>
             <button
               className={twMerge(
-                "mt-6 text-secondary border-secondary font-bold border w-max px-6 py-2 rounded-lg hover:bg-secondary/30 transition-all duration-75 hover:text-zinc-100",
+                "mt-6 w-max rounded-lg border border-secondary px-6 py-2 font-bold text-secondary transition-all duration-75 hover:bg-secondary/30 hover:text-zinc-100",
                 loading ? "animate-pulse" : "",
               )}
               type="submit"

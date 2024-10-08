@@ -27,12 +27,12 @@ export default function StakingStats() {
 
   return (
     <div
-      className="border-y border-border px-6 py-4 flex flex-col max-h-[80vh] overflow-y-scroll scrollbar-primary gap-3"
+      className="scrollbar-primary flex max-h-[80vh] flex-col gap-3 overflow-y-scroll border-y border-border px-6 py-4"
       ref={containerRef}
     >
       <div className="flex items-center justify-between gap-x-3">
-        <h1 className="text-mute text-base font-bold">Your Stakes</h1>
-        <p className="bg-foreground p-2 text-sm font-semibold rounded-lg">
+        <h1 className="text-base font-bold text-mute">Your Stakes</h1>
+        <p className="rounded-lg bg-foreground p-2 text-sm font-semibold">
           Total : ${totalStake.toFixed(1)}
         </p>
       </div>
@@ -97,52 +97,56 @@ export function StakedInCard({
     }
   }, [stakeAmount, setTotalStake]);
 
-  if (stakeAmount && stakeAmount > usdj.multiplyWithDecimals(0.1)) {
-    return (
-      <Link
-        to={`/policies/${policy.address}`}
-        className={twMerge(
-          `border transition-all p-2 border-border bg-background rounded-lg`,
-          !withdrawable && "hover:bg-mute/5",
-        )}
-        title={policy.creator === address ? "Created by you" : "Staked by you"}
-      >
-        <div className="flex gap-x-2 relative">
-          <img
-            src={policy.image}
-            alt="image"
-            className="aspect-square rounded-md object-cover h-10 w-10"
-          />
-          <div className="flex w-full justify-between">
-            <div className="flex flex-col w-2/3 truncate">
-              <h1 className="font-semibold text-sm w-full capitalize truncate">
-                {policy.name}
-              </h1>
-              <p
-                className={twMerge(
-                  "text-xs text-mute flex gap-x-1 whitespace-nowrap mt-1",
-                  withdrawable ? "" : "",
-                )}
-              >
-                Stake: ${usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
-              </p>
-            </div>
+  return (
+    <>
+      {stakeAmount && stakeAmount > usdj.multiplyWithDecimals(0.1) && (
+        <Link
+          to={`/policies/${policy.address}`}
+          className={twMerge(
+            `rounded-lg border border-border bg-background p-2 transition-all`,
+            !withdrawable && "hover:bg-mute/5",
+          )}
+          title={
+            policy.creator === address ? "Created by you" : "Staked by you"
+          }
+        >
+          <div className="relative flex gap-x-2">
+            <img
+              src={policy.image}
+              alt="image"
+              className="aspect-square h-10 w-10 rounded-md object-cover"
+            />
+            <div className="flex w-full justify-between">
+              <div className="flex w-2/3 flex-col truncate">
+                <h1 className="w-full truncate text-sm font-semibold capitalize">
+                  {policy.name}
+                </h1>
+                <p
+                  className={twMerge(
+                    "mt-1 flex gap-x-1 whitespace-nowrap text-xs text-mute",
+                    withdrawable ? "" : "",
+                  )}
+                >
+                  Stake: ${usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
+                </p>
+              </div>
 
-            {withdrawable && (
-              <button
-                className="border border-border transition-all  w-max px-3 py-2 text-front/80 bg-front/10 rounded-md self-start text-sm"
-                onClick={() =>
-                  modal.show(<WithdrawStakeModal policy={policy} />)
-                }
-              >
-                Withdraw
-              </button>
-            )}
+              {withdrawable && (
+                <button
+                  className="w-max self-start rounded-md border border-border bg-front/10 px-3 py-2 text-sm text-front/80 transition-all"
+                  onClick={() =>
+                    modal.show(<WithdrawStakeModal policy={policy} />)
+                  }
+                >
+                  Withdraw
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      </Link>
-    );
-  }
+        </Link>
+      )}
+    </>
+  );
 }
 
 function WithdrawStakeModal({ policy }: { policy: Policy }) {
@@ -225,12 +229,12 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
   }, [txHash, txError]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
+    <div className="relative flex w-[40vw] flex-col gap-y-1 rounded-lg border border-primary/60 bg-background px-8 py-8 mobile:w-[80vw] mobile:px-8">
       {loading && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
-          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
-            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
-            <p className="text-primary mt-2 font-semibold">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="flex animate-pulse flex-col items-center rounded-lg border border-border bg-zinc-200 p-8">
+            <div className="h-7 w-7 animate-spin rounded-full border-2 border-t-0 border-primary" />
+            <p className="mt-2 font-semibold text-primary">
               Processing Request
             </p>
             <p className="text-mute">Please wait..</p>
@@ -239,7 +243,7 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
       )}
 
       <button
-        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
+        className="absolute right-3 top-3 rounded-full border border-red-500 p-1 text-red-500 opacity-50 duration-300 ease-in hover:opacity-100"
         onClick={() => modal.hide()}
       >
         <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
@@ -248,23 +252,23 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
         Withdraw Stake from{" "}
         <span className="text-secondary">{policy.name}</span>
       </h1>
-      <div className="text-mute flex flex-col text-sm ">
+      <div className="flex flex-col text-sm text-mute">
         You can withdraw your stake from the policy at any time along with the
         profit.
         <p>
           You can only withdraw the amount you have staked. You can check the
           amount you have staked below.
         </p>
-        <p className="text-front mt-2">
+        <p className="mt-2 text-front">
           Max Withdrawl:{" "}
           {usdjHook.divideByDecimals(stakedAmount || 0n).toFixed(2)}
         </p>
       </div>
-      <div className="flex flex-col mt-4 relative">
+      <div className="relative mt-4 flex flex-col">
         {showWarning && (
           <p
             className={twMerge(
-              "text-xs absolute top-1 right-0 text-red-500 flex gap-x-1 items-center",
+              "absolute right-0 top-1 flex items-center gap-x-1 text-xs text-red-500",
               showWarning ? "animate-pulse" : "",
             )}
           >
@@ -275,18 +279,18 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
         <Heading>Enter amount to withdraw</Heading>
         <input
           type="number"
-          className="mt-1 rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
+          className="mt-1 rounded-md border border-border bg-background p-2 shadow shadow-mute/30"
           placeholder="Enter Amount in USDJ"
           onChange={(e) => setStake(Number(e.target.value))}
         />
-        <p className={twMerge("text-xs text-green-500 flex gap-x-1 mt-2")}>
+        <p className={twMerge("mt-2 flex gap-x-1 text-xs text-green-500")}>
           Max Profit: ${usdjHook.divideByDecimals(profitShare || 0n)}
         </p>
       </div>
 
       <button
         className={twMerge(
-          " text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
+          "w-max self-end rounded-lg border border-primary px-6 py-2 font-bold text-secondary duration-300 ease-in hover:bg-primary hover:text-front disabled:pointer-events-none disabled:opacity-50",
           loading ? "animate-pulse" : "",
         )}
         onClick={handleSubmit}

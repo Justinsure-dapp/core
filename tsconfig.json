@@ -17,6 +17,7 @@
     "jsx": "react-jsx"
   },
   "include": ["app", "evmConfig.ts"],
+  "exclude": ["node_modules"],
   "references": [
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.prod.json" },

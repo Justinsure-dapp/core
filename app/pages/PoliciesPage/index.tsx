@@ -18,19 +18,19 @@ export default function PoliciesPage() {
     <>
       <DocTitle title="All Policies" />
       <article className="p-page w-full">
-        <div className="flex py-6 gap-x-4 items-center">
+        <div className="flex items-center gap-x-4 py-6">
           <input
-            className="bg-foreground px-4 py-2 rounded-md w-full focus-within:outline-none focus-within:bg-background border-2 border-primary focus-within:border-opacity-80 border-opacity-0 duration-300 ease-in-out"
+            className="w-full rounded-md border-2 border-primary border-opacity-0 bg-foreground px-4 py-2 duration-300 ease-in-out focus-within:border-opacity-80 focus-within:bg-background focus-within:outline-none"
             placeholder="Search..."
             value={searchHook.searchQuery}
             onChange={(e) => searchHook.setSearchQuery(e.target.value)}
           />
-          <div className="flex items-center gap-x-2 border-2 px-4 py-2 border-foreground rounded-md">
+          <div className="flex items-center gap-x-2 rounded-md border-2 border-foreground px-4 py-2">
             <Icon icon="filter" className="text-2xl text-mute" />
             <span className="text-mute">Filter</span>
           </div>
         </div>
-        <div className="grid gap-6 mb-8 w-full widescreen:grid-cols-2">
+        <div className="mb-8 grid w-full gap-6 widescreen:grid-cols-2">
           {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0
             ? policies &&
               policies.map((policy: any) => (

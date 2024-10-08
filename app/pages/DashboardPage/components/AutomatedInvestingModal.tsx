@@ -18,10 +18,10 @@ export default function AutomatedInvestingModal() {
     const newMappedOption = (
       <div
         key={newIndex}
-        className="relative bg-front/5 border border-front/20 p-4 rounded-lg"
+        className="relative rounded-lg border border-front/20 bg-front/5 p-4"
       >
         <button
-          className="absolute top-2 right-2"
+          className="absolute right-2 top-2"
           onClick={() => removeTriggerEvent(newIndex)}
         >
           <Icon icon="close" />
@@ -41,9 +41,9 @@ export default function AutomatedInvestingModal() {
   };
 
   return (
-    <div className="bg-background mobile:max-w-[90vw] px-6 pt-6 gap-y-6 border border-front/60 rounded-xl flex flex-col max-h-[70vh] relative overflow-scroll scrollbar-primary">
+    <div className="scrollbar-primary relative flex max-h-[70vh] flex-col gap-y-6 overflow-scroll rounded-xl border border-front/60 bg-background px-6 pt-6 mobile:max-w-[90vw]">
       <button
-        className="absolute right-4 top-4 border p-1 rounded-full text-red-500 border-red-500"
+        className="absolute right-4 top-4 rounded-full border border-red-500 p-1 text-red-500"
         onClick={() => modal.hide()}
       >
         <Icon icon="close" className="text-[1.5rem]" />
@@ -51,15 +51,15 @@ export default function AutomatedInvestingModal() {
       <h1 className="text-2xl font-bold">Automate Investing</h1>
       {mappedOptions}
       <button
-        className="flex items-center bg-front/5 w-max gap-x-3 px-3 py-3 rounded-lg border border-front/20 cursor-pointer hover:bg-front/10 o"
+        className="o flex w-max cursor-pointer items-center gap-x-3 rounded-lg border border-front/20 bg-front/5 px-3 py-3 hover:bg-front/10"
         onClick={addTriggerEvent}
       >
         Add another Trigger event{" "}
-        <span className="border rounded-full p-1">
+        <span className="rounded-full border p-1">
           <Icon icon="add" />
         </span>{" "}
       </button>
-      <button className="self-end bg-primary text-lg font-bold text-front py-1 px-3 rounded-lg">
+      <button className="self-end rounded-lg bg-primary px-3 py-1 text-lg font-bold text-front">
         Submit
       </button>
     </div>
@@ -70,7 +70,7 @@ function InitialMappedOption() {
   return (
     <div
       key={1}
-      className="bg-front/5 border border-front/20 px-4 py-2 rounded-lg"
+      className="rounded-lg border border-front/20 bg-front/5 px-4 py-2"
     >
       <Heading className="text-lg">Trigger Event 1</Heading>
       <MappedOptions options={options} disabled={false} />
@@ -89,7 +89,7 @@ export function MappedOptions(props: {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-y-2">
-        <div className="flex gap-y-2 items-end flex-wrap gap-x-2">
+        <div className="flex flex-wrap items-end gap-x-2 gap-y-2">
           <select
             disabled={props.disabled}
             className={twMerge("mobile:w-[90vw]", twInputStyle)}
@@ -109,7 +109,7 @@ export function MappedOptions(props: {
             ))}
           </select>
 
-          <div className="flex gap-x-2 items-center">
+          <div className="flex items-center gap-x-2">
             <div className="flex gap-x-2">
               {options[selected].additionalInputs?.map((inp, key) => (
                 <input

@@ -15,12 +15,12 @@ export default function ToastsInput(props: {
 
   return (
     <div
-      className={twMerge("flex flex-wrap gap-2 items-center", props.className)}
+      className={twMerge("flex flex-wrap items-center gap-2", props.className)}
     >
       {res.map((item, key) => (
         <div
           key={key}
-          className="py-1 px-4 rounded-full bg-foreground border text-sm border-mute truncate"
+          className="truncate rounded-full border border-mute bg-foreground px-4 py-1 text-sm"
         >
           {item}
         </div>
@@ -28,7 +28,7 @@ export default function ToastsInput(props: {
 
       <input
         type="text"
-        className="flex-1 outline-none bg-transparent"
+        className="flex-1 bg-transparent outline-none"
         ref={inpRef}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === ",") {

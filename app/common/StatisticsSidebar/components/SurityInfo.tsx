@@ -12,14 +12,14 @@ export default function SurityInfo() {
   }, []);
 
   return (
-    <div className="border-t border-border px-6 py-4 flex flex-col gap-y-1 text-sm font-semibold">
-      <div className="bg-primary p-2 rounded-lg mb-3 relative overflow-hidden">
+    <div className="flex flex-col gap-y-1 border-t border-border px-6 py-4 text-sm font-semibold">
+      <div className="relative mb-3 overflow-hidden rounded-lg bg-primary p-2">
         <div className="absolute-cover bg-gradient-to-r from-transparent to-front/50" />
 
-        <div className="flex relative z-10">
-          <div className="w-1/4 flex flex-col items-centers">
+        <div className="relative z-10 flex">
+          <div className="items-centers flex w-1/4 flex-col">
             <img src="/logo.png" alt="logo" className="brightness-0 invert" />
-            <p className="font-black text-lg">JustInsure</p>
+            <p className="text-lg font-black">JustInsure</p>
           </div>
 
           <figure role="separator" className="flex-1" />
@@ -40,19 +40,19 @@ export default function SurityInfo() {
         </div>
       </div>
 
-      <div className="flex text-xs gap-x-2" key={seed} translate="no">
+      <div className="flex gap-x-2 text-xs" key={seed} translate="no">
         <p>{new Date(Date.now()).toLocaleTimeString()}</p>
         <p>{new Date(Date.now()).toDateString()}</p>
       </div>
 
-      <div className="flex items-center gap-x-2 mt-1">
+      <div className="mt-1 flex items-center gap-x-2">
         Socials
         {socialLinks.map((social, key) => (
           <Link to={social.link} key={key}>
-            <div className="rounded-full overflow-hidden flex items-center justify-center object-cover">
+            <div className="flex items-center justify-center overflow-hidden rounded-full object-cover">
               <img
                 src={social.imgUrl}
-                className="rounded-full w-[1.5vw] object-cover"
+                className="w-[1.5vw] rounded-full object-cover"
               />
             </div>
           </Link>

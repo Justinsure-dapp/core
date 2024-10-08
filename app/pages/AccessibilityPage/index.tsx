@@ -32,6 +32,7 @@ export default function () {
     const cnm = `${accessibility.colorBlind}`;
 
     const magnifier = Number(accessibility.magnifier.slice(1));
+    //@ts-ignore
     document.body.style.zoom = String(1 + Number(magnifier) / 25);
 
     document.body.className = cnm;
@@ -42,19 +43,19 @@ export default function () {
       <DocTitle>Accessibility Settings</DocTitle>
 
       <section className="p-page mt-8">
-        <h1 className="bg-yellow-200 px-3 py-1 rounded-sm text-yellow-800 font-medium">
+        <h1 className="rounded-sm bg-yellow-200 px-3 py-1 font-medium text-yellow-800">
           JustInsure is all about making policies accessible—so tweak your
           expereince and make it accessible to your needs !
         </h1>
 
-        <h2 className="font-semibold mt-8 text-2xl">Color Blind Filters</h2>
-        <div className="flex mt-4 border w-max border-red-200/30">
+        <h2 className="mt-8 text-2xl font-semibold">Color Blind Filters</h2>
+        <div className="mt-4 flex w-max border border-red-200/30">
           {colorBlindSolutions.map((val, key) => (
             <button
               className={twMerge(
-                "py-2 px-4 duration-200",
+                "px-4 py-2 duration-200",
                 accessibility.colorBlind == val &&
-                  "duration-500 bg-orange-300 text-black",
+                  "bg-orange-300 text-black duration-500",
               )}
               onClick={() => {
                 setAccessibility((p) => ({ ...p, colorBlind: val }));
@@ -66,14 +67,14 @@ export default function () {
           ))}
         </div>
 
-        <h2 className="font-semibold mt-10 text-2xl">Magnifier</h2>
-        <div className="flex mt-4 border w-max border-red-200/30">
+        <h2 className="mt-10 text-2xl font-semibold">Magnifier</h2>
+        <div className="mt-4 flex w-max border border-red-200/30">
           {zSolutions.map((val, key) => (
             <button
               className={twMerge(
-                "py-2 px-4 duration-200",
+                "px-4 py-2 duration-200",
                 accessibility.magnifier == val &&
-                  "duration-500 bg-orange-300 text-black",
+                  "bg-orange-300 text-black duration-500",
               )}
               onClick={() => {
                 setAccessibility((p) => ({ ...p, magnifier: val }));
@@ -85,10 +86,10 @@ export default function () {
           ))}
         </div>
 
-        <h2 className="font-semibold mt-10 text-2xl">Language</h2>
+        <h2 className="mt-10 text-2xl font-semibold">Language</h2>
         <div className="relative w-full">
           <div id="google_translate_element" className="w-full" />
-          <figure className="absolute bottom-0 w-full bg-background h-12" />
+          <figure className="absolute bottom-0 h-12 w-full bg-background" />
         </div>
       </section>
     </div>

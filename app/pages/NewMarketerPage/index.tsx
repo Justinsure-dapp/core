@@ -87,14 +87,14 @@ export default function NewMarketerPage() {
             toast.error("An error occured, please try again");
           }
         }}
-        className="flex flex-col gap-y-4 p-page"
+        className="p-page flex flex-col gap-y-4"
       >
-        <div className="flex mt-6 gap-x-16 mobile:gap-x-4">
-          <div className="flex flex-col gap-y-6 basis-3/4">
+        <div className="mt-6 flex gap-x-16 mobile:gap-x-4">
+          <div className="flex basis-3/4 flex-col gap-y-6">
             <div className="flex flex-col gap-y-1">
               <h1 className="text-sm text-front/80">Marketer Name</h1>
               <input
-                className="bg-background focus-within:outline-none px-3 py-3 border border-front/20 rounded-lg"
+                className="rounded-lg border border-front/20 bg-background px-3 py-3 focus-within:outline-none"
                 placeholder="What name would you want to be known as"
                 name="name"
                 required
@@ -106,7 +106,7 @@ export default function NewMarketerPage() {
                 type="url"
                 name="imageUrl"
                 defaultValue={logo}
-                className="bg-background focus-within:outline-none px-3 py-3 border border-front/20 rounded-lg"
+                className="rounded-lg border border-front/20 bg-background px-3 py-3 focus-within:outline-none"
                 placeholder="Provide logo url"
                 onChange={(e) => setLogo(e.target.value)}
               />
@@ -115,7 +115,7 @@ export default function NewMarketerPage() {
             <div className="">
               <input
                 type="submit"
-                className="bg-secondary rounded-md py-2 px-6 cursor-pointer disabled:opacity-50 disabled:animate-pulse disabled:cursor-not-allowed"
+                className="cursor-pointer rounded-md bg-secondary px-6 py-2 disabled:animate-pulse disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={loading}
                 value="Confirm"
               />
@@ -123,7 +123,7 @@ export default function NewMarketerPage() {
           </div>
           <div
             className={twMerge(
-              "bg-secondary/20 rounded-xl basis-1/4 flex items-center justify-center aspect-square mobile:basis-1/2",
+              "flex aspect-square basis-1/4 items-center justify-center rounded-xl bg-secondary/20 mobile:basis-1/2",
               !logo && "animate-pulse",
             )}
           >
@@ -134,7 +134,7 @@ export default function NewMarketerPage() {
                 setLogo(e.currentTarget.src);
               }}
               draggable={false}
-              className="rounded-xl object-cover w-full h-full"
+              className="h-full w-full rounded-xl object-cover"
             />
           </div>
         </div>

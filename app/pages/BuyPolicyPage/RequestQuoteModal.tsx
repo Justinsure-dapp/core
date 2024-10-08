@@ -124,12 +124,12 @@ export default function RequestQuoteModal({
   }, [sign, signError]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
+    <div className="relative flex w-[40vw] flex-col gap-y-1 rounded-lg border border-primary/60 bg-background px-8 py-8 mobile:w-[80vw] mobile:px-8">
       {loading && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
-            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
-            <p className="text-primary mt-2 font-semibold">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="flex animate-pulse flex-col items-center rounded-lg border border-border bg-zinc-200 p-8">
+            <div className="h-7 w-7 animate-spin rounded-full border-2 border-t-0 border-primary" />
+            <p className="mt-2 font-semibold text-primary">
               Processing Request..
             </p>
             <p className="text-mute">Please wait...</p>
@@ -138,7 +138,7 @@ export default function RequestQuoteModal({
       )}
 
       <button
-        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
+        className="absolute right-3 top-3 rounded-full border border-red-500 p-1 text-red-500 opacity-50 duration-300 ease-in hover:opacity-100"
         onClick={() => modal.hide()}
       >
         <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
@@ -157,16 +157,16 @@ export default function RequestQuoteModal({
           alternative pricing options.
         </p>
       </div>
-      <div className="flex items-center mt-3 gap-2">
+      <div className="mt-3 flex items-center gap-2">
         <Heading>Calculated Premium:</Heading>
-        <div className="rounded-md w-fit py-1 px-4 bg-background border border-border ">
+        <div className="w-fit rounded-md border border-border bg-background px-4 py-1">
           <p>{divideByDecimals(formattedPremium)} USDJ</p>
         </div>
       </div>
-      <div className="flex gap-4 self-end mt-6">
+      <div className="mt-6 flex gap-4 self-end">
         <button
           className={twMerge(
-            "duration-150 ease-in w-max px-6 py-1 rounded-sm bg-red-800/80 hover:bg-red-800",
+            "w-max rounded-sm bg-red-800/80 px-6 py-1 duration-150 ease-in hover:bg-red-800",
             loading ? "animate-pulse" : "",
           )}
           onClick={() => {
@@ -178,7 +178,7 @@ export default function RequestQuoteModal({
         </button>
         <button
           className={twMerge(
-            "py-1 px-6 bg-primary/80 rounded-sm hover:bg-primary duration-150 ease-in",
+            "rounded-sm bg-primary/80 px-6 py-1 duration-150 ease-in hover:bg-primary",
             loading ? "animate-pulse" : "",
           )}
           onClick={handleSubmit}

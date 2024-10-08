@@ -35,7 +35,7 @@ export default function AutomatedInvestment() {
       </div>
 
       <button
-        className="self-end bg-primary w-max font-bold text-sm text-front px-3 py-1 rounded-lg"
+        className="w-max self-end rounded-lg bg-primary px-3 py-1 text-sm font-bold text-front"
         onClick={() => modal.show(<AutomatedInvestingModal />)}
       >
         Edit Automated Investing

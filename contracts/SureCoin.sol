@@ -4,7 +4,7 @@ pragma solidity ^0.8.27;
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./SurityInterface.sol";
+import "./JustInsureInterface.sol";
 
 contract SureCoin is ERC20, Ownable, ReentrancyGuard {
   uint256 public immutable MAX_SUPPLY = 1_000_000_000_1000 * (10 ** decimals());
@@ -13,7 +13,7 @@ contract SureCoin is ERC20, Ownable, ReentrancyGuard {
   uint256 private _totalStaked = 0;
   uint256 private _rewardPerTokenStored;
   uint256 private _lastUpdateTime;
-  SurityInterface _interface;
+  JustInsureInterface _interface;
 
   mapping(address => uint256) private _stakedBalance;
   mapping(address => uint256) private _rewards;
@@ -36,8 +36,8 @@ contract SureCoin is ERC20, Ownable, ReentrancyGuard {
   event PriceChange(uint256 time, uint256 value, uint256 marketCap);
 
   constructor() ERC20("SureCoin", "SURE") Ownable(_msgSender()) {
-    // expect deployer (owner) to be SurityInterface
-    _interface = SurityInterface(_msgSender());
+    // expect deployer (owner) to be JustInsureInterface
+    _interface = JustInsureInterface(_msgSender());
     _lastUpdateTime = block.timestamp;
 
     _mint(address(this), MAX_SUPPLY);

@@ -13,34 +13,34 @@ export default function Header({ policy }: { policy: Policy }) {
   const modal = useModal();
 
   return (
-    <div className="flex flex-col gap-1 bg-foreground/50 px-6 py-4 relative justify-between">
-      <div className="w-full  gap-4 rounded-md flex ">
-        <div className="max-w-[10rem] w-full">
+    <div className="relative flex flex-col justify-between gap-1 bg-foreground/50 px-6 py-4">
+      <div className="flex w-full gap-4 rounded-md">
+        <div className="w-full max-w-[10rem]">
           <img
             src={policy.image}
-            className=" aspect-square object-cover rounded-md"
+            className="aspect-square rounded-md object-cover"
             alt="Policy"
           />
         </div>
-        <div className="flex flex-col w-full justify-between">
-          <p className="border border-mute w-max px-3 mt-2 rounded-xl text-sm h-max absolute top-4 right-4 ">
+        <div className="flex w-full flex-col justify-between">
+          <p className="absolute right-4 top-4 mt-2 h-max w-max rounded-xl border border-mute px-3 text-sm">
             Category: {policy.category}
           </p>
           <div className="flex flex-col">
-            <h1 className="text-3xl font-bold tracking-wider truncate whitespace-nowrap">
+            <h1 className="truncate whitespace-nowrap text-3xl font-bold tracking-wider">
               {policy.name}
             </h1>
-            <p className="text-sm text-front/60 mt-1">
+            <p className="mt-1 text-sm text-front/60">
               {`${policy.description.slice(0, 200)}${policy.description.length > 200 ? "..." : ""}`}
             </p>
           </div>
 
-          <div className="flex gap-x-4 mt-2">
+          <div className="mt-2 flex gap-x-4">
             <img
               src={user?.marketer?.image}
-              className="w-12 shadow-sm rounded-full aspect-square object-cover"
+              className="aspect-square w-12 rounded-full object-cover shadow-sm"
             />
-            <div className="text-sm flex flex-col gap-y-1">
+            <div className="flex flex-col gap-y-1 text-sm">
               <p>Marketer: {user?.marketer?.name}</p>
               <p className="text-xs">
                 {user && formatEvmAddress(user?.address)}
@@ -53,12 +53,12 @@ export default function Header({ policy }: { policy: Policy }) {
       <div className="absolute bottom-4 right-4 flex gap-x-2">
         <Link
           to={`/buy-policy/${policy.address}`}
-          className="bg-front hover:bg-front/80 transition-all text-back px-4 rounded-2xl border border-border py-1 font-semibold"
+          className="rounded-2xl border border-border bg-front px-4 py-1 font-semibold text-back transition-all hover:bg-front/80"
         >
           Buy Policy
         </Link>
         <button
-          className="bg-primary border border-border hover:bg-primary/80 transition-all text-front px-6 rounded-2xl py-1 font-semibold"
+          className="rounded-2xl border border-border bg-primary px-6 py-1 font-semibold text-front transition-all hover:bg-primary/80"
           onClick={() => {
             modal.show(<StakeModal policy={policy} />);
           }}

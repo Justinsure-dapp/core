@@ -86,11 +86,11 @@ export default function SwapBTTtoUSDJ() {
 
   return (
     <div className="flex flex-col items-center gap-y-4">
-      <div className="bg-foreground p-8 rounded-[2rem] flex flex-col items-center gap-y-2">
+      <div className="flex flex-col items-center gap-y-2 rounded-[2rem] bg-foreground p-8">
         <h3>Enter amount to be Swapped</h3>
-        <div className="flex flex-col items-center my-4 gap-y-2">
+        <div className="my-4 flex flex-col items-center gap-y-2">
           <div className="flex flex-col">
-            <div className="text-sm self-end text-slate-400">
+            <div className="self-end text-sm text-slate-400">
               Balance :{" "}
               {(
                 Number(balanceBTT.data?.value) /
@@ -105,16 +105,16 @@ export default function SwapBTTtoUSDJ() {
                 onChange={(e) => setAmountIn(Number(e.target.value))}
                 defaultValue={0}
                 min={0}
-                className="py-1 px-3 rounded-lg bg-front/20 w-[42.8ch] text-front"
+                className="w-[42.8ch] rounded-lg bg-front/20 px-3 py-1 text-front"
               />
             </div>
           </div>
           <Icon
             icon="arrow_forward"
-            className="rotate-90 bg-foreground text-[1.3rem] text-mute translate-y-2"
+            className="translate-y-2 rotate-90 bg-foreground text-[1.3rem] text-mute"
           />
           <div className="flex flex-col">
-            <div className="text-sm self-end text-slate-400">
+            <div className="self-end text-sm text-slate-400">
               Balance :{" "}
               {usdjDecimals
                 ? Number(balanceUsdj) / Math.pow(10, Number(usdjDecimals))
@@ -134,7 +134,7 @@ export default function SwapBTTtoUSDJ() {
                 placeholder="Recieving UDSJ amount"
                 id="address"
                 value={amountIn / 100}
-                className="py-1 px-3 rounded-lg bg-front/20 w-[42.8ch] text-black"
+                className="w-[42.8ch] rounded-lg bg-front/20 px-3 py-1 text-black"
               />
             </div>
           </div>
@@ -143,15 +143,15 @@ export default function SwapBTTtoUSDJ() {
           onClick={() => handleSwap()}
           disabled={!sufficient || loading}
           className={twMerge(
-            "px-5 py-2 text-black rounded-md active:translate-y-1 disabled:cursor-not-allowed active:scale-90 duration-300 disabled:pointer-events-none w-[15vw]",
+            "w-[15vw] rounded-md px-5 py-2 text-black duration-300 active:translate-y-1 active:scale-90 disabled:pointer-events-none disabled:cursor-not-allowed",
             sufficient
-              ? "hover:scale-[102%] hover:-translate-y-1 hover:shadow-lg bg-front/80"
-              : "bg-front/60 ",
+              ? "bg-front/80 hover:-translate-y-1 hover:scale-[102%] hover:shadow-lg"
+              : "bg-front/60",
             loading ? "animate-pulse" : "",
           )}
         >
           {loading ? (
-            <figure className="w-5 h-5 animate-spin border-2 border-dashed border-white rounded-full" />
+            <figure className="h-5 w-5 animate-spin rounded-full border-2 border-dashed border-white" />
           ) : sufficient ? (
             "Swap"
           ) : (

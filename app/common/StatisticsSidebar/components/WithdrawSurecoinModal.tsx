@@ -69,12 +69,12 @@ export default function WithdrawSurecoinModal() {
   }, [receipt.isSuccess, receipt.isError]);
 
   return (
-    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
+    <div className="relative flex w-[40vw] flex-col gap-y-1 rounded-lg border border-primary/60 bg-background px-8 py-8 mobile:w-[80vw] mobile:px-8">
       {loading && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
-          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
-            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
-            <p className="text-primary mt-2 font-semibold">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="flex animate-pulse flex-col items-center rounded-lg border border-border bg-zinc-200 p-8">
+            <div className="h-7 w-7 animate-spin rounded-full border-2 border-t-0 border-primary" />
+            <p className="mt-2 font-semibold text-primary">
               Processing Request
             </p>
             <p className="text-mute">Please wait..</p>
@@ -82,7 +82,7 @@ export default function WithdrawSurecoinModal() {
         </div>
       )}
       <button
-        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
+        className="absolute right-3 top-3 rounded-full border border-red-500 p-1 text-red-500 opacity-50 duration-300 ease-in hover:opacity-100"
         onClick={() => modal.hide()}
       >
         <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
@@ -90,21 +90,21 @@ export default function WithdrawSurecoinModal() {
       <h1 className="text-lg">
         Do you want to claim your Surecoins to your wallet?
       </h1>
-      <p className="text-front/60 text-sm">
+      <p className="text-sm text-front/60">
         By following this process, you will be able to securely store Surecoins
         in your wallet, where they will remain stable. These Surecoins will be
         available for trade in exchange for USDJ at any time.{" "}
       </p>
-      <div className="text-md justify-end gap-x-4 flex mt-4">
+      <div className="text-md mt-4 flex justify-end gap-x-4">
         <button
           onClick={() => modal.hide()}
-          className="bg-front/80 text-back py-1 px-4 rounded-sm"
+          className="rounded-sm bg-front/80 px-4 py-1 text-back"
         >
           Cancel
         </button>
         <button
           className={twMerge(
-            " bg-green-800  duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-1  self-end rounded-sm ",
+            "w-max self-end rounded-sm bg-green-800 px-6 py-1 duration-300 ease-in disabled:pointer-events-none disabled:opacity-50",
             loading ? "animate-pulse" : "",
           )}
           onClick={handleClaim}

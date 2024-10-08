@@ -3,10 +3,10 @@ pragma solidity ^0.8.27;
 
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./SurityInterface.sol";
+import "./JustInsureInterface.sol";
 
 contract Vault is Context {
-  SurityInterface private _interface;
+  JustInsureInterface private _interface;
 
   struct LockedToken {
     address tokenAddress;
@@ -27,7 +27,7 @@ contract Vault is Context {
   );
 
   constructor() {
-    _interface = SurityInterface(_msgSender());
+    _interface = JustInsureInterface(_msgSender());
   }
 
   function lockTokens(

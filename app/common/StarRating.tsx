@@ -19,13 +19,13 @@ export default function StarRating(props: StarRatingProps) {
   const ratingPercentage = (props.rating / ratingTotal) * 100;
 
   return (
-    <figure className="relative flex justify-center items-center text-front">
+    <figure className="relative flex items-center justify-center text-front">
       <span style={{ color: props.colors?.background || "inherit" }}>
         {starString}
       </span>
       <div className="text-yellow-500">
         <span
-          className="absolute-cover flex justify-center items-center"
+          className="absolute-cover flex items-center justify-center"
           style={{
             color: props.colors?.foreground || "inherit",
             clipPath: `polygon(0% 0%, 0% 100%, ${ratingPercentage}% 100%, ${ratingPercentage}% 0%)`,

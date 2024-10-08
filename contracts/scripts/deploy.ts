@@ -33,7 +33,7 @@ async function main() {
   );
 
   const periphery = await hre.viem.deployContract(
-    "SurityInterface",
+    "JustInsureInterface",
     [usdj.address],
     { client: { wallet: deployer } },
   );
@@ -91,13 +91,13 @@ async function main() {
 
 const primaryChain = defineChain(${JSON.stringify(chain)})
 
-const surityInterface = {address : "${periphery.address}" as const, abi : ${JSON.stringify(periphery.abi)} as const}
+const justinsureInterface = {address : "${periphery.address}" as const, abi : ${JSON.stringify(periphery.abi)} as const}
 const surecoin = {address : "${surecoin.address}" as const, abi : ${JSON.stringify(surecoin.abi)} as const}
 const vault = {address : "${vault.address}" as const, abi : ${JSON.stringify(vault.abi)} as const}
 const usdj = {address : "${usdj.address}" as const, abi : ${JSON.stringify(usdj.abi)} as const}
 const insuranceController = {abi : ${JSON.stringify(fakeController.abi)} as const}
 
-export default {primaryChain, surityInterface, surecoin, vault, usdj, insuranceController}
+export default {primaryChain, justinsureInterface, surecoin, vault, usdj, insuranceController}
 `;
 
   fs.writeFileSync("./evmConfig.ts", file);

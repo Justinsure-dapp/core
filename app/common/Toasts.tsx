@@ -7,7 +7,7 @@ export default function Toasts() {
   const toast = useToast();
 
   return (
-    <article className="pointer-events-none fixed left-0 top-[100vh] -translate-y-full z-[999] flex h-full w-full flex-col">
+    <article className="pointer-events-none fixed left-0 top-[100vh] z-[999] flex h-full w-full -translate-y-full flex-col">
       <figure role="separator" className="flex-1" />
 
       <section className="flex flex-col items-center">
@@ -30,7 +30,7 @@ function ToastView(props: { toast: Toast }) {
         item.type == "success" && "bg-green-500",
         item.type == "info" && "bg-blue-500",
         item.type == "warning" && "bg-yellow-500",
-        item.type == "error" && "bg-red-500 animate-[shake-x_800ms]",
+        item.type == "error" && "animate-[shake-x_800ms] bg-red-500",
       )}
     >
       <div

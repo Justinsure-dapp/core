@@ -115,12 +115,12 @@ export default function BuyPolicyPage() {
   return (
     <>
       <DocTitle title="Buy Policy" />
-      <div className="flex gap-x-6 p-page py-8 relative">
+      <div className="p-page relative flex gap-x-6 py-8">
         {loading && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-            <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
-              <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
-              <p className="text-primary mt-2 font-semibold">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="flex animate-pulse flex-col items-center rounded-lg border border-border bg-zinc-200 p-8">
+              <div className="h-7 w-7 animate-spin rounded-full border-2 border-t-0 border-primary" />
+              <p className="mt-2 font-semibold text-primary">
                 Calculating Premium
               </p>
               <p className="text-mute">Please wait...</p>
@@ -130,14 +130,14 @@ export default function BuyPolicyPage() {
 
         <DataForm
           callback={handleFormSubmit}
-          className="flex flex-col gap-y-7 flex-1 mobile:p-page"
+          className="mobile:p-page flex flex-1 flex-col gap-y-7"
         >
-          <div className="flex flex-col basis-1/2">
-            <h1 className="text-xl border-b border-front/20 pb-1">
+          <div className="flex basis-1/2 flex-col">
+            <h1 className="border-b border-front/20 pb-1 text-xl">
               Premium Function
             </h1>
-            <div className="flex flex-col border border-front/40 p-4 hover:bg-foreground/30 duration-300 text-secondary rounded-xl w-full max-h-[30vh] overflow-y-scroll scrollbar-primary mt-4">
-              <pre className="text-xs font-mono">{policyData?.premiumFunc}</pre>
+            <div className="scrollbar-primary mt-4 flex max-h-[30vh] w-full flex-col overflow-y-scroll rounded-xl border border-front/40 p-4 text-secondary duration-300 hover:bg-foreground/30">
+              <pre className="font-mono text-xs">{policyData?.premiumFunc}</pre>
             </div>
           </div>
 
@@ -152,7 +152,7 @@ export default function BuyPolicyPage() {
               className={twMerge(
                 twInputStyle,
                 "w-full",
-                isClaimInRange ? "" : "border-red-500 ",
+                isClaimInRange ? "" : "border-red-500",
               )}
               placeholder="Claim value"
               name="claimValue"
@@ -204,7 +204,7 @@ export default function BuyPolicyPage() {
 
           <div className="w-full">
             <h1>Premium calculation function arguments</h1>
-            <div className="mt-2 bg-secondary/5 p-4 rounded-xl flex flex-col gap-y-4">
+            <div className="mt-2 flex flex-col gap-y-4 rounded-xl bg-secondary/5 p-4">
               {policyData?.premiumFuncArgs &&
                 policyData?.premiumFuncArgs.length > 0 &&
                 policyData?.premiumFuncArgs.map((arg: any, key: number) => {
@@ -212,7 +212,7 @@ export default function BuyPolicyPage() {
                     return null;
 
                   return (
-                    <div key={key} className="w-full flex flex-col gap-y-2">
+                    <div key={key} className="flex w-full flex-col gap-y-2">
                       <div className="flex gap-x-2">
                         <Heading className="capitalize">{arg.name}:</Heading>
                         <p className="text-front/80">{arg.description}</p>
@@ -231,7 +231,7 @@ export default function BuyPolicyPage() {
           </div>
           <button
             type="submit"
-            className="bg-primary py-2 px-6 rounded-md text-front font-medium w-max"
+            className="w-max rounded-md bg-primary px-6 py-2 font-medium text-front"
           >
             Request Quote
           </button>

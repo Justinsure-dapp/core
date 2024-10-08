@@ -46,22 +46,22 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
   // };
 
   return (
-    <div className="flex flex-col gap-x-8 mx-4 bg-secondary/5 rounded-xl py-12 px-8 mobile:py-6 border border-secondary/20">
+    <div className="mx-4 flex flex-col gap-x-8 rounded-xl border border-secondary/20 bg-secondary/5 px-8 py-12 mobile:py-6">
       <div className="flex justify-between">
         <h1 className="text-xl">Total Stakes</h1>
-        <p className="bg-primary/20 border border-primary/30 px-4 rounded-xl mobile:w-max mobile:self-end">
+        <p className="rounded-xl border border-primary/30 bg-primary/20 px-4 mobile:w-max mobile:self-end">
           Surecoins :{" "}
           <span className="font-mono">{totalStake?.toString()}</span>
         </p>
       </div>
 
-      <div className="flex flex-col widescreen:flex-row widescreen:justify-between items-center mt-10 mobile:gap-5 widescreen:gap-10">
+      <div className="mt-10 flex flex-col items-center mobile:gap-5 widescreen:flex-row widescreen:justify-between widescreen:gap-10">
         {/* <PieChart
           data={data}
           className=""
         /> */}
         <div
-          className="flex flex-col gap-y-3 border border-border p-4 rounded-xl max-h-[240px] scrollbar-primary text-sm w-full"
+          className="scrollbar-primary flex max-h-[240px] w-full flex-col gap-y-3 rounded-xl border border-border p-4 text-sm"
           ref={accountRef}
         >
           {policy.stakers?.map((staker, i) => (
@@ -69,8 +69,8 @@ export default function PoolDistribution({ policy }: { policy: Policy }) {
               <span className="">{i + 1}</span>
               <div
                 className={twMerge(
-                  "w-full flex-wrap border border-front/10 py-2 px-4 rounded-xl flex justify-between items-center gap-4",
-                  `hover:cursor-pointer hover:scale-[102%] duration-150 ease-in`,
+                  "flex w-full flex-wrap items-center justify-between gap-4 rounded-xl border border-front/10 px-4 py-2",
+                  `duration-150 ease-in hover:scale-[102%] hover:cursor-pointer`,
                   staker === policy.creator
                     ? "bg-secondary/50"
                     : "bg-primary/5",

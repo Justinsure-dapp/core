@@ -48,23 +48,23 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="flex flex-col w-[16rem] p-6 border-r border-border mobile:hidden">
+      <nav className="flex w-[16rem] flex-col border-r border-border p-6 mobile:hidden">
         <div
-          className="flex items-center gap-x-2 cursor-pointer relative"
+          className="relative flex cursor-pointer items-center gap-x-2"
           role="button"
           onClick={() => null}
         >
           <img src="/logo.png" alt="logo" className="aspect-square w-10" />
           <div className="flex flex-col items-start gap-y-1">
             <div className="relative">
-              <h1 className="font-black text-2xl tracking-wider">JustInsure</h1>
+              <h1 className="text-2xl font-black tracking-wider">JustInsure</h1>
               {user?.marketer && (
                 <div className="group">
-                  <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-zinc-100 font-bold">
+                  <p className="absolute left-full top-0 -translate-y-1/4 translate-x-1 rounded-full bg-primary px-1 text-[10px] font-bold text-zinc-100">
                     Pro
                   </p>
 
-                  <p className="absolute left-10 whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none z-20">
+                  <p className="pointer-events-none absolute left-10 z-20 translate-y-full whitespace-nowrap rounded-lg border border-border bg-background p-2 text-xs opacity-0 duration-300 group-hover:translate-y-1/2 group-hover:opacity-100">
                     "Pro" indicates that you are a marketer and you can list
                     <br />
                     policies on our platform
@@ -72,7 +72,7 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-            <p className="text-secondary text-xs font-semibold">
+            <p className="text-xs font-semibold text-secondary">
               Rest assured on Web3
             </p>
           </div>
@@ -86,10 +86,10 @@ export default function Navbar() {
               role="listitem"
               className={({ isActive, isPending }) =>
                 twMerge(
-                  "p-2 rounded-lg",
-                  isActive && "bg-primary text-zinc-100 pointer-events-none",
+                  "rounded-lg p-2",
+                  isActive && "pointer-events-none bg-primary text-zinc-100",
                   !isActive && "hover:outline hover:outline-[1.5px]",
-                  isPending && "animate-pulse pointer-events-none",
+                  isPending && "pointer-events-none animate-pulse",
                   item.marketersOnly && (user?.marketer ? "" : "hidden"),
                 )
               }
@@ -104,32 +104,32 @@ export default function Navbar() {
       </nav>
 
       <button
-        className="absolute top-[12px] right-4 z-[102] text-2xl bg-foreground border border-border text-front p-[6px] rounded-lg widescreen:hidden"
+        className="absolute right-4 top-[12px] z-[102] rounded-lg border border-border bg-foreground p-[6px] text-2xl text-front widescreen:hidden"
         onClick={() => setShowNav(!showNav)}
       >
         <Icon icon="menu" />
       </button>
 
       {showNav && (
-        <nav className="flex flex-col p-6 w-[16rem] border-l border-border widescreen:hidden absolute top-0 right-0 bg-background z-30 h-full mt-12 ">
+        <nav className="absolute right-0 top-0 z-30 mt-12 flex h-full w-[16rem] flex-col border-l border-border bg-background p-6 widescreen:hidden">
           <div
-            className="flex items-center gap-x-2 cursor-pointer relative"
+            className="relative flex cursor-pointer items-center gap-x-2"
             role="button"
             onClick={() => null}
           >
             <img src="/logo.png" alt="logo" className="aspect-square w-10" />
             <div className="flex flex-col items-start gap-y-1">
               <div className="relative">
-                <h1 className="font-black text-2xl tracking-wider">
+                <h1 className="text-2xl font-black tracking-wider">
                   JustInsure
                 </h1>
                 {user?.marketer && (
                   <div className="group">
-                    <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-zinc-100 font-bold">
+                    <p className="absolute left-full top-0 -translate-y-1/4 translate-x-1 rounded-full bg-primary px-1 text-[10px] font-bold text-zinc-100">
                       Pro
                     </p>
 
-                    <p className="absolute -top-2 -right-7 whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none z-20">
+                    <p className="pointer-events-none absolute -right-7 -top-2 z-20 translate-y-full whitespace-nowrap rounded-lg border border-border bg-background p-2 text-xs opacity-0 duration-300 group-hover:translate-y-1/2 group-hover:opacity-100">
                       "Pro" indicates that you are a marketer and you can list
                       <br />
                       policies on our platform
@@ -137,7 +137,7 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-              <p className="text-secondary text-xs font-semibold">
+              <p className="text-xs font-semibold text-secondary">
                 Rest assured on Web3
               </p>
             </div>
@@ -152,11 +152,11 @@ export default function Navbar() {
                 role="listitem"
                 className={({ isActive, isPending }) =>
                   twMerge(
-                    "p-2 rounded-lg transition-all hover:bg-zinc-800",
-                    isActive && "bg-primary text-zinc-100 pointer-events-none",
+                    "rounded-lg p-2 transition-all hover:bg-zinc-800",
+                    isActive && "pointer-events-none bg-primary text-zinc-100",
                     !isActive &&
-                      "hover:outline hover:outline-[1px] outline-zinc-500",
-                    isPending && "animate-pulse pointer-events-none",
+                      "outline-zinc-500 hover:outline hover:outline-[1px]",
+                    isPending && "pointer-events-none animate-pulse",
                     item.marketersOnly && (user?.marketer ? "" : "hidden"),
                   )
                 }
@@ -170,7 +170,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="self-start flex items-center gap-1 mt-4 ml-2 font-semibold border-zinc-700 border rounded-md py-2 px-3 hover:outline hover:outline-[1px] outline-zinc-500 hover:bg-zinc-800 transition-all"
+            className="ml-2 mt-4 flex items-center gap-1 self-start rounded-md border border-zinc-700 px-3 py-2 font-semibold outline-zinc-500 transition-all hover:bg-zinc-800 hover:outline hover:outline-[1px]"
             onClick={() => setShowNav(false)}
           >
             <Icon icon="close" className="text-lg" />

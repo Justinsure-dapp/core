@@ -194,7 +194,7 @@ export default function Swap() {
               }
             }}
             placeholder="0.00"
-            className="w-full text-right bg-transparent text-white border-none focus:outline-none text-2xl"
+            className="w-full border-none bg-transparent text-right text-2xl text-white focus:outline-none"
           />
           <span className="ml-2 text-sm">
             {isSurecoinToUsdj ? "Surecoin" : "USDJ"}
@@ -216,8 +216,8 @@ export default function Swap() {
       </div>
 
       {/* Buy section */}
-      <div className="p-2 border border-border rounded-md">
-        <div className="flex justify-between items-center mb-2">
+      <div className="rounded-md border border-border p-2">
+        <div className="mb-2 flex items-center justify-between">
           <p className="text-sm">Buy</p>
           <p className="text-xs">
             Balance:{" "}
@@ -231,7 +231,7 @@ export default function Swap() {
             name="calculatedAmount"
             value={isSurecoinToUsdj ? usdj.divideByDecimals(calculatedAmount).toFixed(6) : surecoin.divideByDecimals(calculatedAmount).toFixed(6)}
             disabled
-            className="w-full text-right bg-transparent text-white border-none focus:outline-none text-2xl"
+            className="w-full border-none bg-transparent text-right text-2xl text-white focus:outline-none"
           />
           <span className="ml-2 text-sm">
             {isSurecoinToUsdj ? "USDJ" : "Surecoin"}

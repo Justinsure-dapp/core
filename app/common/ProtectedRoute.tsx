@@ -32,8 +32,8 @@ export default function ProtectedRoute(props: ProtectedRouteProps) {
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-4 justify-center items-center h-full">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500"></div>
+      <div className="flex h-full flex-col items-center justify-center gap-4">
+        <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-blue-500"></div>
         <p className="text-lg">Verifying...</p>
       </div>
     );

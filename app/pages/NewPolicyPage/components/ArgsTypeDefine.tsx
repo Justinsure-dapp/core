@@ -56,7 +56,7 @@ export default function ArgsTypeDefine(props: {
 
       {props.args.map((arg, key) => (
         <div key={key} className="flex gap-x-1">
-          <div className="w-1/2 flex gap-x-1 items-center">
+          <div className="flex w-1/2 items-center gap-x-1">
             <h1 className="truncate">{arg}</h1>
             <button
               type="button"
@@ -69,9 +69,9 @@ export default function ArgsTypeDefine(props: {
               <Icon icon="edit" />
             </button>
           </div>
-          <div className="basis-1/2 flex flex-col">
+          <div className="flex basis-1/2 flex-col">
             <select
-              className="bg-background border border-mute/40 rounded p-1"
+              className="rounded border border-mute/40 bg-background p-1"
               onChange={(e) => {
                 const newValue = e.currentTarget.value;
                 const newName = possibleTypes.find(
@@ -113,10 +113,10 @@ function DescriptionModal(props: {
   const description = prev?.description;
 
   return (
-    <div className="relative flex flex-col gap-y-7 bg-background w-[40vw] p-8 rounded-xl border border-front/40">
+    <div className="relative flex w-[40vw] flex-col gap-y-7 rounded-xl border border-front/40 bg-background p-8">
       <button
         type="button"
-        className="text-[1.6rem] text-red-500 right-2 absolute top-2"
+        className="absolute right-2 top-2 text-[1.6rem] text-red-500"
         onClick={() => modal.hide()}
       >
         <Icon icon="close" />
@@ -135,7 +135,7 @@ function DescriptionModal(props: {
       </div>
       <button
         type="button"
-        className="bg-primary w-max py-2 px-3 self-center rounded-lg text-front font-bold"
+        className="w-max self-center rounded-lg bg-primary px-3 py-2 font-bold text-front"
         onClick={() => {
           const newDesc = inpRef.current.value;
           const newRes = [...props.args];

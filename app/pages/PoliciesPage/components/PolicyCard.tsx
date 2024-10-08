@@ -43,35 +43,35 @@ export default function PolicyCard(props: {
     <Link
       to={`/policies/${policy.address}`}
       className={twMerge(
-        "py-6 p-4 bg-mute/5 rounded-md relative group border border-border",
+        "group relative rounded-md border border-border bg-mute/5 p-4 py-6",
         props.className,
       )}
     >
       <figure
         role="figure"
-        className="bg-gradient-to-br from-secondary to-front via-primary group-hover:scale-x-[100.7%] group-hover:scale-y-[101%] group-hover:opacity-100 opacity-20 duration-300 absolute-cover rounded-inherit"
+        className="absolute-cover rounded-inherit bg-gradient-to-br from-secondary via-primary to-front opacity-20 duration-300 group-hover:scale-x-[100.7%] group-hover:scale-y-[101%] group-hover:opacity-100"
       />
       <figure
         role="figure"
-        className="bg-gradient-to-bl animate-pulse from-front to-secondary via-primary group-hover:scale-x-[100.7%] group-hover:scale-y-[101%] group-hover:opacity-100 opacity-20 duration-300 absolute-cover rounded-inherit"
+        className="absolute-cover animate-pulse rounded-inherit bg-gradient-to-bl from-front via-primary to-secondary opacity-20 duration-300 group-hover:scale-x-[100.7%] group-hover:scale-y-[101%] group-hover:opacity-100"
       />
       <figure
         role="figure"
-        className="bg-background/90 absolute-cover rounded-inherit"
+        className="absolute-cover rounded-inherit bg-background/90"
       />
 
-      <div className="flex flex-col items-start relative">
+      <div className="relative flex flex-col items-start">
         {/* Title Section */}
-        <div className="flex justify-between w-full">
-          <div className="flex gap-3 items-center">
+        <div className="flex w-full justify-between">
+          <div className="flex items-center gap-3">
             <img
               src={policy.image}
               alt={policy.name}
-              className="rounded-full object-cover w-12 h-12 border border-border p-[2px]"
+              className="h-12 w-12 rounded-full border border-border object-cover p-[2px]"
             />
 
             <div className="flex flex-col justify-evenly">
-              <h2 className="text-sm flex font-black items-center gap-x-2">
+              <h2 className="flex items-center gap-x-2 text-sm font-black">
                 {policy.name}
                 <span className="text-xs text-secondary">
                   {policy.category}
@@ -82,16 +82,16 @@ export default function PolicyCard(props: {
                 textToBeCopied={policy.address}
                 className="text-xs text-mute"
               >
-                <p className="flex items-center gap-x-1 mt-1">
+                <p className="mt-1 flex items-center gap-x-1">
                   {formatEvmAddress(policy.address)}
                   <Icon icon="contentCopy" />
                 </p>
               </ClipboardWrapper>
 
-              <div className="flex  text-xs text-secondary/80  mt-2">
+              <div className="mt-2 flex text-xs text-secondary/80">
                 Marketer:
                 <div className="ml-1 text-mute">
-                  <p className="flex items-center secondary/80 gap-x-1">
+                  <p className="secondary/80 flex items-center gap-x-1">
                     {user?.marketer?.name}
                     <Icon icon="contentCopy" />
                   </p>
@@ -100,14 +100,14 @@ export default function PolicyCard(props: {
             </div>
           </div>
 
-          <span className="flex flex-col items-end text-xs text-mute saturate-150 brightness-150">
-            <div className="flex flex-col text-end text-xs gap-y-2 items-end text-secondary">
-              <p className="flex gap-x-1 items-center text-green-500">
+          <span className="flex flex-col items-end text-xs text-mute brightness-150 saturate-150">
+            <div className="flex flex-col items-end gap-y-2 text-end text-xs text-secondary">
+              <p className="flex items-center gap-x-1 text-green-500">
                 <Icon icon="check" /> Verified
               </p>
             </div>
 
-            <div className="flex mt-1 gap-x-1">
+            <div className="mt-1 flex gap-x-1">
               <p>{policy.rating}</p>
               <StarRating rating={policy?.rating || 0} />
             </div>
@@ -124,12 +124,12 @@ export default function PolicyCard(props: {
           </span>
         </div> */}
 
-        <div className="flex flex-col mt-5">
-          <div className="text-xs text-mute flex gap-2 justify-between items-center">
+        <div className="mt-5 flex flex-col">
+          <div className="flex items-center justify-between gap-2 text-xs text-mute">
             <p className="">Min Claim : {policy.minimumClaim}</p>
             <p className="">Max Claim : {policy.maximumClaim}</p>
           </div>
-          <div className="text-xs mt-2 text-mute flex gap-2 justify-between items-center">
+          <div className="mt-2 flex items-center justify-between gap-2 text-xs text-mute">
             <p className="">Min Duration : {minimumDurationInDays} Days</p>
             <p className="">Max Duration : {maximumDurationInDays} Days</p>
           </div>

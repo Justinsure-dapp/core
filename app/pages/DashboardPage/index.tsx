@@ -33,31 +33,31 @@ export default function DashboardPage() {
     <div className="p-page py-4">
       <DocTitle title="Marketer Dashboard" />
 
-      <div className="flex gap-x-2 justify-between">
+      <div className="flex justify-between gap-x-2">
         <div>
           <h1 className="text-2xl font-semibold">Policies Created</h1>
-          <h2 className=" text-mute font-semibold">
+          <h2 className="font-semibold text-mute">
             Here are the policies created by you..
           </h2>
         </div>
         <Link
           to="/new-policy"
-          className="bg-primary/70 hover:bg-primary/100 transition-all text-front px-6 rounded-md py-2 font-medium h-max"
+          className="h-max rounded-md bg-primary/70 px-6 py-2 font-medium text-front transition-all hover:bg-primary/100"
         >
           Create New Policy
         </Link>
       </div>
-      <div className="mt-4 w-full flex gap-x-4">
+      <div className="mt-4 flex w-full gap-x-4">
         <input
           type="text"
           placeholder="Search..."
           value={searchHook.searchQuery}
           onChange={(e) => searchHook.setSearchQuery(e.target.value)}
-          className="w-full bg-background border border-primary/50 px-4 py-2 rounded-lg focus-within:outline-none"
+          className="w-full rounded-lg border border-primary/50 bg-background px-4 py-2 focus-within:outline-none"
         />
       </div>
 
-      <div className="flex flex-col gap-y-8 mt-4">
+      <div className="mt-4 flex flex-col gap-y-8">
         {searchHook.fuse.search(searchHook.debouncedSearchQuery).length == 0
           ? policies &&
             policies.map((policy: any) => (

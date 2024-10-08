@@ -35,25 +35,25 @@ export default function PolicyCard(props: { policy: Policy }) {
   return (
     <div
       ref={parent}
-      className="flex flex-col gap-y-4 relative border border-border rounded-md p-3"
+      className="relative flex flex-col gap-y-4 rounded-md border border-border p-3"
     >
       <div className="flex flex-col">
-        <div className="flex gap-y-1 justify-between">
-          <div className="flex gap-4 items-center">
+        <div className="flex justify-between gap-y-1">
+          <div className="flex items-center gap-4">
             <img
               src={props.policy.image}
               alt="logo"
-              className="w-12 h-12 p-1 rounded-md object-cover"
+              className="h-12 w-12 rounded-md object-cover p-1"
             />
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
               {isPaused ? (
-                <p className="text-red-500 tracking-wide flex gap-x-2 whitespace-nowrap text-sm items-center">
+                <p className="flex items-center gap-x-2 whitespace-nowrap text-sm tracking-wide text-red-500">
                   Policy Inactive
                   <Icon icon="info" />
                 </p>
               ) : (
-                <p className="text-green-500 tracking-wide flex gap-x-2 whitespace-nowrap text-sm items-center">
+                <p className="flex items-center gap-x-2 whitespace-nowrap text-sm tracking-wide text-green-500">
                   Policy Active
                   <Icon icon="done" />
                 </p>
@@ -67,7 +67,7 @@ export default function PolicyCard(props: { policy: Policy }) {
                 onClick={() =>
                   modal.show(<InitialStakeModal policy={props.policy} />)
                 }
-                className="transition-all border hover:bg-zinc-900/60 border-border/60 px-4 py-2 text-sm text-front rounded-md font-medium whitespace-nowrap"
+                className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
               >
                 Set Initial Stake
               </button>
@@ -75,21 +75,21 @@ export default function PolicyCard(props: { policy: Policy }) {
           </div>
         </div>
 
-        <div className="text-front/80 mt-2 text-sm">
+        <div className="mt-2 text-sm text-front/80">
           {`${props.policy.description.slice(0, 250)}${props.policy.description.length > 250 ? "..." : ""}`}
         </div>
       </div>
-      <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
-        <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/10 w-max flex px-4 py-1 rounded-2xl gap-x-8 justify-between items-center">
+      <div className="flex flex-wrap gap-x-4 gap-y-4 mobile:gap-y-2">
+        <div className="flex w-max items-center justify-between gap-x-8 rounded-2xl border border-front/10 bg-background px-4 py-1 duration-300 ease-in-out hover:bg-front hover:bg-opacity-[1%]">
           <div className="flex flex-col">
-            <p className="text-front/80 flex items-center text-sm">
+            <p className="flex items-center text-sm text-front/80">
               {props.policy.holders?.length} Policy Holders
             </p>
           </div>
         </div>
-        <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/10 w-max flex px-4 py-1 rounded-2xl gap-x-8 justify-between items-center">
+        <div className="flex w-max items-center justify-between gap-x-8 rounded-2xl border border-front/10 bg-background px-4 py-1 duration-300 ease-in-out hover:bg-slate-400 hover:bg-opacity-[1%]">
           <div className="flex flex-col">
-            <p className="text-front/80 text-sm">
+            <p className="text-sm text-front/80">
               {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function PolicyCard(props: { policy: Policy }) {
       </div>
 
       <button
-        className="text-sm absolute bottom-2 right-4 underline underline-offset-2 text-zinc-400"
+        className="absolute bottom-2 right-4 text-sm text-zinc-400 underline underline-offset-2"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "View Less" : "View More"}

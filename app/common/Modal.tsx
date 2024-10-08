@@ -7,8 +7,8 @@ export default function Modal() {
   return (
     <article
       className={twMerge(
-        "z-[1001] bg-black bg-opacity-80 flex justify-center items-center fixed top-0 left-0 w-full h-full duration-300",
-        modal.element ? "opacity-100" : "opacity-0 pointer-events-none",
+        "fixed left-0 top-0 z-[1001] flex h-full w-full items-center justify-center bg-black bg-opacity-80 duration-300",
+        modal.element ? "opacity-100" : "pointer-events-none opacity-0",
       )}
     >
       <div className={twMerge("duration-inherit ease-out")}>
