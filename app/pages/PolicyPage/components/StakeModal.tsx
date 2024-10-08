@@ -93,6 +93,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
       });
     } catch (error) {
       console.error(error);
+      setLoading(false);
 
       toast.update(handleSubmitToast, {
         render: "Something went wrong..",
