@@ -31,15 +31,15 @@ export default function SwapBTTtoUSDJ() {
   });
 
   const balanceBTT = useBalance({ address: address });
+  // const ratioConsideration = BigInt(100000000 * Math.pow(10, 18));
 
-  const ratioConsideration = BigInt(100_000_000 * Math.pow(10, 18));
-  const { data: amountOut } = useReadContract({
-    ...contractDefinitions.usdj,
-    functionName: "amountOut",
-    args: [ratioConsideration],
-  });
+  // const { data: amountOut } = useReadContract({
+  //   ...contractDefinitions.usdj,
+  //   functionName: "amountOut",
+  //   args: [ratioConsideration],
+  // });
 
-  const ratio = Number(amountOut || 0n) / Number(ratioConsideration);
+  // const ratio = Number(amountOut || 0n) / Number(ratioConsideration);
 
   useEffect(() => {
     if (
