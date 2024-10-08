@@ -18,7 +18,7 @@ export default function Header({ policy }: { policy: Policy }) {
         <div className="max-w-[10rem] w-full">
           <img
             src={policy.image}
-            className="border border-border aspect-square object-cover rounded-md"
+            className=" aspect-square object-cover rounded-md"
             alt="Policy"
           />
         </div>
