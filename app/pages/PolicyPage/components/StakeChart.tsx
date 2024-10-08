@@ -4,7 +4,7 @@ import useApiResponse from "../../../hooks/useApiResponse";
 import api from "../../../utils/api";
 import { Policy } from "../../../types";
 import { isAddress } from "viem";
-import { ApexOptions } from "apexcharts"; // Importing correct types
+import { ApexOptions } from "apexcharts";
 import useUsdjHook from "../../../hooks/useUsdj";
 
 export default function StakeChart({ policy }: { policy: Policy }) {
@@ -13,7 +13,7 @@ export default function StakeChart({ policy }: { policy: Policy }) {
   const feed = useApiResponse(api.policy.getStakeHistory, policy.address);
   const usdj = useUsdjHook();
 
-  console.log(feed.data);
+  console.log(feed.data, "Feed");
 
   const [chartData, setChartData] = useState<{
     series: { name: string; data: { x: Date; y: number }[] }[];
@@ -34,38 +34,32 @@ export default function StakeChart({ policy }: { policy: Policy }) {
           autoSelected: "zoom",
         },
       },
+      grid: {
+        borderColor: '#444',
+        yaxis: {
+          lines: {
+            show: true,
+          }
+        },
+      },
       dataLabels: {
         enabled: false,
       },
       markers: {
-        size: 5, // Increased marker size for better visibility
-        colors: ["#FF4560"], // Highlight color for transaction points
+        size: 7,
+        colors: ["#09090b"],
+        strokeColors: "#fefefe", 
+        strokeWidth: 1, 
       },
       stroke: {
-        curve: "smooth",
-        width: 3, // Thicker line for better visibility
-      },
-      title: {
-        text: "Stake History",
-        align: "left",
-        style: {
-          color: "#fff", // White text for better contrast on dark background
-        },
-      },
-      fill: {
-        type: "gradient",
-        gradient: {
-          shadeIntensity: 1,
-          inverseColors: false,
-          opacityFrom: 0.7, // Make the fill slightly more visible
-          opacityTo: 1,
-          stops: [0, 90, 100],
-        },
+        colors: ["#71717a"],
+        curve: 'smooth',
+        width: 2,
       },
       yaxis: {
         labels: {
           style: {
-            colors: "#fff", // White y-axis labels for better visibility
+            colors: "#c4cdd3",
           },
           formatter: function (val) {
             return val.toFixed(0);
@@ -74,32 +68,37 @@ export default function StakeChart({ policy }: { policy: Policy }) {
         title: {
           text: "Stake Amount",
           style: {
-            color: "#fff", // White text for the y-axis title
-          },
+            color: '#71717a',
+          }
         },
       },
       xaxis: {
         type: "datetime",
         labels: {
           datetimeFormatter: {
-            hour: "HH:mm", // Only show minutes and hours, no seconds
+            hour: 'HH:mm',
           },
           style: {
-            colors: "#fff", // White x-axis labels
-          },
-        },
+            colors: '#71717a',
+          }
+        }
       },
       tooltip: {
         shared: false,
+        theme: 'dark',
+        style: {
+          fontSize: '12px',
+        },
         y: {
           formatter: function (val) {
-            return val + "M";
+            return val + " USDJ";
           },
         },
       },
+
       annotations: {
-        points: [], // Will be filled dynamically
-      },
+        points: []
+      }
     },
   });
 
@@ -114,25 +113,24 @@ export default function StakeChart({ policy }: { policy: Policy }) {
           y: entry.amount / Math.pow(10, Number(usdj.decimals)) || 0,
         }));
 
-      const transactionPoints = seriesData.map(
-        (point: { x: number; y: number }) => ({
-          x: point.x,
-          y: point.y,
-          marker: {
-            size: 6, // Increased marker size for transaction points
-            fillColor: "#FF4560", // Red marker for transactions
-            strokeColor: "#fff", // White border for contrast
-            radius: 2,
-          },
-          label: {
-            text: "Transaction", // Label for each transaction
-            style: {
-              color: "#fff", // White text for the label
-              background: "#FF4560", // Red background for visibility
-            },
-          },
-        }),
-      );
+      const transactionPoints = seriesData.map((point: { x: number; y: number; }) => ({
+        x: point.x,
+        y: point.y,
+        marker: {
+          size: 8,
+          fillColor: '#50798c',
+          strokeColor: '#fff',
+          radius: 3,
+        },
+        label: {
+          text: 'Transaction',
+          style: {
+            color: '#000',
+            background: '#50798c',
+            fontSize: '12px'
+          }
+        }
+      }));
 
       setChartData((prevData) => ({
         ...prevData,
@@ -144,7 +142,6 @@ export default function StakeChart({ policy }: { policy: Policy }) {
           },
         },
       }));
-      console.log(seriesData, "Series");
     }
   }, [feed.data]);
 

@@ -273,14 +273,13 @@ router.get("/stake-history/:address", async (req, res) => {
     const response = await evm.client.getContractEvents({
       abi: evmConfig.insuranceController.abi,
       address: policy.address,
+      eventName: "TotalStakeChanged",
       fromBlock: BigInt(policy.blockNumber),
     });
 
-    res.send({
-      feed: response.map((e) => ({ ...e.args })),
+    return res.send({
+      feed: response.map((e) => ({ timestamp: Number(e.args.timestamp), amount: Number(e.args.amount) })),
     });
-
-    return;
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
