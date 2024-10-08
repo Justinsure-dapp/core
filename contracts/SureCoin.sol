@@ -88,6 +88,7 @@ contract SureCoin is ERC20, Ownable, ReentrancyGuard {
     _rewards[account_] = 0;
 
     _transfer(address(this), account_, reward);
+    updateReward(account_);
 
     emit RewardsClaimed(account_, reward);
   }

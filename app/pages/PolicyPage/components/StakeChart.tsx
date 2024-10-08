@@ -42,15 +42,15 @@ export default function StakeChart({ policy }: { policy: Policy }) {
         colors: ["#FF4560"], // Highlight color for transaction points
       },
       stroke: {
-        curve: 'smooth',
+        curve: "smooth",
         width: 3, // Thicker line for better visibility
       },
       title: {
         text: "Stake History",
         align: "left",
         style: {
-          color: '#fff', // White text for better contrast on dark background
-        }
+          color: "#fff", // White text for better contrast on dark background
+        },
       },
       fill: {
         type: "gradient",
@@ -65,7 +65,7 @@ export default function StakeChart({ policy }: { policy: Policy }) {
       yaxis: {
         labels: {
           style: {
-            colors: '#fff', // White y-axis labels for better visibility
+            colors: "#fff", // White y-axis labels for better visibility
           },
           formatter: function (val) {
             return val.toFixed(0);
@@ -74,20 +74,20 @@ export default function StakeChart({ policy }: { policy: Policy }) {
         title: {
           text: "Stake Amount",
           style: {
-            color: '#fff', // White text for the y-axis title
-          }
+            color: "#fff", // White text for the y-axis title
+          },
         },
       },
       xaxis: {
         type: "datetime",
         labels: {
           datetimeFormatter: {
-            hour: 'HH:mm', // Only show minutes and hours, no seconds
+            hour: "HH:mm", // Only show minutes and hours, no seconds
           },
           style: {
-            colors: '#fff', // White x-axis labels
-          }
-        }
+            colors: "#fff", // White x-axis labels
+          },
+        },
       },
       tooltip: {
         shared: false,
@@ -98,39 +98,41 @@ export default function StakeChart({ policy }: { policy: Policy }) {
         },
       },
       annotations: {
-        points: [] // Will be filled dynamically
-      }
+        points: [], // Will be filled dynamically
+      },
     },
   });
 
   useEffect(() => {
     if (feed.data) {
-      const baseTimestamp = new Date('1970-01-01').getTime();
+      const baseTimestamp = new Date("1970-01-01").getTime();
 
       const seriesData = feed.data.feed
-      .filter((entry: { amount: number | null }) => entry.amount !== null)
-      .map((entry: { amount: number; timestamp: number }) => ({
-        x: new Date(baseTimestamp + entry.timestamp * 1000),
-        y: entry.amount / Math.pow(10, Number(usdj.decimals)) || 0,
-      }));
+        .filter((entry: { amount: number | null }) => entry.amount !== null)
+        .map((entry: { amount: number; timestamp: number }) => ({
+          x: new Date(baseTimestamp + entry.timestamp * 1000),
+          y: entry.amount / Math.pow(10, Number(usdj.decimals)) || 0,
+        }));
 
-      const transactionPoints = seriesData.map((point: { x: number; y: number; }) => ({
-        x: point.x,
-        y: point.y,
-        marker: {
-          size: 6, // Increased marker size for transaction points
-          fillColor: '#FF4560', // Red marker for transactions
-          strokeColor: '#fff', // White border for contrast
-          radius: 2,
-        },
-        label: {
-          text: 'Transaction', // Label for each transaction
-          style: {
-            color: '#fff', // White text for the label
-            background: '#FF4560' // Red background for visibility
-          }
-        }
-      }));
+      const transactionPoints = seriesData.map(
+        (point: { x: number; y: number }) => ({
+          x: point.x,
+          y: point.y,
+          marker: {
+            size: 6, // Increased marker size for transaction points
+            fillColor: "#FF4560", // Red marker for transactions
+            strokeColor: "#fff", // White border for contrast
+            radius: 2,
+          },
+          label: {
+            text: "Transaction", // Label for each transaction
+            style: {
+              color: "#fff", // White text for the label
+              background: "#FF4560", // Red background for visibility
+            },
+          },
+        }),
+      );
 
       setChartData((prevData) => ({
         ...prevData,
@@ -139,8 +141,8 @@ export default function StakeChart({ policy }: { policy: Policy }) {
           ...prevData.options,
           annotations: {
             points: transactionPoints, // Adding annotations for transactions
-          }
-        }
+          },
+        },
       }));
       console.log(seriesData, "Series");
     }
