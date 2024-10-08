@@ -38,7 +38,7 @@ export default function Chart() {
 
       <TradingViewOverview
         className="aspect-video "
-        symbol="BINANCE:BTTCUSDT|1M"
+        symbol="BINANCE:BTTCUSDT|1Y"
         chartType={chartType}
         key={chartType}
       />
