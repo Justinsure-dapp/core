@@ -24,7 +24,7 @@ export default function YourStakes() {
   const chartData = {
     labels: stakes.map((s) => s.name),
     values: stakes.map((s) => s.value),
-    bgColor: generateShades("rgb(81, 121, 140)", stakes.length),
+    bgColor: generateShades("rgb(11, 128, 182)", stakes.length),
   };
 
   return (
