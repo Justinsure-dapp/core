@@ -7,7 +7,7 @@ export default function Chart() {
   const [chartType, setChartType] = useState<"candlesticks" | "area">("area");
 
   return (
-    <div className="h-full border border-mute/30 rounded-md overflow-hidden relative w-2/3">
+    <div className="h-full border border-border rounded-md overflow-hidden relative w-full">
       <div className="absolute top-2 right-4">
         <div className="relative text-2xl flex border border-secondary/50 rounded bg-foreground p-1 overflow-hidden gap-x-2">
           <figure
@@ -37,7 +37,7 @@ export default function Chart() {
       </div>
 
       <TradingViewOverview
-        className="aspect-video translate-y-[8%]"
+        className="aspect-video "
         symbol="BINANCE:BTTCUSDT|1M"
         chartType={chartType}
         key={chartType}

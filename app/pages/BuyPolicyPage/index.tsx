@@ -236,8 +236,6 @@ export default function BuyPolicyPage() {
             Request Quote
           </button>
         </DataForm>
-
-        <div className="basis-[28%] bg-foreground rounded-xl mobile:hidden"></div>
       </div>
     </>
   );

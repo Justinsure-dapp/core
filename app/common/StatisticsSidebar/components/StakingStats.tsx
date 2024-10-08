@@ -2,11 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import useIdleScrollbar from "../../../hooks/useIdleScrollbar";
 import { useAccount, useReadContract } from "wagmi";
 import useWeb3 from "../../../contexts/web3context";
-import { isAddress, zeroAddress } from "viem";
+import { Address, isAddress, zeroAddress } from "viem";
 import contractDefinitions from "../../../contracts";
 import { Policy } from "../../../types";
 import useUsdjHook from "../../../hooks/useUsdj";
-import { Link } from "react-router-dom";
+import { useWriteContract } from 'wagmi';
+import { toast } from "react-toastify";
+import useModal from "../../../hooks/useModal";
+import Heading from "../../../pages/NewPolicyPage/components/Heading";
+import Icon from "../../Icon";
+import { twMerge } from "tailwind-merge";
+import { useNavigate } from "react-router-dom";
+import { extractErrorFromTx } from "../../../utils";
 
 export default function StakingStats() {
   const containerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -26,7 +33,7 @@ export default function StakingStats() {
       <div className="flex items-center justify-between gap-x-3">
         <h1 className="text-mute text-base font-bold">Your Stakes</h1>
         <p className="bg-foreground p-2 text-sm font-semibold rounded-lg">
-          Total : {totalStake.toFixed(2)}
+          Total : {totalStake.toFixed(1)}
         </p>
       </div>
 
@@ -53,6 +60,7 @@ export function StakedInCard({
   const { address } = useAccount();
   const hasAddedStake = useRef(false);
   const usdj = useUsdjHook();
+  const modal = useModal();
 
   const { data: stakeAmount } = useReadContract({
     ...contractDefinitions.insuranceController,
@@ -86,27 +94,187 @@ export function StakedInCard({
     }
   }, [stakeAmount, setTotalStake]);
 
-  return (
-    <div
-      className={`border transition-all border-border p-2 rounded-lg ${policy.creator === address ? " hover:bg-front/5" : ""}`}
-      title={policy.creator === address ? "Created by you" : "Staked by you"}
-    >
-      <div className="flex gap-x-3 ">
-        <img
-          src={policy.image}
-          alt="bf"
-          className="aspect-square rounded-md object-cover border border-border h-14 "
-        />
-        <div className="flex flex-col w-full">
-          <h1 className="font-semibold text-sm w-full capitalize">
-            {policy.name}
-          </h1>
-          <p className="text-xs text-front/70 mt-1">Category: {policy.category}</p>
-          <p className="text-xs self-end mt-2">
-            Stake: {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
-          </p>
+  if (stakeAmount && stakeAmount > usdj.multiplyWithDecimals(0.1)) {
+    return (
+      <div
+        className={`border transition-all p-2 border-border rounded-lg ${policy.creator === address ? " hover:bg-front/5" : ""}`}
+        title={policy.creator === address ? "Created by you" : "Staked by you"}
+      >
+        <div className="flex items-center gap-x-3">
+          <img
+            src={policy.image}
+            alt="image"
+            className="aspect-square rounded-md object-cover border border-border h-14 w-14"
+          />
+          <div className="flex w-full items-center justify-between">
+            <div className="flex flex-col">
+              <h1 className="font-semibold text-sm w-full capitalize">
+                {policy.name}
+              </h1>
+              <p className="text-xs text-front/50 mt-1">{policy.category}</p>
+            </div>
+
+            <div className="flex flex-col gap-2 bgr items-center">
+              <button className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
+                onClick={() => modal.show(<WithdrawStakeModal policy={policy} />)
+                }
+              >
+                Withdraw
+              </button>
+
+              <p className="text-xs">
+                Stake: ${usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
+    );
+  }
+}
+
+function WithdrawStakeModal({ policy }: { policy: Policy }) {
+  const { writeContractAsync, error: txError, data: txHash } = useWriteContract();
+  const modal = useModal();
+  const [stake, setStake] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
+  const usdjHook = useUsdjHook();
+  const [showWarning, setShowWarning] = useState(false);
+  const { address } = useAccount();
+  const navigate = useNavigate();
+
+  const { data: stakedAmount } = useReadContract({
+    ...contractDefinitions.insuranceController,
+    address: policy.address as Address,
+    functionName: "stakedAmountOfAddress",
+    args: [address || zeroAddress],
+  })
+
+  const { data: profitShare } = useReadContract({
+    ...contractDefinitions.insuranceController,
+    address: policy.address as Address,
+    functionName: "profitShare",
+    args: [address || zeroAddress],
+  })
+
+  useEffect(() => {
+    if (stake > usdjHook.divideByDecimals(stakedAmount || 0n)) {
+      setShowWarning(true);
+    } else {
+      setShowWarning(false);
+    }
+  }, [stake]);
+
+  async function handleSubmit() {
+    if (stake === 0) {
+      toast.error("Please enter a valid amount..", {
+        type: "error",
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    setLoading(true);
+    toast.info("Sign the request to continue..");
+
+    await writeContractAsync({
+      ...contractDefinitions.insuranceController,
+      address: policy.address as Address,
+      functionName: "revokeStakeFromPolicy",
+      args: [usdjHook.multiplyWithDecimals(stake)],
+    });
+  }
+
+  useEffect(() => {
+    if (txHash) {
+      toast.success("Withdrawn Successfully..", {
+        type: "success",
+        autoClose: 2000,
+      });
+      modal.hide();
+      setLoading(false);
+      navigate(0);
+    }
+
+    if (txError) {
+      const errormsg = extractErrorFromTx(txError.message);
+      toast.error(errormsg || "Failed to withdraw stake..", {
+        type: "error",
+        autoClose: 2000,
+      });
+      setLoading(false);
+    }
+
+    console.log({ txHash, txError });
+  }, [txHash, txError]);
+
+  return (
+    <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
+            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
+            <p className="text-primary mt-2 font-semibold">
+              Processing Request
+            </p>
+            <p className="text-mute">Please wait..</p>
+          </div>
+        </div>
+      )}
+
+      <button
+        className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
+        onClick={() => modal.hide()}
+      >
+        <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
+      </button>
+      <h1 className="text-2xl font-bold mb-2">
+        Withdraw Stake from <span className="text-secondary">{policy.name}</span>
+      </h1>
+      <div className="text-mute flex flex-col gap-y-1 text-sm ">
+        You can withdraw your stake from the policy at any time along with the profit.
+        <p>
+          <span className="text-front">Note: </span>
+          You can only withdraw the amount you have staked. You can check the amount you have staked below.
+        </p>
+      </div>
+      <div className="flex flex-col mt-6 relative">
+        <p
+          className={twMerge(
+            "text-xs absolute top-1 right-0 text-red-500 flex gap-x-1 items-center",
+            showWarning ? "animate-pulse" : "",
+          )}
+        >
+          <Icon icon="info" /> Withdrawal Limit: ${usdjHook.divideByDecimals(stakedAmount || 0n).toFixed(2)}
+        </p>
+        <Heading>Enter amount to withdraw</Heading>
+        <input
+          type="number"
+          className="mt-1 rounded-md p-2 bg-background border border-border shadow shadow-mute/30"
+          placeholder="Enter Amount in USDJ"
+          onChange={(e) => setStake(Number(e.target.value))}
+        />
+      </div>
+      <div className="flex mt-3 w-full justify-between">
+        <p
+          className={twMerge(
+            "text-xs text-green-500 flex gap-x-1",
+          )}
+        >
+          Max Profit: ${usdjHook.divideByDecimals(profitShare || 0n)}
+        </p>
+
+        <button
+          className={twMerge(
+            " text-secondary border-primary font-bold border duration-300 disabled:opacity-50 disabled:pointer-events-none ease-in w-max px-6 py-2 self-end rounded-lg hover:bg-primary hover:text-front",
+            loading ? "animate-pulse" : "",
+          )}
+          onClick={handleSubmit}
+          disabled={loading || showWarning}
+        >
+          {loading ? "Processing..." : "Withdraw"}
+        </button>
+      </div>
     </div>
-  );
+  )
 }

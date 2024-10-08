@@ -16,6 +16,7 @@ import useUsdjHook from "../../../hooks/useUsdj";
 import api from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { extractErrorFromTx } from "../../../utils";
 
 export default function StakeModal({ policy }: { policy: Policy }) {
   const modal = useModal();
@@ -91,13 +92,14 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         autoClose: 2000,
       });
     } catch (error) {
+      console.error(error);
+
       toast.update(handleSubmitToast, {
         render: "Something went wrong..",
         type: "error",
         isLoading: false,
         autoClose: 2000,
       });
-      console.error(error);
     }
   }
 
@@ -115,7 +117,6 @@ export default function StakeModal({ policy }: { policy: Policy }) {
         modal.hide();
         navigate("/account");
       } else {
-        console.error("Error while updating database..");
         toast.error("Error while updating database..", {
           type: "error",
           isLoading: false,
@@ -129,7 +130,8 @@ export default function StakeModal({ policy }: { policy: Policy }) {
     }
 
     if (stakeReciept.isError) {
-      toast.error("Transaction failed..", {
+      const errormsg = extractErrorFromTx(stakeReciept.error.message);
+      toast.error(errormsg, {
         type: "error",
         isLoading: false,
         autoClose: 2000,
@@ -139,6 +141,18 @@ export default function StakeModal({ policy }: { policy: Policy }) {
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-background w-[40vw] mobile:w-[80vw] px-8 py-8 rounded-lg border border-primary/60 mobile:px-8">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+          <div className="bg-zinc-200 animate-pulse border border-border p-8 rounded-lg flex flex-col items-center">
+            <div className="w-7 h-7 border-2 border-t-0 border-primary rounded-full animate-spin" />
+            <p className="text-primary mt-2 font-semibold">
+              Processing Request
+            </p>
+            <p className="text-mute">Please wait..</p>
+          </div>
+        </div>
+      )}
+
       <button
         className="absolute top-3 right-3 text-red-500 rounded-full border border-red-500 p-1 hover:opacity-100 opacity-50 ease-in duration-300"
         onClick={() => modal.hide()}
