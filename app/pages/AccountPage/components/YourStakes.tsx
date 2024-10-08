@@ -28,23 +28,23 @@ export default function YourStakes() {
   };
 
   return (
-    <div className="flex flex-col gap-x-8 bg-secondary/10 rounded-xl px-8 my-12 mobile:mx-2 widescreen:mx-8 py-4">
-      <div className="flex justify-between mobile:items-center widescreen:items-start">
-        <div>
+    <div className="flex flex-col gap-x-8 bg-mute/5 rounded-xl my-10 mobile:mx-2 p-2">
+      <div className="flex flex-col mobile:items-center p-2">
+        <div className="flex justify-between">
           <h1 className="text-2xl font-semibold">Policies Staked</h1>
-          <h2 className=" text-mute font-semibold">
-            Here are the policies you have staked into..
-          </h2>
+          <p className="bg-mute/10 border h-fit border-primary/30 px-4 py-1 rounded-md mobile:w-max whitespace-nowrap">
+            Total Staked :{" "}
+            <span className="font-mono">{totalStake.toFixed(1)}</span>
+          </p>
         </div>
-        <p className="bg-primary/20 border h-fit border-primary/30 px-4 rounded-xl mobile:w-max">
-          Total Staked :{" "}
-          <span className="font-mono">{totalStake.toFixed(1)}</span>
-        </p>
+        <h2 className=" text-mute text-sm mt-2">
+          These are the policies in which you have staked. This pie chart displays the distribution of your staked amount across various policies. It provides a visual breakdown of how much you've staked in each policy, helping you track and manage your investments easily.
+        </h2>
       </div>
       {policiesStakedIn.length > 0 ? (
         <div className="flex pt-6 justify-between mobile:flex-col items-center gap-10 mobile:gap-6 h-full">
           <PieChart data={chartData} className="w-[20vw] mobile:w-[50vw]" />
-          <div className="w-full flex border p-4 border-border rounded-xl flex-col gap-y-3 mobile:w-full h-full max-h-[50vh] widescreen:h-[35vh] overflow-auto scrollbar-primary">
+          <div className="w-full flex p-1 rounded-xl flex-col gap-y-3 mobile:w-full h-full max-h-[50vh] widescreen:h-[35vh] overflow-auto scrollbar-primary">
             {policiesStakedIn.map((policy, i) => (
               <StakedInCard
                 key={i}

@@ -103,41 +103,38 @@ export function StakedInCard({
         className={`border transition-all p-2 border-border rounded-lg ${policy.creator === address ? " hover:bg-mute/5" : ""}`}
         title={policy.creator === address ? "Created by you" : "Staked by you"}
       >
-        <div className="flex gap-x-2">
+        <div className="flex gap-x-2 relative">
           <img
             src={policy.image}
             alt="image"
-            className="aspect-square rounded-md object-cover h-14 w-14"
+            className="aspect-square rounded-md object-cover h-10 w-10"
           />
           <div className="flex w-full justify-between">
             <div className="flex flex-col w-2/3 truncate">
-              <h1 className="font-semibold text-sm w-full capitalize">
+              <h1 className="font-semibold text-sm w-full capitalize truncate">
                 {policy.name}
               </h1>
-              <p className="text-xs text-front/50 mt-1">Category: {policy.category}</p>
-            </div>
-
-            <div className="flex flex-col gap-2 items-center justify-end">
-              {withdrawable && (
-                <button
-                  className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
-                  onClick={() =>
-                    modal.show(<WithdrawStakeModal policy={policy} />)
-                  }
-                >
-                  Withdraw
-                </button>
-              )}
-
               <p
                 className={twMerge(
-                  "text-xs text-mute flex gap-x-1 whitespace-nowrap",
-                  withdrawable ? "" : "self-end",
+                  "text-xs text-mute flex gap-x-1 whitespace-nowrap mt-1",
+                  withdrawable ? "" : "",
                 )}
               >Stake: $
                 {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
               </p>
             </div>
+
+            {withdrawable && (
+              <button
+                className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
+                onClick={() =>
+                  modal.show(<WithdrawStakeModal policy={policy} />)
+                }
+              >
+                Withdraw
+              </button>
+            )}
+
           </div>
         </div>
       </Link>
