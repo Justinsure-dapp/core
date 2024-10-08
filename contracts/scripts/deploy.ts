@@ -38,11 +38,11 @@ async function main() {
     { client: { wallet: deployer } },
   );
 
-  await tx(
-    periphery.write.updateStakingRewardRate([100_000_000n], {
-      account: deployer.account,
-    }),
-  );
+  // await tx(
+  //   periphery.write.updateStakingRewardRate([100_000_000n], {
+  //     account: deployer.account,
+  //   }),
+  // );
 
   await tx(
     periphery.write.setMinimumInitialStake([10n * usdjDecimals], {

@@ -78,7 +78,7 @@ async function main() {
     client: client,
   });
 
-  await tx(periphery.write.updateStakingRewardRate([100_000_000n]));
+  // await tx(periphery.write.updateStakingRewardRate([100_000_000n]));
   await tx(periphery.write.setMinimumInitialStake([10n * usdjDecimals]));
 
   const vaultAddress = (await periphery.read.vault()) as Address;
