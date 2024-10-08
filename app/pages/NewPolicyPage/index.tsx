@@ -218,6 +218,7 @@ export default function NewPolicyPage() {
               className={twInputStyle}
               name="category"
             >
+              {/* @ts-ignore */}
               {insuranceCategories.toSorted().map((cat, key) => (
                 <option key={key} value={cat}>
                   {cat}

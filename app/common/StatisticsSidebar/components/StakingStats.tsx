@@ -97,52 +97,56 @@ export function StakedInCard({
     }
   }, [stakeAmount, setTotalStake]);
 
-  if (stakeAmount && stakeAmount > usdj.multiplyWithDecimals(0.1)) {
-    return (
-      <Link
-        to={`/policies/${policy.address}`}
-        className={twMerge(
-          `border transition-all p-2 border-border bg-background rounded-lg`,
-          !withdrawable && "hover:bg-mute/5",
-        )}
-        title={policy.creator === address ? "Created by you" : "Staked by you"}
-      >
-        <div className="flex gap-x-2 relative">
-          <img
-            src={policy.image}
-            alt="image"
-            className="aspect-square rounded-md object-cover h-10 w-10"
-          />
-          <div className="flex w-full justify-between">
-            <div className="flex flex-col w-2/3 truncate">
-              <h1 className="font-semibold text-sm w-full capitalize truncate">
-                {policy.name}
-              </h1>
-              <p
-                className={twMerge(
-                  "text-xs text-mute flex gap-x-1 whitespace-nowrap mt-1",
-                  withdrawable ? "" : "",
-                )}
-              >
-                Stake: ${usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
-              </p>
-            </div>
+  return (
+    <>
+      {stakeAmount && stakeAmount > usdj.multiplyWithDecimals(0.1) && (
+        <Link
+          to={`/policies/${policy.address}`}
+          className={twMerge(
+            `border transition-all p-2 border-border bg-background rounded-lg`,
+            !withdrawable && "hover:bg-mute/5",
+          )}
+          title={
+            policy.creator === address ? "Created by you" : "Staked by you"
+          }
+        >
+          <div className="flex gap-x-2 relative">
+            <img
+              src={policy.image}
+              alt="image"
+              className="aspect-square rounded-md object-cover h-10 w-10"
+            />
+            <div className="flex w-full justify-between">
+              <div className="flex flex-col w-2/3 truncate">
+                <h1 className="font-semibold text-sm w-full capitalize truncate">
+                  {policy.name}
+                </h1>
+                <p
+                  className={twMerge(
+                    "text-xs text-mute flex gap-x-1 whitespace-nowrap mt-1",
+                    withdrawable ? "" : "",
+                  )}
+                >
+                  Stake: ${usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
+                </p>
+              </div>
 
-            {withdrawable && (
-              <button
-                className="border border-border transition-all  w-max px-3 py-2 text-front/80 bg-front/10 rounded-md self-start text-sm"
-                onClick={() =>
-                  modal.show(<WithdrawStakeModal policy={policy} />)
-                }
-              >
-                Withdraw
-              </button>
-            )}
+              {withdrawable && (
+                <button
+                  className="border border-border transition-all  w-max px-3 py-2 text-front/80 bg-front/10 rounded-md self-start text-sm"
+                  onClick={() =>
+                    modal.show(<WithdrawStakeModal policy={policy} />)
+                  }
+                >
+                  Withdraw
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      </Link>
-    );
-  }
+        </Link>
+      )}
+    </>
+  );
 }
 
 function WithdrawStakeModal({ policy }: { policy: Policy }) {

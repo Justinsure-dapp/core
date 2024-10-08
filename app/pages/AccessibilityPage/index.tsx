@@ -32,6 +32,7 @@ export default function () {
     const cnm = `${accessibility.colorBlind}`;
 
     const magnifier = Number(accessibility.magnifier.slice(1));
+    //@ts-ignore
     document.body.style.zoom = String(1 + Number(magnifier) / 25);
 
     document.body.className = cnm;
