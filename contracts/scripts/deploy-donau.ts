@@ -25,6 +25,7 @@ const donau = defineChain({
       webSocket: ["wss://pre-rpc.bt.io:8546"],
     },
   },
+  iconUrl:'/icons/bttc.png',
   name: "BitTorrent Chain Donau",
   nativeCurrency: { symbol: "BTT", decimals: 18, name: "BitTorrent (BTT)" },
 });

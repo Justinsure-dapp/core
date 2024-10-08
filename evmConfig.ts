@@ -2,6 +2,7 @@ import { defineChain } from "viem";
 
 const primaryChain = defineChain({
   id: 1029,
+  iconUrl:'/icons/bttc.png',
   name: "BitTorrent Chain Donau",
   nativeCurrency: { symbol: "BTT", decimals: 18, name: "BitTorrent (BTT)" },
   rpcUrls: {
