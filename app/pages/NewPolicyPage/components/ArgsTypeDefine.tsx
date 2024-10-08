@@ -25,13 +25,24 @@ export default function ArgsTypeDefine(props: {
   useEffect(() => {
     const newRes: Args = [];
     props.args.forEach((a) => {
-      newRes.push({
-        name: a,
-        typeName: possibleTypes[0].name,
-        htmlType: possibleTypes[0].value,
-        description: "",
-      });
+      if (a === "claimValue" || a === "claimDuration") {
+        newRes.push({
+          name: a,
+          typeName: "Number",
+          htmlType: "number",
+          description: "",
+        });
+      } else {
+        newRes.push({
+          name: a,
+          typeName: possibleTypes[0].name,
+          htmlType: possibleTypes[0].value,
+          description: "",
+        });
+      }
     });
+
+    console.log(newRes);
 
     setRes([...newRes]);
   }, []);

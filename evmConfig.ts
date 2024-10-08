@@ -3,6 +3,7 @@ import { defineChain } from "viem";
 const primaryChain = defineChain({
   id: 1029,
   name: "BitTorrent Chain Donau",
+  iconUrl: "/icons/bttc.png",
   nativeCurrency: { symbol: "BTT", decimals: 18, name: "BitTorrent (BTT)" },
   rpcUrls: {
     default: {
@@ -13,7 +14,7 @@ const primaryChain = defineChain({
 });
 
 const surityInterface = {
-  address: "0xe6637fb29fb494a40551edaf0d4af6229efc8989" as const,
+  address: "0x15ab61f4cc17f6ff3b3befcd2340e16e59580d8c" as const,
   abi: [
     {
       inputs: [{ internalType: "address", name: "usdToken_", type: "address" }],
@@ -323,7 +324,7 @@ const surityInterface = {
   ] as const,
 };
 const surecoin = {
-  address: "0x795723154fCccd4a6C4C3Dee1516581F613430D3" as const,
+  address: "0xD84D5B86D1E5399Bb8B982074663eEA1c257a7D9" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -831,7 +832,7 @@ const surecoin = {
   ] as const,
 };
 const vault = {
-  address: "0xCBfC0553a434Bd1504eBd6E0eeD7504Ea87F402A" as const,
+  address: "0x5d3aeF4c5453cA172429B5F49eB9291BFDDEBd62" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -917,7 +918,7 @@ const vault = {
   ] as const,
 };
 const usdj = {
-  address: "0x83299443a3a05b4a0b759ba379ded4a4a44ffd66" as const,
+  address: "0xdac44f8e9b1c1b5ae903abc6a8600ab40f7697e7" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {

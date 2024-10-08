@@ -104,14 +104,14 @@ export default function StakeChart({ policy }: { policy: Policy }) {
 
   useEffect(() => {
     if (feed.data) {
-      const baseTimestamp = new Date('1970-01-01').getTime();
+      const baseTimestamp = new Date("1970-01-01").getTime();
 
       const seriesData = feed.data.feed
-      .filter((entry: { amount: number | null }) => entry.amount !== null)
-      .map((entry: { amount: number; timestamp: number }) => ({
-        x: new Date(baseTimestamp + entry.timestamp * 1000),
-        y: entry.amount / Math.pow(10, Number(usdj.decimals)) || 0,
-      }));
+        .filter((entry: { amount: number | null }) => entry.amount !== null)
+        .map((entry: { amount: number; timestamp: number }) => ({
+          x: new Date(baseTimestamp + entry.timestamp * 1000),
+          y: entry.amount / Math.pow(10, Number(usdj.decimals)) || 0,
+        }));
 
       const transactionPoints = seriesData.map((point: { x: number; y: number; }) => ({
         x: point.x,
@@ -139,8 +139,8 @@ export default function StakeChart({ policy }: { policy: Policy }) {
           ...prevData.options,
           annotations: {
             points: transactionPoints, // Adding annotations for transactions
-          }
-        }
+          },
+        },
       }));
     }
   }, [feed.data]);

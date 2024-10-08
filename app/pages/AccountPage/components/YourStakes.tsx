@@ -51,6 +51,7 @@ export default function YourStakes() {
                 setStakes={setStakes}
                 setTotalStake={setTotalStake}
                 policy={policy}
+                withdrawable={true}
               />
             ))}
           </div>

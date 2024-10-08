@@ -42,6 +42,7 @@ export default function StakingStats() {
           key={index}
           setTotalStake={setTotalStake}
           policy={policy}
+          withdrawable={false}
         />
       ))}
     </div>
@@ -52,10 +53,12 @@ export function StakedInCard({
   policy,
   setTotalStake,
   setStakes,
+  withdrawable,
 }: {
   policy: Policy;
   setTotalStake: Function;
   setStakes?: Function;
+  withdrawable?: boolean;
 }) {
   const { address } = useAccount();
   const hasAddedStake = useRef(false);
@@ -115,17 +118,25 @@ export function StakedInCard({
             </div>
 
             <div className="flex flex-col gap-2 bgr items-center">
-              <button
-                className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
-                onClick={() =>
-                  modal.show(<WithdrawStakeModal policy={policy} />)
-                }
-              >
-                Withdraw
-              </button>
+              {withdrawable && (
+                <button
+                  className="bg-background hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 text-front font-bold rounded-lg self-start text-sm"
+                  onClick={() =>
+                    modal.show(<WithdrawStakeModal policy={policy} />)
+                  }
+                >
+                  Withdraw
+                </button>
+              )}
 
-              <p className="text-xs">
-                Stake: ${usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
+              <p
+                className={twMerge(
+                  "text-xs text-mute flex gap-x-1",
+                  withdrawable ? "" : "self-end",
+                )}
+              >
+                {withdrawable ? "Stake: " : ""}$
+                {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
               </p>
             </div>
           </div>

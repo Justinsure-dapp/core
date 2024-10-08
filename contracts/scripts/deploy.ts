@@ -108,7 +108,12 @@ async function clearDB() {
   if (!process.env.MONGODB_URI) return;
   await mongoose.connect(process.env.MONGODB_URI);
 
-  await mongoose.connection.db?.dropDatabase();
+  const collections = await mongoose.connection.db?.listCollections().toArray();
+  if (collections) {
+    for (const collection of collections) {
+      await mongoose.connection.db?.collection(collection.name).deleteMany({});
+    }
+  }
 }
 
 main()
