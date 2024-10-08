@@ -73,7 +73,7 @@ export default function Header() {
           });
         }}>
           <p className="font-sans font-bold">
-            USDJ: {formatCompactNumber(usdj.getUserBalance())}
+            ${formatCompactNumber(usdj.getUserBalance())} USDJ
           </p>
         </button>
 
@@ -83,7 +83,7 @@ export default function Header() {
         >
           <Icon
             icon="money"
-            className="text-2xl text-mute group-hover:text-zinc-300 duration-150 ease-in"
+            className="text-2xl  group-hover:text-zinc-300 duration-150 ease-in"
           />
         </Link>
       </div>
