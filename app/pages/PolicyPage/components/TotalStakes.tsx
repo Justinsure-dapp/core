@@ -41,19 +41,19 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
   if (creatorAddress === zeroAddress || policyAddress === zeroAddress)
     return null;
   return (
-    <div className="w-full flex-col flex gap-y-2 pb-16">
+    <div className="flex w-full flex-col gap-y-2 pb-16">
       <div className="flex justify-between mobile:gap-y-2">
         <h1 className="text-xl">Staked Amount</h1>
-        <div className="bg-primary/20 border border-primary/40 rounded-xl px-4 mobile:w-max mobile:self-end">
+        <div className="rounded-xl border border-primary/40 bg-primary/20 px-4 mobile:w-max mobile:self-end">
           SureCoin: <span className="font-mono">{totalStake?.toString()}</span>
         </div>
       </div>
-      <div className="w-full bg-primary/20 h-[1vh] rounded-xl relative mt-3">
+      <div className="relative mt-3 h-[1vh] w-full rounded-xl bg-primary/20">
         <div
-          className="bg-secondary h-[1vh] rounded-xl flex items-center justify-end"
+          className="flex h-[1vh] items-center justify-end rounded-xl bg-secondary"
           style={{ width: `${ownerStakePercentage}%` }}
         >
-          <div className="p-1 bg-background rounded-full border border-secondary">
+          <div className="rounded-full border border-secondary bg-background p-1">
             <Icon
               icon="shield_person"
               className="text-[1.5rem] text-secondary"
@@ -62,13 +62,13 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
         </div>
 
         <div
-          className="mobile:whitespace-nowrap mt-4"
+          className="mt-4 mobile:whitespace-nowrap"
           style={{ left: `${ownerStakePercentage}%` }}
         >
           By owner: {ownerStakePercentage.toFixed(2).toString()}%
         </div>
       </div>
-      <div className="flex w-full justify-between mt-2 relative"></div>
+      <div className="relative mt-2 flex w-full justify-between"></div>
     </div>
   );
 }

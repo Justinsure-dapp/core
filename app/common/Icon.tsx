@@ -17,9 +17,9 @@ export default function Icon(props: IconProps) {
         viewBox="0 -960 960 960"
         width="24"
         className={twMerge(
-          "fill-current w-[1em] h-[1em]",
+          "h-[1em] w-[1em] fill-current",
           props.className,
-          props.stroke && "stroke-[0.83em] stroke-front text-transparent",
+          props.stroke && "stroke-front stroke-[0.83em] text-transparent",
         )}
         style={{
           ...props.style,

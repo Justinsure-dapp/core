@@ -7,7 +7,7 @@ export default function () {
       <DocTitle>Developer Documentation</DocTitle>
 
       <article>
-        <div className="mt-4 mx-auto p-6 text-front rounded-lg shadow-md tracking-wide font-light leading-7">
+        <div className="mx-auto mt-4 rounded-lg p-6 font-light leading-7 tracking-wide text-front shadow-md">
           <H1>Overview (JustInsure Mechanics)</H1>
           <p className="text-mute">
             A decentralized insurance platform for trustless coverage and claims
@@ -47,13 +47,13 @@ export default function () {
           </div>
           <img
             src="/logo.png"
-            className="mx-auto w-1/5 my-5 border p-3 rounded border-white/5"
+            className="mx-auto my-5 w-1/5 rounded border border-white/5 p-3"
           />
-          <p className="text-center -mt-6 -mb-3 text-[10px] text-front/80">
+          <p className="-mb-3 -mt-6 text-center text-[10px] text-front/80">
             JustInsure
           </p>
           <H2>Ideal Use Cases for Integration with JustInsure</H2>
-          <p className="text-mute pb-2">
+          <p className="pb-2 text-mute">
             By integrating with the JustInsure platform, developers, policy
             issuers, and other protocols can leverage a robust and flexible
             decentralized insurance ecosystem. Here are some of the key use
@@ -102,7 +102,7 @@ export default function () {
               <B>Secure Payment Processing:</B> Through the receivePayment
               function, developers can ensure secure and compliant handling of
               premium payments in{" "}
-              <span className="text-teal-300 font-medium">USDJ</span>. This
+              <span className="font-medium text-teal-300">USDJ</span>. This
               creates a trustless environment for transactions, fostering
               confidence among users.
             </p>
@@ -119,7 +119,7 @@ export default function () {
               attracting more users to their platforms.
             </p>
           </div>
-          <div className="pl-4 mt-8">
+          <div className="mt-8 pl-4">
             <H3>Why Integrate with JustInsure?</H3>
             Integrating with JustInsure provides a unique opportunity to tap
             into a decentralized insurance model that prioritizes transparency,
@@ -141,7 +141,7 @@ export default function () {
               <p className="my-2 text-xl"> Key Functions:</p>
               <PRE>createInsurancePolicy:</PRE>
               Creates a new insurance policy controlled by an{" "}
-              <span className="text-green-400 font-medium">
+              <span className="font-medium text-green-400">
                 InsuranceController
               </span>
               .
@@ -153,7 +153,7 @@ export default function () {
               Collects fees on premium payments and allocates a fraction to
               SureCoin.
               <br />
-              <p className="bg-black w-max px-3 rounded-md border border-front/20 mt-4">
+              <p className="mt-4 w-max rounded-md border border-front/20 bg-black px-3">
                 JustInsureInterface Contract Address:{" "}
                 {contractDefinitions.justinsureInterface.address}
               </p>
@@ -179,7 +179,7 @@ export default function () {
               <PRE>claimRewards:</PRE>
               Users can claim rewards earned from staking SureCoins.
               <br />
-              <p className="bg-black w-max px-3 rounded-md border border-front/20 mt-4">
+              <p className="mt-4 w-max rounded-md border border-front/20 bg-black px-3">
                 SureCoin Contract Address:{" "}
                 {contractDefinitions.surecoin.address}
               </p>
@@ -220,14 +220,14 @@ export default function () {
               Retrieves the list of locked tokens for a specific user.
               <br />
               <PRE>LOCK_DURATION:</PRE> Defines the lock duration.{" "}
-              <span className="italic text-xs opacity-80">
+              <span className="text-xs italic opacity-80">
                 Currently 30 days
               </span>
               <br />
               <PRE>unlockTokens:</PRE>
               Unlocks tokens once the lock period has expired.
               <br />
-              <p className="bg-black w-max px-3 rounded-md border border-front/20 mt-4">
+              <p className="mt-4 w-max rounded-md border border-front/20 bg-black px-3">
                 Vault Contract Address: {contractDefinitions.vault.address}
               </p>
             </div>
@@ -239,10 +239,10 @@ export default function () {
 }
 
 const H1 = ({ children }: any) => (
-  <h1 className="text-4xl font-bold my-2">{children}</h1>
+  <h1 className="my-2 text-4xl font-bold">{children}</h1>
 );
 const H2 = ({ children }: any) => (
-  <h2 className="text-3xl font-bold mt-8 mb-4">{children}</h2>
+  <h2 className="mb-4 mt-8 text-3xl font-bold">{children}</h2>
 );
 const H3 = ({ children }: any) => (
   <h3 className="my-4 text-xl font-medium">{children}</h3>
@@ -255,10 +255,10 @@ const BR = ({ children }: any) => (
 );
 const B = ({ children }: any) => <b className="font-bold">{children}</b>;
 const PRE = ({ children }: any) => (
-  <span className="bg-foreground px-2 mx-2 border font-medium text-orange-300 border-front/10 rounded-md">
+  <span className="mx-2 rounded-md border border-front/10 bg-foreground px-2 font-medium text-orange-300">
     {children}
   </span>
 );
 const SureCoin = () => (
-  <span className="text-cyan-300 font-medium"> SureCoin </span>
+  <span className="font-medium text-cyan-300"> SureCoin </span>
 );

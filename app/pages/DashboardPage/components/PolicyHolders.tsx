@@ -20,13 +20,13 @@ export default function PolicyHolders({ holders }: { holders: Holder[] }) {
 
   return (
     <div className="mb-8">
-      <div className="border-t mb-4 border-front/20 pt-3 mt-1">
+      <div className="mb-4 mt-1 border-t border-front/20 pt-3">
         <h1 className="text-lg font-bold">Policy Holders</h1>
-        <div className="mt-2 w-full flex gap-x-3">
+        <div className="mt-2 flex w-full gap-x-3">
           <input
             type="text"
             placeholder="Search..."
-            className="w-full bg-background border border-primary/50 px-4 py-1 rounded-md focus-within:outline-none"
+            className="w-full rounded-md border border-primary/50 bg-background px-4 py-1 focus-within:outline-none"
             value={searchHook.searchQuery}
             onChange={(e) => searchHook.setSearchQuery(e.target.value)}
           />
@@ -36,7 +36,7 @@ export default function PolicyHolders({ holders }: { holders: Holder[] }) {
       {holdersToRender &&
         holdersToRender.slice(0, showList).map((holder, key) => (
           <div key={key}>
-            <div className="border border-border p-4 rounded-xl text-sm">
+            <div className="rounded-xl border border-border p-4 text-sm">
               <p className="mb-2">
                 <strong>Address:</strong> {holder.address}
               </p>
@@ -54,7 +54,7 @@ export default function PolicyHolders({ holders }: { holders: Holder[] }) {
 
       {showList < holdersToRender.length && (
         <button
-          className="mt-4 hover:bg-primary/60 transition-all px-4 py-2 self-end w-full bg-primary/50 text-white rounded-md"
+          className="mt-4 w-full self-end rounded-md bg-primary/50 px-4 py-2 text-white transition-all hover:bg-primary/60"
           onClick={() => setShowFullList((prev) => prev + 2)}
         >
           Load More

@@ -4,7 +4,7 @@ import YourStakes from "./components/YourStakes";
 
 export default function AccountPage() {
   return (
-    <article className="relative p-page">
+    <article className="p-page relative">
       <DocTitle title="My Account" />
       <YourPolicies />
       <YourStakes />

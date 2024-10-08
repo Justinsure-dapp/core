@@ -40,7 +40,7 @@ export default function Default() {
         <SideNav />
         <section
           ref={mainSectionRef}
-          className="h-screen overflow-y-scroll scrollbar-primary flex-1"
+          className="scrollbar-primary h-screen flex-1 overflow-y-scroll"
         >
           <Header />
           <Outlet />

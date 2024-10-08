@@ -31,24 +31,24 @@ export default function StatisticsSidebar() {
   }, []);
 
   return (
-    <section className="flex relative flex-col border-l border-border max-w-[20vw] h-screen mobile:hidden">
+    <section className="relative flex h-screen max-w-[20vw] flex-col border-l border-border mobile:hidden">
       {!hidden && (
         <>
-          <div className="px-6 py-3 flex flex-col gap-y-2">
-            <div className="flex items-center justify-between text-mute text-base font-bold">
+          <div className="flex flex-col gap-y-2 px-6 py-3">
+            <div className="flex items-center justify-between text-base font-bold text-mute">
               <h1 className="">SureCoin Balance</h1>
               <button
                 onClick={() => setHidden(true)}
-                className="disabled:hidden text-sm text-secondary"
+                className="text-sm text-secondary disabled:hidden"
                 disabled={hidden}
               >
                 Hide
               </button>
             </div>
-            <div className="flex flex-col xl:flex-row gap-2 xl:justify-between ">
+            <div className="flex flex-col gap-2 xl:flex-row xl:justify-between">
               <button
                 title="Add SURE to your wallet"
-                className="flex gap-2 text-sm items-center rounded-xl"
+                className="flex items-center gap-2 rounded-xl text-sm"
                 onClick={() => {
                   toast.info("Adding SURE to your wallet..");
                   watchAsset({
@@ -62,7 +62,7 @@ export default function StatisticsSidebar() {
                 }}
               >
                 Balance:
-                <p className="font-mono text-secondary text-xl font-medium">
+                <p className="font-mono text-xl font-medium text-secondary">
                   {balance ? formatCompactNumber(balance) : "0"}
                 </p>
               </button>
@@ -70,10 +70,10 @@ export default function StatisticsSidebar() {
               <button
                 title="Withdraw SureCoin"
                 onClick={() => modal.show(<WithdrawSurecoinModal />)}
-                className="flex gap-2 text-sm items-center rounded-xl"
+                className="flex items-center gap-2 rounded-xl text-sm"
               >
                 Earned:
-                <p className="font-mono text-secondary text-xl font-medium animate-pulse">
+                <p className="animate-pulse font-mono text-xl font-medium text-secondary">
                   {earned ? formatCompactNumber(earned) : "0"}
                 </p>
               </button>
@@ -96,7 +96,7 @@ export default function StatisticsSidebar() {
       >
         <button
           onClick={() => setHidden(!true)}
-          className="disabled:hidden text-sm text-secondary pt-7 px-4 font-bold"
+          className="px-4 pt-7 text-sm font-bold text-secondary disabled:hidden"
           disabled={!hidden}
         >
           Expand

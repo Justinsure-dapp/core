@@ -20,7 +20,7 @@ export default function PolicyPage() {
   );
 
   return (
-    <article className="p-page py-8 flex flex-col gap-y-4 w-full">
+    <article className="p-page flex w-full flex-col gap-y-4 py-8">
       <DocTitle title={"View Policy"} />
 
       {policy && (

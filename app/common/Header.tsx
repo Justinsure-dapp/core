@@ -32,11 +32,11 @@ export default function Header() {
   }, [location]);
 
   return (
-    <header className="border-border border-b p-page py-3 flex justify-between items-center sticky top-0 bg-background z-[101]">
-      <div className="flex justify-center items-center">
+    <header className="p-page sticky top-0 z-[101] flex items-center justify-between border-b border-border bg-background py-3">
+      <div className="flex items-center justify-center">
         <button
           className={twMerge(
-            "group duration-300 pr-2",
+            "group pr-2 duration-300",
             history.current.length == 0 && "w-0 scale-0 pr-0",
           )}
           onClick={() => {
@@ -55,14 +55,14 @@ export default function Header() {
         </h1>
       </div>
 
-      <div className="flex items-center gap-x-4 mobile:gap-x-2 mobile:mr-10 mobile:scale-90">
+      <div className="flex items-center gap-x-4 mobile:mr-10 mobile:scale-90 mobile:gap-x-2">
         <div className="flex items-center gap-x-4">
           <ConnectWallet />
         </div>
 
         <button
           title="Add USDJ to Wallet"
-          className="border border-mute py-1 px-2 rounded-lg hover:border-zinc-300 hover:text-zinc-300 group duration-150 ease-in"
+          className="group rounded-lg border border-mute px-2 py-1 duration-150 ease-in hover:border-zinc-300 hover:text-zinc-300"
           onClick={() => {
             toast.info("Adding USDJ to your wallet");
             watchAsset({
@@ -82,11 +82,11 @@ export default function Header() {
 
         <Link
           to="/faucet"
-          className="border border-mute py-1 px-2 rounded-lg hover:border-zinc-300 hover:text-zinc-300 group duration-150 ease-in"
+          className="group rounded-lg border border-mute px-2 py-1 duration-150 ease-in hover:border-zinc-300 hover:text-zinc-300"
         >
           <Icon
             icon="money"
-            className="text-2xl  group-hover:text-zinc-300 duration-150 ease-in"
+            className="text-2xl duration-150 ease-in group-hover:text-zinc-300"
           />
         </Link>
       </div>

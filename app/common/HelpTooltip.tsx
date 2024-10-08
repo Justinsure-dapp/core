@@ -7,19 +7,16 @@ export default function HelpTooltip(props: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative group cursor-pointer">
+    <div className="group relative cursor-pointer">
       <figure
         className={twMerge(
           props.className,
-          "bg-mute/40 text-front p-1 rounded-full aspect-square h-[1.4em] flex justify-center items-center text-base font-medium",
+          "flex aspect-square h-[1.4em] items-center justify-center rounded-full bg-mute/40 p-1 text-base font-medium text-front",
         )}
       >
         {props.symbol || "?"}
       </figure>
-      <div
-        className="min-w-[20vw] border-front/20 max-w-[30vw] absolute duration-500 translate-y-2 top-full left-0 opacity-0 group-hover:opacity-100 bg-foreground border border-border 
-      p-2 rounded-lg text-base font-normal pointer-events-none select-none"
-      >
+      <div className="pointer-events-none absolute left-0 top-full min-w-[20vw] max-w-[30vw] translate-y-2 select-none rounded-lg border border-border border-front/20 bg-foreground p-2 text-base font-normal opacity-0 duration-500 group-hover:opacity-100">
         {props.children}
       </div>
     </div>

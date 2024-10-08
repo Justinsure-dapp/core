@@ -22,14 +22,14 @@ export default function ClaimInfo(props: { policy: Policy }) {
 
   return (
     <div>
-      <div className="flex w-full gap-y-7 mt-4 mobile:gap-x-4 gap-x-4 text-front/60">
-        <div className="flex flex-col w-1/3 gap-y-2 text-sm">
-          <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
+      <div className="mt-4 flex w-full gap-x-4 gap-y-7 text-front/60 mobile:gap-x-4">
+        <div className="flex w-1/3 flex-col gap-y-2 text-sm">
+          <div className="flex items-center justify-center gap-x-2 rounded-md border border-border bg-background py-1 text-center duration-200 ease-in-out hover:bg-front/5 mobile:w-[30%]">
             <h1 className="tracking-wide">Policy Holders: </h1>
             <p className="text-front/80">{policy.holders.length}</p>
           </div>
 
-          <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
+          <div className="flex items-center justify-center gap-x-2 rounded-md border border-border bg-background py-1 text-center duration-200 ease-in-out hover:bg-front/5 mobile:w-[30%]">
             <h1 className="tracking-wide">Total Stake:</h1>
             <p className="text-front/80">
               {" "}
@@ -37,20 +37,20 @@ export default function ClaimInfo(props: { policy: Policy }) {
             </p>
           </div>
 
-          <div className="mobile:w-[30%] hover:bg-front/5 text-center justify-center duration-200 ease-in-out bg-background border border-border rounded-md py-1 flex items-center gap-x-2">
+          <div className="flex items-center justify-center gap-x-2 rounded-md border border-border bg-background py-1 text-center duration-200 ease-in-out hover:bg-front/5 mobile:w-[30%]">
             <h1 className="tracking-wide">Total Claims:</h1>
             <p className="text-front/80">{policy.claims.length} </p>
           </div>
         </div>
-        <div className="flex gap-x-4 w-2/3">
-          <div className="mobile:w-full w-1/2 duration-200  px-3 ease-in-out bg-background border border-border justify-center rounded-md flex flex-col ">
+        <div className="flex w-2/3 gap-x-4">
+          <div className="flex w-1/2 flex-col justify-center rounded-md border border-border bg-background px-3 duration-200 ease-in-out mobile:w-full">
             {" "}
-            <h1 className=" tracking-wide border-foreground border-b-2">
+            <h1 className="border-b-2 border-foreground tracking-wide">
               Duration for the policy
             </h1>
             <div className="mt-2 text-front/60">
               Minimum:{" "}
-              <span className=" text-front/80">
+              <span className="text-front/80">
                 {closestTimeUnit(Number(policy.minimumDuration))}
               </span>
             </div>
@@ -61,9 +61,9 @@ export default function ClaimInfo(props: { policy: Policy }) {
               </span>
             </div>
           </div>
-          <div className="mobile:w-full w-1/2 duration-200 ease-in-out px-3 bg-background border border-border justify-center rounded-md flex flex-col ">
+          <div className="flex w-1/2 flex-col justify-center rounded-md border border-border bg-background px-3 duration-200 ease-in-out mobile:w-full">
             {" "}
-            <h1 className=" tracking-wide border-foreground border-b-2">
+            <h1 className="border-b-2 border-foreground tracking-wide">
               Limit of the claim
             </h1>
             <div className="mt-2 text-front/60">

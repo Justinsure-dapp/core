@@ -52,12 +52,12 @@ export default function YourPolicies() {
     <div className="flex flex-col">
       <div
         ref={parent}
-        className="flex mt-10 gap-y-2 flex-col p-2 rounded-lg bg-mute/5 border border-border/20"
+        className="mt-10 flex flex-col gap-y-2 rounded-lg border border-border/20 bg-mute/5 p-2"
       >
-        <div className="flex justify-between p-2 items-center">
+        <div className="flex items-center justify-between p-2">
           <div>
             <h1 className="text-2xl font-semibold">Active Policies</h1>
-            <p className=" text-mute text-sm mt-1">
+            <p className="mt-1 text-sm text-mute">
               These are your currently active policies, providing ongoing
               coverage based on the terms you selected. You can review their
               details and manage them as needed throughout the coverage period.
@@ -66,7 +66,7 @@ export default function YourPolicies() {
         </div>
 
         {activePolicies.length === 0 ? (
-          <div className="flex justify-center items-center h-[20vh]">
+          <div className="flex h-[20vh] items-center justify-center">
             <h1 className="text-2xl font-semibold text-mute">
               Nothing to show..
             </h1>
@@ -85,7 +85,7 @@ export default function YourPolicies() {
 
         {activePolicies.length > 2 && (
           <button
-            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-front font-bold rounded-lg"
+            className="mr-2 w-max self-end rounded-lg border border-border bg-background px-4 py-2 font-bold text-front transition-all hover:bg-zinc-900"
             onClick={() => setViewMoreActive(!viewMoreActive)}
           >
             {viewMoreActive ? "View Less" : "View More"}{" "}
@@ -96,12 +96,12 @@ export default function YourPolicies() {
       {/* Policies Claimed */}
       <div
         ref={parent}
-        className="flex mt-10  gap-y-2 flex-col p-2 bg-mute/5 border border-border/20 rounded-lg"
+        className="mt-10 flex flex-col gap-y-2 rounded-lg border border-border/20 bg-mute/5 p-2"
       >
-        <div className="flex justify-between p-2 items-center">
+        <div className="flex items-center justify-between p-2">
           <div>
             <h1 className="text-2xl font-semibold">Inactive Policies</h1>
-            <h2 className=" text-mute text-sm mt-1">
+            <h2 className="mt-1 text-sm text-mute">
               These are your inactive policies, which are no longer providing
               coverage as it might have expired or you have claimed it. You can
               review their details here.
@@ -110,7 +110,7 @@ export default function YourPolicies() {
         </div>
 
         {claimedPolicies.length === 0 ? (
-          <div className="flex justify-center items-center h-[20vh]">
+          <div className="flex h-[20vh] items-center justify-center">
             <h1 className="text-2xl font-semibold text-mute">
               Nothing to show..
             </h1>
@@ -127,7 +127,7 @@ export default function YourPolicies() {
 
         {claimedPolicies.length > 2 && (
           <button
-            className="bg-background mr-2 hover:bg-zinc-900 border transition-all border-border w-max px-4 py-2 self-end text-front font-bold rounded-lg"
+            className="mr-2 w-max self-end rounded-lg border border-border bg-background px-4 py-2 font-bold text-front transition-all hover:bg-zinc-900"
             onClick={() => setViewMoreClaimed(!viewMoreClaimed)}
           >
             {viewMoreClaimed ? "View Less" : "View More"}{" "}
@@ -186,23 +186,23 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
   });
 
   return (
-    <div className="bg-background m-2 rounded-lg flex flex-col p-4">
+    <div className="m-2 flex flex-col rounded-lg bg-background p-4">
       <div className="flex gap-x-4">
         <img
           src={policy.image}
-          className="border border-border/60 w-24 h-24 p-1 object-cover rounded-md"
+          className="h-24 w-24 rounded-md border border-border/60 object-cover p-1"
         />
-        <div className="flex flex-col w-full justify-between">
-          <div className="flex justify-between gap-4 items-start w-full">
+        <div className="flex w-full flex-col justify-between">
+          <div className="flex w-full items-start justify-between gap-4">
             <div>
-              <h1 className="text-xl font-bold tracking-wide capitalize">
+              <h1 className="text-xl font-bold capitalize tracking-wide">
                 {policy.name}
               </h1>
               <ClipboardWrapper
                 textToBeCopied={policy.address}
                 className="text-xs text-mute"
               >
-                <p className="flex items-center gap-x-1 mt-1">
+                <p className="mt-1 flex items-center gap-x-1">
                   {formatEvmAddress(policy.address)}
                   <Icon icon="contentCopy" />
                 </p>
@@ -213,7 +213,7 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
               isPolicyOwner &&
               policy.holderDetails.status === "ongoing" && (
                 <button
-                  className="bg-background hover:bg-mute/5 border transition-all border-border px-4 py-2 text-front font-bold rounded-lg text-sm"
+                  className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-bold text-front transition-all hover:bg-mute/5"
                   onClick={requestClaim}
                 >
                   Request Claim
@@ -223,14 +223,14 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
 
           {isPolicyOwner && active ? (
             <div className="flex gap-x-2 text-sm">
-              <p className="border border-border px-3 py-1 rounded-2xl">
+              <p className="rounded-2xl border border-border px-3 py-1">
                 Status:{" "}
-                <span className="text-green-600 font-semibold">Ongoing</span>
+                <span className="font-semibold text-green-600">Ongoing</span>
               </p>
               {policy.holderDetails.claimExpiry && (
-                <p className="border border-border px-3 py-1 rounded-2xl">
+                <p className="rounded-2xl border border-border px-3 py-1">
                   Expires:{" "}
-                  <span className="text-red-500 font-semibold">
+                  <span className="font-semibold text-red-500">
                     {moment(policy.holderDetails.claimExpiry).fromNow()}
                   </span>
                 </p>
@@ -241,17 +241,17 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
               {policy.claimDetails &&
                 policy.claimDetails?.status === "approved" && (
                   <div className="flex gap-x-2">
-                    <p className="border border-border px-3 py-1 rounded-2xl">
+                    <p className="rounded-2xl border border-border px-3 py-1">
                       Status:{" "}
-                      <span className="text-green-600 font-bold">Claimed</span>
+                      <span className="font-bold text-green-600">Claimed</span>
                     </p>
-                    <p className="border border-border px-3 py-1 rounded-2xl">
+                    <p className="rounded-2xl border border-border px-3 py-1">
                       Claimed:{" "}
                       <span className="font-bold text-yellow-700">
                         {moment(policy.claimDetails.approvedAt).fromNow()}
                       </span>
                     </p>
-                    <p className="border border-border px-3 py-1 rounded-2xl">
+                    <p className="rounded-2xl border border-border px-3 py-1">
                       Amount:{" "}
                       <span className="font-bold text-secondary">
                         ${policy.claimDetails.amount}
@@ -263,13 +263,13 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
               {policy.claimDetails &&
                 policy.holderDetails?.status === "expired" && (
                   <div className="flex gap-x-2">
-                    <div className="border border-border px-3 py-1 rounded-2xl">
+                    <div className="rounded-2xl border border-border px-3 py-1">
                       Status:{" "}
-                      <span className="text-red-600 font-semibold">
+                      <span className="font-semibold text-red-600">
                         Expired
                       </span>
                     </div>
-                    <div className="border border-border px-3 py-1 rounded-2xl">
+                    <div className="rounded-2xl border border-border px-3 py-1">
                       Expired:{" "}
                       <span className="font-bold text-yellow-700">
                         {moment(policy.holderDetails.claimExpiry).fromNow()}

@@ -1,13 +1,13 @@
 .Protanopia {
-  @apply -hue-rotate-30 saturate-500;
+  @apply saturate-500 -hue-rotate-30;
 }
 
 .Deuteranopia {
-  @apply -hue-rotate-90 saturate-500;
+  @apply saturate-500 -hue-rotate-90;
 }
 
 .Tritanopia {
-  @apply hue-rotate-90 saturate-200 contrast-150;
+  @apply contrast-150 hue-rotate-90 saturate-200;
 }
 
 .Achromatopsia {

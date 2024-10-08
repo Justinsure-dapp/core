@@ -22,71 +22,71 @@ export default function DashboardPage() {
     <section className="p-page py-4">
       <DocTitle title="Dashboard" />
       <h1 className="text-2xl font-semibold">Your Policies</h1>
-      <div className="mt-4 w-full flex gap-x-4">
+      <div className="mt-4 flex w-full gap-x-4">
         <input
           type="text"
           placeholder="Search..."
-          className="w-full bg-background border border-front/20 px-4 py-2 rounded-lg focus-within:outline-none"
+          className="w-full rounded-lg border border-front/20 bg-background px-4 py-2 focus-within:outline-none"
         />
-        <button className="border border-primary/50 font-medium px-4 rounded-lg">
+        <button className="rounded-lg border border-primary/50 px-4 font-medium">
           Search
         </button>
       </div>
       <div className="mt-3 flex justify-between">
-        <button className="border border-primary/50 rounded-lg px-4 py-2  flex items-center gap-x-6">
+        <button className="flex items-center gap-x-6 rounded-lg border border-primary/50 px-4 py-2">
           Filter <Icon icon="expand_more" className="text-[1.5rem]" />{" "}
         </button>
         <Link
           to="/new-policy"
-          className="bg-primary text-front px-6 rounded-lg py-2 font-medium"
+          className="rounded-lg bg-primary px-6 py-2 font-medium text-front"
         >
           Create New Policy
         </Link>
       </div>
-      <div className="flex flex-col gap-y-8 mt-4">
+      <div className="mt-4 flex flex-col gap-y-8">
         {policies.map((policy, i) => (
-          <div className="flex flex-col gap-y-4 bg-primary/5 p-4 rounded-lg border border-secondary/20 relative">
+          <div className="relative flex flex-col gap-y-4 rounded-lg border border-secondary/20 bg-primary/5 p-4">
             <div className="flex flex-col gap-y-1">
               <h1 className="text-xl font-semibold">{policy.name}</h1>
-              <div className="text-front/80 text-sm">{policy.description}</div>
+              <div className="text-sm text-front/80">{policy.description}</div>
             </div>
-            <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
-              <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
+            <div className="flex flex-wrap gap-x-4 gap-y-4 mobile:gap-y-2">
+              <div className="flex w-max items-center justify-between gap-x-8 rounded-xl border border-front/20 bg-background px-4 py-3 duration-300 ease-in-out hover:bg-front hover:bg-opacity-[1%]">
                 <div className="flex flex-col">
-                  <h1 className="text-xl font-bold font-mono">
+                  <h1 className="font-mono text-xl font-bold">
                     {policy.policyHolder}
                   </h1>
-                  <p className="text-front/80 flex items-center text-sm">
+                  <p className="flex items-center text-sm text-front/80">
                     Policy Holders &#160;{" "}
                     <span className="text-green-500">+21.4%</span>
                   </p>
                 </div>
-                <div className="p-2 bg-green-500/20 rounded-xl">
+                <div className="rounded-xl bg-green-500/20 p-2">
                   <img src="https://img.icons8.com/ios-filled/32/40C057/bullish.png" />
                 </div>
               </div>
-              <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
+              <div className="flex w-max items-center justify-between gap-x-8 rounded-xl border border-front/20 bg-background px-4 py-3 duration-300 ease-in-out hover:bg-slate-400 hover:bg-opacity-[1%]">
                 <div className="flex flex-col">
-                  <h1 className="text-xl font-bold font-mono">
+                  <h1 className="font-mono text-xl font-bold">
                     {policy.stakeHolder}
                   </h1>
-                  <p className="text-front/80 text-sm">
+                  <p className="text-sm text-front/80">
                     Stake Holders &#160;{" "}
                     <span className="text-red-500">-12.43%</span>
                   </p>
                 </div>
-                <div className="p-2 bg-red-500/20 rounded-xl">
+                <div className="rounded-xl bg-red-500/20 p-2">
                   <img src="https://img.icons8.com/ios-filled/32/FA5252/bearish.png" />
                 </div>
               </div>
-              <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-3 rounded-xl gap-x-8 justify-between items-center">
+              <div className="flex w-max items-center justify-between gap-x-8 rounded-xl border border-front/20 bg-background px-4 py-3 duration-300 ease-in-out hover:bg-slate-400 hover:bg-opacity-[1%]">
                 <div className="flex flex-col">
-                  <h1 className="text-xl font-bold font-mono">
+                  <h1 className="font-mono text-xl font-bold">
                     $ {policy.MoneyInPool}
                   </h1>
-                  <p className="text-front/80 text-sm">Money in Pool &#160; </p>
+                  <p className="text-sm text-front/80">Money in Pool &#160; </p>
                 </div>
-                <div className="p-2 bg-front/20 rounded-xl">
+                <div className="rounded-xl bg-front/20 p-2">
                   <img src="https://img.icons8.com/pulsar-color/32/money-bag.png" />
                 </div>
               </div>
@@ -101,7 +101,7 @@ export default function DashboardPage() {
 
             {expanded[i] && (
               <div className="flex flex-col">
-                <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
+                <button className="w-max rounded-lg bg-front/20 px-3 py-2">
                   Recent Activity
                 </button>
                 <PolicyHolders holders={[]} />

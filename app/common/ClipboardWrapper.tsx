@@ -8,19 +8,16 @@ export default function (props: {
 }) {
   return (
     <div
-      className={twMerge("cursor-pointer relative group/tiny", props.className)}
+      className={twMerge("group/tiny relative cursor-pointer", props.className)}
       onClick={(e) => {
         props.textToBeCopied &&
           navigator.clipboard.writeText(props.textToBeCopied);
       }}
     >
-      <span className="group-active/tiny:opacity-0 delay-500 group-active/tiny:delay-0 duration-300 group-active/tiny:duration-0">
+      <span className="delay-500 duration-300 group-active/tiny:opacity-0 group-active/tiny:delay-0 group-active/tiny:duration-0">
         {props.children}
       </span>
-      <span
-        className="absolute-cover text-[0.9em] font-medium whitespace-nowrap opacity-0 group-active/tiny:opacity-100 delay-500 duration-300 
-      group-active/tiny:duration-0 group-active/tiny:delay-0 select-none brightness-125 saturate-200"
-      >
+      <span className="absolute-cover select-none whitespace-nowrap text-[0.9em] font-medium opacity-0 brightness-125 saturate-200 delay-500 duration-300 group-active/tiny:opacity-100 group-active/tiny:delay-0 group-active/tiny:duration-0">
         Copied to clipboard
       </span>
     </div>

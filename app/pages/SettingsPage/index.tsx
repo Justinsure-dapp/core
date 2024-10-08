@@ -8,7 +8,7 @@ export default function SettingsPage() {
   return (
     <>
       <DocTitle title="Settings" />
-      <div className="flex flex-col gap-y-2 py-4 p-page">
+      <div className="p-page flex flex-col gap-y-2 py-4">
         {!user?.marketer && (
           <div className="flex gap-x-3">
             <p>Do you wish to become a marketer on JustInsure?</p>
@@ -22,7 +22,7 @@ export default function SettingsPage() {
         )}
 
         {user?.marketer && (
-          <div className="bg-secondary/40 w-full rounded-md p-3 text-sm">
+          <div className="w-full rounded-md bg-secondary/40 p-3 text-sm">
             <b>Note: </b> Marketer mode is enabled, you can list your own
             policies on the platform.
           </div>

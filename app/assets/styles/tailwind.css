@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply bg-background text-front font-mulish  scroll-smooth;
+    @apply scroll-smooth bg-background font-mulish text-front;
   }
 
   body {
@@ -32,7 +32,7 @@
     @apply bg-transparent;
   }
   .scrollbar-primary::-webkit-scrollbar-thumb {
-    @apply bg-primary rounded hover:saturate-200;
+    @apply rounded bg-primary hover:saturate-200;
   }
 
   .scrollbar-none::-webkit-scrollbar {
@@ -47,7 +47,7 @@
   }
 
   .absolute-cover {
-    @apply absolute top-0 left-0 w-full h-full;
+    @apply absolute left-0 top-0 h-full w-full;
   }
 
   .overflow-b-hidden {

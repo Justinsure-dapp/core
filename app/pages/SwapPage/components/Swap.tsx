@@ -49,10 +49,10 @@ export default function Swap() {
   };
 
   return (
-    <div className="h-max p-4 border border-border rounded-lg shadow-md relative">
+    <div className="relative h-max rounded-lg border border-border p-4 shadow-md">
       {/* Sell section */}
-      <div className="p-3 mt-2 border border-border rounded-md">
-        <div className="flex justify-between items-center mb-2">
+      <div className="mt-2 rounded-md border border-border p-3">
+        <div className="mb-2 flex items-center justify-between">
           <p className="text-sm">Sell</p>
           <p className="text-xs">
             Max: {balance.toFixed(2)} {isSurecoinToUsdj ? "Surecoin" : "USDJ"}
@@ -64,7 +64,7 @@ export default function Swap() {
             value={amount}
             onChange={handleAmountChange}
             placeholder="0.00"
-            className="w-full text-right bg-transparent text-white border-none focus:outline-none text-2xl"
+            className="w-full border-none bg-transparent text-right text-2xl text-white focus:outline-none"
           />
           <span className="ml-2 text-sm">
             {isSurecoinToUsdj ? "Surecoin" : "USDJ"}
@@ -76,15 +76,15 @@ export default function Swap() {
       <div className="text-center">
         <button
           onClick={toggleDirection}
-          className="text-white text-xl p-2 hover:bg-primary/20 duration-300 rounded-full bg-transparent"
+          className="rounded-full bg-transparent p-2 text-xl text-white duration-300 hover:bg-primary/20"
         >
           <Icon icon="arrow_forward" className="rotate-90" />
         </button>
       </div>
 
       {/* Buy section */}
-      <div className="p-2 border border-border rounded-md">
-        <div className="flex justify-between items-center mb-2">
+      <div className="rounded-md border border-border p-2">
+        <div className="mb-2 flex items-center justify-between">
           <p className="text-sm">Buy</p>
           <p className="text-xs">
             Balance:{" "}
@@ -97,7 +97,7 @@ export default function Swap() {
             type="text"
             value={calculatedAmount}
             disabled
-            className="w-full text-right bg-transparent text-white border-none focus:outline-none text-2xl"
+            className="w-full border-none bg-transparent text-right text-2xl text-white focus:outline-none"
           />
           <span className="ml-2 text-sm">
             {isSurecoinToUsdj ? "USDJ" : "Surecoin"}
@@ -106,7 +106,7 @@ export default function Swap() {
       </div>
 
       {/* Buy button */}
-      <button className="w-full py-2 bg-primary/80 hover:bg-primary duration-100 ease-in rounded-md text-center font-bold mt-4">
+      <button className="mt-4 w-full rounded-md bg-primary/80 py-2 text-center font-bold duration-100 ease-in hover:bg-primary">
         Swap
       </button>
     </div>

@@ -14,23 +14,23 @@ export default function HomePage() {
       {/* Mobile */}
       <div className="p-page py-8">
         {/* Logo on Mobile */}
-        <div className="hidden mobile:flex w-full items-center justify-center border p-4 mb-4 rounded-md sm:pr-12 border-border dark:bg-background bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative">
-          <div className="absolute rounded-xl pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+        <div className="relative mb-4 hidden w-full items-center justify-center rounded-md border border-border bg-white p-4 bg-dot-black/[0.2] sm:pr-12 mobile:flex dark:bg-background dark:bg-dot-white/[0.2]">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-xl bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-background" />
 
           <img src="/logo.png" alt="logo" className="w-12 sm:w-32" />
 
           <div className="flex flex-col items-start gap-y-1 sm:pb-4">
             <div className="relative">
-              <h1 className="font-black text-2xl sm:text-4xl tracking-wider">
+              <h1 className="text-2xl font-black tracking-wider sm:text-4xl">
                 JustInsure
               </h1>
               {user?.marketer && (
                 <div className="group">
-                  <p className="absolute top-0 left-full translate-x-1 -translate-y-1/4 text-[10px] bg-primary px-1 rounded-full text-white font-bold">
+                  <p className="absolute left-full top-0 -translate-y-1/4 translate-x-1 rounded-full bg-primary px-1 text-[10px] font-bold text-white">
                     Pro
                   </p>
 
-                  <p className="absolute -top-2 -right-7 whitespace-nowrap text-xs opacity-0 duration-300 translate-y-full group-hover:translate-y-1/2 group-hover:opacity-100 bg-background border border-border p-2 rounded-lg pointer-events-none z-20">
+                  <p className="pointer-events-none absolute -right-7 -top-2 z-20 translate-y-full whitespace-nowrap rounded-lg border border-border bg-background p-2 text-xs opacity-0 duration-300 group-hover:translate-y-1/2 group-hover:opacity-100">
                     "Pro" indicates that you are a marketer and you can list
                     <br />
                     policies on our platform
@@ -38,46 +38,46 @@ export default function HomePage() {
                 </div>
               )}
             </div>
-            <p className="text-primary text-xs font-semibold">
+            <p className="text-xs font-semibold text-primary">
               Rest assured on Web3
             </p>
           </div>
         </div>
 
         <div className="flex gap-6 mobile:flex-col-reverse">
-          <article className="flex flex-col w-1/4 mobile:w-full border border-zinc-700 rounded-lg h-[60vh] overflow-hidden items-center py-4 text-zinc-100 px-3 gap-y-4 mobile:gap-y-2 text-center  bg-mute/20  bg-dot-white/[0.1] relative">
-            <div className="absolute rounded-xl  pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+          <article className="relative flex h-[60vh] w-1/4 flex-col items-center gap-y-4 overflow-hidden rounded-lg border border-zinc-700 bg-mute/20 px-3 py-4 text-center text-zinc-100 bg-dot-white/[0.1] mobile:w-full mobile:gap-y-2">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-xl bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-background" />
 
-            <p className="font-bold text-lg z-10">Soparu the Rabbit</p>
+            <p className="z-10 text-lg font-bold">Soparu the Rabbit</p>
             <p className="z-10">
               Has an interesting backstory of how she went from being a farmer
               to working with Insurances on Web3 with JustInsure...
             </p>
 
-            <p className="font-medium mt-1 -mb-1 z-10">Did you know?</p>
-            <p className="-my-1 text-xs z-10">Soparu the Rabbit is a Robbot</p>
-            <p className="-my-1 text-xs z-10">
+            <p className="z-10 -mb-1 mt-1 font-medium">Did you know?</p>
+            <p className="z-10 -my-1 text-xs">Soparu the Rabbit is a Robbot</p>
+            <p className="z-10 -my-1 text-xs">
               Soparu the Rab(bit) is holding BTTC
             </p>
 
             <img
-              className="aspect-square scale-[115%] translate-y-[10%]"
+              className="aspect-square translate-y-[10%] scale-[115%]"
               src="/images/soparu-on-farm.jpg"
             />
           </article>
-          <div className="flex flex-col w-3/4 gap-6 mobile:w-full">
-            <article className="border border-border rounded-xl">
-              <AuroraBackground className="rounded-xl ">
-                <div className="flex overflow-b-hidden">
+          <div className="flex w-3/4 flex-col gap-6 mobile:w-full">
+            <article className="rounded-xl border border-border">
+              <AuroraBackground className="rounded-xl">
+                <div className="overflow-b-hidden flex">
                   <img
                     src="/images/soparu.webp"
                     alt="sopo mascot"
-                    className="w-1/4 scale-125 -translate-y-3 mobile:w-1/2 mobile:hidden"
+                    className="w-1/4 -translate-y-3 scale-125 mobile:hidden mobile:w-1/2"
                   />
-                  <div className="py-4 flex flex-col gap-y-5 px-4 text-zinc-100/90">
-                    <p className="flex  items-start font-medium text-3xl">
+                  <div className="flex flex-col gap-y-5 px-4 py-4 text-zinc-100/90">
+                    <p className="flex items-start text-3xl font-medium">
                       JustInsure Early Access
-                      <span className="text-sm pl-1 font-normal">
+                      <span className="pl-1 text-sm font-normal">
                         * testnet
                       </span>
                     </p>
@@ -93,7 +93,7 @@ export default function HomePage() {
                         onClick={() =>
                           window.open("https://forms.gle/eKgCiw8u9R5haZK86")
                         }
-                        className="bg-background hover:bg-zinc-800 transition-all border border-border px-6 py-2 rounded-md font-medium"
+                        className="rounded-md border border-border bg-background px-6 py-2 font-medium transition-all hover:bg-zinc-800"
                       >
                         Take Survey
                       </button>
@@ -107,17 +107,17 @@ export default function HomePage() {
               onClick={() => {
                 window.open("https://bttc.bittorrent.com/");
               }}
-              className="cursor-pointer relative mobile:py-16 flex-1 group w-full rounded-lg h-[50rem] dark:bg-background bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] border border-border flex items-center justify-center"
+              className="group relative flex h-[50rem] w-full flex-1 cursor-pointer items-center justify-center rounded-lg border border-border bg-white bg-dot-black/[0.2] mobile:py-16 dark:bg-background dark:bg-dot-white/[0.2]"
             >
-              <div className="absolute rounded-xl pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-xl bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-background" />
 
-              <div className="relative z-10 bg-zinc-900/80 rounded-full flex items-center gap-x-2 text-white px-5 py-3 duration-200 hover:bg-zinc-800/80 border border-border">
+              <div className="relative z-10 flex items-center gap-x-2 rounded-full border border-border bg-zinc-900/80 px-5 py-3 text-white duration-200 hover:bg-zinc-800/80">
                 Powered By
                 <img src="/icons/bttc.png" alt="bttc" className="h-[2em]" />
                 BitTorrent Chain
               </div>
 
-              <p className="absolute flex gap-x-1 z-10 text-xs items-center bottom-3 right-2 text-accent2 bg-red-100 px-3 rounded-full">
+              <p className="absolute bottom-3 right-2 z-10 flex items-center gap-x-1 rounded-full bg-red-100 px-3 text-xs text-accent2">
                 Coming soon to the
                 <img src="/icons/tron.svg" alt="tron" className="h-[2em]" />
                 Tron Network
@@ -128,11 +128,11 @@ export default function HomePage() {
         <Link
           to="https://t.me/surity_bot"
           target={`_newABC`}
-          className="flex items-start justify-center mt-8 w-full"
+          className="mt-8 flex w-full items-start justify-center"
         >
-          <div className="relative group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-100 group-hover:duration-200 animate-tilt"></div>
-            <button className="relative px-7 py-4 bg-background rounded-lg leading-none flex items-center widescreen:divide-x widescreen:divide-zinc-600 mobile:flex-col mobile:gap-y-2 border border-primary">
+          <div className="group relative">
+            <div className="absolute -inset-0.5 animate-tilt rounded-lg bg-gradient-to-r from-primary to-secondary opacity-75 blur transition duration-100 group-hover:opacity-100 group-hover:duration-200"></div>
+            <button className="relative flex items-center rounded-lg border border-primary bg-background px-7 py-4 leading-none mobile:flex-col mobile:gap-y-2 widescreen:divide-x widescreen:divide-zinc-600">
               <span className="flex items-center space-x-5">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -144,11 +144,11 @@ export default function HomePage() {
                   <path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z" />
                 </svg>
 
-                <span className="pr-6 text-gray-100 whitespace-nowrap">
+                <span className="whitespace-nowrap pr-6 text-gray-100">
                   We are live on Telegram
                 </span>
               </span>
-              <span className="pl-6 text-secondary group-hover:text-gray-100 transition duration-200 whitespace-nowrap">
+              <span className="whitespace-nowrap pl-6 text-secondary transition duration-200 group-hover:text-gray-100">
                 Click here to try it &rarr;
               </span>
             </button>
@@ -195,7 +195,7 @@ function MappedOptions(props: { options: Array<Option> }) {
 
         <div className="flex gap-x-2">
           {options[selected].additionalInputs?.map((inp, key) => (
-            <input key={key} {...inp} className="text-front px-2" />
+            <input key={key} {...inp} className="px-2 text-front" />
           ))}
         </div>
       </div>

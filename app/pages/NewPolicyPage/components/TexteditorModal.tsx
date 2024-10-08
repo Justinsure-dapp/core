@@ -61,17 +61,17 @@ export default function TexteditorModal(props: TexteditorModalProps) {
   }
 
   return (
-    <div className="bg-background p-5 rounded-md mobile:w-[80vw] widescreen:w-[60vw] flex flex-col gap-y-4 border border-mute/40">
+    <div className="flex flex-col gap-y-4 rounded-md border border-mute/40 bg-background p-5 mobile:w-[80vw] widescreen:w-[60vw]">
       <textarea
         required
-        className="bg-transparent border rounded-md p-2 resize-none h-[50vh] border-border"
+        className="h-[50vh] resize-none rounded-md border border-border bg-transparent p-2"
         defaultValue={props.defaultValue || props.placeholder}
         ref={editorRef}
       />
       <div className="flex gap-x-[4vw] px-[2vw]">
         <button
           type="button"
-          className="flex-1 bg-primary/80 border border-border hover:bg-primary text-front rounded-md py-2 font-medium transition-all"
+          className="flex-1 rounded-md border border-border bg-primary/80 py-2 font-medium text-front transition-all hover:bg-primary"
           onClick={() => {
             if (!editorRef.current.checkValidity()) {
               alert("Please add a function");
@@ -101,7 +101,7 @@ export default function TexteditorModal(props: TexteditorModalProps) {
 
         <button
           type="button"
-          className="flex-1 bg-red-600 hover:bg-red-500 transition-all text-front rounded-md py-2 font-medium"
+          className="flex-1 rounded-md bg-red-600 py-2 font-medium text-front transition-all hover:bg-red-500"
           onClick={modal.hide}
         >
           Cancel

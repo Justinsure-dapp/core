@@ -5,7 +5,7 @@ import Heading from "../NewPolicyPage/components/Heading";
 
 export default function (props: {}) {
   return (
-    <div className="m-8 border border-border/50 p-4 text-sm rounded-xl">
+    <div className="m-8 rounded-xl border border-border/50 p-4 text-sm">
       <DocTitle title="SureCoin" />
 
       <div>
@@ -16,7 +16,7 @@ export default function (props: {}) {
         </p>
       </div>
 
-      <img src="/images/tokenomics.png" className="w-1/2 mx-auto" />
+      <img src="/images/tokenomics.png" className="mx-auto w-1/2" />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React from "react";
 
 export default function SurityBranding() {
   return (
-    <div className="flex flex-col items-center my-10 opacity-20">
+    <div className="my-10 flex flex-col items-center opacity-20">
       {[
         "J",
         "U",
@@ -46,7 +46,7 @@ export default function SurityBranding() {
       ]
         .toReversed()
         .map((word, key) => (
-          <div className="-rotate-90 text-[1.26vw] -my-1 font-bold" key={key}>
+          <div className="-my-1 -rotate-90 text-[1.26vw] font-bold" key={key}>
             {word}
           </div>
         ))}
