@@ -30,7 +30,7 @@ export default function DashboardPage() {
       : searchResults.map((result: any) => result.item);
 
   return (
-    <section className="p-page py-4">
+    <div className="p-page py-4">
       <DocTitle title="Marketer Dashboard" />
 
       <div className="flex justify-between gap-x-2">
@@ -69,6 +69,6 @@ export default function DashboardPage() {
                 <PolicyCard key={policy.item.address} policy={policy.item} />
               ))}
       </div>
-    </section>
+    </div>
   );
 }
