@@ -99,8 +99,12 @@ export function StakedInCard({
 
   if (stakeAmount && stakeAmount > usdj.multiplyWithDecimals(0.1)) {
     return (
-      <Link to={`/policies/${policy.address}`}
-        className={twMerge(`border transition-all p-2 border-border bg-background rounded-lg`, !withdrawable && "hover:bg-mute/5")}
+      <Link
+        to={`/policies/${policy.address}`}
+        className={twMerge(
+          `border transition-all p-2 border-border bg-background rounded-lg`,
+          !withdrawable && "hover:bg-mute/5",
+        )}
         title={policy.creator === address ? "Created by you" : "Staked by you"}
       >
         <div className="flex gap-x-2 relative">
@@ -119,8 +123,8 @@ export function StakedInCard({
                   "text-xs text-mute flex gap-x-1 whitespace-nowrap mt-1",
                   withdrawable ? "" : "",
                 )}
-              >Stake: $
-                {usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
+              >
+                Stake: ${usdj.divideByDecimals(stakeAmount || 0n).toFixed(2)}
               </p>
             </div>
 
@@ -134,7 +138,6 @@ export function StakedInCard({
                 Withdraw
               </button>
             )}
-
           </div>
         </div>
       </Link>
@@ -252,13 +255,13 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
           You can only withdraw the amount you have staked. You can check the
           amount you have staked below.
         </p>
-        <p className="text-front mt-2">Max Withdrawl: {' '}
+        <p className="text-front mt-2">
+          Max Withdrawl:{" "}
           {usdjHook.divideByDecimals(stakedAmount || 0n).toFixed(2)}
         </p>
       </div>
       <div className="flex flex-col mt-4 relative">
-        {
-          showWarning &&
+        {showWarning && (
           <p
             className={twMerge(
               "text-xs absolute top-1 right-0 text-red-500 flex gap-x-1 items-center",
@@ -268,7 +271,7 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
             <Icon icon="info" /> Withdrawal Limit: $
             {usdjHook.divideByDecimals(stakedAmount || 0n).toFixed(2)}
           </p>
-        }
+        )}
         <Heading>Enter amount to withdraw</Heading>
         <input
           type="number"
@@ -280,7 +283,6 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
           Max Profit: ${usdjHook.divideByDecimals(profitShare || 0n)}
         </p>
       </div>
-
 
       <button
         className={twMerge(

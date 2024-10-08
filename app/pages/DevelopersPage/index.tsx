@@ -45,8 +45,13 @@ export default function () {
               leverage a wide range of services.
             </p>
           </div>
-          <img src="/logo.png" className="mx-auto w-1/5 my-5 border p-3 rounded border-white/5" />
-          <p className="text-center -mt-6 -mb-3 text-[10px] text-front/80">JustInsure</p>
+          <img
+            src="/logo.png"
+            className="mx-auto w-1/5 my-5 border p-3 rounded border-white/5"
+          />
+          <p className="text-center -mt-6 -mb-3 text-[10px] text-front/80">
+            JustInsure
+          </p>
           <H2>Ideal Use Cases for Integration with JustInsure</H2>
           <p className="text-mute pb-2">
             By integrating with the JustInsure platform, developers, policy

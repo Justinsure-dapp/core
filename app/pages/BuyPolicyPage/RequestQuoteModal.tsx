@@ -146,10 +146,17 @@ export default function RequestQuoteModal({
 
       <div className="flex flex-col gap-y-1">
         <h1 className="text-2xl font-bold">
-         Calculated Premium for {policy.name}
+          Calculated Premium for {policy.name}
         </h1>
-        <p className="text-sm text-mute">The premium has been calculated based on the formula provided by the marketer, using the parameters and duration you specified. If the quoted premium meets your expectations, you can proceed with purchasing the policy. However, if the quote is not satisfactory, feel free to adjust the parameters or policy duration to explore alternative pricing options.</p>
-        </div>
+        <p className="text-sm text-mute">
+          The premium has been calculated based on the formula provided by the
+          marketer, using the parameters and duration you specified. If the
+          quoted premium meets your expectations, you can proceed with
+          purchasing the policy. However, if the quote is not satisfactory, feel
+          free to adjust the parameters or policy duration to explore
+          alternative pricing options.
+        </p>
+      </div>
       <div className="flex items-center mt-3 gap-2">
         <Heading>Calculated Premium:</Heading>
         <div className="rounded-md w-fit py-1 px-4 bg-background border border-border ">

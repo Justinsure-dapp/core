@@ -58,7 +58,9 @@ export default function YourPolicies() {
           <div>
             <h1 className="text-2xl font-semibold">Active Policies</h1>
             <p className=" text-mute text-sm mt-1">
-            These are your currently active policies, providing ongoing coverage based on the terms you selected. You can review their details and manage them as needed throughout the coverage period.
+              These are your currently active policies, providing ongoing
+              coverage based on the terms you selected. You can review their
+              details and manage them as needed throughout the coverage period.
             </p>
           </div>
         </div>
@@ -100,7 +102,9 @@ export default function YourPolicies() {
           <div>
             <h1 className="text-2xl font-semibold">Inactive Policies</h1>
             <h2 className=" text-mute text-sm mt-1">
-            These are your inactive policies, which are no longer providing coverage as it might have expired or you have claimed it. You can review their details here.
+              These are your inactive policies, which are no longer providing
+              coverage as it might have expired or you have claimed it. You can
+              review their details here.
             </h2>
           </div>
         </div>
@@ -191,7 +195,9 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
         <div className="flex flex-col w-full justify-between">
           <div className="flex justify-between gap-4 items-start w-full">
             <div>
-              <h1 className="text-xl font-bold tracking-wide capitalize">{policy.name}</h1>
+              <h1 className="text-xl font-bold tracking-wide capitalize">
+                {policy.name}
+              </h1>
               <ClipboardWrapper
                 textToBeCopied={policy.address}
                 className="text-xs text-mute"

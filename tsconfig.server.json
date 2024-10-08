@@ -9,5 +9,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["api", "evmConfig.ts"]
+  "include": ["api"]
 }

@@ -37,7 +37,6 @@ const router = createBrowserRouter(
         <Route path="/swap" element={<SwapPage />} />
         <Route path="surecoin" element={<SureCoinPage />} />
 
-
         <Route element={<ProtectedRoute type={ProtectedTypes.CONSUMERONLY} />}>
           <Route path="new-marketer" element={<NewMarketerPage />} />
         </Route>

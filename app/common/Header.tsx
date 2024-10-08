@@ -60,18 +60,21 @@ export default function Header() {
           <ConnectWallet />
         </div>
 
-        <button title="Add USDJ to Wallet" className="border border-mute py-1 px-2 rounded-lg hover:border-zinc-300 hover:text-zinc-300 group duration-150 ease-in"
-        onClick={() => {
-          toast.info("Adding USDJ to your wallet");
-          watchAsset({
-            type: "ERC20",
-            options: {
-              address: evmConfig.usdj.address,
-              symbol: "USDJ",
-              decimals: usdj.decimals || 6,
-            },
-          });
-        }}>
+        <button
+          title="Add USDJ to Wallet"
+          className="border border-mute py-1 px-2 rounded-lg hover:border-zinc-300 hover:text-zinc-300 group duration-150 ease-in"
+          onClick={() => {
+            toast.info("Adding USDJ to your wallet");
+            watchAsset({
+              type: "ERC20",
+              options: {
+                address: evmConfig.usdj.address,
+                symbol: "USDJ",
+                decimals: usdj.decimals || 6,
+              },
+            });
+          }}
+        >
           <p className="font-sans font-bold">
             ${formatCompactNumber(usdj.getUserBalance())} USDJ
           </p>

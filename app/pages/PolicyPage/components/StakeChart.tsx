@@ -35,11 +35,11 @@ export default function StakeChart({ policy }: { policy: Policy }) {
         },
       },
       grid: {
-        borderColor: '#444',
+        borderColor: "#444",
         yaxis: {
           lines: {
             show: true,
-          }
+          },
         },
       },
       dataLabels: {
@@ -48,12 +48,12 @@ export default function StakeChart({ policy }: { policy: Policy }) {
       markers: {
         size: 7,
         colors: ["#09090b"],
-        strokeColors: "#fefefe", 
-        strokeWidth: 1, 
+        strokeColors: "#fefefe",
+        strokeWidth: 1,
       },
       stroke: {
         colors: ["#71717a"],
-        curve: 'smooth',
+        curve: "smooth",
         width: 2,
       },
       yaxis: {
@@ -68,26 +68,26 @@ export default function StakeChart({ policy }: { policy: Policy }) {
         title: {
           text: "Stake Amount",
           style: {
-            color: '#71717a',
-          }
+            color: "#71717a",
+          },
         },
       },
       xaxis: {
         type: "datetime",
         labels: {
           datetimeFormatter: {
-            hour: 'HH:mm',
+            hour: "HH:mm",
           },
           style: {
-            colors: '#71717a',
-          }
-        }
+            colors: "#71717a",
+          },
+        },
       },
       tooltip: {
         shared: false,
-        theme: 'dark',
+        theme: "dark",
         style: {
-          fontSize: '12px',
+          fontSize: "12px",
         },
         y: {
           formatter: function (val) {
@@ -97,8 +97,8 @@ export default function StakeChart({ policy }: { policy: Policy }) {
       },
 
       annotations: {
-        points: []
-      }
+        points: [],
+      },
     },
   });
 
@@ -113,24 +113,26 @@ export default function StakeChart({ policy }: { policy: Policy }) {
           y: entry.amount / Math.pow(10, Number(usdj.decimals)) || 0,
         }));
 
-      const transactionPoints = seriesData.map((point: { x: number; y: number; }) => ({
-        x: point.x,
-        y: point.y,
-        marker: {
-          size: 8,
-          fillColor: '#50798c',
-          strokeColor: '#fff',
-          radius: 3,
-        },
-        label: {
-          text: 'Transaction',
-          style: {
-            color: '#000',
-            background: '#50798c',
-            fontSize: '12px'
-          }
-        }
-      }));
+      const transactionPoints = seriesData.map(
+        (point: { x: number; y: number }) => ({
+          x: point.x,
+          y: point.y,
+          marker: {
+            size: 8,
+            fillColor: "#50798c",
+            strokeColor: "#fff",
+            radius: 3,
+          },
+          label: {
+            text: "Transaction",
+            style: {
+              color: "#000",
+              background: "#50798c",
+              fontSize: "12px",
+            },
+          },
+        }),
+      );
 
       setChartData((prevData) => ({
         ...prevData,

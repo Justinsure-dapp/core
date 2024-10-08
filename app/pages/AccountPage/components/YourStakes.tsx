@@ -38,7 +38,10 @@ export default function YourStakes() {
           </p>
         </div>
         <h2 className=" text-mute text-sm mt-2">
-          These are the policies in which you have staked. This pie chart displays the distribution of your staked amount across various policies. It provides a visual breakdown of how much you've staked in each policy, helping you track and manage your investments easily.
+          These are the policies in which you have staked. This pie chart
+          displays the distribution of your staked amount across various
+          policies. It provides a visual breakdown of how much you've staked in
+          each policy, helping you track and manage your investments easily.
         </h2>
       </div>
       {policiesStakedIn.length > 0 ? (
