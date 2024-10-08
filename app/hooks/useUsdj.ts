@@ -14,7 +14,7 @@ type UsdjHook = {
   getUserBalance: () => number;
   decimals: number | undefined;
   multiplyWithDecimals: (value: number) => bigint;
-  divideByDecimals: (value: bigint) => number;
+  divideByDecimals: (value: bigint | number) => number;
 };
 
 function useUsdjHook(): UsdjHook {
@@ -70,7 +70,7 @@ function useUsdjHook(): UsdjHook {
     return BigInt(roundedValue);
   }
 
-  function divideByDecimals(value: bigint) {
+  function divideByDecimals(value: bigint | number) {
     if (!decimals) return 0;
     return Number(value) / 10 ** decimals;
   }

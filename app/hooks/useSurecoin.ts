@@ -15,7 +15,7 @@ type SureCoinHook = {
   decimals: number | undefined;
   earned: bigint | undefined;
   multiplyWithDecimals: (value: bigint) => bigint;
-  divideByDecimals: (value: bigint) => number;
+  divideByDecimals: (value: bigint | number) => number;
   getUserEarned: () => number;
   refreshEarned: () => void;
 };
@@ -82,7 +82,7 @@ function useSureCoinHook(): SureCoinHook {
     return BigInt(Number(value) * 10 ** decimals);
   }
 
-  function divideByDecimals(value: bigint) {
+  function divideByDecimals(value: bigint | number) {
     if (!decimals) return 0;
     return Number(value) / 10 ** decimals;
   }
