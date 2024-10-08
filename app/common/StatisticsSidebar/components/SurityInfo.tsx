@@ -64,17 +64,12 @@ export default function SurityInfo() {
 
 const socialLinks: Array<{ link: string; imgUrl: string }> = [
   {
-    link: "",
+    link: "https://github.com/justinsure-dapp/core",
     imgUrl:
       "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png",
   },
   {
-    link: "",
-    imgUrl:
-      "https://res.cloudinary.com/dqjkucbjn/image/upload/v1726786874/logo_ipjrnu.png",
-  },
-  {
-    link: "",
+    link: "https://forum.trondao.org/t/surity-decentralized-insurance-market-platform/23829",
     imgUrl:
       "https://cdn.iconscout.com/icon/premium/png-256-thumb/tron-4441424-3679719.png?f=webp",
   },
@@ -84,7 +79,7 @@ const socialLinks: Array<{ link: string; imgUrl: string }> = [
       "https://seeklogo.com/images/D/devpost-logo-95FF685C5D-seeklogo.com.png",
   },
   {
-    link: "",
+    link: "https://x.com/JustInsureDapp",
     imgUrl: "https://m.media-amazon.com/images/I/61w1Q5OxE2L.jpg",
   },
 ];

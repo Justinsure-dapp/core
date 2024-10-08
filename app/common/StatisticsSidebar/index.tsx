@@ -48,7 +48,7 @@ export default function StatisticsSidebar() {
             <div className="flex flex-col xl:flex-row gap-2 xl:justify-between ">
               <button
                 title="Add SURE to your wallet"
-                className="flex gap-2 text-sm items-center border hover:border-border rounded-xl border-border/50 px-2"
+                className="flex gap-2 text-sm items-center rounded-xl"
                 onClick={() => {
                   toast.info("Adding SURE to your wallet..");
                   watchAsset({
@@ -70,7 +70,7 @@ export default function StatisticsSidebar() {
               <button
                 title="Withdraw SureCoin"
                 onClick={() => modal.show(<WithdrawSurecoinModal />)}
-                className="flex gap-2 text-sm items-center border hover:border-border rounded-xl border-border/50 px-2"
+                className="flex gap-2 text-sm items-center rounded-xl"
               >
                 Earned:
                 <p className="font-mono text-secondary text-xl font-medium animate-pulse">

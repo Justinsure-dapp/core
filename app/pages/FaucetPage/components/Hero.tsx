@@ -5,11 +5,6 @@ import TestnetBTT from "./TestnetBTT";
 import { twMerge } from "tailwind-merge";
 
 export default function Hero() {
-  //   const config = useApiResponse(api.getConfiguration);
-
-  const [displayInvalidMessage, setDisplayInvalidMessage] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [addr, setAddr] = useState("");
   const [showSwap, setShowSwap] = useState(false);
 
   return (
@@ -58,9 +53,8 @@ export default function Hero() {
         )}
       </div>
 
-      <div className="mt-28 text-center text-gray-300">
-        If these tokens are not needed any longer, make sure you send them back
-        to 0x54e4fb4CE1388e6A67D4d7Ffb231D5E46751e4cb
+      <div className="mt-28 w-[60%] text-center text-gray-300">
+        Here is a gift from Sopparu, A Faucet for BTTC and USDJ, made just for you. So that you don't have to roam around looking for testnet tokens.
       </div>
       <img
         src="/images/soparu.webp"
