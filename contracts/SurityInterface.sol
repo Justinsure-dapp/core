@@ -22,6 +22,7 @@ contract SurityInterface is Context, ReentrancyGuard, Ownable {
   SureCoin public immutable surecoin;
   Vault public immutable vault;
 
+  bool public mintStakeTokensInsteadOfLockingToVault = true;
   uint256 public minimumInitialStake = 0;
 
   event policyCreated(address indexed creator, address controller);
@@ -109,6 +110,7 @@ contract SurityInterface is Context, ReentrancyGuard, Ownable {
       address(surecoin),
       usdAmount_ / REVENUE_FRACTION_SHARED_WITH_SURECOIN
     );
+    surecoin.emitPriceChange();
   }
 
   function collectFee(
@@ -123,6 +125,7 @@ contract SurityInterface is Context, ReentrancyGuard, Ownable {
     uint256 usdAmount_
   ) public onlyController(_msgSender()) nonReentrant {
     surecoin.acknowledgeStake(staker_, usdAmount_, _msgSender());
+    surecoin.emitPriceChange();
   }
 
   function unregisterStake(
@@ -130,13 +133,14 @@ contract SurityInterface is Context, ReentrancyGuard, Ownable {
     uint256 usdAmount_
   ) public onlyController(_msgSender()) nonReentrant {
     surecoin.acknowledgeRevoke(staker_, usdAmount_, _msgSender());
+    surecoin.emitPriceChange();
   }
 
-  function updateStakingRewardRate(
-    uint256 stakingRewardRate_
-  ) external onlyOwner nonReentrant {
-    surecoin.setRewardRate(stakingRewardRate_);
-  }
+  // function updateStakingRewardRate(
+  //   uint256 stakingRewardRate_
+  // ) external onlyOwner nonReentrant {
+  //   surecoin.setRewardRate(stakingRewardRate_);
+  // }
 
   function setMinimumInitialStake(
     uint256 minimumInitialStake_
@@ -144,6 +148,14 @@ contract SurityInterface is Context, ReentrancyGuard, Ownable {
     minimumInitialStake = minimumInitialStake_;
 
     emit minimumInitialStakeUpdated(minimumInitialStake_);
+  }
+
+  function enableLockingStakeTokensToVault() external onlyOwner nonReentrant {
+    mintStakeTokensInsteadOfLockingToVault = false;
+  }
+
+  function enableMintingStakeTokens() external onlyOwner nonReentrant {
+    mintStakeTokensInsteadOfLockingToVault = true;
   }
 
   function withdraw(

@@ -3,8 +3,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 import hre from "hardhat";
 import { describe } from "mocha";
 import { maxInt256 } from "viem";
+import { time } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 
 const minimumInitialStake = 100_000_000n;
+const MINUTE = 60 * 1000;
 
 describe("Universal", function () {
   async function deployFixture() {
@@ -26,7 +28,7 @@ describe("Universal", function () {
     });
 
     await periphery.write.setMinimumInitialStake([minimumInitialStake]);
-    await periphery.write.updateStakingRewardRate([100_000_000n]);
+    // await periphery.write.updateStakingRewardRate([100_000_000n]);
 
     await periphery.write.createInsurancePolicy([
       acc1.account.address,
@@ -157,7 +159,7 @@ describe("Universal", function () {
 
   describe("SureCoin", () => {
     it("registers any stake", async () => {
-      const { controller, acc1, surecoin } = await loadFixture(deployFixture);
+      const { controller, surecoin } = await loadFixture(deployFixture);
 
       await controller.completeInitialStake();
 
@@ -169,9 +171,37 @@ describe("Universal", function () {
       const { controller, acc1, surecoin } = await loadFixture(deployFixture);
 
       await controller.completeInitialStake();
+      time.increase(60 * MINUTE);
 
       const earned = await surecoin.read.earned([acc1.account.address]);
+
       expect(earned > 0n).to.be.true;
+    });
+
+    it("allows withdrawing to wallet", async () => {
+      const { controller, acc1, surecoin } = await loadFixture(deployFixture);
+
+      await controller.completeInitialStake();
+
+      const balanceBefore = await surecoin.read.balanceOf([
+        acc1.account.address,
+      ]);
+
+      time.increase(60 * MINUTE);
+
+      const earned = await surecoin.read.earned([acc1.account.address]);
+
+      await surecoin.write.claimRewards({ account: acc1.account});
+
+      const balanceAfter = await surecoin.read.balanceOf([
+        acc1.account.address,
+      ]);
+
+      expect(earned > 0n).to.be.true;
+      expect(Number(balanceAfter - balanceBefore)).to.be.approximately(
+        Number(earned),
+        100,
+      );
     });
   });
 

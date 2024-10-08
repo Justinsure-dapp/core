@@ -6,175 +6,184 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./SurityInterface.sol";
 
+import "hardhat/console.sol";
+
 contract SureCoin is ERC20, Ownable, ReentrancyGuard {
-    uint256 private _rewardRate = 0;
-    uint256 private _totalStaked = 0;
-    uint256 private _rewardPerTokenStored;
-    uint256 private _lastUpdateTime;
-    uint256 private _displayPrice;
-    SurityInterface _interface;
+  uint256 public immutable MAX_SUPPLY = 1_000_000_000_1000 * (10 ** decimals());
+  uint256 public constant REWARD_RATE_FRACTION_OF_AVAILABLE_SUPPLY = 5;
 
-    mapping(address => uint256) private _stakedBalance;
-    mapping(address => uint256) private _rewards;
-    mapping(address => uint256) private _userRewardsPerTokenPaid;
+  uint256 private _totalStaked = 0;
+  uint256 private _rewardPerTokenStored;
+  uint256 private _lastUpdateTime;
+  SurityInterface _interface;
 
-    event Staked(
-        address indexed account,
-        address indexed insurance,
-        uint256 amount
-    );
-    event Revoked(
-        address indexed account,
-        address indexed insurance,
-        uint256 amount
-    );
-    event RewardsClaimed(address indexed account, uint256 amount);
-    event RewardRateUpdated(uint256 updatedRewardRate);
+  mapping(address => uint256) private _stakedBalance;
+  mapping(address => uint256) private _rewards;
+  mapping(address => uint256) private _userRewardPerTokenPaid;
 
-    event Buy(address indexed buyer, uint256 amount, uint256 cost);
-    event Sell(address indexed seller, uint256 amount, uint256 refund);
-    event PriceChange(uint256 time, uint256 value, uint256 marketCap);
+  event Staked(
+    address indexed account,
+    address indexed insurance,
+    uint256 amount
+  );
+  event Revoked(
+    address indexed account,
+    address indexed insurance,
+    uint256 amount
+  );
+  event RewardsClaimed(address indexed account, uint256 amount);
 
-    constructor() ERC20("SureCoin", "SURE") Ownable(_msgSender()) {
-        // expect deployer (owner) to be SurityInterface
-        _lastUpdateTime = block.timestamp;
-        _interface = SurityInterface(_msgSender());
+  event Buy(address indexed buyer, uint256 amount, uint256 cost);
+  event Sell(address indexed seller, uint256 amount, uint256 refund);
+  event PriceChange(uint256 time, uint256 value, uint256 marketCap);
+
+  constructor() ERC20("SureCoin", "SURE") Ownable(_msgSender()) {
+    // expect deployer (owner) to be SurityInterface
+    _interface = SurityInterface(_msgSender());
+
+    _mint(address(this), MAX_SUPPLY);
+  }
+
+  function decimals() public view virtual override returns (uint8) {
+    return 6;
+  }
+
+  function _rewardRate() private view returns (uint256) {
+    return ((reserve() / 10 ** decimals()) / REWARD_RATE_FRACTION_OF_AVAILABLE_SUPPLY) / (30 days);
+  }
+
+  function updateReward(address account) internal {
+    _rewardPerTokenStored = rewardPerStake();
+    _lastUpdateTime = block.timestamp;
+
+    if (account != address(0)) {
+      _rewards[account] = earned(account);
+      _userRewardPerTokenPaid[account] = _rewardPerTokenStored;
+    }
+  }
+
+  function rewardPerStake() public view returns (uint256) {
+    if (_totalStaked == 0) {
+      return _rewardPerTokenStored;
     }
 
-    function decimals() public view virtual override returns (uint8) {
-        return 8;
-    }
+    return
+      _rewardPerTokenStored +
+      ((_rewardRate() * (block.timestamp - _lastUpdateTime)) / _totalStaked);
+  }
 
-    function setRewardRate(uint256 rewardRate_) external onlyOwner {
-        _rewardRate = rewardRate_;
-        emit RewardRateUpdated(rewardRate_);
-    }
+  function earned(address account_) public view returns (uint256) {
+    return
+      (_stakedBalance[account_] *
+        (rewardPerStake() - _userRewardPerTokenPaid[account_])) +
+      _rewards[account_];
+  }
 
-    function rewardPerStake() public view returns (uint256) {
-        if (_totalStaked == 0) {
-            return _rewardPerTokenStored;
-        }
+  function claimRewards() external nonReentrant {
+    address account_ = _msgSender();
 
-        uint256 elapsedStakedTime = block.timestamp - _lastUpdateTime;
-        uint256 totalRewards = _rewardRate * elapsedStakedTime;
+    uint256 reward = _rewards[account_];
+    require(reward > 0, "No rewards to claim");
+    updateReward(account_);
 
-        return totalRewards / _totalStaked;
-    }
+    _rewards[account_] = 0;
 
-    function earned(address account_) public view returns (uint256) {
-        return
-            _stakedBalance[account_] *
-            (rewardPerStake() - _userRewardsPerTokenPaid[account_]);
-    }
+    _transfer(address(this), account_, reward);
 
-    function claimRewards() external nonReentrant {
-        _rewardPerTokenStored = rewardPerStake();
-        _lastUpdateTime = block.timestamp;
-        _rewards[_msgSender()] = earned(_msgSender());
-        _userRewardsPerTokenPaid[_msgSender()] = _rewardPerTokenStored;
-        uint256 reward = _rewards[_msgSender()];
-        require(reward > 0, "No rewards to claim");
-        _rewards[_msgSender()] = 0;
+    emit RewardsClaimed(account_, reward);
+  }
 
-        _mint(_msgSender(), reward);
+  function totalStake() public view returns (uint256) {
+    return _totalStaked;
+  }
 
-        emit RewardsClaimed(_msgSender(), reward);
-    }
+  function liquidity() public view returns (uint256) {
+    return _interface.usdToken().balanceOf(address(this));
+  }
 
-    function totalStake() public view returns (uint256) {
-        return _totalStaked;
-    }
+  function reserve() public view returns (uint256) {
+    return balanceOf(address(this));
+  }
 
-    function liquidity() public view returns (uint256) {
-        return _interface.usdToken().balanceOf(address(this));
-    }
+  function emitPriceChange() public {
+    emit PriceChange(block.timestamp, tokenPrice(), marketCap());
+  }
 
-    function acknowledgeStake(
-        address account_,
-        uint256 amount_,
-        address controllerAddress_
-    ) external onlyOwner nonReentrant {
-        require(amount_ > 0, "Invalid stake amount");
-        _totalStaked += amount_;
-        _stakedBalance[account_] += amount_;
+  function acknowledgeStake(
+    address account_,
+    uint256 amount_,
+    address controllerAddress_
+  ) external onlyOwner nonReentrant {
+    require(amount_ > 0, "Invalid stake amount");
 
-        emit Staked(account_, controllerAddress_, amount_);
-    }
+    _totalStaked += amount_;
+    _stakedBalance[account_] += amount_;
 
-    function acknowledgeRevoke(
-        address account_,
-        uint256 amount_,
-        address controllerAddress_
-    ) external onlyOwner nonReentrant {
-        require(amount_ > 0, "Invalid revoke Amount");
-        _totalStaked -= amount_;
-        _stakedBalance[account_] -= amount_;
+    updateReward(account_);
 
-        emit Revoked(account_, controllerAddress_, amount_);
-    }
+    emit Staked(account_, controllerAddress_, amount_);
+  }
 
-    function tokenPrice() public view returns (uint256) {
-        return _displayPrice;
-    }
+  function acknowledgeRevoke(
+    address account_,
+    uint256 amount_,
+    address controllerAddress_
+  ) external onlyOwner nonReentrant {
+    require(amount_ > 0, "Invalid revoke Amount");
 
-    function marketCap() public view returns (uint256) {
-        return ((_displayPrice * totalSupply()) / (10 * decimals()));
-    }
+    updateReward(account_);
 
-    function calculateTokensReceived(
-        uint256 amount_
-    ) public view returns (uint256) {
-        return (totalSupply() * amount_) / (liquidity() + amount_);
-    }
+    _totalStaked -= amount_;
+    _stakedBalance[account_] -= amount_;
 
-    function calculateSellRefund(
-        uint256 amount_
-    ) public view returns (uint256) {
-        return (liquidity() * amount_) / (totalSupply() + amount_);
-    }
+    emit Revoked(account_, controllerAddress_, amount_);
+  }
 
-    function calculateBuyCost(uint256 amount_) public view returns (uint256) {
-        require(totalSupply() >= amount_, "Insufficient Supply");
-        return (liquidity() * amount_) / (totalSupply() - amount_);
-    }
+  function tokenPrice() public view returns (uint256) {
+    return calculateBuyCost(1 * (10 ** decimals()));
+  }
 
-    function buy(
-        uint256 amountIn_,
-        uint256 amountOutMin_
-    ) external nonReentrant {
-        uint256 amountOutCalculated = calculateTokensReceived(amountIn_);
+  function marketCap() public view returns (uint256) {
+    return ((tokenPrice() * totalSupply()) / (10 * decimals()));
+  }
 
-        require(
-            amountOutCalculated > amountOutMin_,
-            "Slippage Tolerance Exceeded"
-        );
+  function calculateTokensReceived(
+    uint256 amount_
+  ) public view returns (uint256) {
+    return (reserve() * amount_) / (liquidity() + amount_);
+  }
 
-        _interface.usdToken().transferFrom(
-            _msgSender(),
-            address(this),
-            amountIn_
-        );
-        _mint(_msgSender(), amountOutCalculated);
+  function calculateSellRefund(uint256 amount_) public view returns (uint256) {
+    return (liquidity() * amount_) / (reserve() + amount_);
+  }
 
-        emit Buy(_msgSender(), amountOutCalculated, amountIn_);
+  function calculateBuyCost(uint256 amount_) public view returns (uint256) {
+    require(totalSupply() >= amount_, "Insufficient Supply");
+    return (liquidity() * amount_) / (reserve() - amount_);
+  }
 
-        _displayPrice = calculateBuyCost(10 ** (decimals()));
-    }
+  function buy(uint256 amountIn_, uint256 amountOutMin_) external nonReentrant {
+    uint256 amountOutCalculated = calculateTokensReceived(amountIn_);
 
-    function sell(
-        uint256 amountIn_,
-        uint256 amountOutMin_
-    ) external nonReentrant {
-        uint256 refundCalculated = calculateSellRefund(amountIn_);
+    require(amountOutCalculated > amountOutMin_, "Slippage Tolerance Exceeded");
 
-        require(
-            refundCalculated > amountOutMin_,
-            "Slippage Tolerance Exceeded"
-        );
+    _interface.usdToken().transferFrom(_msgSender(), address(this), amountIn_);
+    _mint(_msgSender(), amountOutCalculated);
 
-        _burn(_msgSender(), amountIn_);
-        _interface.usdToken().transfer(msg.sender, refundCalculated);
+    emit Buy(_msgSender(), amountOutCalculated, amountIn_);
+  }
 
-        emit Sell(_msgSender(), amountIn_, refundCalculated);
-    }
+  function sell(
+    uint256 amountIn_,
+    uint256 amountOutMin_
+  ) external nonReentrant {
+    uint256 refundCalculated = calculateSellRefund(amountIn_);
+
+    require(refundCalculated > amountOutMin_, "Slippage Tolerance Exceeded");
+
+    _burn(_msgSender(), amountIn_);
+    _interface.usdToken().transfer(msg.sender, refundCalculated);
+
+    emit Sell(_msgSender(), amountIn_, refundCalculated);
+  }
 }
