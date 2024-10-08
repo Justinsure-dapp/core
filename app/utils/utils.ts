@@ -242,3 +242,19 @@ export function extractErrorFromTx(error: string): string {
   const match = error.match(/reason:\s*(.*?)\s*Contract Call/);
   return match ? `${match[1]}..` : "Transaction Failed..";
 }
+
+export function formatCompactNumber(number: number) {
+  if (number < 1000) {
+    return number;
+  } else if (number >= 1000 && number < 1_000_000) {
+    return (number / 1000).toFixed(1) + "k";
+  } else if (number >= 1_000_000 && number < 1_000_000_000) {
+    return (number / 1_000_000).toFixed(1) + "m";
+  } else if (number >= 1_000_000_000 && number < 1_000_000_000_000) {
+    return (number / 1_000_000_000).toFixed(1) + "b";
+  } else if (number >= 1_000_000_000_000 && number < 1_000_000_000_000_000) {
+    return (number / 1_000_000_000_000).toFixed(1) + "t";
+  } else {
+    return number;
+  }
+}

@@ -17,6 +17,7 @@ type SureCoinHook = {
   multiplyWithDecimals: (value: bigint) => bigint;
   divideByDecimals: (value: bigint) => number;
   getUserEarned: () => number;
+  refreshEarned: () => void;
 };
 
 function useSureCoinHook(): SureCoinHook {
@@ -45,13 +46,11 @@ function useSureCoinHook(): SureCoinHook {
     args: [userAddress || zeroAddress],
   });
 
-  const { data: earned } = useReadContract({
+  const { data: earned, refetch: refreshEarned } = useReadContract({
     ...contractDefinitions.surecoin,
     functionName: "earned",
     args: [userAddress || zeroAddress],
   });
-
-  console.log({ earned });
 
   const approvalReciept = useWaitForTransactionReceipt({
     confirmations: 2,
@@ -97,6 +96,7 @@ function useSureCoinHook(): SureCoinHook {
     approve,
     multiplyWithDecimals,
     divideByDecimals,
+    refreshEarned,
   };
 }
 
