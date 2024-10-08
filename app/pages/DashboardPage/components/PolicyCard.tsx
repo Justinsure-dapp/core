@@ -35,7 +35,7 @@ export default function PolicyCard(props: { policy: Policy }) {
   return (
     <div
       ref={parent}
-      className="flex flex-col gap-y-4 relative bg-foreground/20 border border-front border-opacity-[15%] rounded-md p-3"
+      className="flex flex-col gap-y-4 relative border border-border rounded-md p-3"
     >
       <div className="flex flex-col">
         <div className="flex gap-y-1 justify-between">
@@ -43,7 +43,7 @@ export default function PolicyCard(props: { policy: Policy }) {
             <img
               src={props.policy.image}
               alt="logo"
-              className="w-12 h-12 p-1 rounded-lg border border-border object-cover"
+              className="w-12 h-12 p-1 rounded-md object-cover"
             />
             <div>
               <h1 className="text-xl font-semibold">{props.policy.name}</h1>
@@ -67,7 +67,7 @@ export default function PolicyCard(props: { policy: Policy }) {
                 onClick={() =>
                   modal.show(<InitialStakeModal policy={props.policy} />)
                 }
-                className="transition-all border hover:bg-zinc-900/60 border-zinc-600 px-4 py-1 text-sm text-front rounded-md font-medium whitespace-nowrap"
+                className="transition-all border hover:bg-zinc-900/60 border-border/60 px-4 py-2 text-sm text-front rounded-md font-medium whitespace-nowrap"
               >
                 Set Initial Stake
               </button>
@@ -80,14 +80,14 @@ export default function PolicyCard(props: { policy: Policy }) {
         </div>
       </div>
       <div className="flex gap-x-4 flex-wrap gap-y-4 mobile:gap-y-2">
-        <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-1 rounded-2xl gap-x-8 justify-between items-center">
+        <div className="bg-background hover:bg-front hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/10 w-max flex px-4 py-1 rounded-2xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
             <p className="text-front/80 flex items-center text-sm">
               {props.policy.holders?.length} Policy Holders
             </p>
           </div>
         </div>
-        <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/20 w-max flex px-4 py-1 rounded-2xl gap-x-8 justify-between items-center">
+        <div className="bg-background hover:bg-slate-400 hover:bg-opacity-[1%] duration-300 ease-in-out border border-front/10 w-max flex px-4 py-1 rounded-2xl gap-x-8 justify-between items-center">
           <div className="flex flex-col">
             <p className="text-front/80 text-sm">
               {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked

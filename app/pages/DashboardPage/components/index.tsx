@@ -26,7 +26,7 @@ export default function DashboardPage() {
         <input
           type="text"
           placeholder="Search..."
-          className="w-full bg-background border border-primary/50 px-4 py-2 rounded-lg focus-within:outline-none"
+          className="w-full bg-background border border-front/20 px-4 py-2 rounded-lg focus-within:outline-none"
         />
         <button className="border border-primary/50 font-medium px-4 rounded-lg">
           Search
@@ -104,7 +104,7 @@ export default function DashboardPage() {
                 <button className="bg-front/20 w-max py-2 px-3 rounded-lg">
                   Recent Activity
                 </button>
-                <PolicyHolders />
+                <PolicyHolders holders={[]} />
                 <StakeDistribution data={policy.data} />
                 <AutomatedInvestment />
               </div>
