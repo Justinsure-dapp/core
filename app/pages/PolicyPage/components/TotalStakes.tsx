@@ -45,7 +45,7 @@ export default function TotalStakes({ policy }: { policy: Policy }) {
       <div className="flex justify-between mobile:gap-y-2">
         <h1 className="text-xl">Staked Amount</h1>
         <div className="rounded-xl border border-primary/40 bg-primary/20 px-4 mobile:w-max mobile:self-end">
-          SureCoin: <span className="font-mono">{totalStake?.toString()}</span>
+          Total: <span className="font-mono">{totalStake?.toString()}</span>
         </div>
       </div>
       <div className="relative mt-3 h-[1vh] w-full rounded-xl bg-primary/20">

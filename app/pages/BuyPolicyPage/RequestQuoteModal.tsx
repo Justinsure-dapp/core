@@ -10,6 +10,7 @@ import Icon from "../../common/Icon";
 import Heading from "../NewPolicyPage/components/Heading";
 import { toast } from "react-toastify";
 import useWeb3 from "../../contexts/web3context";
+import { extractErrorFromTx } from "../../utils";
 
 export default function RequestQuoteModal({
   policy,
@@ -81,7 +82,7 @@ export default function RequestQuoteModal({
           return alert("Error while signing the message!");
         }
 
-        const result = await api.policy.buyPolicy(
+        await api.policy.buyPolicy(
           policy.address,
           userAddress,
           formData,
@@ -114,7 +115,8 @@ export default function RequestQuoteModal({
 
     if (signError) {
       setLoading(false);
-      toast.error("Error while signing the message..", {
+      const errorMsg = extractErrorFromTx(signError.message)
+      toast.error(errorMsg, {
         type: "error",
         isLoading: false,
         autoClose: 2000,
