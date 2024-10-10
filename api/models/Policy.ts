@@ -17,9 +17,12 @@ const policySchema = new Schema<Policy>(
       type: String,
       required: true,
     },
-    rating: {
-      type: Number,
-      default: 0,
+    ratings: {
+      type: [{
+        address: String,
+        rating: Number,
+      }],
+      default: [],
     },
     tags: {
       type: [String],

@@ -1,8 +1,6 @@
 import { Navigate, useParams } from "react-router-dom";
 import TotalStakes from "./components/TotalStakes";
-import PoolDistribution from "./components/PoolDistribution";
 import ClaimInfo from "./components/ClaimsInfo";
-import InvestmentPolicy from "./components/InvestmentPolicy";
 import Functions from "./components/Functions";
 import api from "../../utils/api";
 import useApiResponse from "../../hooks/useApiResponse";

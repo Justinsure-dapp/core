@@ -39,7 +39,10 @@ export type Policy = {
   address: string;
   image?: string;
   cid: string;
-  rating?: number;
+  ratings: {
+    address: string;
+    rating: number;
+  }[];
   tags?: string[];
   name: string;
   description: string;

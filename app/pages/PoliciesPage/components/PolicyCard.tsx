@@ -8,7 +8,7 @@ import api from "../../../utils/api";
 import DocTitle from "../../../common/DocTitle";
 import { twMerge } from "tailwind-merge";
 import ClipboardWrapper from "../../../common/ClipboardWrapper";
-import { formatEvmAddress } from "../../../utils";
+import { calculateAverageRating, formatEvmAddress } from "../../../utils";
 import Icon from "../../../common/Icon";
 import { useReadContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
@@ -38,6 +38,7 @@ export default function PolicyCard(props: {
   });
 
   if (isPaused) return null;
+
 
   return (
     <Link
@@ -108,8 +109,8 @@ export default function PolicyCard(props: {
             </div>
 
             <div className="mt-1 flex gap-x-1">
-              <p>{policy.rating}</p>
-              <StarRating rating={policy?.rating || 0} />
+              <p>{calculateAverageRating({ ratings: policy.ratings })}</p>
+              <StarRating rating={calculateAverageRating({ ratings: policy.ratings })} />
             </div>
           </span>
         </div>

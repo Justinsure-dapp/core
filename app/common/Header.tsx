@@ -55,14 +55,14 @@ export default function Header() {
         </h1>
       </div>
 
-      <div className="flex items-center gap-x-4 mobile:mr-10 mobile:scale-90 mobile:gap-x-2">
+      <div className=" flex items-center gap-x-4 mobile:mr-10 mobile:scale-90 mobile:gap-x-2">
         <div className="flex items-center gap-x-4">
           <ConnectWallet />
         </div>
 
         <button
           title="Add USDJ to Wallet"
-          className="group rounded-lg border border-mute px-2 py-1 duration-150 ease-in hover:border-zinc-300 hover:text-zinc-300"
+          className="group hidden sm:flex  rounded-lg border border-mute px-2 py-1 duration-150 ease-in hover:border-zinc-300 hover:text-zinc-300"
           onClick={() => {
             toast.info("Adding USDJ to your wallet");
             watchAsset({

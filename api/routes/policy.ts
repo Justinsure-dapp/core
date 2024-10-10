@@ -544,4 +544,42 @@ router.post("/claim/issue/:address", async (req, res) => {
   }
 });
 
+router.post("/rate/:address", async (req, res) => {
+  const { user, rating } = req.body;
+
+  try {
+    const policy = await Policy.findOne({ address: req.params.address });
+    if (!policy) {
+      res.send(400).json({ message: "Policy not found.." });
+      return;
+    }
+
+    if(policy.ratings.some(r => r.address === user)) {
+      // Update rating
+      policy.ratings = policy.ratings.map(r => {
+        if(r.address === user) {
+          r.rating = rating;
+        }
+        return r;
+      });
+      policy.markModified("ratings");
+      await policy.save();
+
+      res.status(200).json({ message: "Rated successfully.." });
+      return;
+    }
+
+    policy.ratings.push({ address: user, rating });
+    policy.markModified("ratings");
+    await policy.save();
+
+    res.status(200).json({ message: "Rated successfully.." });
+    return;
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+    return;
+  }
+});
+
 export default router;

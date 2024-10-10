@@ -12,6 +12,7 @@ import ClipboardWrapper from "../../../common/ClipboardWrapper";
 import { formatEvmAddress } from "../../../utils";
 import Icon from "../../../common/Icon";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function YourPolicies() {
   const [parent] = useAutoAnimate();
@@ -41,11 +42,6 @@ export default function YourPolicies() {
         });
       }
     });
-  });
-
-  console.log({
-    activePolicies,
-    claimedPolicies,
   });
 
   return (
@@ -195,9 +191,9 @@ function PolicyCard({ policy, active }: { policy: any; active: boolean }) {
         <div className="flex w-full flex-col justify-between">
           <div className="flex w-full items-start justify-between gap-4">
             <div>
-              <h1 className="text-xl font-bold capitalize tracking-wide">
+              <Link to={`/policies/${policy.address}`} className="text-xl font-bold capitalize tracking-wide">
                 {policy.name}
-              </h1>
+              </Link>
               <ClipboardWrapper
                 textToBeCopied={policy.address}
                 className="text-xs text-mute"

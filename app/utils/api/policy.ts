@@ -159,6 +159,15 @@ const policy = {
     const response = await client.get(`policy/stake-history/${address}`);
     return response.data;
   },
+
+  async ratePolicy(address: string, user: string, rating: number) {
+    const response = await client.post(`policy/rate/${address}`, {
+      user,
+      rating,
+    });
+
+    return response.data;
+  }
 };
 
 export default policy;

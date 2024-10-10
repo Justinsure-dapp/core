@@ -1,5 +1,5 @@
 import { isAddress } from "viem";
-import { RGBColor } from "../types";
+import { Rating, RGBColor } from "../types";
 
 export function generateRandomString(length: number, seed?: string) {
   let result = "";
@@ -257,4 +257,9 @@ export function formatCompactNumber(number: number) {
   } else {
     return number;
   }
+}
+
+export function calculateAverageRating({ ratings }: { ratings: Rating[] }) {
+  if(ratings.length === 0) return 0;
+  return ratings.reduce((total, { rating }) => total + rating, 0) / ratings.length;
 }

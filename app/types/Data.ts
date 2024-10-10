@@ -35,11 +35,16 @@ export type Claim = {
   approvedAt: Date;
 };
 
+export type Rating = {
+  address: string;
+  rating: number;
+}
+
 export type Policy = {
   address: string;
   image?: string;
   cid: string;
-  rating?: number;
+  ratings: Rating[]
   tags?: string[];
   name: string;
   description: string;
