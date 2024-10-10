@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react";
-import AutomatedInvestment from "./AutomatedInvestment";
+import { useState } from "react";
 import PolicyHolders from "./PolicyHolders";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { useReadContract } from "wagmi";
 import contractDefinitions from "../../../contracts";
 import { Address, isAddress, zeroAddress } from "viem";
-import { Policy, User } from "../../../types";
+import { Policy } from "../../../types";
 import useModal from "../../../hooks/useModal";
 import useUsdjHook from "../../../hooks/useUsdj";
 import InitialStakeModal from "./InitialStakeModal";
 import Icon from "../../../common/Icon";
-import { toast } from "react-toastify";
-import Heading from "../../NewPolicyPage/components/Heading";
-import { twMerge } from "tailwind-merge";
-import { extractErrorFromTx } from "../../../utils";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import EnablePolicyComponent from "./EnablePolicyComponent";
+import DisablePolicyComponent from "./DisablePolicyComponent";
+import EditPolicyComponent from "./EditPolicyComponent";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
@@ -51,14 +49,14 @@ export default function PolicyCard(props: { policy: Policy }) {
     >
       <div className="flex flex-col">
         <div className="flex justify-between gap-y-1">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <img
               src={props.policy.image}
               alt="logo"
-              className="h-12 w-12 rounded-md object-cover p-1"
+              className="sm:w-12 w-16 aspect-square rounded-md object-cover p-1"
             />
             <div>
-              <Link to={`/policies/${props.policy.address}`} className="text-xl font-semibold">{props.policy.name}</Link>
+              <Link to={`/policies/${props.policy.address}`} className="text-2xl sm:text-xl font-semibold">{props.policy.name}</Link>
               {isPaused ? (
                 <p className="flex items-center gap-x-2 whitespace-nowrap text-sm tracking-wide text-red-500">
                   Policy Inactive
@@ -87,7 +85,8 @@ export default function PolicyCard(props: { policy: Policy }) {
 
             {isPaused && usdj.divideByDecimals(creatorStake || 0n) > 0 && (
               <button
-                onClick={() => modal.show(<EnablePolicyModal policy={props.policy} />)}
+                title="Enable Policy"
+                onClick={() => modal.show(<EnablePolicyComponent policy={props.policy} />)}
                 className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
               >
                 Enable Policy
@@ -95,12 +94,23 @@ export default function PolicyCard(props: { policy: Policy }) {
             )}
 
             {!isPaused && (
-              <button
-                onClick={() => modal.show(<DisablePolicyModal policy={props.policy} />)}
-                className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
-              >
-                Disable Policy
-              </button>
+              <div className="flex gap-2 flex-col sm:flex-row">
+                <button
+                  title="Edit Policy"
+                  // onClick={() => modal.show(<EditPolicyComponent policy={props.policy} />)}
+                  className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
+                >
+                  Edit Policy
+                </button>
+
+                <button
+                  title="Disable Policy"
+                  onClick={() => modal.show(<DisablePolicyComponent policy={props.policy} />)}
+                  className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
+                >
+                  Disable Policy
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -138,211 +148,3 @@ export default function PolicyCard(props: { policy: Policy }) {
   );
 }
 
-function DisablePolicyModal({ policy }: { policy: Policy }) {
-  const { writeContract, data, error: writeError } = useWriteContract();
-  const [loading, setLoading] = useState<boolean>(false);
-  const modal = useModal();
-  const navigate = useNavigate();
-
-  const { isLoading, isSuccess, error: recieptError } = useWaitForTransactionReceipt({
-    hash: data
-  })
-
-  function handleDisable() {
-    toast.info("Sign the messgae to continue");
-    setLoading(true);
-    try {
-      writeContract({
-        ...contractDefinitions.insuranceController,
-        address: policy.address as Address,
-        functionName: "pause",
-      })
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-      toast.error("Error disabling policy");
-    }
-  }
-
-  useEffect(() => {
-    if (isSuccess) {
-      setLoading(false);
-      navigate(0);
-      toast.success("Policy Disabled Successfully");
-    }
-
-    if (recieptError) {
-      setLoading(false);
-      const errorMsg = extractErrorFromTx(recieptError.message);
-      toast.error(errorMsg);
-    }
-
-    if (writeError) {
-      setLoading(false);
-      const errorMsg = extractErrorFromTx(writeError.message);
-      toast.error(errorMsg);
-    }
-  }, [isLoading, writeError])
-
-  return (
-    <div className="relative flex mobile:w-[70vw] widescreen:w-[40vw] flex-col gap-y-1 rounded-lg border border-primary/60 bg-background px-8 py-8 mobile:px-8">
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-          <div className="flex animate-pulse flex-col items-center rounded-lg border border-border bg-zinc-200 p-8">
-            <div className="h-7 w-7 animate-spin rounded-full border-2 border-t-0 border-primary" />
-            <p className="mt-2 font-semibold text-primary">
-              Processing Request
-            </p>
-            <p className="text-mute">Please wait..</p>
-          </div>
-        </div>
-      )}
-
-      <button
-        className="absolute right-3 top-3 rounded-full border border-red-500 p-1 text-red-500 opacity-50 duration-300 ease-in hover:opacity-100"
-        onClick={() => modal.hide()}
-      >
-        <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
-      </button>
-      <h1 className="mb-2 text-2xl font-bold">Disable Policy</h1>
-      {policy.description && (
-        <div className="flex flex-col gap-y-1 text-sm text-mute">
-          <div className="flex flex-col gap-y-1 text-sm text-mute">
-            <p className="mt-2 rounded-md bg-red-500/10 px-2 py-1 text-red-500/80">
-              Are you sure you want to disable the policy?
-            </p>
-            <p className="px-1 py-1">
-              Disabling the policy will stop all the transactions and the policy will be inactive. You can always enable the policy later if you want to.
-            </p>
-          </div>
-          <div className="flex gap-2 w-full justify-end">
-            <button
-              className={twMerge(
-                "mt-3 w-max self-end rounded-lg bg-zinc-900 px-6 py-2 font-bold text-zinc-300 duration-300 ease-in hover:bg-zinc-800 hover:text-front disabled:pointer-events-none disabled:opacity-50",
-              )}
-              onClick={() => modal.hide()}
-            >
-              Cancel
-            </button>
-
-            <button
-              className={twMerge(
-                "mt-3 w-max self-end rounded-lg border border-primary px-6 py-2 font-bold text-secondary duration-300 ease-in hover:bg-primary hover:text-front disabled:pointer-events-none disabled:opacity-50",
-                loading ? "animate-pulse" : "",
-              )}
-
-              onClick={handleDisable}
-            >
-              {loading ? "Processing..." : "Confirm"}
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function EnablePolicyModal({ policy }: { policy: Policy }) {
-  const { writeContract, data, error: writeError } = useWriteContract();
-  const [loading, setLoading] = useState<boolean>(false);
-  const modal = useModal();
-  const navigate = useNavigate();
-
-  const { isLoading, isSuccess, error: recieptError } = useWaitForTransactionReceipt({
-    hash: data
-  })
-
-  function handleEnable() {
-    toast.info("Sign the message to continue..");
-    setLoading(true);
-    try {
-      writeContract({
-        ...contractDefinitions.insuranceController,
-        address: policy.address as Address,
-        functionName: "unpause",
-      })
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-      toast.error("Error enabling policy");
-    }
-  }
-
-  useEffect(() => {
-    if (isSuccess) {
-      setLoading(false);
-      toast.success("Policy enabled successfully..");
-      navigate(0);
-      modal.hide();
-    }
-
-    if (recieptError) {
-      setLoading(false);
-      const errorMsg = extractErrorFromTx(recieptError.message);
-      toast.error(errorMsg);
-    }
-
-    if (writeError) {
-      setLoading(false);
-      const errorMsg = extractErrorFromTx(writeError.message);
-      toast.error(errorMsg);
-    }
-  }, [isLoading, writeError])
-
-  return (
-    <div className="relative flex mobile:w-[70vw] widescreen:w-[40vw] flex-col gap-y-1 rounded-lg border border-primary/60 bg-background px-8 py-8 mobile:px-8">
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-          <div className="flex animate-pulse flex-col items-center rounded-lg border border-border bg-zinc-200 p-8">
-            <div className="h-7 w-7 animate-spin rounded-full border-2 border-t-0 border-primary" />
-            <p className="mt-2 font-semibold text-primary">
-              Processing Request
-            </p>
-            <p className="text-mute">Please wait..</p>
-          </div>
-        </div>
-      )}
-
-      <button
-        className="absolute right-3 top-3 rounded-full border border-red-500 p-1 text-red-500 opacity-50 duration-300 ease-in hover:opacity-100"
-        onClick={() => modal.hide()}
-      >
-        <Icon icon="close" className="text-[1rem] mobile:text-[1rem]" />
-      </button>
-      <h1 className="mb-2 text-2xl font-bold">Enable Policy</h1>
-      {policy.description && (
-        <div className="flex flex-col gap-y-1 text-sm text-mute">
-          <div className="flex flex-col gap-y-1 text-sm text-mute">
-            <p className="mt-2 rounded-md bg-green-500/10 px-2 py-1 text-green-500/80">
-              Are you sure you want to enable the policy?
-            </p>
-            <p className="px-2 py-1">
-              Enabling the policy will make it available for transactions and the policy will be active. You can always disable the policy later if you want to.
-            </p>
-          </div>
-          <div className="flex gap-2 w-full justify-end">
-            <button
-              className={twMerge(
-                "mt-3 w-max self-end rounded-lg bg-zinc-900 px-6 py-2 font-bold text-zinc-300 duration-300 ease-in hover:bg-zinc-800 hover:text-front disabled:pointer-events-none disabled:opacity-50",
-              )}
-              onClick={() => modal.hide()}
-            >
-              Cancel
-            </button>
-
-            <button
-              className={twMerge(
-                "mt-3 w-max self-end rounded-lg border border-primary px-6 py-2 font-bold text-secondary duration-300 ease-in hover:bg-primary hover:text-front disabled:pointer-events-none disabled:opacity-50",
-                loading ? "animate-pulse" : "",
-              )}
-
-              onClick={handleEnable}
-            >
-              {loading ? "Processing..." : "Confirm"}
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
