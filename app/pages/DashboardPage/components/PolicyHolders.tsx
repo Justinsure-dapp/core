@@ -8,7 +8,6 @@ import useSearchHook from "../../../hooks/useSearchHook";
 
 export default function PolicyHolders({ holders }: { holders: Holder[] }) {
   const [showList, setShowFullList] = useState(2);
-  const [searchText, setSearchText] = useState("");
   const usdjHook = useUsdjHook();
   const searchHook = useSearchHook(holders || [], ["address"]);
 
@@ -33,10 +32,10 @@ export default function PolicyHolders({ holders }: { holders: Holder[] }) {
         </div>
       </div>
 
-      {holdersToRender &&
-        holdersToRender.slice(0, showList).map((holder, key) => (
-          <div key={key}>
-            <div className="rounded-xl border border-border p-4 text-sm">
+      <div className="flex flex-col gap-4">
+        {holdersToRender &&
+          holdersToRender.slice(0, showList).map((holder, key) => (
+            <div key={key} className="rounded-xl gap-2 border border-border p-4 text-sm">
               <p className="mb-2">
                 <strong>Address:</strong> {holder.address}
               </p>
@@ -49,8 +48,8 @@ export default function PolicyHolders({ holders }: { holders: Holder[] }) {
                 {moment(holder.claimExpiry).format("DD/MM/YYYY")}
               </p>
             </div>
-          </div>
-        ))}
+          ))}
+      </div>
 
       {showList < holdersToRender.length && (
         <button

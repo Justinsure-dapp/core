@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import Heading from "../../NewPolicyPage/components/Heading";
 import { twMerge } from "tailwind-merge";
 import { extractErrorFromTx } from "../../../utils";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function PolicyCard(props: { policy: Policy }) {
   const [parent] = useAutoAnimate();
@@ -58,7 +58,7 @@ export default function PolicyCard(props: { policy: Policy }) {
               className="h-12 w-12 rounded-md object-cover p-1"
             />
             <div>
-              <h1 className="text-xl font-semibold">{props.policy.name}</h1>
+              <Link to={`/policies/${props.policy.address}`} className="text-xl font-semibold">{props.policy.name}</Link>
               {isPaused ? (
                 <p className="flex items-center gap-x-2 whitespace-nowrap text-sm tracking-wide text-red-500">
                   Policy Inactive
@@ -211,7 +211,7 @@ function DisablePolicyModal({ policy }: { policy: Policy }) {
             <p className="mt-2 rounded-md bg-red-500/10 px-2 py-1 text-red-500/80">
               Are you sure you want to disable the policy?
             </p>
-            <p className="px-2 py-1">
+            <p className="px-1 py-1">
               Disabling the policy will stop all the transactions and the policy will be inactive. You can always enable the policy later if you want to.
             </p>
           </div>
