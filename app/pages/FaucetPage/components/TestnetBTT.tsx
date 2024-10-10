@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function TestnetBTT() {
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleRequest = async () => {
     if (!address) {
@@ -22,15 +25,18 @@ export default function TestnetBTT() {
         },
       );
 
-      console.log(response);
       if (response.ok) {
-        const data = await response.json();
-        setResponseMessage("Success! You've received 10M BTTC.");
+        await response.json();
+        toast.success("Success! You've received 10M BTTC.");
+        navigate(0);
+
       } else {
         setResponseMessage("Failed to request BTTC. Please try again later.");
+        toast.error("Failed to request BTTC. Please try again later.");
       }
     } catch (error) {
       setResponseMessage("Error occurred. Please try again.");
+      toast.error("Error occurred. Please try again.");
     }
 
     setLoading(false);
