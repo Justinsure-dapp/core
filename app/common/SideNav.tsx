@@ -3,46 +3,8 @@ import { twMerge } from "tailwind-merge";
 import Icon, { IconType } from "./Icon";
 import useWeb3 from "../contexts/web3context";
 import { useState } from "react";
-import Header from "./Header";
 
 export default function Navbar() {
-  const navItems: Array<{
-    title: string;
-    link: string;
-    icon: IconType;
-    marketersOnly?: boolean;
-  }> = [
-    { title: "Home", link: "/", icon: "home" },
-    { title: "Account", link: "/account", icon: "person" },
-    {
-      title: "Dashboard",
-      link: "/dashboard",
-      icon: "analytics",
-      marketersOnly: true,
-    },
-    {
-      title: "Swap",
-      link: "/swap",
-      icon: "swap",
-    },
-    { title: "Policies", link: "/policies", icon: "description" },
-    { title: "SureCoin", link: "/surecoin", icon: "accountBalance" },
-    {
-      title: "Marketing",
-      link: "/new-policy",
-      icon: "filter",
-      marketersOnly: true,
-    },
-    { title: "Settings", link: "/settings", icon: "settings" },
-    {
-      title: "Developers",
-      link: "/developers",
-      icon: "code",
-      marketersOnly: true,
-    },
-    { title: "Accessibility", link: "/accessibility", icon: "accessibility" },
-  ];
-
   const { user } = useWeb3();
   const [showNav, setShowNav] = useState(false);
 
@@ -155,7 +117,7 @@ export default function Navbar() {
                     "rounded-lg p-2 transition-all hover:bg-zinc-800",
                     isActive && "pointer-events-none bg-primary text-zinc-100",
                     !isActive &&
-                      "outline-zinc-500 hover:outline hover:outline-[1px]",
+                    "outline-zinc-500 hover:outline hover:outline-[1px]",
                     isPending && "pointer-events-none animate-pulse",
                     item.marketersOnly && (user?.marketer ? "" : "hidden"),
                   )
@@ -168,16 +130,45 @@ export default function Navbar() {
               </NavLink>
             ))}
           </div>
-
-          <button
-            className="ml-2 mt-4 flex items-center gap-1 self-start rounded-md border border-zinc-700 px-3 py-2 font-semibold outline-zinc-500 transition-all hover:bg-zinc-800 hover:outline hover:outline-[1px]"
-            onClick={() => setShowNav(false)}
-          >
-            <Icon icon="close" className="text-lg" />
-            Close
-          </button>
         </nav>
       )}
     </>
   );
 }
+
+const navItems: Array<{
+  title: string;
+  link: string;
+  icon: IconType;
+  marketersOnly?: boolean;
+}> = [
+    { title: "Home", link: "/", icon: "home" },
+    { title: "Account", link: "/account", icon: "person" },
+    {
+      title: "Dashboard",
+      link: "/dashboard",
+      icon: "analytics",
+      marketersOnly: true,
+    },
+    { title: "Policies", link: "/policies", icon: "description" },
+    {
+      title: "Marketing",
+      link: "/new-policy",
+      icon: "filter",
+      marketersOnly: true,
+    },
+    {
+      title: "Swap",
+      link: "/swap",
+      icon: "swap",
+    },
+    { title: "SureCoin", link: "/surecoin", icon: "accountBalance" },
+    { title: "Settings", link: "/settings", icon: "settings" },
+    {
+      title: "Developers",
+      link: "/developers",
+      icon: "code",
+      marketersOnly: true,
+    },
+    { title: "Accessibility", link: "/accessibility", icon: "accessibility" },
+  ];
