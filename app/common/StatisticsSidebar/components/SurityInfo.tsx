@@ -69,12 +69,12 @@ const socialLinks: Array<{ link: string; imgUrl: string }> = [
       "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png",
   },
   {
-    link: "https://forum.trondao.org/t/surity-decentralized-insurance-market-platform/23829",
+    link: "https://forum.trondao.org/t/justinsure-decentralized-insurance-market-platform/27019",
     imgUrl:
       "https://cdn.iconscout.com/icon/premium/png-256-thumb/tron-4441424-3679719.png?f=webp",
   },
   {
-    link: "",
+    link: "https://devpost.com/software/justinsure",
     imgUrl:
       "https://seeklogo.com/images/D/devpost-logo-95FF685C5D-seeklogo.com.png",
   },
