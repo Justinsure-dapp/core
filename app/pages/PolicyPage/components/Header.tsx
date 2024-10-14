@@ -74,8 +74,8 @@ export default function Header({ policy }: { policy: Policy }) {
               </p>
             </div>
 
-            <div className="flex items-center w-full justify-between">
-              <div className="mt-2 flex gap-x-4">
+            <div className="flex items-end w-full justify-between">
+              <div className="mt-4 flex gap-x-4">
                 <img
                   src={user?.marketer?.image}
                   className="aspect-square w-12 rounded-full object-cover shadow-sm"
@@ -88,7 +88,7 @@ export default function Header({ policy }: { policy: Policy }) {
                 </div>
               </div>
 
-              <div className="hidden md:flex gap-x-2">
+              <div className="hidden md:flex gap-x-2 text-sm">
                 <Link
                   to={`/buy-policy/${policy.address}`}
                   className="rounded-2xl border border-border bg-front px-4 py-1 font-semibold text-back transition-all hover:bg-front/80"
