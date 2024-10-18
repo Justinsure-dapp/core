@@ -6,6 +6,7 @@ import { Policy } from "../../../types";
 import { isAddress } from "viem";
 import { ApexOptions } from "apexcharts";
 import useUsdjHook from "../../../hooks/useUsdj";
+import Heading from "../../NewPolicyPage/components/Heading";
 
 export default function StakeChart({ policy }: { policy: Policy }) {
   if (!isAddress(policy.address)) return <></>;
@@ -155,6 +156,17 @@ export default function StakeChart({ policy }: { policy: Policy }) {
           series={chartData.series}
           height={350}
         />
+      </div>
+
+      <div className="mt-4 flex items-center gap-2">
+      <h1 className="text-xl">Tags:</h1>
+        <div className="text-sm mt-1 flex gap-2">
+          {policy.tags?.map((tag) => (
+            <span key={tag} className="bg-zinc-800 rounded-full px-4 py-1">
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

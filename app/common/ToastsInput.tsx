@@ -3,9 +3,10 @@ import { twMerge } from "tailwind-merge";
 
 export default function ToastsInput(props: {
   className?: string;
+  defaultValues?: string[];
   setter?: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
-  const [res, setRes] = useState<string[]>([]);
+  const [res, setRes] = useState<string[]>(props.defaultValues || []);
 
   useEffect(() => {
     props.setter && props.setter(res);

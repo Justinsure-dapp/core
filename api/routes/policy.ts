@@ -582,4 +582,47 @@ router.post("/rate/:address", async (req, res) => {
   }
 });
 
+router.post("/update/:address", async (req, res) => {
+  const { data, sign } = req.body;
+
+  try {
+    const policy = await Policy.findOne({ address: req.params.address });
+    
+    if (!policy) {
+      res.status(400).json({ message: "Policy not found.." });
+      return;
+    }
+
+    if(!isAddress(policy.creator)) {
+      res.status(400).json({ message: "Invalid creator address" });
+      return;
+    }
+
+    // check if signature is valid
+    const verified = await verifyMessage({
+      address: policy.creator,
+      message: `${JSON.stringify(data)}${nonceStore[policy.creator]}`,
+      signature: sign,
+    });
+
+    if (!verified) {
+      res.status(401).json({ message: "Signature verification failed" });
+      return;
+    }
+
+    // update the policy
+    policy.tags = data.tags;
+    policy.image = data.image;
+    policy.markModified("tags", "image");
+    await policy.save();
+
+    res.status(200).json({ message: "Policy updated successfully" });
+    return;    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+    return;    
+  }
+});
+
 export default router;

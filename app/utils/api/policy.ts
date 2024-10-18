@@ -167,7 +167,19 @@ const policy = {
     });
 
     return response.data;
-  }
+  },
+
+  async updatePolicy(address: string, sign: string, data: {
+    image: string;
+    tags: string[];
+  }) {
+    const response = await client.post(`policy/update/${address}`, {
+      data,
+      sign,
+    });
+
+    return response.data;
+  },
 };
 
 export default policy;

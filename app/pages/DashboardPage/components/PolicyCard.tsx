@@ -97,7 +97,7 @@ export default function PolicyCard(props: { policy: Policy }) {
               <div className="flex gap-2 flex-col sm:flex-row">
                 <button
                   title="Edit Policy"
-                  // onClick={() => modal.show(<EditPolicyComponent policy={props.policy} />)}
+                  onClick={() => modal.show(<EditPolicyComponent policy={props.policy} />)}
                   className="whitespace-nowrap rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-front transition-all hover:bg-zinc-900/60"
                 >
                   Edit Policy

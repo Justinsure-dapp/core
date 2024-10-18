@@ -23,12 +23,6 @@ export default function DashboardPage() {
     "tags",
   ]);
 
-  const searchResults = searchHook.fuse.search(searchHook.debouncedSearchQuery);
-  const policiesToRender =
-    searchResults.length === 0
-      ? policies
-      : searchResults.map((result: any) => result.item);
-
   return (
     <div className="p-page py-4">
       <DocTitle title="Marketer Dashboard" />
