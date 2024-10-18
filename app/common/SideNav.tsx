@@ -162,7 +162,8 @@ const navItems: Array<{
       link: "/swap",
       icon: "swap",
     },
-    { title: "SureCoin", link: "/surecoin", icon: "accountBalance" },
+    { title: "SureCoin", link: "/surecoin", icon: "coin" },
+    { title: "Vault", link: "/vault", icon: "accountBalance" },
     { title: "Settings", link: "/settings", icon: "settings" },
     {
       title: "Developers",

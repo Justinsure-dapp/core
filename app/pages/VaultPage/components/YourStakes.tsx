@@ -1,10 +1,11 @@
-import { twMerge } from "tailwind-merge";
 import PieChart from "../../../common/PieChart";
 import { generateShades } from "../../../utils";
 import { StakedInCard } from "../../../common/StatisticsSidebar/components/StakingStats";
 import useWeb3 from "../../../contexts/web3context";
 import { useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
+import contractDefinitions from "../../../contracts";
+import { zeroAddress } from "viem";
 
 export default function YourStakes() {
   const { policies } = useWeb3();
@@ -27,10 +28,21 @@ export default function YourStakes() {
     bgColor: generateShades("rgb(11, 128, 182)", stakes.length),
   };
 
+  const { data: lockedUserTokens } = useReadContract({
+    ...contractDefinitions.vault,
+    functionName: "getLockedTokens",
+    args: [address || zeroAddress],
+  })
+
+  const { data: lockDuration } = useReadContract({
+    ...contractDefinitions.vault,
+    functionName: "LOCK_DURATION",
+  })
+
   return (
     <div className="my-10 flex flex-col gap-x-8 rounded-xl bg-mute/5 p-2 mobile:mx-2">
       <div className="flex flex-col p-2 mobile:items-center">
-        <div className="flex justify-between">
+        <div className="flex justify-between w-full">
           <h1 className="text-2xl font-semibold">Policies Staked</h1>
           <p className="h-fit whitespace-nowrap rounded-md border border-primary/30 bg-mute/10 px-4 py-1 mobile:w-max">
             Total Staked :{" "}
@@ -38,7 +50,7 @@ export default function YourStakes() {
           </p>
         </div>
         <h2 className="mt-2 text-sm text-mute">
-          These are the policies in which you have staked. This pie chart
+          These are the policies in which you have staked. The default Lock-In period is {mom}. This pie chart
           displays the distribution of your staked amount across various
           policies. It provides a visual breakdown of how much you've staked in
           each policy, helping you track and manage your investments easily.

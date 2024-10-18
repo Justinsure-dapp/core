@@ -3,7 +3,6 @@ import useModal from "../../../hooks/useModal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useAccount, useReadContract } from "wagmi";
 import useWeb3 from "../../../contexts/web3context";
-import { Holder, Policy } from "../../../types";
 import contractDefinitions from "../../../contracts";
 import { Address } from "viem";
 import moment from "moment";

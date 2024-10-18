@@ -21,6 +21,7 @@ import AccessibilityPage from "./AccessibilityPage";
 import SwapPage from "./SwapPage";
 import DevelopersPage from "./DevelopersPage";
 import SureCoinPage from "./SureCoinPage";
+import VaultPage from "./VaultPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
         <Route path="accessibility" element={<AccessibilityPage />} />
         <Route path="buy-policy/:address" element={<BuyPolicyPage />} />
         <Route path="/swap" element={<SwapPage />} />
+        <Route path="/vault" element={<VaultPage />} />
         <Route path="surecoin" element={<SureCoinPage />} />
 
         <Route element={<ProtectedRoute type={ProtectedTypes.CONSUMERONLY} />}>
