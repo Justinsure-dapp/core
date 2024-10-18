@@ -50,7 +50,7 @@ export default function YourStakes() {
           </p>
         </div>
         <h2 className="mt-2 text-sm text-mute">
-          These are the policies in which you have staked. The default Lock-In period is {mom}. This pie chart
+          These are the policies in which you have staked. The default Lock-In period is {lockDuration?.toString()}. This pie chart
           displays the distribution of your staked amount across various
           policies. It provides a visual breakdown of how much you've staked in
           each policy, helping you track and manage your investments easily.
