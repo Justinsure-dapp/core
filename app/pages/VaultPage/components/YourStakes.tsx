@@ -40,7 +40,7 @@ export default function YourStakes() {
   })
 
   return (
-    <div className="my-10 flex flex-col gap-x-8 rounded-xl bg-mute/5 p-2 mobile:mx-2">
+    <div className="my-10 flex flex-col gap-x-8 rounded-xl p-2 mobile:mx-2">
       <div className="flex flex-col p-2 mobile:items-center">
         <div className="flex justify-between w-full">
           <h1 className="text-2xl font-semibold">Policies Staked</h1>
