@@ -54,7 +54,7 @@ export default function Header({ policy }: { policy: Policy }) {
                     <StarRating rating={calculateAverageRating({ ratings: policy?.ratings })} />
                     {isPolicyOwner && (
                       <button
-                        className="ml-2 text-sm rounded-md font-semibold transition-all bg-primary/80 px-2 py-1 hover:bg-primary"
+                        className="ml-2 text-sm rounded-md font-semibold transition-all bg-primary/80 px-2 hover:bg-primary"
                         onClick={() => {
                           modal.show(<RatePolicy policy={policy} />);
                         }}
@@ -157,7 +157,7 @@ function RatePolicy({ policy }: { policy: Policy }) {
   }
 
   return (
-    <div className="relative flex w-[80vw] max-w-[28rem] flex-col gap-y-1 rounded-lg border border-primary/60 bg-background px-8 py-8">
+    <div className="relative flex w-[80vw] max-w-[28rem] flex-col gap-y-1 rounded-lg border border-primary/60 bg-background px-4 py-4">
       <div className="flex items-center justify-between">
         <Heading className="text-xl">Rate Policy</Heading>
         <button
@@ -169,10 +169,7 @@ function RatePolicy({ policy }: { policy: Policy }) {
       </div>
 
       <div className="flex flex-col">
-        <h1 className="flex flex-col gap-y-1 text-sm text-mute">
-          How would you rate this policy?
-        </h1>
-        <div className="bg-zinc-800 flex gap-2 items-center w-fit p-2 mt-2 rounded-lg">
+        <div className="bg-zinc-800 flex gap-2 items-center w-fit px-2 py-1 mt-2 rounded-md">
           {rating}
           <RatingInputComponent rating={rating} setRating={setRating} />
         </div>
@@ -180,7 +177,7 @@ function RatePolicy({ policy }: { policy: Policy }) {
 
       <button
         className={twMerge(
-          "mt-3 w-max self-end rounded-lg border border-zinc-400 px-6 py-2 font-bold text-zinc-400 transition-all hover:bg-zinc-800 hover:text-front disabled:pointer-events-none disabled:opacity-50",
+          "mt-3 w-max self-end rounded-lg border border-zinc-400 px-4 py-1 font-bold text-zinc-400 transition-all hover:bg-zinc-800 hover:text-front disabled:pointer-events-none disabled:opacity-50",
           loading ? "animate-pulse" : "",
         )}
         onClick={handleRatePolicy}
