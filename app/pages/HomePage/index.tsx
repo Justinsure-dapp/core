@@ -77,9 +77,9 @@ export default function HomePage() {
                   <div className="flex flex-col gap-y-5 px-4 py-4 text-zinc-100/90">
                     <p className="flex items-start text-3xl font-medium">
                       JustInsure Early Access
-                      <span className="pl-1 text-sm font-normal">
+                      {/* <span className="pl-1 text-sm font-normal">
                         * testnet
-                      </span>
+                      </span> */}
                     </p>
 
                     <p className="text-sm">

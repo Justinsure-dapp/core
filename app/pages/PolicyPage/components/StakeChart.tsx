@@ -92,7 +92,7 @@ export default function StakeChart({ policy }: { policy: Policy }) {
         },
         y: {
           formatter: function (val) {
-            return val + " USDJ";
+            return val + " USDT";
           },
         },
       },

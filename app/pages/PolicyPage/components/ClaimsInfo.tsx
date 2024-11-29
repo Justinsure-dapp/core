@@ -28,7 +28,7 @@ export default function ClaimInfo({ policy }: { policy: Policy }) {
             <h1 className="tracking-wide">Total Stake:</h1>
             <p className="text-front/80">
               {" "}
-              {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ
+              {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDT
             </p>
           </div>
 

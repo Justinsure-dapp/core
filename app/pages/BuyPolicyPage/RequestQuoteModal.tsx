@@ -162,7 +162,7 @@ export default function RequestQuoteModal({
       <div className="mt-3 flex items-center gap-2">
         <Heading>Calculated Premium:</Heading>
         <div className="w-fit rounded-md border border-border bg-background px-4 py-1">
-          <p>{divideByDecimals(formattedPremium)} USDJ</p>
+          <p>{divideByDecimals(formattedPremium)} USDT</p>
         </div>
       </div>
       <div className="mt-6 flex gap-4 self-end">

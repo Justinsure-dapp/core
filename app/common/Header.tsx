@@ -61,22 +61,22 @@ export default function Header() {
         </div>
 
         <button
-          title="Add USDJ to Wallet"
+          title="Add USDT to Wallet"
           className="group hidden sm:flex  rounded-lg border border-mute px-2 py-1 duration-150 ease-in hover:border-zinc-300 hover:text-zinc-300"
           onClick={() => {
-            toast.info("Adding USDJ to your wallet");
+            toast.info("Adding USDT to your wallet");
             watchAsset({
               type: "ERC20",
               options: {
                 address: evmConfig.usdj.address,
-                symbol: "USDJ",
+                symbol: "USDT",
                 decimals: usdj.decimals || 6,
               },
             });
           }}
         >
           <p className="font-sans font-bold">
-            ${formatCompactNumber(usdj.getUserBalance())} USDJ
+            ${formatCompactNumber(usdj.getUserBalance())} USDT
           </p>
         </button>
 

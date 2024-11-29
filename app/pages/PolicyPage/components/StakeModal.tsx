@@ -57,7 +57,7 @@ export default function StakeModal({ policy }: { policy: Policy }) {
 
   async function handleSubmit() {
     if (stake === 0) {
-      toast.error("Invalid USDJ amount..", {
+      toast.error("Invalid USDT amount..", {
         type: "error",
         isLoading: false,
         autoClose: 2000,
@@ -189,13 +189,13 @@ export default function StakeModal({ policy }: { policy: Policy }) {
             showWarning ? "" : "hidden",
           )}
         >
-          <Icon icon="info" /> Minimum Stake: {minStakewithDecimals} USDJ
+          <Icon icon="info" /> Minimum Stake: {minStakewithDecimals} USDT
         </p>
         <Heading>Enter amount to be Staked in policy</Heading>
         <input
           type="number"
           className="mt-1 rounded-md border border-border bg-background p-2 shadow shadow-mute/30"
-          placeholder="Enter Amount in USDJ"
+          placeholder="Enter Amount in USDT"
           onChange={(e) => setStake(Number(e.target.value))}
         />
       </div>

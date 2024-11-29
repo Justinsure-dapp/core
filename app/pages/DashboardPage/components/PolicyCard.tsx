@@ -130,7 +130,7 @@ export default function PolicyCard(props: { policy: Policy }) {
         <div className="flex w-max items-center justify-between gap-x-8 rounded-2xl border border-front/10 bg-background px-4 py-1 duration-300 ease-in-out hover:bg-slate-400 hover:bg-opacity-[1%]">
           <div className="flex flex-col">
             <p className="text-sm text-front/80">
-              {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDJ Staked
+              {usdj.divideByDecimals(totalStake || 0n)?.toString()} USDT Staked
             </p>
           </div>
         </div>

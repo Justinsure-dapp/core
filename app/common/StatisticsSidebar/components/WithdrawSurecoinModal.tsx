@@ -93,7 +93,7 @@ export default function WithdrawSurecoinModal() {
       <p className="text-sm text-front/60">
         By following this process, you will be able to securely store Surecoins
         in your wallet, where they will remain stable. These Surecoins will be
-        available for trade in exchange for USDJ at any time.{" "}
+        available for trade in exchange for USDT at any time.{" "}
       </p>
       <div className="text-md mt-4 flex justify-end gap-x-4">
         <button

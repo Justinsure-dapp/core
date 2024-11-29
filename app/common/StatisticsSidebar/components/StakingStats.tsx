@@ -280,7 +280,7 @@ function WithdrawStakeModal({ policy }: { policy: Policy }) {
         <input
           type="number"
           className="mt-1 rounded-md border border-border bg-background p-2 shadow shadow-mute/30"
-          placeholder="Enter Amount in USDJ"
+          placeholder="Enter Amount in USDT"
           onChange={(e) => setStake(Number(e.target.value))}
         />
         <p className={twMerge("mt-2 flex gap-x-1 text-xs text-green-500")}>

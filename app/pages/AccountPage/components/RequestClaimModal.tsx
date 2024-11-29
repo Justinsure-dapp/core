@@ -240,7 +240,7 @@ export default function RequestClaimModal({
                 {usdjHook.divideByDecimals(
                   BigInt(claimData.policyDetails.premium || 0n),
                 )}{" "}
-                USDJ
+                USDT
               </p>
             </div>
           )}

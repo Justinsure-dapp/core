@@ -140,7 +140,7 @@ export default function Swap() {
           toast.error("Invalid amount");
           return;
         } else if (Amount > usdj.multiplyWithDecimals(Amount)) {
-          toast.error("Insufficient USDJ balance");
+          toast.error("Insufficient USDT balance");
           return;
         } else if (!userAddress)
           return toast.error("Please connect your wallet");
@@ -204,7 +204,7 @@ export default function Swap() {
         <div className="mb-2 flex items-center justify-between">
           <p className="text-sm">Sell</p>
           <p className="text-xs">
-            Max: {balance.toFixed(2)} {isSurecoinToUsdj ? "Surecoin" : "USDJ"}
+            Max: {balance.toFixed(2)} {isSurecoinToUsdj ? "Surecoin" : "USDT"}
           </p>
         </div>
         <div className="flex items-center">
@@ -221,7 +221,7 @@ export default function Swap() {
             className="w-full border-none bg-transparent text-right text-2xl text-white focus:outline-none"
           />
           <span className="ml-2 text-sm">
-            {isSurecoinToUsdj ? "Surecoin" : "USDJ"}
+            {isSurecoinToUsdj ? "Surecoin" : "USDT"}
           </span>
         </div>
       </div>
@@ -246,7 +246,7 @@ export default function Swap() {
           <p className="text-xs">
             Balance:{" "}
             {(isSurecoinToUsdj ? usdjBalance : surecoinBalance).toFixed(2)}{" "}
-            {isSurecoinToUsdj ? "USDJ" : "Surecoin"}
+            {isSurecoinToUsdj ? "USDT" : "Surecoin"}
           </p>
         </div>
         <div className="flex items-center">
@@ -262,7 +262,7 @@ export default function Swap() {
             className="w-full border-none bg-transparent text-right text-2xl text-white focus:outline-none"
           />
           <span className="ml-2 text-sm">
-            {isSurecoinToUsdj ? "USDJ" : "Surecoin"}
+            {isSurecoinToUsdj ? "USDT" : "Surecoin"}
           </span>
         </div>
       </div>

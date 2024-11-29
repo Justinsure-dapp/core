@@ -102,7 +102,7 @@ export default function () {
               <B>Secure Payment Processing:</B> Through the receivePayment
               function, developers can ensure secure and compliant handling of
               premium payments in{" "}
-              <span className="font-medium text-teal-300">USDJ</span>. This
+              <span className="font-medium text-teal-300">USDT</span>. This
               creates a trustless environment for transactions, fostering
               confidence among users.
             </p>
@@ -170,11 +170,11 @@ export default function () {
             <div className="pl-3 text-sm leading-10">
               <p className="my-2 text-xl"> Key Functions:</p>
               <PRE>buy:</PRE>
-              Allows users to purchase SureCoins by transferring USDJ and
+              Allows users to purchase SureCoins by transferring USDT and
               receiving the corresponding amount of SureCoins.
               <br />
               <PRE>sell:</PRE> Enables users to sell SureCoins back to the
-              contract for USDJ, ensuring liquidity.
+              contract for USDT, ensuring liquidity.
               <br />
               <PRE>claimRewards:</PRE>
               Users can claim rewards earned from staking SureCoins.
@@ -201,7 +201,7 @@ export default function () {
               issued a StakeToken for the same policy in their wallet.
               <br />
               <PRE>revokeStakeFromPolicy:</PRE> Enables users to revoke their
-              USDJ stake from a policy.
+              USDT stake from a policy.
               <br />
               <PRE>withdrawProfits:</PRE>
               For creator to withdraw their hard earned profits from their

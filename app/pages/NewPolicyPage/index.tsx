@@ -271,7 +271,7 @@ export default function NewPolicyPage() {
                       <Icon icon="warning" />
                     </div>
                     <p className="text-sm duration-300 ease-in group-hover:opacity-40">
-                      You will have access to "claimValue" in USDJ and
+                      You will have access to "claimValue" in USDT and
                       "claimDuration" in Milliseconds variables in your function
                       by default. You can directly use them in the calculation
                       logic. Do not redeclare them..
