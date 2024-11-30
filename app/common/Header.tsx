@@ -81,7 +81,8 @@ export default function Header() {
         </button>
 
         <Link
-          to="/faucet"
+          to="https://just.money/?from=0x23181F21DEa5936e24163FFABa4Ea3B316B57f3C&n=BTTC&t=swap&to=0xdB28719F7f938507dBfe4f0eAe55668903D34a15"
+          title="Get USDT"
           className="group rounded-lg border border-mute px-2 py-1 duration-150 ease-in hover:border-zinc-300 hover:text-zinc-300"
         >
           <Icon
