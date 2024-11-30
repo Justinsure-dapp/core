@@ -2,13 +2,13 @@ import { defineChain } from "viem";
 
 const primaryChain = defineChain({
   id: 1029,
-  name: "BitTorrent Chain Donau",
+  name: "BitTorrent Chain Mainnet",
   iconUrl: "/icons/bttc.png",
   nativeCurrency: { symbol: "BTT", decimals: 18, name: "BitTorrent (BTT)" },
   rpcUrls: {
     default: {
-      http: ["https://pre-rpc.bt.io"],
-      webSocket: ["wss://pre-rpc.bt.io:8546"],
+      http: ["https://rpc.bt.io"],
+      webSocket: ["wss://rpc.bt.io:8546"],
     },
   },
 });
