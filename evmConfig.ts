@@ -14,7 +14,7 @@ const primaryChain = defineChain({
 });
 
 const justinsureInterface = {
-  address: "0x02FD4c137E937641cA396Be6Bc26BE129451090e" as const,
+  address: "0x2017537446c727Ab8A7313F10c5f21DeA73CfE6d" as const,
   abi: [
     {
       inputs: [{ internalType: "address", name: "usdToken_", type: "address" }],
@@ -324,7 +324,7 @@ const justinsureInterface = {
   ] as const,
 };
 const surecoin = {
-  address: "0xfB934acbe390940924B991C99ECf2C2d6fB27685" as const,
+  address: "0xdd630A995Bf4573b563C2b1f1cCD2E4f2175AdBf" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -832,7 +832,7 @@ const surecoin = {
   ] as const,
 };
 const vault = {
-  address: "0x08D9421733bC7Fe60Fb7C0c53A4Bc9223665795B" as const,
+  address: "0xEC7DF9AF5583C6853a94117Cd1Ae6fC62751C6b0" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
@@ -918,7 +918,7 @@ const vault = {
   ] as const,
 };
 const usdj = {
-  address: "0x7b906030735435422675E0679bC02DAE7dFC71DA" as const,
+  address: "0xdB28719F7f938507dBfe4f0eAe55668903D34a15" as const,
   abi: [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
     {
