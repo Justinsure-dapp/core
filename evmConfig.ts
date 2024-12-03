@@ -1,7 +1,7 @@
 import { defineChain } from "viem";
 
 const primaryChain = defineChain({
-  id: 1029,
+  id: 199,
   name: "BitTorrent Chain Mainnet",
   iconUrl: "/icons/bttc.png",
   nativeCurrency: { symbol: "BTT", decimals: 18, name: "BitTorrent (BTT)" },
